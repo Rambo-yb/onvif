@@ -28,11 +28,14 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src)
 #include_directories(${CMAKE_CURRENT_SOURCE_DIR}/_install/gsoap/include)
 #link_directories(${CMAKE_CURRENT_SOURCE_DIR}/_install/gsoap/lib)
 
-include_directories(/home/smb/third_src/openssl-1.1.1h/_install/include/openssl)
-link_directories(/home/smb/third_src/openssl-1.1.1h/_install/lib)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/_install/openssl/include/openssl)
+link_directories(${CMAKE_CURRENT_SOURCE_DIR}/_install/openssl/lib)
 
 add_library(onvif ${GSOAP_SHARE_SRC} ${SRC})
 #add_library(network SHARED ${SRC})
 
 add_executable(onvif_test ${MAIN_SRC})
 target_link_libraries(onvif_test onvif pthread ssl crypto dl)
+install(TARGETS onvif_test DESTINATION bin)
+install(TARGETS onvif DESTINATION lib)
+install(FILES src/onvif.h DESTINATION include)
