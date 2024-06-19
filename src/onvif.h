@@ -13,11 +13,9 @@ typedef struct OnvifDevInfo {
     char hardware_ver[64];
 }OnvifDevInfo;
 
-int OnvifInit(char* addr, int port, OnvifDevInfo dev_info);
+int OnvifInit(char* addr, OnvifDevInfo dev_info);
 
 int OnvifUnInit();
-
-int OnvifSetDeviceInfo(OnvifDevInfo info);
 
 #ifdef __cplusplus
 }

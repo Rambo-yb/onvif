@@ -19,11 +19,17 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/_install/gsoap/share/gsoap/extra
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/_install/gsoap/share/gsoap/import)
 
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/example MAIN_SRC)
-aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/gsoap SRC)
-aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/src SRC)
 
+aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/gsoap SRC)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/gsoap)
+
+aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/src SRC)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src)
+
+aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/third_src/cjson SRC)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/third_src/cjson SRC)
+
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/general_src/common SRC)
 
 #include_directories(${CMAKE_CURRENT_SOURCE_DIR}/_install/gsoap/include)
 #link_directories(${CMAKE_CURRENT_SOURCE_DIR}/_install/gsoap/lib)

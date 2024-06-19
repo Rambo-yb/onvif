@@ -42,7 +42,7 @@ int main(int argc, char** argv) {
     snprintf(dev_info.serial_num, sizeof(dev_info.serial_num), "1234567891234560");
     snprintf(dev_info.firmware_ver, sizeof(dev_info.firmware_ver), "v1.0.9");
     snprintf(dev_info.hardware_ver, sizeof(dev_info.hardware_ver), "1.0");
-    OnvifInit(addr, 3333, dev_info);
+    OnvifInit(addr, dev_info);
 
     while (1) {
         sleep(1);

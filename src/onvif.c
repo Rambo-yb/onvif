@@ -7,9 +7,11 @@
 #include "wsdd.nsmap"
 #include "onvif_oper.h"
 #include "onvif.h"
+#include "config.h"
 
 #define MULTICAST_ADDR ("239.255.255.250")
 #define MULTICAST_PORT (3702)
+#define WEB_SERVER_PORT (3333)
 
 typedef struct {
     int web_port;
@@ -59,13 +61,13 @@ static void* OnvifDiscorveryProc(void* arg) {
 static void* OnvifWebServerProc(void* arg) {
     struct soap ser_soap;
     soap_init2(&ser_soap, SOAP_ENC_MTOM | SOAP_ENC_MIME, 0);
-    ser_soap.port = kOnvifMng.web_port;
+    ser_soap.port = WEB_SERVER_PORT;
     ser_soap.bind_flags = SO_REUSEADDR;
     soap_set_namespaces(&ser_soap, namespaces);
     
     soap_register_plugin(&ser_soap, soap_wsse);
 
-    if(!soap_valid_socket(soap_bind(&ser_soap, kOnvifMng.web_addr, kOnvifMng.web_port, 10))) {
+    if(!soap_valid_socket(soap_bind(&ser_soap, kOnvifMng.web_addr, WEB_SERVER_PORT, 10))) {
         soap_print_fault(&ser_soap, stderr);
         return NULL;
     }
@@ -88,12 +90,13 @@ static void* OnvifWebServerProc(void* arg) {
     return NULL;
 }
 
-int OnvifInit(char* addr, int port, OnvifDevInfo dev_info) {
-    kOnvifMng.web_port = port;
+int OnvifInit(char* addr, OnvifDevInfo dev_info) {
     snprintf(kOnvifMng.web_addr, sizeof(kOnvifMng.web_addr), "%s", addr);
 
+    OnvifConfigInit();
+
     OnvifOperDeviceInfo oper_dev_info;
-    oper_dev_info.web_server_port = port;
+    oper_dev_info.web_server_port = WEB_SERVER_PORT;
     snprintf(oper_dev_info.wen_server_addr, sizeof(oper_dev_info.wen_server_addr), "%s", addr);
     snprintf(oper_dev_info.menu_facturer, sizeof(oper_dev_info.menu_facturer), "%s", dev_info.menu_facturer);
     snprintf(oper_dev_info.module, sizeof(oper_dev_info.module), "%s", dev_info.module);
@@ -115,17 +118,5 @@ int OnvifUnInit() {
     pthread_cancel(kOnvifMng.discorvery_id);
     pthread_join(kOnvifMng.discorvery_id, NULL);
 
-    return 0;
-}
-
-int OnvifSetDeviceInfo(OnvifDevInfo info) {
-    OnvifOperDeviceInfo oper_dev_info;
-    OnvifOperGetDevInfo(&oper_dev_info);
-    snprintf(oper_dev_info.menu_facturer, sizeof(oper_dev_info.menu_facturer), "%s", info.menu_facturer);
-    snprintf(oper_dev_info.module, sizeof(oper_dev_info.module), "%s", info.module);
-    snprintf(oper_dev_info.serial_num, sizeof(oper_dev_info.serial_num), "%s", info.serial_num);
-    snprintf(oper_dev_info.firmware_ver, sizeof(oper_dev_info.firmware_ver), "%s", info.firmware_ver);
-    snprintf(oper_dev_info.hardware_ver, sizeof(oper_dev_info.hardware_ver), "%s", info.hardware_ver);
-    OnvifOperSetDevInfo(&oper_dev_info);
     return 0;
 }

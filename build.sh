@@ -12,6 +12,10 @@ INSTALL_DIR=$CUR_DIR/_install
 
 build_gsoap_arm()
 {
+    if [ $1 != rebuild ]; then
+        exit
+    fi
+
     cd $CUR_DIR/third_lib
     [ -d $GSOAP_TOOL_INSTALL_DIR ] && rm -r $GSOAP_TOOL_INSTALL_DIR
     [ -d $GSOAP_TOOL_DIR ] && rm -r $GSOAP_TOOL_DIR
@@ -36,6 +40,10 @@ build_gsoap_arm()
 
 build_gsoap_tools()
 {
+    if [ $1 != rebuild ]; then
+        exit
+    fi
+
     cd $CUR_DIR/third_lib
     [ -d $GSOAP_TOOL_INSTALL_DIR ] && rm -r $GSOAP_TOOL_INSTALL_DIR
     [ -d $GSOAP_TOOL_DIR ] && rm -r $GSOAP_TOOL_DIR
@@ -58,6 +66,10 @@ build_gsoap_tools()
 
 build_openssl()
 {
+    if [ $1 != rebuild ]; then
+        exit
+    fi
+
     cd $CUR_DIR/third_lib
     [ -d $INSTALL_DIR/openssl ] && rm -r $$INSTALL_DIR/openssl
     [ -d "openssl-1.1.1h" ] && rm -r openssl-1.1.1h
@@ -70,6 +82,10 @@ build_openssl()
 
 build_gsoap_code()
 {
+    if [ $1 != rebuild ]; then
+        exit
+    fi
+
     WSDL2H=$GSOAP_TOOL_FILE/wsdl2h
     SOAPCPP2=$GSOAP_TOOL_FILE/soapcpp2
     TYPEMAP=$GSOAP_TOOL_FILE/typemap.dat
@@ -114,9 +130,11 @@ build_gsoap_code()
 build_main()
 {
     cd $CUR_DIR
-    if [ -d $CUR_DIR/build ];
-    then
+    if [ -d $CUR_DIR/build ]; then
         rm -r $CUR_DIR/build
+    fi 
+    if [ -d $INSTALL_DIR/onvif ]; then
+        rm -r $INSTALL_DIR/onvif
     fi 
 
     mkdir build
@@ -126,15 +144,24 @@ build_main()
     make install
 }
 
-[ "$1" == "arm" ] && build_gsoap_arm && exit
-[ "$1" == "gsoap" ] && build_gsoap_tools && exit
-[ "$1" == "openssl" ] && build_openssl && exit
-[ "$1" == "code" ] && build_gsoap_code && exit
+build_lib()
+{
+    cd $CUR_DIR/_install/openssl
+    cp -raf ./lib/*.a $INSTALL_DIR/onvif/lib/
+    cp -raf ./lib/*.so* $INSTALL_DIR/onvif/lib/
+}
+
+[ "$1" == "arm" ] && build_gsoap_arm rebuild && exit
+[ "$1" == "gsoap" ] && build_gsoap_tools rebuild && exit
+[ "$1" == "openssl" ] && build_openssl rebuild && exit
+[ "$1" == "code" ] && build_gsoap_code rebuild && exit
 [ "$1" == "main" ] && build_main && exit
+[ "$1" == "lib" ] && build_lib && exit
 
 build_gsoap_tools
 build_openssl
 build_gsoap_code
 build_main
+build_lib
 #build_gsoap_arm
 

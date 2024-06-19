@@ -2,6 +2,9 @@
 #include "soapH.h"
 #include "auth.h"
 #include "onvif_oper.h"
+#include "config.h"
+#include "log.h"
+#include "check_common.h"
 
 /** Web service one-way operation 'SOAP_ENV__Fault_ex' implementation, should return value of soap_send_empty_response() to send HTTP Accept acknowledgment, or return an error code, or return SOAP_OK to immediately return without sending an HTTP response message */
 SOAP_FMAC5 int SOAP_FMAC6 SOAP_ENV__Fault_ex(struct soap* soap, char *faultcode, char *faultstring, char *faultactor, struct SOAP_ENV__Detail *detail, struct SOAP_ENV__Code *SOAP_ENV__Code, struct SOAP_ENV__Reason *SOAP_ENV__Reason, char *SOAP_ENV__Node, char *SOAP_ENV__Role, struct SOAP_ENV__Detail *SOAP_ENV__Detail) {
@@ -21,33 +24,24 @@ SOAP_FMAC5 int SOAP_FMAC6 __tds__GetServiceCapabilities(struct soap* soap, struc
 }
 /** Web service operation '__tds__GetDeviceInformation' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __tds__GetDeviceInformation(struct soap* soap, struct _tds__GetDeviceInformation *tds__GetDeviceInformation, struct _tds__GetDeviceInformationResponse *tds__GetDeviceInformationResponse) {
-    if (AuthUser(soap) < 0) {
-        printf("%s:%d auth username or password fail\n", __func__, __LINE__);
-        return 401;
-    }
+    CHECK_LT(AuthUser(soap), 0, 401);
 
     OnvifOperDeviceInfo oper_dev_info;
     OnvifOperGetDevInfo(&oper_dev_info);
-
-    tds__GetDeviceInformationResponse->Manufacturer = (char *)soap_malloc(soap, sizeof(oper_dev_info.menu_facturer));
-    tds__GetDeviceInformationResponse->Model = (char *)soap_malloc(soap, sizeof(oper_dev_info.module));
-    tds__GetDeviceInformationResponse->FirmwareVersion = (char *)soap_malloc(soap, sizeof(oper_dev_info.firmware_ver));
-    tds__GetDeviceInformationResponse->SerialNumber = (char *)soap_malloc(soap, sizeof(oper_dev_info.serial_num));
-    tds__GetDeviceInformationResponse->HardwareId = (char *)soap_malloc(soap, sizeof(oper_dev_info.hardware_ver));
-
-    strcpy(tds__GetDeviceInformationResponse->Manufacturer, oper_dev_info.menu_facturer);
-    strcpy(tds__GetDeviceInformationResponse->Model, oper_dev_info.module);
-    strcpy(tds__GetDeviceInformationResponse->FirmwareVersion, oper_dev_info.firmware_ver);
-    strcpy(tds__GetDeviceInformationResponse->SerialNumber, oper_dev_info.serial_num);
-    strcpy(tds__GetDeviceInformationResponse->HardwareId, oper_dev_info.hardware_ver);
+    
+    tds__GetDeviceInformationResponse->Manufacturer = soap_strdup(soap, oper_dev_info.menu_facturer);
+    tds__GetDeviceInformationResponse->Model = soap_strdup(soap, oper_dev_info.module);
+    tds__GetDeviceInformationResponse->FirmwareVersion = soap_strdup(soap, oper_dev_info.firmware_ver);
+    tds__GetDeviceInformationResponse->SerialNumber = soap_strdup(soap, oper_dev_info.serial_num);
+    tds__GetDeviceInformationResponse->HardwareId = soap_strdup(soap, oper_dev_info.hardware_ver);
     return 0;
 }
 /** Web service operation '__tds__SetSystemDateAndTime' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __tds__SetSystemDateAndTime(struct soap* soap, struct _tds__SetSystemDateAndTime *tds__SetSystemDateAndTime, struct _tds__SetSystemDateAndTimeResponse *tds__SetSystemDateAndTimeResponse) {
-    printf("set time:%04d/%02d/%02d %02d:%02d:%02d\n", 
+    LOG_INFO("set time:%04d/%02d/%02d %02d:%02d:%02d\n", 
         tds__SetSystemDateAndTime->UTCDateTime->Date->Year, tds__SetSystemDateAndTime->UTCDateTime->Date->Month, tds__SetSystemDateAndTime->UTCDateTime->Date->Day, 
         tds__SetSystemDateAndTime->UTCDateTime->Time->Hour, tds__SetSystemDateAndTime->UTCDateTime->Time->Minute, tds__SetSystemDateAndTime->UTCDateTime->Time->Second);
-    printf("time zone:%s\n", tds__SetSystemDateAndTime->TimeZone->TZ);
+    LOG_INFO("time zone:%s\n", tds__SetSystemDateAndTime->TimeZone->TZ);
 
     struct tm tm;
     memset(&tm, 0, sizeof(struct tm));
@@ -66,8 +60,6 @@ SOAP_FMAC5 int SOAP_FMAC6 __tds__SetSystemDateAndTime(struct soap* soap, struct 
 }
 /** Web service operation '__tds__GetSystemDateAndTime' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __tds__GetSystemDateAndTime(struct soap* soap, struct _tds__GetSystemDateAndTime *tds__GetSystemDateAndTime, struct _tds__GetSystemDateAndTimeResponse *tds__GetSystemDateAndTimeResponse) {
-    printf("%s:%d\n", __func__, __LINE__);
-
     time_t utc_sec = time(NULL);
     struct tm* tm = gmtime(&utc_sec);
     struct tm utc_tm;
@@ -78,8 +70,8 @@ SOAP_FMAC5 int SOAP_FMAC6 __tds__GetSystemDateAndTime(struct soap* soap, struct 
     struct tm loc_tm;
     memcpy(&loc_tm, tm, sizeof(struct tm));
 
-    printf("get utc time:%04d/%02d/%02d %02d:%02d:%02d\n", utc_tm.tm_year+1900, utc_tm.tm_mon+1, utc_tm.tm_mday, utc_tm.tm_hour, utc_tm.tm_min, utc_tm.tm_sec);
-    printf("get loc time:%04d/%02d/%02d %02d:%02d:%02d\n", loc_tm.tm_year+1900, loc_tm.tm_mon+1, loc_tm.tm_mday, loc_tm.tm_hour, loc_tm.tm_min, loc_tm.tm_sec);
+    LOG_INFO("get utc time:%04d/%02d/%02d %02d:%02d:%02d\n", utc_tm.tm_year+1900, utc_tm.tm_mon+1, utc_tm.tm_mday, utc_tm.tm_hour, utc_tm.tm_min, utc_tm.tm_sec);
+    LOG_INFO("get loc time:%04d/%02d/%02d %02d:%02d:%02d\n", loc_tm.tm_year+1900, loc_tm.tm_mon+1, loc_tm.tm_mday, loc_tm.tm_hour, loc_tm.tm_min, loc_tm.tm_sec);
     tds__GetSystemDateAndTimeResponse->SystemDateAndTime = (struct tt__SystemDateTime *)soap_malloc(soap, sizeof(struct tt__SystemDateTime));
     tds__GetSystemDateAndTimeResponse->SystemDateAndTime->TimeZone = (struct tt__TimeZone *)soap_malloc(soap, sizeof(struct tt__TimeZone));
     tds__GetSystemDateAndTimeResponse->SystemDateAndTime->TimeZone->TZ = (char *)soap_malloc(soap, sizeof(char*)*32);
@@ -146,7 +138,29 @@ SOAP_FMAC5 int SOAP_FMAC6 __tds__GetSystemSupportInformation(struct soap* soap, 
 }
 /** Web service operation '__tds__GetScopes' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __tds__GetScopes(struct soap* soap, struct _tds__GetScopes *tds__GetScopes, struct _tds__GetScopesResponse *tds__GetScopesResponse) {
-    printf("%s:%d\n", __func__, __LINE__);
+    CHECK_LT(AuthUser(soap), 0, 401);
+
+    struct Scopes {
+        int def;
+        char* scope;
+    };
+    struct Scopes scopes[] = {
+        {.def = tt__ScopeDefinition__Fixed, .scope = "onvif://www.onvif.org/type/Network_Video_Transmitter"},
+        {.def = tt__ScopeDefinition__Configurable, .scope = "onvif://www.onvif.org/Profile/Streaming"},
+        {.def = tt__ScopeDefinition__Configurable, .scope = "onvif://www.onvif.org/Profile/Q/Operational"},
+        {.def = tt__ScopeDefinition__Configurable, .scope = "onvif://www.onvif.org/hardware/HD720P"},
+        {.def = tt__ScopeDefinition__Fixed, .scope = "onvif://www.onvif.org/name/yuanbo_device"},
+        {.def = tt__ScopeDefinition__Configurable, .scope = "onvif://www.onvif.org/location/city/ChengDu"},
+        {.def = tt__ScopeDefinition__Configurable, .scope = "onvif://www.onvif.org/location/country/China"},
+    };
+
+    tds__GetScopesResponse->__sizeScopes = sizeof(scopes) / sizeof(struct Scopes);
+    tds__GetScopesResponse->Scopes = (struct tt__Scope *)soap_malloc(soap, sizeof(struct tt__Scope) * tds__GetScopesResponse->__sizeScopes);
+    for(int i = 0; i < tds__GetScopesResponse->__sizeScopes; i++) {
+        tds__GetScopesResponse->Scopes[i].ScopeDef = scopes[i].def;
+        tds__GetScopesResponse->Scopes[i].ScopeItem = soap_strdup(soap, scopes[i].scope);
+    }
+
     return 0;
 }
 /** Web service operation '__tds__SetScopes' implementation, should return SOAP_OK or error code */
@@ -206,12 +220,25 @@ SOAP_FMAC5 int SOAP_FMAC6 __tds__SetRemoteUser(struct soap* soap, struct _tds__S
 }
 /** Web service operation '__tds__GetUsers' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __tds__GetUsers(struct soap* soap, struct _tds__GetUsers *tds__GetUsers, struct _tds__GetUsersResponse *tds__GetUsersResponse) {
-    printf("%s:%d\n", __func__, __LINE__);
+    CHECK_LT(AuthUser(soap), 0, 401);
+
+    OnvifConfigUsersInfo* info = OnvifConfigGet("users_info");
+    CHECK_POINTER(info, 404);
+
+    tds__GetUsersResponse->__sizeUser = info->num;
+    tds__GetUsersResponse->User = (struct tt__User *)soap_malloc(soap, sizeof(struct tt__User) * info->num);
+    for(int i = 0; i < info->num; i++) {
+        tds__GetUsersResponse->User[i].Username = soap_strdup(soap, info->user_info[i].username);
+        tds__GetUsersResponse->User[i].Password = soap_strdup(soap, info->user_info[i].password);
+        tds__GetUsersResponse->User[i].UserLevel = info->user_info[i].level;
+    }
+
     return 0;
 }
 /** Web service operation '__tds__CreateUsers' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __tds__CreateUsers(struct soap* soap, struct _tds__CreateUsers *tds__CreateUsers, struct _tds__CreateUsersResponse *tds__CreateUsersResponse) {
-    printf("%s:%d\n", __func__, __LINE__);
+    CHECK_LT(AuthUser(soap), 0, 401);
+    
     return 0;
 }
 /** Web service operation '__tds__DeleteUsers' implementation, should return SOAP_OK or error code */
@@ -271,7 +298,7 @@ SOAP_FMAC5 int SOAP_FMAC6 __tds__SetAuthFailureWarningConfiguration(struct soap*
 }
 /** Web service operation '__tds__GetCapabilities' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __tds__GetCapabilities(struct soap* soap, struct _tds__GetCapabilities *tds__GetCapabilities, struct _tds__GetCapabilitiesResponse *tds__GetCapabilitiesResponse) {
-    printf("%s:%d\n", __func__, __LINE__);
+    printf("%s:%d\n", __func__, __LINE__ );
     return 0;
 }
 /** Web service operation '__tds__SetDPAddresses' implementation, should return SOAP_OK or error code */

@@ -4,33 +4,29 @@
 #include "wsseapi.h"
 #include "auth.h"
 #include "soapH.h"
-
-typedef struct {
-    char username[32];
-    char password[64];
-} User;
-
-// 模拟用户数据库
-static User kUser[] = {
-    {"admin", "123456"},
-};
+#include "config.h"
 
 static int AuthCompareUsername(char* username, const char* key) {
     return strcmp(username, key);
 }
 
-int AuthUser(struct soap *soap)
-{
+int AuthUser(struct soap *soap) {
     const char *username = soap_wsse_get_Username(soap);
     if (username == NULL) {
         printf("username is null\r\n");
         return -1;
     }
 
+    OnvifConfigUsersInfo* info = OnvifConfigGet("users_info");
+    if (info == NULL) {
+        printf("device users info abnormal\r\n");
+        return -1;
+    }
+
     int result = 0;
-    for (int i = 0; i < sizeof(kUser) / sizeof(User); i++) {
-        if (!AuthCompareUsername(kUser[i].username, username) 
-            && !soap_wsse_verify_Password(soap, kUser[i].password)) {
+    for (int i = 0; i < info->num; i++) {
+        if (!AuthCompareUsername(info->user_info[i].username, username) 
+            && !soap_wsse_verify_Password(soap, info->user_info[i].password)) {
             result = 1;
             break;
         }
