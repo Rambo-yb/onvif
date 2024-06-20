@@ -76,7 +76,7 @@ static int OnvifConfigUsersInfoInit(cJSON* config) {
 
     return 0;
 end_default:
-    LOG_INFO("not find users info, use memory users info!\n");
+    LOG_INFO("not find users info, use memory users info!");
     kOnvifConfigMng.users_info.num = 1;
     kOnvifConfigMng.users_info.user_info = (OnvifConfigUserInfo*)malloc(sizeof(OnvifConfigUserInfo));
     kOnvifConfigMng.users_info.user_info[0].level = 0;
@@ -105,7 +105,7 @@ void* OnvifConfigGet(const char* type) {
         }
     }
 
-    LOG_ERR("%s not support!\n", type);
+    LOG_ERR("%s not support!", type);
     return NULL;
 }
 
@@ -118,7 +118,7 @@ int OnvifConfigSet(const char* type, void* conf) {
         }
     }
 
-    LOG_ERR("%s not support!\n", type);
+    LOG_ERR("%s not support!", type);
     return -1;
 
 }

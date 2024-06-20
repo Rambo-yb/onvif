@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 2.8)
 project(onvif)
 
-add_definitions(-Wall -DWITH_NONAMESPACES -Os -DWITH_DOM -DWITH_OPENSSL)
+add_definitions(-Wall -DWITH_NONAMESPACES -Os -DWITH_DOM -DWITH_OPENSSL -DUSE_EASYLOGGER)
 
 set(GSOAP_SHARE_SRC
     ${CMAKE_CURRENT_SOURCE_DIR}/_install/gsoap/share/gsoap/custom/duration.c
@@ -27,12 +27,13 @@ aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/src SRC)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src)
 
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/third_src/cjson SRC)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/third_src/cjson SRC)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/third_src/cjson)
 
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/general_src/common SRC)
+aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/third_src/easylogger SRC)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/third_src/easylogger)
 
-#include_directories(${CMAKE_CURRENT_SOURCE_DIR}/_install/gsoap/include)
-#link_directories(${CMAKE_CURRENT_SOURCE_DIR}/_install/gsoap/lib)
+aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/general_src/common SRC)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/general_src/common)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/_install/openssl/include/openssl)
 link_directories(${CMAKE_CURRENT_SOURCE_DIR}/_install/openssl/lib)

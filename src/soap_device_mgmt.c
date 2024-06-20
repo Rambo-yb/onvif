@@ -38,10 +38,10 @@ SOAP_FMAC5 int SOAP_FMAC6 __tds__GetDeviceInformation(struct soap* soap, struct 
 }
 /** Web service operation '__tds__SetSystemDateAndTime' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __tds__SetSystemDateAndTime(struct soap* soap, struct _tds__SetSystemDateAndTime *tds__SetSystemDateAndTime, struct _tds__SetSystemDateAndTimeResponse *tds__SetSystemDateAndTimeResponse) {
-    LOG_INFO("set time:%04d/%02d/%02d %02d:%02d:%02d\n", 
+    LOG_INFO("set time:%04d/%02d/%02d %02d:%02d:%02d", 
         tds__SetSystemDateAndTime->UTCDateTime->Date->Year, tds__SetSystemDateAndTime->UTCDateTime->Date->Month, tds__SetSystemDateAndTime->UTCDateTime->Date->Day, 
         tds__SetSystemDateAndTime->UTCDateTime->Time->Hour, tds__SetSystemDateAndTime->UTCDateTime->Time->Minute, tds__SetSystemDateAndTime->UTCDateTime->Time->Second);
-    LOG_INFO("time zone:%s\n", tds__SetSystemDateAndTime->TimeZone->TZ);
+    LOG_INFO("time zone:%s", tds__SetSystemDateAndTime->TimeZone->TZ);
 
     struct tm tm;
     memset(&tm, 0, sizeof(struct tm));
@@ -70,8 +70,8 @@ SOAP_FMAC5 int SOAP_FMAC6 __tds__GetSystemDateAndTime(struct soap* soap, struct 
     struct tm loc_tm;
     memcpy(&loc_tm, tm, sizeof(struct tm));
 
-    LOG_INFO("get utc time:%04d/%02d/%02d %02d:%02d:%02d\n", utc_tm.tm_year+1900, utc_tm.tm_mon+1, utc_tm.tm_mday, utc_tm.tm_hour, utc_tm.tm_min, utc_tm.tm_sec);
-    LOG_INFO("get loc time:%04d/%02d/%02d %02d:%02d:%02d\n", loc_tm.tm_year+1900, loc_tm.tm_mon+1, loc_tm.tm_mday, loc_tm.tm_hour, loc_tm.tm_min, loc_tm.tm_sec);
+    LOG_INFO("get utc time:%04d/%02d/%02d %02d:%02d:%02d", utc_tm.tm_year+1900, utc_tm.tm_mon+1, utc_tm.tm_mday, utc_tm.tm_hour, utc_tm.tm_min, utc_tm.tm_sec);
+    LOG_INFO("get loc time:%04d/%02d/%02d %02d:%02d:%02d", loc_tm.tm_year+1900, loc_tm.tm_mon+1, loc_tm.tm_mday, loc_tm.tm_hour, loc_tm.tm_min, loc_tm.tm_sec);
     tds__GetSystemDateAndTimeResponse->SystemDateAndTime = (struct tt__SystemDateTime *)soap_malloc(soap, sizeof(struct tt__SystemDateTime));
     tds__GetSystemDateAndTimeResponse->SystemDateAndTime->TimeZone = (struct tt__TimeZone *)soap_malloc(soap, sizeof(struct tt__TimeZone));
     tds__GetSystemDateAndTimeResponse->SystemDateAndTime->TimeZone->TZ = (char *)soap_malloc(soap, sizeof(char*)*32);

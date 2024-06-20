@@ -8,6 +8,7 @@
 #include "onvif_oper.h"
 #include "onvif.h"
 #include "config.h"
+#include "log.h"
 
 #define MULTICAST_ADDR ("239.255.255.250")
 #define MULTICAST_PORT (3702)
@@ -91,6 +92,7 @@ static void* OnvifWebServerProc(void* arg) {
 }
 
 int OnvifInit(char* addr, OnvifDevInfo dev_info) {
+    log_init("/tmp/onvif.log", 512*1024, 3);
     snprintf(kOnvifMng.web_addr, sizeof(kOnvifMng.web_addr), "%s", addr);
 
     OnvifConfigInit();
