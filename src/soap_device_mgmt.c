@@ -5,6 +5,7 @@
 #include "config.h"
 #include "log.h"
 #include "check_common.h"
+#include "soap_common.h"
 
 /** Web service one-way operation 'SOAP_ENV__Fault_ex' implementation, should return value of soap_send_empty_response() to send HTTP Accept acknowledgment, or return an error code, or return SOAP_OK to immediately return without sending an HTTP response message */
 SOAP_FMAC5 int SOAP_FMAC6 SOAP_ENV__Fault_ex(struct soap* soap, char *faultcode, char *faultstring, char *faultactor, struct SOAP_ENV__Detail *detail, struct SOAP_ENV__Code *SOAP_ENV__Code, struct SOAP_ENV__Reason *SOAP_ENV__Reason, char *SOAP_ENV__Node, char *SOAP_ENV__Role, struct SOAP_ENV__Detail *SOAP_ENV__Detail) {
@@ -12,13 +13,102 @@ SOAP_FMAC5 int SOAP_FMAC6 SOAP_ENV__Fault_ex(struct soap* soap, char *faultcode,
     return 0;
 }
 
+typedef struct {
+    char* namespace;
+    char* uri;
+}ServiceInfo;
+static ServiceInfo kServiceInfo[] = {
+    {.namespace = "http://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl", .uri = "onvif/device_service"},
+    {.namespace = "http://www.onvif.org/ver10/events/wsdl/event.wsdl", .uri = "onvif/event_service"},
+    {.namespace = "http://www.onvif.org/ver10/deviceio.wsdl", .uri = "onvif/device_io_service"},
+    {.namespace = "http://www.onvif.org/ver20/imaging/wsdl/imaging.wsdl", .uri = "onvif/imaging_service"},
+    {.namespace = "http://www.onvif.org/ver10/media/wsdl/media.wsdl", .uri = "onvif/media_service"},
+    {.namespace = "http://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl", .uri = "onvif/ptz_service"},
+    {.namespace = "http://www.onvif.org/ver10/recording.wsdl", .uri = "onvif/recording_service"},
+    {.namespace = "http://www.onvif.org/ver10/display.wsdl", .uri = "onvif/display_service"},
+};
 /** Web service operation '__tds__GetServices' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __tds__GetServices(struct soap* soap, struct _tds__GetServices *tds__GetServices, struct _tds__GetServicesResponse *tds__GetServicesResponse) {
-    printf("%s:%d\n", __func__, __LINE__);
+    OnvifOperDeviceInfo oper_dev_info;
+    OnvifOperGetDevInfo(&oper_dev_info);
+
+    tds__GetServicesResponse->__sizeService = sizeof(kServiceInfo)/sizeof(ServiceInfo);
+    tds__GetServicesResponse->Service = (struct tds__Service*)soap_malloc(soap, sizeof(struct tds__Service)*tds__GetServicesResponse->__sizeService);
+    for(int i = 0; i < tds__GetServicesResponse->__sizeService; i++) {
+        tds__GetServicesResponse->Service[i].Namespace = soap_strdup(soap, kServiceInfo[i].namespace);
+        char url[512] = {0};
+        snprintf(url, sizeof(url), "http://%s:%d/%s", oper_dev_info.web_server_addr, oper_dev_info.web_server_port, kServiceInfo[i].uri);
+        tds__GetServicesResponse->Service[i].XAddr = soap_strdup(soap, url);
+        tds__GetServicesResponse->Service[i].Capabilities = NULL;
+        tds__GetServicesResponse->Service[i].Version = (struct tt__OnvifVersion *)soap_malloc(soap, sizeof(struct tt__OnvifVersion));
+        tds__GetServicesResponse->Service[i].Version->Major = 1;
+        tds__GetServicesResponse->Service[i].Version->Minor = 10;
+    }
     return 0;
 }
 /** Web service operation '__tds__GetServiceCapabilities' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __tds__GetServiceCapabilities(struct soap* soap, struct _tds__GetServiceCapabilities *tds__GetServiceCapabilities, struct _tds__GetServiceCapabilitiesResponse *tds__GetServiceCapabilitiesResponse) {
+/*
+    tds__GetServiceCapabilitiesResponse->Capabilities = (struct tds__DeviceServiceCapabilities*)soap_malloc(soap, sizeof(struct tds__DeviceServiceCapabilities));
+    tds__GetServiceCapabilitiesResponse->Capabilities->Network = (struct tds__NetworkCapabilities*)soap_malloc(soap, sizeof(struct tds__NetworkCapabilities));
+    SOAP_SET_NUMBER(soap, tds__GetServiceCapabilitiesResponse->Capabilities->Network->IPFilter, sizeof(enum xsd__boolean), xsd__boolean__false_);
+    SOAP_SET_NUMBER(soap, tds__GetServiceCapabilitiesResponse->Capabilities->Network->ZeroConfiguration, sizeof(enum xsd__boolean), xsd__boolean__false_);
+    SOAP_SET_NUMBER(soap, tds__GetServiceCapabilitiesResponse->Capabilities->Network->IPVersion6, sizeof(enum xsd__boolean), xsd__boolean__false_);
+    SOAP_SET_NUMBER(soap, tds__GetServiceCapabilitiesResponse->Capabilities->Network->DynDNS, sizeof(enum xsd__boolean), xsd__boolean__false_);
+    SOAP_SET_NUMBER(soap, tds__GetServiceCapabilitiesResponse->Capabilities->Network->Dot11Configuration, sizeof(enum xsd__boolean), xsd__boolean__false_);
+    SOAP_SET_NUMBER(soap, tds__GetServiceCapabilitiesResponse->Capabilities->Network->Dot1XConfigurations, sizeof(int), 0);
+    SOAP_SET_NUMBER(soap, tds__GetServiceCapabilitiesResponse->Capabilities->Network->HostnameFromDHCP, sizeof(enum xsd__boolean), xsd__boolean__false_);
+    SOAP_SET_NUMBER(soap, tds__GetServiceCapabilitiesResponse->Capabilities->Network->NTP, sizeof(int), 0);
+    SOAP_SET_NUMBER(soap, tds__GetServiceCapabilitiesResponse->Capabilities->Network->DHCPv6, sizeof(enum xsd__boolean), xsd__boolean__false_);
+
+    tds__GetServiceCapabilitiesResponse->Capabilities->Security = (struct tds__SecurityCapabilities*)soap_malloc(soap, sizeof(struct tds__SecurityCapabilities));
+    SOAP_SET_NUMBER(soap, tds__GetServiceCapabilitiesResponse->Capabilities->Security->TLS1_x002e0, sizeof(enum xsd__boolean), xsd__boolean__false_);
+    SOAP_SET_NUMBER(soap, tds__GetServiceCapabilitiesResponse->Capabilities->Security->TLS1_x002e1, sizeof(enum xsd__boolean), xsd__boolean__false_);
+    SOAP_SET_NUMBER(soap, tds__GetServiceCapabilitiesResponse->Capabilities->Security->TLS1_x002e2, sizeof(enum xsd__boolean), xsd__boolean__false_);
+    SOAP_SET_NUMBER(soap, tds__GetServiceCapabilitiesResponse->Capabilities->Security->OnboardKeyGeneration, sizeof(enum xsd__boolean), xsd__boolean__false_);
+    SOAP_SET_NUMBER(soap, tds__GetServiceCapabilitiesResponse->Capabilities->Security->AccessPolicyConfig, sizeof(enum xsd__boolean), xsd__boolean__false_);
+    SOAP_SET_NUMBER(soap, tds__GetServiceCapabilitiesResponse->Capabilities->Security->DefaultAccessPolicy, sizeof(enum xsd__boolean), xsd__boolean__false_);
+    SOAP_SET_NUMBER(soap, tds__GetServiceCapabilitiesResponse->Capabilities->Security->Dot1X, sizeof(enum xsd__boolean), xsd__boolean__false_);
+    SOAP_SET_NUMBER(soap, tds__GetServiceCapabilitiesResponse->Capabilities->Security->RemoteUserHandling, sizeof(enum xsd__boolean), xsd__boolean__false_);
+    SOAP_SET_NUMBER(soap, tds__GetServiceCapabilitiesResponse->Capabilities->Security->X_x002e509Token, sizeof(enum xsd__boolean), xsd__boolean__false_);
+    SOAP_SET_NUMBER(soap, tds__GetServiceCapabilitiesResponse->Capabilities->Security->SAMLToken, sizeof(enum xsd__boolean), xsd__boolean__false_);
+    SOAP_SET_NUMBER(soap, tds__GetServiceCapabilitiesResponse->Capabilities->Security->KerberosToken, sizeof(enum xsd__boolean), xsd__boolean__false_);
+    SOAP_SET_NUMBER(soap, tds__GetServiceCapabilitiesResponse->Capabilities->Security->UsernameToken, sizeof(enum xsd__boolean), xsd__boolean__false_);
+    SOAP_SET_NUMBER(soap, tds__GetServiceCapabilitiesResponse->Capabilities->Security->HttpDigest, sizeof(enum xsd__boolean), xsd__boolean__false_);
+    SOAP_SET_NUMBER(soap, tds__GetServiceCapabilitiesResponse->Capabilities->Security->RELToken, sizeof(enum xsd__boolean), xsd__boolean__false_);
+    SOAP_SET_NUMBER(soap, tds__GetServiceCapabilitiesResponse->Capabilities->Security->JsonWebToken, sizeof(enum xsd__boolean), xsd__boolean__false_);
+    tds__GetServiceCapabilitiesResponse->Capabilities->Security->SupportedEAPMethods = NULL;
+    SOAP_SET_NUMBER(soap, tds__GetServiceCapabilitiesResponse->Capabilities->Security->MaxUsers, sizeof(int), 1);
+    SOAP_SET_NUMBER(soap, tds__GetServiceCapabilitiesResponse->Capabilities->Security->MaxUserNameLength, sizeof(int), 32);
+    SOAP_SET_NUMBER(soap, tds__GetServiceCapabilitiesResponse->Capabilities->Security->MaxPasswordLength, sizeof(int), 64);
+    tds__GetServiceCapabilitiesResponse->Capabilities->Security->SecurityPolicies = soap_strdup(soap, "AuthFailureWarnings");
+    SOAP_SET_NUMBER(soap, tds__GetServiceCapabilitiesResponse->Capabilities->Security->MaxPasswordHistory, sizeof(int), 1);
+    tds__GetServiceCapabilitiesResponse->Capabilities->Security->HashingAlgorithms = soap_strdup(soap, "SHA-256");
+
+    tds__GetServiceCapabilitiesResponse->Capabilities->System = (struct tds__SystemCapabilities*)soap_malloc(soap, sizeof(struct tds__SystemCapabilities));
+    SOAP_SET_NUMBER(soap, tds__GetServiceCapabilitiesResponse->Capabilities->System->DiscoveryResolve, sizeof(enum xsd__boolean), xsd__boolean__false_);
+    SOAP_SET_NUMBER(soap, tds__GetServiceCapabilitiesResponse->Capabilities->System->DiscoveryBye, sizeof(enum xsd__boolean), xsd__boolean__false_);
+    SOAP_SET_NUMBER(soap, tds__GetServiceCapabilitiesResponse->Capabilities->System->RemoteDiscovery, sizeof(enum xsd__boolean), xsd__boolean__false_);
+    SOAP_SET_NUMBER(soap, tds__GetServiceCapabilitiesResponse->Capabilities->System->SystemBackup, sizeof(enum xsd__boolean), xsd__boolean__false_);
+    SOAP_SET_NUMBER(soap, tds__GetServiceCapabilitiesResponse->Capabilities->System->SystemLogging, sizeof(enum xsd__boolean), xsd__boolean__false_);
+    SOAP_SET_NUMBER(soap, tds__GetServiceCapabilitiesResponse->Capabilities->System->FirmwareUpgrade, sizeof(enum xsd__boolean), xsd__boolean__false_);
+    SOAP_SET_NUMBER(soap, tds__GetServiceCapabilitiesResponse->Capabilities->System->HttpFirmwareUpgrade, sizeof(enum xsd__boolean), xsd__boolean__false_);
+    SOAP_SET_NUMBER(soap, tds__GetServiceCapabilitiesResponse->Capabilities->System->HttpSystemBackup, sizeof(enum xsd__boolean), xsd__boolean__false_);
+    SOAP_SET_NUMBER(soap, tds__GetServiceCapabilitiesResponse->Capabilities->System->HttpSystemLogging, sizeof(enum xsd__boolean), xsd__boolean__false_);
+    SOAP_SET_NUMBER(soap, tds__GetServiceCapabilitiesResponse->Capabilities->System->HttpSupportInformation, sizeof(enum xsd__boolean), xsd__boolean__false_);
+    SOAP_SET_NUMBER(soap, tds__GetServiceCapabilitiesResponse->Capabilities->System->StorageConfiguration, sizeof(enum xsd__boolean), xsd__boolean__false_);
+    SOAP_SET_NUMBER(soap, tds__GetServiceCapabilitiesResponse->Capabilities->System->MaxStorageConfigurations, sizeof(int), 32);
+    SOAP_SET_NUMBER(soap, tds__GetServiceCapabilitiesResponse->Capabilities->System->GeoLocationEntries, sizeof(int), 32);
+    tds__GetServiceCapabilitiesResponse->Capabilities->System->AutoGeo = NULL;
+    tds__GetServiceCapabilitiesResponse->Capabilities->System->StorageTypesSupported = NULL;
+    SOAP_SET_NUMBER(soap, tds__GetServiceCapabilitiesResponse->Capabilities->System->DiscoveryNotSupported, sizeof(enum xsd__boolean), xsd__boolean__false_);
+    SOAP_SET_NUMBER(soap, tds__GetServiceCapabilitiesResponse->Capabilities->System->NetworkConfigNotSupported, sizeof(enum xsd__boolean), xsd__boolean__false_);
+    SOAP_SET_NUMBER(soap, tds__GetServiceCapabilitiesResponse->Capabilities->System->UserConfigNotSupported, sizeof(enum xsd__boolean), xsd__boolean__false_);
+    tds__GetServiceCapabilitiesResponse->Capabilities->System->Addons = NULL;
+
+    tds__GetServiceCapabilitiesResponse->Capabilities->Misc = (struct tds__MiscCapabilities*)soap_malloc(soap, sizeof(struct tds__MiscCapabilities));
+    tds__GetServiceCapabilitiesResponse->Capabilities->Misc->AuxiliaryCommands = NULL
+*/
     printf("%s:%d\n", __func__, __LINE__);
     return 0;
 }
@@ -38,6 +128,7 @@ SOAP_FMAC5 int SOAP_FMAC6 __tds__GetDeviceInformation(struct soap* soap, struct 
 }
 /** Web service operation '__tds__SetSystemDateAndTime' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __tds__SetSystemDateAndTime(struct soap* soap, struct _tds__SetSystemDateAndTime *tds__SetSystemDateAndTime, struct _tds__SetSystemDateAndTimeResponse *tds__SetSystemDateAndTimeResponse) {
+    // CHECK_LT(AuthUser(soap), 0, 401);
     LOG_INFO("set time:%04d/%02d/%02d %02d:%02d:%02d", 
         tds__SetSystemDateAndTime->UTCDateTime->Date->Year, tds__SetSystemDateAndTime->UTCDateTime->Date->Month, tds__SetSystemDateAndTime->UTCDateTime->Date->Day, 
         tds__SetSystemDateAndTime->UTCDateTime->Time->Hour, tds__SetSystemDateAndTime->UTCDateTime->Time->Minute, tds__SetSystemDateAndTime->UTCDateTime->Time->Second);
@@ -60,44 +151,33 @@ SOAP_FMAC5 int SOAP_FMAC6 __tds__SetSystemDateAndTime(struct soap* soap, struct 
 }
 /** Web service operation '__tds__GetSystemDateAndTime' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __tds__GetSystemDateAndTime(struct soap* soap, struct _tds__GetSystemDateAndTime *tds__GetSystemDateAndTime, struct _tds__GetSystemDateAndTimeResponse *tds__GetSystemDateAndTimeResponse) {
+    tds__GetSystemDateAndTimeResponse->SystemDateAndTime = (struct tt__SystemDateTime *)soap_malloc(soap, sizeof(struct tt__SystemDateTime));
+    tds__GetSystemDateAndTimeResponse->SystemDateAndTime->TimeZone = (struct tt__TimeZone *)soap_malloc(soap, sizeof(struct tt__TimeZone));
+    tds__GetSystemDateAndTimeResponse->SystemDateAndTime->TimeZone->TZ = soap_strdup(soap, "ChinaStandardTime-8");
+
     time_t utc_sec = time(NULL);
     struct tm* tm = gmtime(&utc_sec);
-    struct tm utc_tm;
-    memcpy(&utc_tm, tm, sizeof(struct tm));
+    tds__GetSystemDateAndTimeResponse->SystemDateAndTime->UTCDateTime = (struct tt__DateTime *)soap_malloc(soap, sizeof(struct tt__DateTime));
+    tds__GetSystemDateAndTimeResponse->SystemDateAndTime->UTCDateTime->Date = (struct tt__Date *)soap_malloc(soap, sizeof(struct tt__Date));
+    tds__GetSystemDateAndTimeResponse->SystemDateAndTime->UTCDateTime->Date->Year = tm->tm_year+1900;
+    tds__GetSystemDateAndTimeResponse->SystemDateAndTime->UTCDateTime->Date->Month = tm->tm_mon+1;
+    tds__GetSystemDateAndTimeResponse->SystemDateAndTime->UTCDateTime->Date->Day = tm->tm_mday;
+    tds__GetSystemDateAndTimeResponse->SystemDateAndTime->UTCDateTime->Time = (struct tt__Time *)soap_malloc(soap, sizeof(struct tt__Time));
+    tds__GetSystemDateAndTimeResponse->SystemDateAndTime->UTCDateTime->Time->Hour = tm->tm_hour;
+    tds__GetSystemDateAndTimeResponse->SystemDateAndTime->UTCDateTime->Time->Minute = tm->tm_min;
+    tds__GetSystemDateAndTimeResponse->SystemDateAndTime->UTCDateTime->Time->Second = tm->tm_sec;
 
     time_t loc_sec = utc_sec + 8*60*60;
     tm = gmtime(&loc_sec);
-    struct tm loc_tm;
-    memcpy(&loc_tm, tm, sizeof(struct tm));
-
-    LOG_INFO("get utc time:%04d/%02d/%02d %02d:%02d:%02d", utc_tm.tm_year+1900, utc_tm.tm_mon+1, utc_tm.tm_mday, utc_tm.tm_hour, utc_tm.tm_min, utc_tm.tm_sec);
-    LOG_INFO("get loc time:%04d/%02d/%02d %02d:%02d:%02d", loc_tm.tm_year+1900, loc_tm.tm_mon+1, loc_tm.tm_mday, loc_tm.tm_hour, loc_tm.tm_min, loc_tm.tm_sec);
-    tds__GetSystemDateAndTimeResponse->SystemDateAndTime = (struct tt__SystemDateTime *)soap_malloc(soap, sizeof(struct tt__SystemDateTime));
-    tds__GetSystemDateAndTimeResponse->SystemDateAndTime->TimeZone = (struct tt__TimeZone *)soap_malloc(soap, sizeof(struct tt__TimeZone));
-    tds__GetSystemDateAndTimeResponse->SystemDateAndTime->TimeZone->TZ = (char *)soap_malloc(soap, sizeof(char*)*32);
-    tds__GetSystemDateAndTimeResponse->SystemDateAndTime->UTCDateTime = (struct tt__DateTime *)soap_malloc(soap, sizeof(struct tt__DateTime));
-    tds__GetSystemDateAndTimeResponse->SystemDateAndTime->UTCDateTime->Date = (struct tt__Date *)soap_malloc(soap, sizeof(struct tt__Date));
-    tds__GetSystemDateAndTimeResponse->SystemDateAndTime->UTCDateTime->Time = (struct tt__Time *)soap_malloc(soap, sizeof(struct tt__Time));
     tds__GetSystemDateAndTimeResponse->SystemDateAndTime->LocalDateTime = (struct tt__DateTime *)soap_malloc(soap, sizeof(struct tt__DateTime));
     tds__GetSystemDateAndTimeResponse->SystemDateAndTime->LocalDateTime->Date = (struct tt__Date *)soap_malloc(soap, sizeof(struct tt__Date));
+    tds__GetSystemDateAndTimeResponse->SystemDateAndTime->LocalDateTime->Date->Year = tm->tm_year+1900;
+    tds__GetSystemDateAndTimeResponse->SystemDateAndTime->LocalDateTime->Date->Month = tm->tm_mon+1;
+    tds__GetSystemDateAndTimeResponse->SystemDateAndTime->LocalDateTime->Date->Day = tm->tm_mday;
     tds__GetSystemDateAndTimeResponse->SystemDateAndTime->LocalDateTime->Time = (struct tt__Time *)soap_malloc(soap, sizeof(struct tt__Time));
-    tds__GetSystemDateAndTimeResponse->SystemDateAndTime->Extension = (struct tt__SystemDateTimeExtension *)soap_malloc(soap, sizeof(struct tt__SystemDateTimeExtension));
-
-    snprintf(tds__GetSystemDateAndTimeResponse->SystemDateAndTime->TimeZone->TZ, 32, "ChinaStandardTime-8");
-
-    tds__GetSystemDateAndTimeResponse->SystemDateAndTime->UTCDateTime->Date->Year = utc_tm.tm_year+1900;
-    tds__GetSystemDateAndTimeResponse->SystemDateAndTime->UTCDateTime->Date->Month = utc_tm.tm_mon+1;
-    tds__GetSystemDateAndTimeResponse->SystemDateAndTime->UTCDateTime->Date->Day = utc_tm.tm_mday;
-    tds__GetSystemDateAndTimeResponse->SystemDateAndTime->UTCDateTime->Time->Hour = utc_tm.tm_hour;
-    tds__GetSystemDateAndTimeResponse->SystemDateAndTime->UTCDateTime->Time->Minute = utc_tm.tm_min;
-    tds__GetSystemDateAndTimeResponse->SystemDateAndTime->UTCDateTime->Time->Second = utc_tm.tm_sec;
-
-    tds__GetSystemDateAndTimeResponse->SystemDateAndTime->LocalDateTime->Date->Year = loc_tm.tm_year+1900;
-    tds__GetSystemDateAndTimeResponse->SystemDateAndTime->LocalDateTime->Date->Month = loc_tm.tm_mon+1;
-    tds__GetSystemDateAndTimeResponse->SystemDateAndTime->LocalDateTime->Date->Day = loc_tm.tm_mday;
-    tds__GetSystemDateAndTimeResponse->SystemDateAndTime->LocalDateTime->Time->Hour = loc_tm.tm_hour;
-    tds__GetSystemDateAndTimeResponse->SystemDateAndTime->LocalDateTime->Time->Minute = loc_tm.tm_min;
-    tds__GetSystemDateAndTimeResponse->SystemDateAndTime->LocalDateTime->Time->Second = loc_tm.tm_sec;
+    tds__GetSystemDateAndTimeResponse->SystemDateAndTime->LocalDateTime->Time->Hour = tm->tm_hour;
+    tds__GetSystemDateAndTimeResponse->SystemDateAndTime->LocalDateTime->Time->Minute = tm->tm_min;
+    tds__GetSystemDateAndTimeResponse->SystemDateAndTime->LocalDateTime->Time->Second = tm->tm_sec;
 
     return 0;
 }
@@ -138,7 +218,7 @@ SOAP_FMAC5 int SOAP_FMAC6 __tds__GetSystemSupportInformation(struct soap* soap, 
 }
 /** Web service operation '__tds__GetScopes' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __tds__GetScopes(struct soap* soap, struct _tds__GetScopes *tds__GetScopes, struct _tds__GetScopesResponse *tds__GetScopesResponse) {
-    CHECK_LT(AuthUser(soap), 0, 401);
+    // CHECK_LT(AuthUser(soap), 0, 401);
 
     struct Scopes {
         int def;
@@ -147,8 +227,8 @@ SOAP_FMAC5 int SOAP_FMAC6 __tds__GetScopes(struct soap* soap, struct _tds__GetSc
     struct Scopes scopes[] = {
         {.def = tt__ScopeDefinition__Fixed, .scope = "onvif://www.onvif.org/type/Network_Video_Transmitter"},
         {.def = tt__ScopeDefinition__Configurable, .scope = "onvif://www.onvif.org/Profile/Streaming"},
-        {.def = tt__ScopeDefinition__Configurable, .scope = "onvif://www.onvif.org/Profile/Q/Operational"},
-        {.def = tt__ScopeDefinition__Configurable, .scope = "onvif://www.onvif.org/hardware/HD720P"},
+        // {.def = tt__ScopeDefinition__Configurable, .scope = "onvif://www.onvif.org/Profile/Q/Operational"},
+        // {.def = tt__ScopeDefinition__Configurable, .scope = "onvif://www.onvif.org/hardware/HD720P"},
         {.def = tt__ScopeDefinition__Fixed, .scope = "onvif://www.onvif.org/name/yuanbo_device"},
         {.def = tt__ScopeDefinition__Configurable, .scope = "onvif://www.onvif.org/location/city/ChengDu"},
         {.def = tt__ScopeDefinition__Configurable, .scope = "onvif://www.onvif.org/location/country/China"},
@@ -296,9 +376,176 @@ SOAP_FMAC5 int SOAP_FMAC6 __tds__SetAuthFailureWarningConfiguration(struct soap*
     printf("%s:%d\n", __func__, __LINE__);
     return 0;
 }
+
+static void GetCapabilities(struct soap* soap, enum tt__CapabilityCategory category, struct tt__Capabilities *capabilities) {
+    OnvifOperDeviceInfo oper_dev_info;
+    OnvifOperGetDevInfo(&oper_dev_info);
+
+    char buff[512] = {0};
+    switch (category)
+    {
+    case tt__CapabilityCategory__Analytics:
+        capabilities->Analytics = (struct tt__AnalyticsCapabilities *)soap_malloc(soap, sizeof(struct tt__AnalyticsCapabilities));
+        snprintf(buff, sizeof(buff), "http://%s:%d/onvif/analytics_service", oper_dev_info.web_server_addr, oper_dev_info.web_server_port);
+        capabilities->Analytics->XAddr = soap_strdup(soap, buff);
+        capabilities->Analytics->RuleSupport = xsd__boolean__false_;
+        capabilities->Analytics->AnalyticsModuleSupport = xsd__boolean__false_;
+        break;
+    case tt__CapabilityCategory__Device:
+        capabilities->Device = (struct tt__DeviceCapabilities *)soap_malloc(soap, sizeof(struct tt__DeviceCapabilities));
+        memset(capabilities->Device, 0, sizeof(struct tt__DeviceCapabilities));
+        snprintf(buff, sizeof(buff), "http://%s:%d/onvif/device_service", oper_dev_info.web_server_addr, oper_dev_info.web_server_port);
+        capabilities->Device->XAddr = soap_strdup(soap, buff);
+
+        capabilities->Device->Network = (struct tt__NetworkCapabilities *)soap_malloc(soap, sizeof(struct tt__NetworkCapabilities));
+        SOAP_SET_NUMBER(soap, capabilities->Device->Network->IPFilter, sizeof(enum xsd__boolean), xsd__boolean__false_);
+        SOAP_SET_NUMBER(soap, capabilities->Device->Network->ZeroConfiguration, sizeof(enum xsd__boolean), xsd__boolean__false_);
+        SOAP_SET_NUMBER(soap, capabilities->Device->Network->IPVersion6, sizeof(enum xsd__boolean), xsd__boolean__false_);
+        SOAP_SET_NUMBER(soap, capabilities->Device->Network->DynDNS, sizeof(enum xsd__boolean), xsd__boolean__false_);
+        capabilities->Device->Network->Extension = (struct tt__NetworkCapabilitiesExtension *)soap_malloc(soap, sizeof(struct tt__NetworkCapabilitiesExtension));
+        SOAP_SET_NUMBER(soap, capabilities->Device->Network->Extension->Dot11Configuration, sizeof(enum xsd__boolean), xsd__boolean__false_);
+
+        capabilities->Device->System = (struct tt__SystemCapabilities *)soap_malloc(soap, sizeof(struct tt__SystemCapabilities));
+        capabilities->Device->System->DiscoveryResolve = xsd__boolean__true_;
+        capabilities->Device->System->DiscoveryBye = xsd__boolean__true_;
+        capabilities->Device->System->RemoteDiscovery = xsd__boolean__true_;
+        capabilities->Device->System->SystemBackup = xsd__boolean__true_;
+        capabilities->Device->System->SystemLogging = xsd__boolean__false_;
+        capabilities->Device->System->FirmwareUpgrade = xsd__boolean__true_;
+        capabilities->Device->System->__sizeSupportedVersions = 1;
+        capabilities->Device->System->SupportedVersions = (struct tt__OnvifVersion *)soap_malloc(soap, sizeof(struct tt__OnvifVersion));
+        capabilities->Device->System->SupportedVersions->Major = 1;
+        capabilities->Device->System->SupportedVersions->Minor = 10;
+        capabilities->Device->System->Extension = (struct tt__SystemCapabilitiesExtension *)soap_malloc(soap, sizeof(struct tt__SystemCapabilitiesExtension));
+        SOAP_SET_NUMBER(soap, capabilities->Device->System->Extension->HttpFirmwareUpgrade, sizeof(enum xsd__boolean), xsd__boolean__true_);
+        SOAP_SET_NUMBER(soap, capabilities->Device->System->Extension->HttpSystemBackup, sizeof(enum xsd__boolean), xsd__boolean__true_);
+        SOAP_SET_NUMBER(soap, capabilities->Device->System->Extension->HttpSystemLogging, sizeof(enum xsd__boolean), xsd__boolean__false_);
+        SOAP_SET_NUMBER(soap, capabilities->Device->System->Extension->HttpSupportInformation, sizeof(enum xsd__boolean), xsd__boolean__true_);
+
+        capabilities->Device->IO = (struct tt__IOCapabilities *)soap_malloc(soap, sizeof(struct tt__IOCapabilities));
+        SOAP_SET_NUMBER(soap, capabilities->Device->IO->InputConnectors, sizeof(int), 1);
+        SOAP_SET_NUMBER(soap, capabilities->Device->IO->RelayOutputs, sizeof(int), 0);
+        capabilities->Device->IO->Extension = (struct tt__IOCapabilitiesExtension *)soap_malloc(soap, sizeof(struct tt__IOCapabilitiesExtension));
+        SOAP_SET_NUMBER(soap, capabilities->Device->IO->Extension->Auxiliary, sizeof(enum xsd__boolean), xsd__boolean__false_);
+        capabilities->Device->IO->Extension->__sizeAuxiliaryCommands = 0;
+
+        capabilities->Device->Security = (struct tt__SecurityCapabilities *)soap_malloc(soap, sizeof(struct tt__SecurityCapabilities));
+        memset(capabilities->Device->Security, 0, sizeof(struct tt__SecurityCapabilities));
+        capabilities->Device->Security->TLS1_x002e1 = xsd__boolean__false_;
+        capabilities->Device->Security->TLS1_x002e2 = xsd__boolean__false_;
+        capabilities->Device->Security->OnboardKeyGeneration = xsd__boolean__false_;
+        capabilities->Device->Security->AccessPolicyConfig = xsd__boolean__false_;
+        capabilities->Device->Security->X_x002e509Token = xsd__boolean__false_;
+        capabilities->Device->Security->SAMLToken = xsd__boolean__false_;
+        capabilities->Device->Security->KerberosToken = xsd__boolean__false_;
+        capabilities->Device->Security->RELToken = xsd__boolean__false_;
+        capabilities->Device->Security->Extension = (struct tt__SecurityCapabilitiesExtension *)soap_malloc(soap, sizeof(struct tt__SecurityCapabilitiesExtension));
+        capabilities->Device->Security->Extension->TLS1_x002e0 = xsd__boolean__false_;
+        capabilities->Device->Security->Extension->Extension = (struct tt__SecurityCapabilitiesExtension2 *)soap_malloc(soap, sizeof(struct tt__SecurityCapabilitiesExtension2));
+        memset(capabilities->Device->Security->Extension->Extension, 0, sizeof(struct tt__SecurityCapabilitiesExtension2));
+        capabilities->Device->Security->Extension->Extension->Dot1X = xsd__boolean__false_;
+        capabilities->Device->Security->Extension->Extension->RemoteUserHandling = xsd__boolean__false_;
+        break;
+    case tt__CapabilityCategory__Events:
+        capabilities->Events = (struct tt__EventCapabilities *)soap_malloc(soap, sizeof(struct tt__EventCapabilities));
+        snprintf(buff, sizeof(buff), "http://%s:%d/onvif/event_service", oper_dev_info.web_server_addr, oper_dev_info.web_server_port);
+        capabilities->Events->XAddr = soap_strdup(soap, buff);
+        capabilities->Events->WSPausableSubscriptionManagerInterfaceSupport = xsd__boolean__true_;
+        capabilities->Events->WSPullPointSupport = xsd__boolean__true_;
+        capabilities->Events->WSSubscriptionPolicySupport = xsd__boolean__false_;
+        break;
+    case tt__CapabilityCategory__Imaging:
+        capabilities->Imaging = (struct tt__ImagingCapabilities *)soap_malloc(soap, sizeof(struct tt__ImagingCapabilities));
+        snprintf(buff, sizeof(buff), "http://%s:%d/onvif/imaging_service", oper_dev_info.web_server_addr, oper_dev_info.web_server_port);
+        capabilities->Imaging->XAddr = soap_strdup(soap, buff);
+        break;
+    case tt__CapabilityCategory__Media:
+        capabilities->Media = (struct tt__MediaCapabilities *)soap_malloc(soap, sizeof(struct tt__MediaCapabilities));
+        memset(capabilities->Media, 0, sizeof(struct tt__MediaCapabilities));
+        snprintf(buff, sizeof(buff), "http://%s:%d/onvif/media_service", oper_dev_info.web_server_addr, oper_dev_info.web_server_port);
+        capabilities->Media->XAddr = soap_strdup(soap, buff);
+        capabilities->Media->StreamingCapabilities = (struct tt__RealTimeStreamingCapabilities *)soap_malloc(soap, sizeof(struct tt__RealTimeStreamingCapabilities));
+        SOAP_SET_NUMBER(soap, capabilities->Media->StreamingCapabilities->RTPMulticast, sizeof(enum xsd__boolean), xsd__boolean__false_);
+        SOAP_SET_NUMBER(soap, capabilities->Media->StreamingCapabilities->RTP_USCORETCP, sizeof(enum xsd__boolean), xsd__boolean__true_);
+        SOAP_SET_NUMBER(soap, capabilities->Media->StreamingCapabilities->RTP_USCORERTSP_USCORETCP, sizeof(enum xsd__boolean), xsd__boolean__true_);
+        capabilities->Media->Extension = (struct tt__MediaCapabilitiesExtension *)soap_malloc(soap, sizeof(struct tt__MediaCapabilitiesExtension));
+        capabilities->Media->Extension->ProfileCapabilities = (struct tt__ProfileCapabilities *)soap_malloc(soap, sizeof(struct tt__ProfileCapabilities));
+        capabilities->Media->Extension->ProfileCapabilities->MaximumNumberOfProfiles = 1;
+        break;
+    case tt__CapabilityCategory__PTZ:
+        capabilities->PTZ = (struct tt__PTZCapabilities *)soap_malloc(soap, sizeof(struct tt__PTZCapabilities));
+        snprintf(buff, sizeof(buff), "http://%s:%d/onvif/ptz_service", oper_dev_info.web_server_addr, oper_dev_info.web_server_port);
+        capabilities->PTZ->XAddr = soap_strdup(soap, buff);
+        break;
+    default:
+        capabilities->Extension = (struct tt__CapabilitiesExtension *)soap_malloc(soap, sizeof(struct tt__CapabilitiesExtension));
+        memset(capabilities->Extension, 0, sizeof(struct tt__CapabilitiesExtension));
+
+        capabilities->Extension->DeviceIO = (struct tt__DeviceIOCapabilities *)soap_malloc(soap, sizeof(struct tt__DeviceIOCapabilities)); 
+        snprintf(buff, sizeof(buff), "http://%s:%d/onvif/device_io_service", oper_dev_info.web_server_addr, oper_dev_info.web_server_port);
+        capabilities->Extension->DeviceIO->XAddr = soap_strdup(soap, buff);
+        capabilities->Extension->DeviceIO->VideoSources = 1;
+        capabilities->Extension->DeviceIO->VideoOutputs = 1;
+        capabilities->Extension->DeviceIO->AudioSources = 1;
+        capabilities->Extension->DeviceIO->AudioOutputs = 1;
+        capabilities->Extension->DeviceIO->RelayOutputs = 0;
+
+        capabilities->Extension->Display = (struct tt__DisplayCapabilities *)soap_malloc(soap, sizeof(struct tt__DisplayCapabilities)); 
+        snprintf(buff, sizeof(buff), "http://%s:%d/onvif/display_service", oper_dev_info.web_server_addr, oper_dev_info.web_server_port);
+        capabilities->Extension->Display->XAddr = soap_strdup(soap, buff);
+        capabilities->Extension->Display->FixedLayout = xsd__boolean__true_;
+
+        capabilities->Extension->Recording = (struct tt__RecordingCapabilities *)soap_malloc(soap, sizeof(struct tt__RecordingCapabilities));
+        snprintf(buff, sizeof(buff), "http://%s:%d/onvif/recording_service", oper_dev_info.web_server_addr, oper_dev_info.web_server_port);
+        capabilities->Extension->Recording->XAddr = soap_strdup(soap, buff);
+        capabilities->Extension->Recording->ReceiverSource = xsd__boolean__false_;
+        capabilities->Extension->Recording->MediaProfileSource = xsd__boolean__false_;
+        capabilities->Extension->Recording->DynamicRecordings = xsd__boolean__false_;
+        capabilities->Extension->Recording->DynamicTracks = xsd__boolean__false_;
+        capabilities->Extension->Recording->MaxStringLength = 0;
+
+        capabilities->Extension->Search = (struct tt__SearchCapabilities *)soap_malloc(soap, sizeof(struct tt__SearchCapabilities)); 
+        snprintf(buff, sizeof(buff), "http://%s:%d/onvif/search_service", oper_dev_info.web_server_addr, oper_dev_info.web_server_port);
+        capabilities->Extension->Search->XAddr = soap_strdup(soap, buff);
+        capabilities->Extension->Search->MetadataSearch = xsd__boolean__false_;
+
+        capabilities->Extension->Replay = (struct tt__ReplayCapabilities *)soap_malloc(soap, sizeof(struct tt__ReplayCapabilities)); 
+        snprintf(buff, sizeof(buff), "http://%s:%d/onvif/replay_service", oper_dev_info.web_server_addr, oper_dev_info.web_server_port);
+        capabilities->Extension->Replay->XAddr = soap_strdup(soap, buff);
+
+        capabilities->Extension->Receiver = (struct tt__ReceiverCapabilities *)soap_malloc(soap, sizeof(struct tt__ReceiverCapabilities)); 
+        snprintf(buff, sizeof(buff), "http://%s:%d/onvif/receiver_service", oper_dev_info.web_server_addr, oper_dev_info.web_server_port);
+        capabilities->Extension->Receiver->XAddr = soap_strdup(soap, buff);
+        capabilities->Extension->Receiver->RTP_USCOREMulticast = xsd__boolean__false_;
+        capabilities->Extension->Receiver->RTP_USCORETCP = xsd__boolean__false_;
+        capabilities->Extension->Receiver->RTP_USCORERTSP_USCORETCP = xsd__boolean__false_;
+        capabilities->Extension->Receiver->SupportedReceivers = 0;
+        capabilities->Extension->Receiver->MaximumRTSPURILength = 1;
+
+        // capabilities->Extension->AnalyticsDevice = (struct tt__AnalyticsDeviceCapabilities *)soap_malloc(soap, sizeof(struct tt__AnalyticsDeviceCapabilities)); 
+        // snprintf(buff, sizeof(buff), "http://%s:%d/onvif/analytics_device_service", oper_dev_info.web_server_addr, oper_dev_info.web_server_port);
+        // capabilities->Extension->AnalyticsDevice->XAddr = soap_strdup(soap, buff);
+        // SOAP_SET_NUMBER(soap, capabilities->Extension->AnalyticsDevice->RuleSupport, sizeof(enum xsd__boolean), xsd__boolean__false_);
+        break;
+    }
+}
 /** Web service operation '__tds__GetCapabilities' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __tds__GetCapabilities(struct soap* soap, struct _tds__GetCapabilities *tds__GetCapabilities, struct _tds__GetCapabilitiesResponse *tds__GetCapabilitiesResponse) {
-    printf("%s:%d\n", __func__, __LINE__ );
+    tds__GetCapabilitiesResponse->Capabilities = (struct tt__Capabilities *)soap_malloc(soap, sizeof(struct tt__Capabilities));
+    memset(tds__GetCapabilitiesResponse->Capabilities, 0, sizeof(struct tt__Capabilities));
+    for(int i = 0; i < tds__GetCapabilities->__sizeCategory; i++) {
+        if (tds__GetCapabilities->Category[i] == tt__CapabilityCategory__All) {
+            // GetCapabilities(soap, tt__CapabilityCategory__Analytics, tds__GetCapabilitiesResponse->Capabilities);
+            GetCapabilities(soap, tt__CapabilityCategory__Device, tds__GetCapabilitiesResponse->Capabilities);
+            GetCapabilities(soap, tt__CapabilityCategory__Events, tds__GetCapabilitiesResponse->Capabilities);
+            GetCapabilities(soap, tt__CapabilityCategory__Imaging, tds__GetCapabilitiesResponse->Capabilities);
+            GetCapabilities(soap, tt__CapabilityCategory__Media, tds__GetCapabilitiesResponse->Capabilities);
+            GetCapabilities(soap, tt__CapabilityCategory__PTZ, tds__GetCapabilitiesResponse->Capabilities);
+            GetCapabilities(soap, 0, tds__GetCapabilitiesResponse->Capabilities);
+        } else {
+            GetCapabilities(soap, tds__GetCapabilities->Category[i], tds__GetCapabilitiesResponse->Capabilities);
+        }
+    }
     return 0;
 }
 /** Web service operation '__tds__SetDPAddresses' implementation, should return SOAP_OK or error code */
@@ -353,7 +600,13 @@ SOAP_FMAC5 int SOAP_FMAC6 __tds__SetDynamicDNS(struct soap* soap, struct _tds__S
 }
 /** Web service operation '__tds__GetNetworkInterfaces' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __tds__GetNetworkInterfaces(struct soap* soap, struct _tds__GetNetworkInterfaces *tds__GetNetworkInterfaces, struct _tds__GetNetworkInterfacesResponse *tds__GetNetworkInterfacesResponse) {
-    printf("%s:%d\n", __func__, __LINE__);
+    tds__GetNetworkInterfacesResponse->__sizeNetworkInterfaces = 1;
+    tds__GetNetworkInterfacesResponse->NetworkInterfaces = (struct tt__NetworkInterface*)soap_malloc(soap, sizeof(struct tt__NetworkInterface)*tds__GetNetworkInterfacesResponse->__sizeNetworkInterfaces);
+    memset(tds__GetNetworkInterfacesResponse->NetworkInterfaces, 0, sizeof(struct tt__NetworkInterface)*tds__GetNetworkInterfacesResponse->__sizeNetworkInterfaces);
+    for(int i = 0; i < tds__GetNetworkInterfacesResponse->__sizeNetworkInterfaces; i++) {
+        tds__GetNetworkInterfacesResponse->NetworkInterfaces[i].token = soap_strdup(soap, "network_interfaces_t");
+        tds__GetNetworkInterfacesResponse->NetworkInterfaces[i].Enabled = xsd__boolean__false_;
+    }
     return 0;
 }
 /** Web service operation '__tds__SetNetworkInterfaces' implementation, should return SOAP_OK or error code */

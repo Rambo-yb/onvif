@@ -3,7 +3,7 @@
 
 typedef struct {
     int web_server_port;
-    char wen_server_addr[16];
+    char web_server_addr[16];
 
     char menu_facturer[64];
     char module[64];

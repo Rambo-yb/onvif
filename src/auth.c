@@ -5,6 +5,7 @@
 #include "auth.h"
 #include "soapH.h"
 #include "config.h"
+#include "log.h"
 
 static int AuthCompareUsername(char* username, const char* key) {
     return strcmp(username, key);
@@ -13,13 +14,13 @@ static int AuthCompareUsername(char* username, const char* key) {
 int AuthUser(struct soap *soap) {
     const char *username = soap_wsse_get_Username(soap);
     if (username == NULL) {
-        printf("username is null\r\n");
+        LOG_ERR("username is null");
         return -1;
     }
 
     OnvifConfigUsersInfo* info = OnvifConfigGet("users_info");
     if (info == NULL) {
-        printf("device users info abnormal\r\n");
+        LOG_ERR("device users info abnormal");
         return -1;
     }
 

@@ -90,20 +90,20 @@ build_gsoap_code()
     SOAPCPP2=$GSOAP_TOOL_FILE/soapcpp2
     TYPEMAP=$GSOAP_TOOL_FILE/typemap.dat
 
-    ONVIF_XSD= #http://www.onvif.org/onvif/ver10/schema/onvif.xsd
-    REMOTE_DISCOVERY_WSDL=http://www.onvif.org/onvif/ver10/network/wsdl/remotediscovery.wsdl
-    DEVICE_MGMT_WSDL=http://www.onvif.org/onvif/ver10/device/wsdl/devicemgmt.wsdl
-    EVENTS_WSDL= #http://www.onvif.org/onvif/ver10/events/wsdl/event.wsdl
-    DISPLAY_WSDL= #http://www.onvif.org/onvif/ver10/display.wsdl
-    DEVICEIO_WSDL= #http://www.onvif.org/onvif/ver10/deviceio.wsdl
-    IMAGING_WSDL= #http://www.onvif.org/onvif/ver20/imaging/wsdl/imaging.wsdl
-    MEIDA_WSDL_10= #http://www.onvif.org/onvif/ver10/media/wsdl/media.wsdl
-    MEIDA_WSDL_20= #http://www.onvif.org/onvif/ver20/media/wsdl/media.wsdl
-    PTZ_WSDL= #http://www.onvif.org/onvif/ver20/ptz/wsdl/ptz.wsdl
-    RECEIVER_WSDL= #http://www.onvif.org/onvif/ver10/receiver.wsdl
-    RECORDING_WSDL= #http://www.onvif.org/onvif/ver10/recording.wsdl
-    SEARCH_WSDL= #http://www.onvif.org/onvif/ver10/search.wsdl
-    REPLAY_WSDL= #http://www.onvif.org/onvif/ver10/replay.wsdl
+    ONVIF_XSD=http://www.onvif.org/ver10/schema/onvif.xsd
+    REMOTE_DISCOVERY_WSDL=http://www.onvif.org/ver10/network/wsdl/remotediscovery.wsdl
+    DEVICE_MGMT_WSDL=http://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl
+    EVENTS_WSDL=http://www.onvif.org/ver10/events/wsdl/event.wsdl
+    DISPLAY_WSDL=http://www.onvif.org/ver10/display.wsdl
+    DEVICEIO_WSDL=http://www.onvif.org/ver10/deviceio.wsdl
+    IMAGING_WSDL=http://www.onvif.org/ver20/imaging/wsdl/imaging.wsdl
+    MEIDA_WSDL_10=http://www.onvif.org/ver10/media/wsdl/media.wsdl
+    MEIDA_WSDL_20=http://www.onvif.org/ver20/media/wsdl/media.wsdl
+    PTZ_WSDL=http://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl
+    RECEIVER_WSDL=http://www.onvif.org/ver10/receiver.wsdl
+    RECORDING_WSDL=http://www.onvif.org/ver10/recording.wsdl
+    SEARCH_WSDL=http://www.onvif.org/ver10/search.wsdl
+    REPLAY_WSDL=http://www.onvif.org/ver10/replay.wsdl
 
     cd $CUR_DIR
     cp -raf typemap.dat gsoap_tool/

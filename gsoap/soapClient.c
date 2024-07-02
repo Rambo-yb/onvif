@@ -17,7 +17,7 @@ A commercial use license is available from Genivia Inc., contact@genivia.com
 #endif
 #include "soapH.h"
 
-SOAP_SOURCE_STAMP("@(#) soapClient.c ver 2.8.134 2024-06-18 00:55:06 GMT")
+SOAP_SOURCE_STAMP("@(#) soapClient.c ver 2.8.134 2024-07-01 09:09:10 GMT")
 
 
 SOAP_FMAC5 int SOAP_FMAC6 soap_send_SOAP_ENV__Fault(struct soap *soap, const char *soap_endpoint, const char *soap_action, char *faultcode, char *faultstring, char *faultactor, struct SOAP_ENV__Detail *detail, struct SOAP_ENV__Code *SOAP_ENV__Code, struct SOAP_ENV__Reason *SOAP_ENV__Reason, char *SOAP_ENV__Node, char *SOAP_ENV__Role, struct SOAP_ENV__Detail *SOAP_ENV__Detail)
@@ -468,6 +468,2812 @@ SOAP_FMAC5 int SOAP_FMAC6 soap_recv_SOAP_ENV__Fault_ex(struct soap *soap, struct
 		soap->error = SOAP_OK;
 	if (soap->error
 	 || soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___ns1__GetServiceCapabilities(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _ns1__GetServiceCapabilities *ns1__GetServiceCapabilities, struct _ns1__GetServiceCapabilitiesResponse *ns1__GetServiceCapabilitiesResponse)
+{	if (soap_send___ns1__GetServiceCapabilities(soap, soap_endpoint, soap_action, ns1__GetServiceCapabilities) || soap_recv___ns1__GetServiceCapabilities(soap, ns1__GetServiceCapabilitiesResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___ns1__GetServiceCapabilities(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _ns1__GetServiceCapabilities *ns1__GetServiceCapabilities)
+{	struct __ns1__GetServiceCapabilities soap_tmp___ns1__GetServiceCapabilities;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver20/media/wsdl/GetServiceCapabilities";
+	soap_tmp___ns1__GetServiceCapabilities.ns1__GetServiceCapabilities = ns1__GetServiceCapabilities;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___ns1__GetServiceCapabilities(soap, &soap_tmp___ns1__GetServiceCapabilities);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___ns1__GetServiceCapabilities(soap, &soap_tmp___ns1__GetServiceCapabilities, "-ns1:GetServiceCapabilities", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___ns1__GetServiceCapabilities(soap, &soap_tmp___ns1__GetServiceCapabilities, "-ns1:GetServiceCapabilities", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___ns1__GetServiceCapabilities(struct soap *soap, struct _ns1__GetServiceCapabilitiesResponse *ns1__GetServiceCapabilitiesResponse)
+{
+	if (!ns1__GetServiceCapabilitiesResponse)
+		return soap_closesock(soap);
+	soap_default__ns1__GetServiceCapabilitiesResponse(soap, ns1__GetServiceCapabilitiesResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__ns1__GetServiceCapabilitiesResponse(soap, ns1__GetServiceCapabilitiesResponse, "ns1:GetServiceCapabilitiesResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___ns1__CreateProfile(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _ns1__CreateProfile *ns1__CreateProfile, struct _ns1__CreateProfileResponse *ns1__CreateProfileResponse)
+{	if (soap_send___ns1__CreateProfile(soap, soap_endpoint, soap_action, ns1__CreateProfile) || soap_recv___ns1__CreateProfile(soap, ns1__CreateProfileResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___ns1__CreateProfile(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _ns1__CreateProfile *ns1__CreateProfile)
+{	struct __ns1__CreateProfile soap_tmp___ns1__CreateProfile;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver20/media/wsdl/CreateProfile";
+	soap_tmp___ns1__CreateProfile.ns1__CreateProfile = ns1__CreateProfile;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___ns1__CreateProfile(soap, &soap_tmp___ns1__CreateProfile);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___ns1__CreateProfile(soap, &soap_tmp___ns1__CreateProfile, "-ns1:CreateProfile", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___ns1__CreateProfile(soap, &soap_tmp___ns1__CreateProfile, "-ns1:CreateProfile", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___ns1__CreateProfile(struct soap *soap, struct _ns1__CreateProfileResponse *ns1__CreateProfileResponse)
+{
+	if (!ns1__CreateProfileResponse)
+		return soap_closesock(soap);
+	soap_default__ns1__CreateProfileResponse(soap, ns1__CreateProfileResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__ns1__CreateProfileResponse(soap, ns1__CreateProfileResponse, "ns1:CreateProfileResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___ns1__GetProfiles(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _ns1__GetProfiles *ns1__GetProfiles, struct _ns1__GetProfilesResponse *ns1__GetProfilesResponse)
+{	if (soap_send___ns1__GetProfiles(soap, soap_endpoint, soap_action, ns1__GetProfiles) || soap_recv___ns1__GetProfiles(soap, ns1__GetProfilesResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___ns1__GetProfiles(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _ns1__GetProfiles *ns1__GetProfiles)
+{	struct __ns1__GetProfiles soap_tmp___ns1__GetProfiles;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver20/media/wsdl/GetProfiles";
+	soap_tmp___ns1__GetProfiles.ns1__GetProfiles = ns1__GetProfiles;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___ns1__GetProfiles(soap, &soap_tmp___ns1__GetProfiles);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___ns1__GetProfiles(soap, &soap_tmp___ns1__GetProfiles, "-ns1:GetProfiles", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___ns1__GetProfiles(soap, &soap_tmp___ns1__GetProfiles, "-ns1:GetProfiles", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___ns1__GetProfiles(struct soap *soap, struct _ns1__GetProfilesResponse *ns1__GetProfilesResponse)
+{
+	if (!ns1__GetProfilesResponse)
+		return soap_closesock(soap);
+	soap_default__ns1__GetProfilesResponse(soap, ns1__GetProfilesResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__ns1__GetProfilesResponse(soap, ns1__GetProfilesResponse, "ns1:GetProfilesResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___ns1__AddConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _ns1__AddConfiguration *ns1__AddConfiguration, struct _ns1__AddConfigurationResponse *ns1__AddConfigurationResponse)
+{	if (soap_send___ns1__AddConfiguration(soap, soap_endpoint, soap_action, ns1__AddConfiguration) || soap_recv___ns1__AddConfiguration(soap, ns1__AddConfigurationResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___ns1__AddConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _ns1__AddConfiguration *ns1__AddConfiguration)
+{	struct __ns1__AddConfiguration soap_tmp___ns1__AddConfiguration;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver20/media/wsdl/AddConfiguration";
+	soap_tmp___ns1__AddConfiguration.ns1__AddConfiguration = ns1__AddConfiguration;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___ns1__AddConfiguration(soap, &soap_tmp___ns1__AddConfiguration);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___ns1__AddConfiguration(soap, &soap_tmp___ns1__AddConfiguration, "-ns1:AddConfiguration", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___ns1__AddConfiguration(soap, &soap_tmp___ns1__AddConfiguration, "-ns1:AddConfiguration", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___ns1__AddConfiguration(struct soap *soap, struct _ns1__AddConfigurationResponse *ns1__AddConfigurationResponse)
+{
+	if (!ns1__AddConfigurationResponse)
+		return soap_closesock(soap);
+	soap_default__ns1__AddConfigurationResponse(soap, ns1__AddConfigurationResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__ns1__AddConfigurationResponse(soap, ns1__AddConfigurationResponse, "ns1:AddConfigurationResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___ns1__RemoveConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _ns1__RemoveConfiguration *ns1__RemoveConfiguration, struct _ns1__RemoveConfigurationResponse *ns1__RemoveConfigurationResponse)
+{	if (soap_send___ns1__RemoveConfiguration(soap, soap_endpoint, soap_action, ns1__RemoveConfiguration) || soap_recv___ns1__RemoveConfiguration(soap, ns1__RemoveConfigurationResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___ns1__RemoveConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _ns1__RemoveConfiguration *ns1__RemoveConfiguration)
+{	struct __ns1__RemoveConfiguration soap_tmp___ns1__RemoveConfiguration;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver20/media/wsdl/RemoveConfiguration";
+	soap_tmp___ns1__RemoveConfiguration.ns1__RemoveConfiguration = ns1__RemoveConfiguration;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___ns1__RemoveConfiguration(soap, &soap_tmp___ns1__RemoveConfiguration);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___ns1__RemoveConfiguration(soap, &soap_tmp___ns1__RemoveConfiguration, "-ns1:RemoveConfiguration", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___ns1__RemoveConfiguration(soap, &soap_tmp___ns1__RemoveConfiguration, "-ns1:RemoveConfiguration", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___ns1__RemoveConfiguration(struct soap *soap, struct _ns1__RemoveConfigurationResponse *ns1__RemoveConfigurationResponse)
+{
+	if (!ns1__RemoveConfigurationResponse)
+		return soap_closesock(soap);
+	soap_default__ns1__RemoveConfigurationResponse(soap, ns1__RemoveConfigurationResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__ns1__RemoveConfigurationResponse(soap, ns1__RemoveConfigurationResponse, "ns1:RemoveConfigurationResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___ns1__DeleteProfile(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _ns1__DeleteProfile *ns1__DeleteProfile, struct _ns1__DeleteProfileResponse *ns1__DeleteProfileResponse)
+{	if (soap_send___ns1__DeleteProfile(soap, soap_endpoint, soap_action, ns1__DeleteProfile) || soap_recv___ns1__DeleteProfile(soap, ns1__DeleteProfileResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___ns1__DeleteProfile(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _ns1__DeleteProfile *ns1__DeleteProfile)
+{	struct __ns1__DeleteProfile soap_tmp___ns1__DeleteProfile;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver20/media/wsdl/DeleteProfile";
+	soap_tmp___ns1__DeleteProfile.ns1__DeleteProfile = ns1__DeleteProfile;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___ns1__DeleteProfile(soap, &soap_tmp___ns1__DeleteProfile);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___ns1__DeleteProfile(soap, &soap_tmp___ns1__DeleteProfile, "-ns1:DeleteProfile", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___ns1__DeleteProfile(soap, &soap_tmp___ns1__DeleteProfile, "-ns1:DeleteProfile", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___ns1__DeleteProfile(struct soap *soap, struct _ns1__DeleteProfileResponse *ns1__DeleteProfileResponse)
+{
+	if (!ns1__DeleteProfileResponse)
+		return soap_closesock(soap);
+	soap_default__ns1__DeleteProfileResponse(soap, ns1__DeleteProfileResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__ns1__DeleteProfileResponse(soap, ns1__DeleteProfileResponse, "ns1:DeleteProfileResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___ns1__GetVideoSourceConfigurations(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct ns1__GetConfiguration *ns1__GetVideoSourceConfigurations, struct _ns1__GetVideoSourceConfigurationsResponse *ns1__GetVideoSourceConfigurationsResponse)
+{	if (soap_send___ns1__GetVideoSourceConfigurations(soap, soap_endpoint, soap_action, ns1__GetVideoSourceConfigurations) || soap_recv___ns1__GetVideoSourceConfigurations(soap, ns1__GetVideoSourceConfigurationsResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___ns1__GetVideoSourceConfigurations(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct ns1__GetConfiguration *ns1__GetVideoSourceConfigurations)
+{	struct __ns1__GetVideoSourceConfigurations soap_tmp___ns1__GetVideoSourceConfigurations;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver20/media/wsdl/GetVideoSourceConfigurations";
+	soap_tmp___ns1__GetVideoSourceConfigurations.ns1__GetVideoSourceConfigurations = ns1__GetVideoSourceConfigurations;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___ns1__GetVideoSourceConfigurations(soap, &soap_tmp___ns1__GetVideoSourceConfigurations);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___ns1__GetVideoSourceConfigurations(soap, &soap_tmp___ns1__GetVideoSourceConfigurations, "-ns1:GetVideoSourceConfigurations", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___ns1__GetVideoSourceConfigurations(soap, &soap_tmp___ns1__GetVideoSourceConfigurations, "-ns1:GetVideoSourceConfigurations", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___ns1__GetVideoSourceConfigurations(struct soap *soap, struct _ns1__GetVideoSourceConfigurationsResponse *ns1__GetVideoSourceConfigurationsResponse)
+{
+	if (!ns1__GetVideoSourceConfigurationsResponse)
+		return soap_closesock(soap);
+	soap_default__ns1__GetVideoSourceConfigurationsResponse(soap, ns1__GetVideoSourceConfigurationsResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__ns1__GetVideoSourceConfigurationsResponse(soap, ns1__GetVideoSourceConfigurationsResponse, "ns1:GetVideoSourceConfigurationsResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___ns1__GetVideoEncoderConfigurations(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct ns1__GetConfiguration *ns1__GetVideoEncoderConfigurations, struct _ns1__GetVideoEncoderConfigurationsResponse *ns1__GetVideoEncoderConfigurationsResponse)
+{	if (soap_send___ns1__GetVideoEncoderConfigurations(soap, soap_endpoint, soap_action, ns1__GetVideoEncoderConfigurations) || soap_recv___ns1__GetVideoEncoderConfigurations(soap, ns1__GetVideoEncoderConfigurationsResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___ns1__GetVideoEncoderConfigurations(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct ns1__GetConfiguration *ns1__GetVideoEncoderConfigurations)
+{	struct __ns1__GetVideoEncoderConfigurations soap_tmp___ns1__GetVideoEncoderConfigurations;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver20/media/wsdl/GetVideoEncoderConfigurations";
+	soap_tmp___ns1__GetVideoEncoderConfigurations.ns1__GetVideoEncoderConfigurations = ns1__GetVideoEncoderConfigurations;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___ns1__GetVideoEncoderConfigurations(soap, &soap_tmp___ns1__GetVideoEncoderConfigurations);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___ns1__GetVideoEncoderConfigurations(soap, &soap_tmp___ns1__GetVideoEncoderConfigurations, "-ns1:GetVideoEncoderConfigurations", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___ns1__GetVideoEncoderConfigurations(soap, &soap_tmp___ns1__GetVideoEncoderConfigurations, "-ns1:GetVideoEncoderConfigurations", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___ns1__GetVideoEncoderConfigurations(struct soap *soap, struct _ns1__GetVideoEncoderConfigurationsResponse *ns1__GetVideoEncoderConfigurationsResponse)
+{
+	if (!ns1__GetVideoEncoderConfigurationsResponse)
+		return soap_closesock(soap);
+	soap_default__ns1__GetVideoEncoderConfigurationsResponse(soap, ns1__GetVideoEncoderConfigurationsResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__ns1__GetVideoEncoderConfigurationsResponse(soap, ns1__GetVideoEncoderConfigurationsResponse, "ns1:GetVideoEncoderConfigurationsResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___ns1__GetAudioSourceConfigurations(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct ns1__GetConfiguration *ns1__GetAudioSourceConfigurations, struct _ns1__GetAudioSourceConfigurationsResponse *ns1__GetAudioSourceConfigurationsResponse)
+{	if (soap_send___ns1__GetAudioSourceConfigurations(soap, soap_endpoint, soap_action, ns1__GetAudioSourceConfigurations) || soap_recv___ns1__GetAudioSourceConfigurations(soap, ns1__GetAudioSourceConfigurationsResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___ns1__GetAudioSourceConfigurations(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct ns1__GetConfiguration *ns1__GetAudioSourceConfigurations)
+{	struct __ns1__GetAudioSourceConfigurations soap_tmp___ns1__GetAudioSourceConfigurations;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver20/media/wsdl/GetAudioSourceConfigurations/";
+	soap_tmp___ns1__GetAudioSourceConfigurations.ns1__GetAudioSourceConfigurations = ns1__GetAudioSourceConfigurations;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___ns1__GetAudioSourceConfigurations(soap, &soap_tmp___ns1__GetAudioSourceConfigurations);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___ns1__GetAudioSourceConfigurations(soap, &soap_tmp___ns1__GetAudioSourceConfigurations, "-ns1:GetAudioSourceConfigurations", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___ns1__GetAudioSourceConfigurations(soap, &soap_tmp___ns1__GetAudioSourceConfigurations, "-ns1:GetAudioSourceConfigurations", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___ns1__GetAudioSourceConfigurations(struct soap *soap, struct _ns1__GetAudioSourceConfigurationsResponse *ns1__GetAudioSourceConfigurationsResponse)
+{
+	if (!ns1__GetAudioSourceConfigurationsResponse)
+		return soap_closesock(soap);
+	soap_default__ns1__GetAudioSourceConfigurationsResponse(soap, ns1__GetAudioSourceConfigurationsResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__ns1__GetAudioSourceConfigurationsResponse(soap, ns1__GetAudioSourceConfigurationsResponse, "ns1:GetAudioSourceConfigurationsResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___ns1__GetAudioEncoderConfigurations(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct ns1__GetConfiguration *ns1__GetAudioEncoderConfigurations, struct _ns1__GetAudioEncoderConfigurationsResponse *ns1__GetAudioEncoderConfigurationsResponse)
+{	if (soap_send___ns1__GetAudioEncoderConfigurations(soap, soap_endpoint, soap_action, ns1__GetAudioEncoderConfigurations) || soap_recv___ns1__GetAudioEncoderConfigurations(soap, ns1__GetAudioEncoderConfigurationsResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___ns1__GetAudioEncoderConfigurations(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct ns1__GetConfiguration *ns1__GetAudioEncoderConfigurations)
+{	struct __ns1__GetAudioEncoderConfigurations soap_tmp___ns1__GetAudioEncoderConfigurations;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver20/media/wsdl/GetAudioEncoderConfigurations";
+	soap_tmp___ns1__GetAudioEncoderConfigurations.ns1__GetAudioEncoderConfigurations = ns1__GetAudioEncoderConfigurations;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___ns1__GetAudioEncoderConfigurations(soap, &soap_tmp___ns1__GetAudioEncoderConfigurations);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___ns1__GetAudioEncoderConfigurations(soap, &soap_tmp___ns1__GetAudioEncoderConfigurations, "-ns1:GetAudioEncoderConfigurations", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___ns1__GetAudioEncoderConfigurations(soap, &soap_tmp___ns1__GetAudioEncoderConfigurations, "-ns1:GetAudioEncoderConfigurations", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___ns1__GetAudioEncoderConfigurations(struct soap *soap, struct _ns1__GetAudioEncoderConfigurationsResponse *ns1__GetAudioEncoderConfigurationsResponse)
+{
+	if (!ns1__GetAudioEncoderConfigurationsResponse)
+		return soap_closesock(soap);
+	soap_default__ns1__GetAudioEncoderConfigurationsResponse(soap, ns1__GetAudioEncoderConfigurationsResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__ns1__GetAudioEncoderConfigurationsResponse(soap, ns1__GetAudioEncoderConfigurationsResponse, "ns1:GetAudioEncoderConfigurationsResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___ns1__GetAnalyticsConfigurations(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct ns1__GetConfiguration *ns1__GetAnalyticsConfigurations, struct _ns1__GetAnalyticsConfigurationsResponse *ns1__GetAnalyticsConfigurationsResponse)
+{	if (soap_send___ns1__GetAnalyticsConfigurations(soap, soap_endpoint, soap_action, ns1__GetAnalyticsConfigurations) || soap_recv___ns1__GetAnalyticsConfigurations(soap, ns1__GetAnalyticsConfigurationsResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___ns1__GetAnalyticsConfigurations(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct ns1__GetConfiguration *ns1__GetAnalyticsConfigurations)
+{	struct __ns1__GetAnalyticsConfigurations soap_tmp___ns1__GetAnalyticsConfigurations;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver20/media/wsdl/GetAnalyticsConfigurations";
+	soap_tmp___ns1__GetAnalyticsConfigurations.ns1__GetAnalyticsConfigurations = ns1__GetAnalyticsConfigurations;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___ns1__GetAnalyticsConfigurations(soap, &soap_tmp___ns1__GetAnalyticsConfigurations);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___ns1__GetAnalyticsConfigurations(soap, &soap_tmp___ns1__GetAnalyticsConfigurations, "-ns1:GetAnalyticsConfigurations", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___ns1__GetAnalyticsConfigurations(soap, &soap_tmp___ns1__GetAnalyticsConfigurations, "-ns1:GetAnalyticsConfigurations", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___ns1__GetAnalyticsConfigurations(struct soap *soap, struct _ns1__GetAnalyticsConfigurationsResponse *ns1__GetAnalyticsConfigurationsResponse)
+{
+	if (!ns1__GetAnalyticsConfigurationsResponse)
+		return soap_closesock(soap);
+	soap_default__ns1__GetAnalyticsConfigurationsResponse(soap, ns1__GetAnalyticsConfigurationsResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__ns1__GetAnalyticsConfigurationsResponse(soap, ns1__GetAnalyticsConfigurationsResponse, "ns1:GetAnalyticsConfigurationsResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___ns1__GetMetadataConfigurations(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct ns1__GetConfiguration *ns1__GetMetadataConfigurations, struct _ns1__GetMetadataConfigurationsResponse *ns1__GetMetadataConfigurationsResponse)
+{	if (soap_send___ns1__GetMetadataConfigurations(soap, soap_endpoint, soap_action, ns1__GetMetadataConfigurations) || soap_recv___ns1__GetMetadataConfigurations(soap, ns1__GetMetadataConfigurationsResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___ns1__GetMetadataConfigurations(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct ns1__GetConfiguration *ns1__GetMetadataConfigurations)
+{	struct __ns1__GetMetadataConfigurations soap_tmp___ns1__GetMetadataConfigurations;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver20/media/wsdl/GetMetadataConfigurations";
+	soap_tmp___ns1__GetMetadataConfigurations.ns1__GetMetadataConfigurations = ns1__GetMetadataConfigurations;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___ns1__GetMetadataConfigurations(soap, &soap_tmp___ns1__GetMetadataConfigurations);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___ns1__GetMetadataConfigurations(soap, &soap_tmp___ns1__GetMetadataConfigurations, "-ns1:GetMetadataConfigurations", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___ns1__GetMetadataConfigurations(soap, &soap_tmp___ns1__GetMetadataConfigurations, "-ns1:GetMetadataConfigurations", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___ns1__GetMetadataConfigurations(struct soap *soap, struct _ns1__GetMetadataConfigurationsResponse *ns1__GetMetadataConfigurationsResponse)
+{
+	if (!ns1__GetMetadataConfigurationsResponse)
+		return soap_closesock(soap);
+	soap_default__ns1__GetMetadataConfigurationsResponse(soap, ns1__GetMetadataConfigurationsResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__ns1__GetMetadataConfigurationsResponse(soap, ns1__GetMetadataConfigurationsResponse, "ns1:GetMetadataConfigurationsResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___ns1__GetAudioOutputConfigurations(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct ns1__GetConfiguration *ns1__GetAudioOutputConfigurations, struct _ns1__GetAudioOutputConfigurationsResponse *ns1__GetAudioOutputConfigurationsResponse)
+{	if (soap_send___ns1__GetAudioOutputConfigurations(soap, soap_endpoint, soap_action, ns1__GetAudioOutputConfigurations) || soap_recv___ns1__GetAudioOutputConfigurations(soap, ns1__GetAudioOutputConfigurationsResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___ns1__GetAudioOutputConfigurations(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct ns1__GetConfiguration *ns1__GetAudioOutputConfigurations)
+{	struct __ns1__GetAudioOutputConfigurations soap_tmp___ns1__GetAudioOutputConfigurations;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver20/media/wsdl/GetAudioOutputConfigurations";
+	soap_tmp___ns1__GetAudioOutputConfigurations.ns1__GetAudioOutputConfigurations = ns1__GetAudioOutputConfigurations;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___ns1__GetAudioOutputConfigurations(soap, &soap_tmp___ns1__GetAudioOutputConfigurations);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___ns1__GetAudioOutputConfigurations(soap, &soap_tmp___ns1__GetAudioOutputConfigurations, "-ns1:GetAudioOutputConfigurations", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___ns1__GetAudioOutputConfigurations(soap, &soap_tmp___ns1__GetAudioOutputConfigurations, "-ns1:GetAudioOutputConfigurations", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___ns1__GetAudioOutputConfigurations(struct soap *soap, struct _ns1__GetAudioOutputConfigurationsResponse *ns1__GetAudioOutputConfigurationsResponse)
+{
+	if (!ns1__GetAudioOutputConfigurationsResponse)
+		return soap_closesock(soap);
+	soap_default__ns1__GetAudioOutputConfigurationsResponse(soap, ns1__GetAudioOutputConfigurationsResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__ns1__GetAudioOutputConfigurationsResponse(soap, ns1__GetAudioOutputConfigurationsResponse, "ns1:GetAudioOutputConfigurationsResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___ns1__GetAudioDecoderConfigurations(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct ns1__GetConfiguration *ns1__GetAudioDecoderConfigurations, struct _ns1__GetAudioDecoderConfigurationsResponse *ns1__GetAudioDecoderConfigurationsResponse)
+{	if (soap_send___ns1__GetAudioDecoderConfigurations(soap, soap_endpoint, soap_action, ns1__GetAudioDecoderConfigurations) || soap_recv___ns1__GetAudioDecoderConfigurations(soap, ns1__GetAudioDecoderConfigurationsResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___ns1__GetAudioDecoderConfigurations(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct ns1__GetConfiguration *ns1__GetAudioDecoderConfigurations)
+{	struct __ns1__GetAudioDecoderConfigurations soap_tmp___ns1__GetAudioDecoderConfigurations;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver20/media/wsdl/GetAudioDecoderConfigurations";
+	soap_tmp___ns1__GetAudioDecoderConfigurations.ns1__GetAudioDecoderConfigurations = ns1__GetAudioDecoderConfigurations;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___ns1__GetAudioDecoderConfigurations(soap, &soap_tmp___ns1__GetAudioDecoderConfigurations);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___ns1__GetAudioDecoderConfigurations(soap, &soap_tmp___ns1__GetAudioDecoderConfigurations, "-ns1:GetAudioDecoderConfigurations", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___ns1__GetAudioDecoderConfigurations(soap, &soap_tmp___ns1__GetAudioDecoderConfigurations, "-ns1:GetAudioDecoderConfigurations", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___ns1__GetAudioDecoderConfigurations(struct soap *soap, struct _ns1__GetAudioDecoderConfigurationsResponse *ns1__GetAudioDecoderConfigurationsResponse)
+{
+	if (!ns1__GetAudioDecoderConfigurationsResponse)
+		return soap_closesock(soap);
+	soap_default__ns1__GetAudioDecoderConfigurationsResponse(soap, ns1__GetAudioDecoderConfigurationsResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__ns1__GetAudioDecoderConfigurationsResponse(soap, ns1__GetAudioDecoderConfigurationsResponse, "ns1:GetAudioDecoderConfigurationsResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___ns1__SetVideoSourceConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _ns1__SetVideoSourceConfiguration *ns1__SetVideoSourceConfiguration, struct ns1__SetConfigurationResponse *ns1__SetVideoSourceConfigurationResponse)
+{	if (soap_send___ns1__SetVideoSourceConfiguration(soap, soap_endpoint, soap_action, ns1__SetVideoSourceConfiguration) || soap_recv___ns1__SetVideoSourceConfiguration(soap, ns1__SetVideoSourceConfigurationResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___ns1__SetVideoSourceConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _ns1__SetVideoSourceConfiguration *ns1__SetVideoSourceConfiguration)
+{	struct __ns1__SetVideoSourceConfiguration soap_tmp___ns1__SetVideoSourceConfiguration;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver20/media/wsdl/SetVideoSourceConfiguration";
+	soap_tmp___ns1__SetVideoSourceConfiguration.ns1__SetVideoSourceConfiguration = ns1__SetVideoSourceConfiguration;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___ns1__SetVideoSourceConfiguration(soap, &soap_tmp___ns1__SetVideoSourceConfiguration);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___ns1__SetVideoSourceConfiguration(soap, &soap_tmp___ns1__SetVideoSourceConfiguration, "-ns1:SetVideoSourceConfiguration", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___ns1__SetVideoSourceConfiguration(soap, &soap_tmp___ns1__SetVideoSourceConfiguration, "-ns1:SetVideoSourceConfiguration", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___ns1__SetVideoSourceConfiguration(struct soap *soap, struct ns1__SetConfigurationResponse *ns1__SetVideoSourceConfigurationResponse)
+{
+	if (!ns1__SetVideoSourceConfigurationResponse)
+		return soap_closesock(soap);
+	soap_default_ns1__SetConfigurationResponse(soap, ns1__SetVideoSourceConfigurationResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get_ns1__SetConfigurationResponse(soap, ns1__SetVideoSourceConfigurationResponse, "ns1:SetVideoSourceConfigurationResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___ns1__SetVideoEncoderConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _ns1__SetVideoEncoderConfiguration *ns1__SetVideoEncoderConfiguration, struct ns1__SetConfigurationResponse *ns1__SetVideoEncoderConfigurationResponse)
+{	if (soap_send___ns1__SetVideoEncoderConfiguration(soap, soap_endpoint, soap_action, ns1__SetVideoEncoderConfiguration) || soap_recv___ns1__SetVideoEncoderConfiguration(soap, ns1__SetVideoEncoderConfigurationResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___ns1__SetVideoEncoderConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _ns1__SetVideoEncoderConfiguration *ns1__SetVideoEncoderConfiguration)
+{	struct __ns1__SetVideoEncoderConfiguration soap_tmp___ns1__SetVideoEncoderConfiguration;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver20/media/wsdl/SetVideoEncoderConfiguration";
+	soap_tmp___ns1__SetVideoEncoderConfiguration.ns1__SetVideoEncoderConfiguration = ns1__SetVideoEncoderConfiguration;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___ns1__SetVideoEncoderConfiguration(soap, &soap_tmp___ns1__SetVideoEncoderConfiguration);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___ns1__SetVideoEncoderConfiguration(soap, &soap_tmp___ns1__SetVideoEncoderConfiguration, "-ns1:SetVideoEncoderConfiguration", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___ns1__SetVideoEncoderConfiguration(soap, &soap_tmp___ns1__SetVideoEncoderConfiguration, "-ns1:SetVideoEncoderConfiguration", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___ns1__SetVideoEncoderConfiguration(struct soap *soap, struct ns1__SetConfigurationResponse *ns1__SetVideoEncoderConfigurationResponse)
+{
+	if (!ns1__SetVideoEncoderConfigurationResponse)
+		return soap_closesock(soap);
+	soap_default_ns1__SetConfigurationResponse(soap, ns1__SetVideoEncoderConfigurationResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get_ns1__SetConfigurationResponse(soap, ns1__SetVideoEncoderConfigurationResponse, "ns1:SetVideoEncoderConfigurationResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___ns1__SetAudioSourceConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _ns1__SetAudioSourceConfiguration *ns1__SetAudioSourceConfiguration, struct ns1__SetConfigurationResponse *ns1__SetAudioSourceConfigurationResponse)
+{	if (soap_send___ns1__SetAudioSourceConfiguration(soap, soap_endpoint, soap_action, ns1__SetAudioSourceConfiguration) || soap_recv___ns1__SetAudioSourceConfiguration(soap, ns1__SetAudioSourceConfigurationResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___ns1__SetAudioSourceConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _ns1__SetAudioSourceConfiguration *ns1__SetAudioSourceConfiguration)
+{	struct __ns1__SetAudioSourceConfiguration soap_tmp___ns1__SetAudioSourceConfiguration;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver20/media/wsdl/SetAudioSourceConfiguration";
+	soap_tmp___ns1__SetAudioSourceConfiguration.ns1__SetAudioSourceConfiguration = ns1__SetAudioSourceConfiguration;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___ns1__SetAudioSourceConfiguration(soap, &soap_tmp___ns1__SetAudioSourceConfiguration);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___ns1__SetAudioSourceConfiguration(soap, &soap_tmp___ns1__SetAudioSourceConfiguration, "-ns1:SetAudioSourceConfiguration", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___ns1__SetAudioSourceConfiguration(soap, &soap_tmp___ns1__SetAudioSourceConfiguration, "-ns1:SetAudioSourceConfiguration", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___ns1__SetAudioSourceConfiguration(struct soap *soap, struct ns1__SetConfigurationResponse *ns1__SetAudioSourceConfigurationResponse)
+{
+	if (!ns1__SetAudioSourceConfigurationResponse)
+		return soap_closesock(soap);
+	soap_default_ns1__SetConfigurationResponse(soap, ns1__SetAudioSourceConfigurationResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get_ns1__SetConfigurationResponse(soap, ns1__SetAudioSourceConfigurationResponse, "ns1:SetAudioSourceConfigurationResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___ns1__SetAudioEncoderConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _ns1__SetAudioEncoderConfiguration *ns1__SetAudioEncoderConfiguration, struct ns1__SetConfigurationResponse *ns1__SetAudioEncoderConfigurationResponse)
+{	if (soap_send___ns1__SetAudioEncoderConfiguration(soap, soap_endpoint, soap_action, ns1__SetAudioEncoderConfiguration) || soap_recv___ns1__SetAudioEncoderConfiguration(soap, ns1__SetAudioEncoderConfigurationResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___ns1__SetAudioEncoderConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _ns1__SetAudioEncoderConfiguration *ns1__SetAudioEncoderConfiguration)
+{	struct __ns1__SetAudioEncoderConfiguration soap_tmp___ns1__SetAudioEncoderConfiguration;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver20/media/wsdl/SetAudioEncoderConfiguration";
+	soap_tmp___ns1__SetAudioEncoderConfiguration.ns1__SetAudioEncoderConfiguration = ns1__SetAudioEncoderConfiguration;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___ns1__SetAudioEncoderConfiguration(soap, &soap_tmp___ns1__SetAudioEncoderConfiguration);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___ns1__SetAudioEncoderConfiguration(soap, &soap_tmp___ns1__SetAudioEncoderConfiguration, "-ns1:SetAudioEncoderConfiguration", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___ns1__SetAudioEncoderConfiguration(soap, &soap_tmp___ns1__SetAudioEncoderConfiguration, "-ns1:SetAudioEncoderConfiguration", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___ns1__SetAudioEncoderConfiguration(struct soap *soap, struct ns1__SetConfigurationResponse *ns1__SetAudioEncoderConfigurationResponse)
+{
+	if (!ns1__SetAudioEncoderConfigurationResponse)
+		return soap_closesock(soap);
+	soap_default_ns1__SetConfigurationResponse(soap, ns1__SetAudioEncoderConfigurationResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get_ns1__SetConfigurationResponse(soap, ns1__SetAudioEncoderConfigurationResponse, "ns1:SetAudioEncoderConfigurationResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___ns1__SetMetadataConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _ns1__SetMetadataConfiguration *ns1__SetMetadataConfiguration, struct ns1__SetConfigurationResponse *ns1__SetMetadataConfigurationResponse)
+{	if (soap_send___ns1__SetMetadataConfiguration(soap, soap_endpoint, soap_action, ns1__SetMetadataConfiguration) || soap_recv___ns1__SetMetadataConfiguration(soap, ns1__SetMetadataConfigurationResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___ns1__SetMetadataConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _ns1__SetMetadataConfiguration *ns1__SetMetadataConfiguration)
+{	struct __ns1__SetMetadataConfiguration soap_tmp___ns1__SetMetadataConfiguration;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver20/media/wsdl/SetMetadataConfiguration";
+	soap_tmp___ns1__SetMetadataConfiguration.ns1__SetMetadataConfiguration = ns1__SetMetadataConfiguration;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___ns1__SetMetadataConfiguration(soap, &soap_tmp___ns1__SetMetadataConfiguration);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___ns1__SetMetadataConfiguration(soap, &soap_tmp___ns1__SetMetadataConfiguration, "-ns1:SetMetadataConfiguration", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___ns1__SetMetadataConfiguration(soap, &soap_tmp___ns1__SetMetadataConfiguration, "-ns1:SetMetadataConfiguration", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___ns1__SetMetadataConfiguration(struct soap *soap, struct ns1__SetConfigurationResponse *ns1__SetMetadataConfigurationResponse)
+{
+	if (!ns1__SetMetadataConfigurationResponse)
+		return soap_closesock(soap);
+	soap_default_ns1__SetConfigurationResponse(soap, ns1__SetMetadataConfigurationResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get_ns1__SetConfigurationResponse(soap, ns1__SetMetadataConfigurationResponse, "ns1:SetMetadataConfigurationResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___ns1__SetAudioOutputConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _ns1__SetAudioOutputConfiguration *ns1__SetAudioOutputConfiguration, struct ns1__SetConfigurationResponse *ns1__SetAudioOutputConfigurationResponse)
+{	if (soap_send___ns1__SetAudioOutputConfiguration(soap, soap_endpoint, soap_action, ns1__SetAudioOutputConfiguration) || soap_recv___ns1__SetAudioOutputConfiguration(soap, ns1__SetAudioOutputConfigurationResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___ns1__SetAudioOutputConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _ns1__SetAudioOutputConfiguration *ns1__SetAudioOutputConfiguration)
+{	struct __ns1__SetAudioOutputConfiguration soap_tmp___ns1__SetAudioOutputConfiguration;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver20/media/wsdl/SetAudioOutputConfiguration";
+	soap_tmp___ns1__SetAudioOutputConfiguration.ns1__SetAudioOutputConfiguration = ns1__SetAudioOutputConfiguration;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___ns1__SetAudioOutputConfiguration(soap, &soap_tmp___ns1__SetAudioOutputConfiguration);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___ns1__SetAudioOutputConfiguration(soap, &soap_tmp___ns1__SetAudioOutputConfiguration, "-ns1:SetAudioOutputConfiguration", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___ns1__SetAudioOutputConfiguration(soap, &soap_tmp___ns1__SetAudioOutputConfiguration, "-ns1:SetAudioOutputConfiguration", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___ns1__SetAudioOutputConfiguration(struct soap *soap, struct ns1__SetConfigurationResponse *ns1__SetAudioOutputConfigurationResponse)
+{
+	if (!ns1__SetAudioOutputConfigurationResponse)
+		return soap_closesock(soap);
+	soap_default_ns1__SetConfigurationResponse(soap, ns1__SetAudioOutputConfigurationResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get_ns1__SetConfigurationResponse(soap, ns1__SetAudioOutputConfigurationResponse, "ns1:SetAudioOutputConfigurationResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___ns1__SetAudioDecoderConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _ns1__SetAudioDecoderConfiguration *ns1__SetAudioDecoderConfiguration, struct ns1__SetConfigurationResponse *ns1__SetAudioDecoderConfigurationResponse)
+{	if (soap_send___ns1__SetAudioDecoderConfiguration(soap, soap_endpoint, soap_action, ns1__SetAudioDecoderConfiguration) || soap_recv___ns1__SetAudioDecoderConfiguration(soap, ns1__SetAudioDecoderConfigurationResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___ns1__SetAudioDecoderConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _ns1__SetAudioDecoderConfiguration *ns1__SetAudioDecoderConfiguration)
+{	struct __ns1__SetAudioDecoderConfiguration soap_tmp___ns1__SetAudioDecoderConfiguration;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver20/media/wsdl/SetAudioDecoderConfiguration";
+	soap_tmp___ns1__SetAudioDecoderConfiguration.ns1__SetAudioDecoderConfiguration = ns1__SetAudioDecoderConfiguration;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___ns1__SetAudioDecoderConfiguration(soap, &soap_tmp___ns1__SetAudioDecoderConfiguration);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___ns1__SetAudioDecoderConfiguration(soap, &soap_tmp___ns1__SetAudioDecoderConfiguration, "-ns1:SetAudioDecoderConfiguration", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___ns1__SetAudioDecoderConfiguration(soap, &soap_tmp___ns1__SetAudioDecoderConfiguration, "-ns1:SetAudioDecoderConfiguration", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___ns1__SetAudioDecoderConfiguration(struct soap *soap, struct ns1__SetConfigurationResponse *ns1__SetAudioDecoderConfigurationResponse)
+{
+	if (!ns1__SetAudioDecoderConfigurationResponse)
+		return soap_closesock(soap);
+	soap_default_ns1__SetConfigurationResponse(soap, ns1__SetAudioDecoderConfigurationResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get_ns1__SetConfigurationResponse(soap, ns1__SetAudioDecoderConfigurationResponse, "ns1:SetAudioDecoderConfigurationResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___ns1__GetVideoSourceConfigurationOptions(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct ns1__GetConfiguration *ns1__GetVideoSourceConfigurationOptions, struct _ns1__GetVideoSourceConfigurationOptionsResponse *ns1__GetVideoSourceConfigurationOptionsResponse)
+{	if (soap_send___ns1__GetVideoSourceConfigurationOptions(soap, soap_endpoint, soap_action, ns1__GetVideoSourceConfigurationOptions) || soap_recv___ns1__GetVideoSourceConfigurationOptions(soap, ns1__GetVideoSourceConfigurationOptionsResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___ns1__GetVideoSourceConfigurationOptions(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct ns1__GetConfiguration *ns1__GetVideoSourceConfigurationOptions)
+{	struct __ns1__GetVideoSourceConfigurationOptions soap_tmp___ns1__GetVideoSourceConfigurationOptions;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver20/media/wsdl/GetVideoSourceConfigurationOptions/";
+	soap_tmp___ns1__GetVideoSourceConfigurationOptions.ns1__GetVideoSourceConfigurationOptions = ns1__GetVideoSourceConfigurationOptions;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___ns1__GetVideoSourceConfigurationOptions(soap, &soap_tmp___ns1__GetVideoSourceConfigurationOptions);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___ns1__GetVideoSourceConfigurationOptions(soap, &soap_tmp___ns1__GetVideoSourceConfigurationOptions, "-ns1:GetVideoSourceConfigurationOptions", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___ns1__GetVideoSourceConfigurationOptions(soap, &soap_tmp___ns1__GetVideoSourceConfigurationOptions, "-ns1:GetVideoSourceConfigurationOptions", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___ns1__GetVideoSourceConfigurationOptions(struct soap *soap, struct _ns1__GetVideoSourceConfigurationOptionsResponse *ns1__GetVideoSourceConfigurationOptionsResponse)
+{
+	if (!ns1__GetVideoSourceConfigurationOptionsResponse)
+		return soap_closesock(soap);
+	soap_default__ns1__GetVideoSourceConfigurationOptionsResponse(soap, ns1__GetVideoSourceConfigurationOptionsResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__ns1__GetVideoSourceConfigurationOptionsResponse(soap, ns1__GetVideoSourceConfigurationOptionsResponse, "ns1:GetVideoSourceConfigurationOptionsResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___ns1__GetVideoEncoderConfigurationOptions(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct ns1__GetConfiguration *ns1__GetVideoEncoderConfigurationOptions, struct _ns1__GetVideoEncoderConfigurationOptionsResponse *ns1__GetVideoEncoderConfigurationOptionsResponse)
+{	if (soap_send___ns1__GetVideoEncoderConfigurationOptions(soap, soap_endpoint, soap_action, ns1__GetVideoEncoderConfigurationOptions) || soap_recv___ns1__GetVideoEncoderConfigurationOptions(soap, ns1__GetVideoEncoderConfigurationOptionsResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___ns1__GetVideoEncoderConfigurationOptions(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct ns1__GetConfiguration *ns1__GetVideoEncoderConfigurationOptions)
+{	struct __ns1__GetVideoEncoderConfigurationOptions soap_tmp___ns1__GetVideoEncoderConfigurationOptions;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver20/media/wsdl/GetVideoEncoderConfigurationOptions";
+	soap_tmp___ns1__GetVideoEncoderConfigurationOptions.ns1__GetVideoEncoderConfigurationOptions = ns1__GetVideoEncoderConfigurationOptions;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___ns1__GetVideoEncoderConfigurationOptions(soap, &soap_tmp___ns1__GetVideoEncoderConfigurationOptions);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___ns1__GetVideoEncoderConfigurationOptions(soap, &soap_tmp___ns1__GetVideoEncoderConfigurationOptions, "-ns1:GetVideoEncoderConfigurationOptions", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___ns1__GetVideoEncoderConfigurationOptions(soap, &soap_tmp___ns1__GetVideoEncoderConfigurationOptions, "-ns1:GetVideoEncoderConfigurationOptions", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___ns1__GetVideoEncoderConfigurationOptions(struct soap *soap, struct _ns1__GetVideoEncoderConfigurationOptionsResponse *ns1__GetVideoEncoderConfigurationOptionsResponse)
+{
+	if (!ns1__GetVideoEncoderConfigurationOptionsResponse)
+		return soap_closesock(soap);
+	soap_default__ns1__GetVideoEncoderConfigurationOptionsResponse(soap, ns1__GetVideoEncoderConfigurationOptionsResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__ns1__GetVideoEncoderConfigurationOptionsResponse(soap, ns1__GetVideoEncoderConfigurationOptionsResponse, "ns1:GetVideoEncoderConfigurationOptionsResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___ns1__GetAudioSourceConfigurationOptions(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct ns1__GetConfiguration *ns1__GetAudioSourceConfigurationOptions, struct _ns1__GetAudioSourceConfigurationOptionsResponse *ns1__GetAudioSourceConfigurationOptionsResponse)
+{	if (soap_send___ns1__GetAudioSourceConfigurationOptions(soap, soap_endpoint, soap_action, ns1__GetAudioSourceConfigurationOptions) || soap_recv___ns1__GetAudioSourceConfigurationOptions(soap, ns1__GetAudioSourceConfigurationOptionsResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___ns1__GetAudioSourceConfigurationOptions(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct ns1__GetConfiguration *ns1__GetAudioSourceConfigurationOptions)
+{	struct __ns1__GetAudioSourceConfigurationOptions soap_tmp___ns1__GetAudioSourceConfigurationOptions;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver20/media/wsdl/GetAudioSourceConfigurationOptions";
+	soap_tmp___ns1__GetAudioSourceConfigurationOptions.ns1__GetAudioSourceConfigurationOptions = ns1__GetAudioSourceConfigurationOptions;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___ns1__GetAudioSourceConfigurationOptions(soap, &soap_tmp___ns1__GetAudioSourceConfigurationOptions);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___ns1__GetAudioSourceConfigurationOptions(soap, &soap_tmp___ns1__GetAudioSourceConfigurationOptions, "-ns1:GetAudioSourceConfigurationOptions", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___ns1__GetAudioSourceConfigurationOptions(soap, &soap_tmp___ns1__GetAudioSourceConfigurationOptions, "-ns1:GetAudioSourceConfigurationOptions", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___ns1__GetAudioSourceConfigurationOptions(struct soap *soap, struct _ns1__GetAudioSourceConfigurationOptionsResponse *ns1__GetAudioSourceConfigurationOptionsResponse)
+{
+	if (!ns1__GetAudioSourceConfigurationOptionsResponse)
+		return soap_closesock(soap);
+	soap_default__ns1__GetAudioSourceConfigurationOptionsResponse(soap, ns1__GetAudioSourceConfigurationOptionsResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__ns1__GetAudioSourceConfigurationOptionsResponse(soap, ns1__GetAudioSourceConfigurationOptionsResponse, "ns1:GetAudioSourceConfigurationOptionsResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___ns1__GetAudioEncoderConfigurationOptions(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct ns1__GetConfiguration *ns1__GetAudioEncoderConfigurationOptions, struct _ns1__GetAudioEncoderConfigurationOptionsResponse *ns1__GetAudioEncoderConfigurationOptionsResponse)
+{	if (soap_send___ns1__GetAudioEncoderConfigurationOptions(soap, soap_endpoint, soap_action, ns1__GetAudioEncoderConfigurationOptions) || soap_recv___ns1__GetAudioEncoderConfigurationOptions(soap, ns1__GetAudioEncoderConfigurationOptionsResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___ns1__GetAudioEncoderConfigurationOptions(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct ns1__GetConfiguration *ns1__GetAudioEncoderConfigurationOptions)
+{	struct __ns1__GetAudioEncoderConfigurationOptions soap_tmp___ns1__GetAudioEncoderConfigurationOptions;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver20/media/wsdl/GetAudioEncoderConfigurationOptions";
+	soap_tmp___ns1__GetAudioEncoderConfigurationOptions.ns1__GetAudioEncoderConfigurationOptions = ns1__GetAudioEncoderConfigurationOptions;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___ns1__GetAudioEncoderConfigurationOptions(soap, &soap_tmp___ns1__GetAudioEncoderConfigurationOptions);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___ns1__GetAudioEncoderConfigurationOptions(soap, &soap_tmp___ns1__GetAudioEncoderConfigurationOptions, "-ns1:GetAudioEncoderConfigurationOptions", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___ns1__GetAudioEncoderConfigurationOptions(soap, &soap_tmp___ns1__GetAudioEncoderConfigurationOptions, "-ns1:GetAudioEncoderConfigurationOptions", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___ns1__GetAudioEncoderConfigurationOptions(struct soap *soap, struct _ns1__GetAudioEncoderConfigurationOptionsResponse *ns1__GetAudioEncoderConfigurationOptionsResponse)
+{
+	if (!ns1__GetAudioEncoderConfigurationOptionsResponse)
+		return soap_closesock(soap);
+	soap_default__ns1__GetAudioEncoderConfigurationOptionsResponse(soap, ns1__GetAudioEncoderConfigurationOptionsResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__ns1__GetAudioEncoderConfigurationOptionsResponse(soap, ns1__GetAudioEncoderConfigurationOptionsResponse, "ns1:GetAudioEncoderConfigurationOptionsResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___ns1__GetMetadataConfigurationOptions(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct ns1__GetConfiguration *ns1__GetMetadataConfigurationOptions, struct _ns1__GetMetadataConfigurationOptionsResponse *ns1__GetMetadataConfigurationOptionsResponse)
+{	if (soap_send___ns1__GetMetadataConfigurationOptions(soap, soap_endpoint, soap_action, ns1__GetMetadataConfigurationOptions) || soap_recv___ns1__GetMetadataConfigurationOptions(soap, ns1__GetMetadataConfigurationOptionsResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___ns1__GetMetadataConfigurationOptions(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct ns1__GetConfiguration *ns1__GetMetadataConfigurationOptions)
+{	struct __ns1__GetMetadataConfigurationOptions soap_tmp___ns1__GetMetadataConfigurationOptions;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver20/media/wsdl/GetMetadataConfigurationOptions";
+	soap_tmp___ns1__GetMetadataConfigurationOptions.ns1__GetMetadataConfigurationOptions = ns1__GetMetadataConfigurationOptions;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___ns1__GetMetadataConfigurationOptions(soap, &soap_tmp___ns1__GetMetadataConfigurationOptions);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___ns1__GetMetadataConfigurationOptions(soap, &soap_tmp___ns1__GetMetadataConfigurationOptions, "-ns1:GetMetadataConfigurationOptions", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___ns1__GetMetadataConfigurationOptions(soap, &soap_tmp___ns1__GetMetadataConfigurationOptions, "-ns1:GetMetadataConfigurationOptions", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___ns1__GetMetadataConfigurationOptions(struct soap *soap, struct _ns1__GetMetadataConfigurationOptionsResponse *ns1__GetMetadataConfigurationOptionsResponse)
+{
+	if (!ns1__GetMetadataConfigurationOptionsResponse)
+		return soap_closesock(soap);
+	soap_default__ns1__GetMetadataConfigurationOptionsResponse(soap, ns1__GetMetadataConfigurationOptionsResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__ns1__GetMetadataConfigurationOptionsResponse(soap, ns1__GetMetadataConfigurationOptionsResponse, "ns1:GetMetadataConfigurationOptionsResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___ns1__GetAudioOutputConfigurationOptions(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct ns1__GetConfiguration *ns1__GetAudioOutputConfigurationOptions, struct _ns1__GetAudioOutputConfigurationOptionsResponse *ns1__GetAudioOutputConfigurationOptionsResponse)
+{	if (soap_send___ns1__GetAudioOutputConfigurationOptions(soap, soap_endpoint, soap_action, ns1__GetAudioOutputConfigurationOptions) || soap_recv___ns1__GetAudioOutputConfigurationOptions(soap, ns1__GetAudioOutputConfigurationOptionsResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___ns1__GetAudioOutputConfigurationOptions(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct ns1__GetConfiguration *ns1__GetAudioOutputConfigurationOptions)
+{	struct __ns1__GetAudioOutputConfigurationOptions soap_tmp___ns1__GetAudioOutputConfigurationOptions;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver20/media/wsdl/GetAudioOutputConfigurationOptions";
+	soap_tmp___ns1__GetAudioOutputConfigurationOptions.ns1__GetAudioOutputConfigurationOptions = ns1__GetAudioOutputConfigurationOptions;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___ns1__GetAudioOutputConfigurationOptions(soap, &soap_tmp___ns1__GetAudioOutputConfigurationOptions);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___ns1__GetAudioOutputConfigurationOptions(soap, &soap_tmp___ns1__GetAudioOutputConfigurationOptions, "-ns1:GetAudioOutputConfigurationOptions", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___ns1__GetAudioOutputConfigurationOptions(soap, &soap_tmp___ns1__GetAudioOutputConfigurationOptions, "-ns1:GetAudioOutputConfigurationOptions", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___ns1__GetAudioOutputConfigurationOptions(struct soap *soap, struct _ns1__GetAudioOutputConfigurationOptionsResponse *ns1__GetAudioOutputConfigurationOptionsResponse)
+{
+	if (!ns1__GetAudioOutputConfigurationOptionsResponse)
+		return soap_closesock(soap);
+	soap_default__ns1__GetAudioOutputConfigurationOptionsResponse(soap, ns1__GetAudioOutputConfigurationOptionsResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__ns1__GetAudioOutputConfigurationOptionsResponse(soap, ns1__GetAudioOutputConfigurationOptionsResponse, "ns1:GetAudioOutputConfigurationOptionsResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___ns1__GetAudioDecoderConfigurationOptions(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct ns1__GetConfiguration *ns1__GetAudioDecoderConfigurationOptions, struct _ns1__GetAudioDecoderConfigurationOptionsResponse *ns1__GetAudioDecoderConfigurationOptionsResponse)
+{	if (soap_send___ns1__GetAudioDecoderConfigurationOptions(soap, soap_endpoint, soap_action, ns1__GetAudioDecoderConfigurationOptions) || soap_recv___ns1__GetAudioDecoderConfigurationOptions(soap, ns1__GetAudioDecoderConfigurationOptionsResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___ns1__GetAudioDecoderConfigurationOptions(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct ns1__GetConfiguration *ns1__GetAudioDecoderConfigurationOptions)
+{	struct __ns1__GetAudioDecoderConfigurationOptions soap_tmp___ns1__GetAudioDecoderConfigurationOptions;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver20/media/wsdl/GetAudioDecoderConfigurationOptions";
+	soap_tmp___ns1__GetAudioDecoderConfigurationOptions.ns1__GetAudioDecoderConfigurationOptions = ns1__GetAudioDecoderConfigurationOptions;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___ns1__GetAudioDecoderConfigurationOptions(soap, &soap_tmp___ns1__GetAudioDecoderConfigurationOptions);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___ns1__GetAudioDecoderConfigurationOptions(soap, &soap_tmp___ns1__GetAudioDecoderConfigurationOptions, "-ns1:GetAudioDecoderConfigurationOptions", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___ns1__GetAudioDecoderConfigurationOptions(soap, &soap_tmp___ns1__GetAudioDecoderConfigurationOptions, "-ns1:GetAudioDecoderConfigurationOptions", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___ns1__GetAudioDecoderConfigurationOptions(struct soap *soap, struct _ns1__GetAudioDecoderConfigurationOptionsResponse *ns1__GetAudioDecoderConfigurationOptionsResponse)
+{
+	if (!ns1__GetAudioDecoderConfigurationOptionsResponse)
+		return soap_closesock(soap);
+	soap_default__ns1__GetAudioDecoderConfigurationOptionsResponse(soap, ns1__GetAudioDecoderConfigurationOptionsResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__ns1__GetAudioDecoderConfigurationOptionsResponse(soap, ns1__GetAudioDecoderConfigurationOptionsResponse, "ns1:GetAudioDecoderConfigurationOptionsResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___ns1__GetVideoEncoderInstances(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _ns1__GetVideoEncoderInstances *ns1__GetVideoEncoderInstances, struct _ns1__GetVideoEncoderInstancesResponse *ns1__GetVideoEncoderInstancesResponse)
+{	if (soap_send___ns1__GetVideoEncoderInstances(soap, soap_endpoint, soap_action, ns1__GetVideoEncoderInstances) || soap_recv___ns1__GetVideoEncoderInstances(soap, ns1__GetVideoEncoderInstancesResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___ns1__GetVideoEncoderInstances(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _ns1__GetVideoEncoderInstances *ns1__GetVideoEncoderInstances)
+{	struct __ns1__GetVideoEncoderInstances soap_tmp___ns1__GetVideoEncoderInstances;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver20/media/wsdl/GetVideoEncoderInstances";
+	soap_tmp___ns1__GetVideoEncoderInstances.ns1__GetVideoEncoderInstances = ns1__GetVideoEncoderInstances;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___ns1__GetVideoEncoderInstances(soap, &soap_tmp___ns1__GetVideoEncoderInstances);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___ns1__GetVideoEncoderInstances(soap, &soap_tmp___ns1__GetVideoEncoderInstances, "-ns1:GetVideoEncoderInstances", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___ns1__GetVideoEncoderInstances(soap, &soap_tmp___ns1__GetVideoEncoderInstances, "-ns1:GetVideoEncoderInstances", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___ns1__GetVideoEncoderInstances(struct soap *soap, struct _ns1__GetVideoEncoderInstancesResponse *ns1__GetVideoEncoderInstancesResponse)
+{
+	if (!ns1__GetVideoEncoderInstancesResponse)
+		return soap_closesock(soap);
+	soap_default__ns1__GetVideoEncoderInstancesResponse(soap, ns1__GetVideoEncoderInstancesResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__ns1__GetVideoEncoderInstancesResponse(soap, ns1__GetVideoEncoderInstancesResponse, "ns1:GetVideoEncoderInstancesResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___ns1__GetStreamUri(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _ns1__GetStreamUri *ns1__GetStreamUri, struct _ns1__GetStreamUriResponse *ns1__GetStreamUriResponse)
+{	if (soap_send___ns1__GetStreamUri(soap, soap_endpoint, soap_action, ns1__GetStreamUri) || soap_recv___ns1__GetStreamUri(soap, ns1__GetStreamUriResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___ns1__GetStreamUri(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _ns1__GetStreamUri *ns1__GetStreamUri)
+{	struct __ns1__GetStreamUri soap_tmp___ns1__GetStreamUri;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver20/media/wsdl/GetStreamUri";
+	soap_tmp___ns1__GetStreamUri.ns1__GetStreamUri = ns1__GetStreamUri;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___ns1__GetStreamUri(soap, &soap_tmp___ns1__GetStreamUri);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___ns1__GetStreamUri(soap, &soap_tmp___ns1__GetStreamUri, "-ns1:GetStreamUri", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___ns1__GetStreamUri(soap, &soap_tmp___ns1__GetStreamUri, "-ns1:GetStreamUri", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___ns1__GetStreamUri(struct soap *soap, struct _ns1__GetStreamUriResponse *ns1__GetStreamUriResponse)
+{
+	if (!ns1__GetStreamUriResponse)
+		return soap_closesock(soap);
+	soap_default__ns1__GetStreamUriResponse(soap, ns1__GetStreamUriResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__ns1__GetStreamUriResponse(soap, ns1__GetStreamUriResponse, "ns1:GetStreamUriResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___ns1__StartMulticastStreaming(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct ns1__StartStopMulticastStreaming *ns1__StartMulticastStreaming, struct ns1__SetConfigurationResponse *ns1__StartMulticastStreamingResponse)
+{	if (soap_send___ns1__StartMulticastStreaming(soap, soap_endpoint, soap_action, ns1__StartMulticastStreaming) || soap_recv___ns1__StartMulticastStreaming(soap, ns1__StartMulticastStreamingResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___ns1__StartMulticastStreaming(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct ns1__StartStopMulticastStreaming *ns1__StartMulticastStreaming)
+{	struct __ns1__StartMulticastStreaming soap_tmp___ns1__StartMulticastStreaming;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver20/media/wsdl/StartMulticastStreaming";
+	soap_tmp___ns1__StartMulticastStreaming.ns1__StartMulticastStreaming = ns1__StartMulticastStreaming;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___ns1__StartMulticastStreaming(soap, &soap_tmp___ns1__StartMulticastStreaming);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___ns1__StartMulticastStreaming(soap, &soap_tmp___ns1__StartMulticastStreaming, "-ns1:StartMulticastStreaming", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___ns1__StartMulticastStreaming(soap, &soap_tmp___ns1__StartMulticastStreaming, "-ns1:StartMulticastStreaming", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___ns1__StartMulticastStreaming(struct soap *soap, struct ns1__SetConfigurationResponse *ns1__StartMulticastStreamingResponse)
+{
+	if (!ns1__StartMulticastStreamingResponse)
+		return soap_closesock(soap);
+	soap_default_ns1__SetConfigurationResponse(soap, ns1__StartMulticastStreamingResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get_ns1__SetConfigurationResponse(soap, ns1__StartMulticastStreamingResponse, "ns1:StartMulticastStreamingResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___ns1__StopMulticastStreaming(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct ns1__StartStopMulticastStreaming *ns1__StopMulticastStreaming, struct ns1__SetConfigurationResponse *ns1__StopMulticastStreamingResponse)
+{	if (soap_send___ns1__StopMulticastStreaming(soap, soap_endpoint, soap_action, ns1__StopMulticastStreaming) || soap_recv___ns1__StopMulticastStreaming(soap, ns1__StopMulticastStreamingResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___ns1__StopMulticastStreaming(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct ns1__StartStopMulticastStreaming *ns1__StopMulticastStreaming)
+{	struct __ns1__StopMulticastStreaming soap_tmp___ns1__StopMulticastStreaming;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver20/media/wsdl/StopMulticastStreaming";
+	soap_tmp___ns1__StopMulticastStreaming.ns1__StopMulticastStreaming = ns1__StopMulticastStreaming;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___ns1__StopMulticastStreaming(soap, &soap_tmp___ns1__StopMulticastStreaming);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___ns1__StopMulticastStreaming(soap, &soap_tmp___ns1__StopMulticastStreaming, "-ns1:StopMulticastStreaming", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___ns1__StopMulticastStreaming(soap, &soap_tmp___ns1__StopMulticastStreaming, "-ns1:StopMulticastStreaming", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___ns1__StopMulticastStreaming(struct soap *soap, struct ns1__SetConfigurationResponse *ns1__StopMulticastStreamingResponse)
+{
+	if (!ns1__StopMulticastStreamingResponse)
+		return soap_closesock(soap);
+	soap_default_ns1__SetConfigurationResponse(soap, ns1__StopMulticastStreamingResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get_ns1__SetConfigurationResponse(soap, ns1__StopMulticastStreamingResponse, "ns1:StopMulticastStreamingResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___ns1__SetSynchronizationPoint(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _ns1__SetSynchronizationPoint *ns1__SetSynchronizationPoint, struct _ns1__SetSynchronizationPointResponse *ns1__SetSynchronizationPointResponse)
+{	if (soap_send___ns1__SetSynchronizationPoint(soap, soap_endpoint, soap_action, ns1__SetSynchronizationPoint) || soap_recv___ns1__SetSynchronizationPoint(soap, ns1__SetSynchronizationPointResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___ns1__SetSynchronizationPoint(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _ns1__SetSynchronizationPoint *ns1__SetSynchronizationPoint)
+{	struct __ns1__SetSynchronizationPoint soap_tmp___ns1__SetSynchronizationPoint;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver20/media/wsdl/SetSynchronizationPoint";
+	soap_tmp___ns1__SetSynchronizationPoint.ns1__SetSynchronizationPoint = ns1__SetSynchronizationPoint;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___ns1__SetSynchronizationPoint(soap, &soap_tmp___ns1__SetSynchronizationPoint);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___ns1__SetSynchronizationPoint(soap, &soap_tmp___ns1__SetSynchronizationPoint, "-ns1:SetSynchronizationPoint", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___ns1__SetSynchronizationPoint(soap, &soap_tmp___ns1__SetSynchronizationPoint, "-ns1:SetSynchronizationPoint", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___ns1__SetSynchronizationPoint(struct soap *soap, struct _ns1__SetSynchronizationPointResponse *ns1__SetSynchronizationPointResponse)
+{
+	if (!ns1__SetSynchronizationPointResponse)
+		return soap_closesock(soap);
+	soap_default__ns1__SetSynchronizationPointResponse(soap, ns1__SetSynchronizationPointResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__ns1__SetSynchronizationPointResponse(soap, ns1__SetSynchronizationPointResponse, "ns1:SetSynchronizationPointResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___ns1__GetSnapshotUri(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _ns1__GetSnapshotUri *ns1__GetSnapshotUri, struct _ns1__GetSnapshotUriResponse *ns1__GetSnapshotUriResponse)
+{	if (soap_send___ns1__GetSnapshotUri(soap, soap_endpoint, soap_action, ns1__GetSnapshotUri) || soap_recv___ns1__GetSnapshotUri(soap, ns1__GetSnapshotUriResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___ns1__GetSnapshotUri(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _ns1__GetSnapshotUri *ns1__GetSnapshotUri)
+{	struct __ns1__GetSnapshotUri soap_tmp___ns1__GetSnapshotUri;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver20/media/wsdl/GetSnapshotUri";
+	soap_tmp___ns1__GetSnapshotUri.ns1__GetSnapshotUri = ns1__GetSnapshotUri;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___ns1__GetSnapshotUri(soap, &soap_tmp___ns1__GetSnapshotUri);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___ns1__GetSnapshotUri(soap, &soap_tmp___ns1__GetSnapshotUri, "-ns1:GetSnapshotUri", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___ns1__GetSnapshotUri(soap, &soap_tmp___ns1__GetSnapshotUri, "-ns1:GetSnapshotUri", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___ns1__GetSnapshotUri(struct soap *soap, struct _ns1__GetSnapshotUriResponse *ns1__GetSnapshotUriResponse)
+{
+	if (!ns1__GetSnapshotUriResponse)
+		return soap_closesock(soap);
+	soap_default__ns1__GetSnapshotUriResponse(soap, ns1__GetSnapshotUriResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__ns1__GetSnapshotUriResponse(soap, ns1__GetSnapshotUriResponse, "ns1:GetSnapshotUriResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___ns1__GetVideoSourceModes(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _ns1__GetVideoSourceModes *ns1__GetVideoSourceModes, struct _ns1__GetVideoSourceModesResponse *ns1__GetVideoSourceModesResponse)
+{	if (soap_send___ns1__GetVideoSourceModes(soap, soap_endpoint, soap_action, ns1__GetVideoSourceModes) || soap_recv___ns1__GetVideoSourceModes(soap, ns1__GetVideoSourceModesResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___ns1__GetVideoSourceModes(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _ns1__GetVideoSourceModes *ns1__GetVideoSourceModes)
+{	struct __ns1__GetVideoSourceModes soap_tmp___ns1__GetVideoSourceModes;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver20/media/wsdl/GetVideoSourceModes";
+	soap_tmp___ns1__GetVideoSourceModes.ns1__GetVideoSourceModes = ns1__GetVideoSourceModes;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___ns1__GetVideoSourceModes(soap, &soap_tmp___ns1__GetVideoSourceModes);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___ns1__GetVideoSourceModes(soap, &soap_tmp___ns1__GetVideoSourceModes, "-ns1:GetVideoSourceModes", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___ns1__GetVideoSourceModes(soap, &soap_tmp___ns1__GetVideoSourceModes, "-ns1:GetVideoSourceModes", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___ns1__GetVideoSourceModes(struct soap *soap, struct _ns1__GetVideoSourceModesResponse *ns1__GetVideoSourceModesResponse)
+{
+	if (!ns1__GetVideoSourceModesResponse)
+		return soap_closesock(soap);
+	soap_default__ns1__GetVideoSourceModesResponse(soap, ns1__GetVideoSourceModesResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__ns1__GetVideoSourceModesResponse(soap, ns1__GetVideoSourceModesResponse, "ns1:GetVideoSourceModesResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___ns1__SetVideoSourceMode(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _ns1__SetVideoSourceMode *ns1__SetVideoSourceMode, struct _ns1__SetVideoSourceModeResponse *ns1__SetVideoSourceModeResponse)
+{	if (soap_send___ns1__SetVideoSourceMode(soap, soap_endpoint, soap_action, ns1__SetVideoSourceMode) || soap_recv___ns1__SetVideoSourceMode(soap, ns1__SetVideoSourceModeResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___ns1__SetVideoSourceMode(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _ns1__SetVideoSourceMode *ns1__SetVideoSourceMode)
+{	struct __ns1__SetVideoSourceMode soap_tmp___ns1__SetVideoSourceMode;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver20/media/wsdl/SetVideoSourceMode";
+	soap_tmp___ns1__SetVideoSourceMode.ns1__SetVideoSourceMode = ns1__SetVideoSourceMode;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___ns1__SetVideoSourceMode(soap, &soap_tmp___ns1__SetVideoSourceMode);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___ns1__SetVideoSourceMode(soap, &soap_tmp___ns1__SetVideoSourceMode, "-ns1:SetVideoSourceMode", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___ns1__SetVideoSourceMode(soap, &soap_tmp___ns1__SetVideoSourceMode, "-ns1:SetVideoSourceMode", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___ns1__SetVideoSourceMode(struct soap *soap, struct _ns1__SetVideoSourceModeResponse *ns1__SetVideoSourceModeResponse)
+{
+	if (!ns1__SetVideoSourceModeResponse)
+		return soap_closesock(soap);
+	soap_default__ns1__SetVideoSourceModeResponse(soap, ns1__SetVideoSourceModeResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__ns1__SetVideoSourceModeResponse(soap, ns1__SetVideoSourceModeResponse, "ns1:SetVideoSourceModeResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___ns1__GetOSDs(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _ns1__GetOSDs *ns1__GetOSDs, struct _ns1__GetOSDsResponse *ns1__GetOSDsResponse)
+{	if (soap_send___ns1__GetOSDs(soap, soap_endpoint, soap_action, ns1__GetOSDs) || soap_recv___ns1__GetOSDs(soap, ns1__GetOSDsResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___ns1__GetOSDs(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _ns1__GetOSDs *ns1__GetOSDs)
+{	struct __ns1__GetOSDs soap_tmp___ns1__GetOSDs;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver20/media/wsdl/GetOSDs";
+	soap_tmp___ns1__GetOSDs.ns1__GetOSDs = ns1__GetOSDs;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___ns1__GetOSDs(soap, &soap_tmp___ns1__GetOSDs);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___ns1__GetOSDs(soap, &soap_tmp___ns1__GetOSDs, "-ns1:GetOSDs", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___ns1__GetOSDs(soap, &soap_tmp___ns1__GetOSDs, "-ns1:GetOSDs", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___ns1__GetOSDs(struct soap *soap, struct _ns1__GetOSDsResponse *ns1__GetOSDsResponse)
+{
+	if (!ns1__GetOSDsResponse)
+		return soap_closesock(soap);
+	soap_default__ns1__GetOSDsResponse(soap, ns1__GetOSDsResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__ns1__GetOSDsResponse(soap, ns1__GetOSDsResponse, "ns1:GetOSDsResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___ns1__GetOSDOptions(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _ns1__GetOSDOptions *ns1__GetOSDOptions, struct _ns1__GetOSDOptionsResponse *ns1__GetOSDOptionsResponse)
+{	if (soap_send___ns1__GetOSDOptions(soap, soap_endpoint, soap_action, ns1__GetOSDOptions) || soap_recv___ns1__GetOSDOptions(soap, ns1__GetOSDOptionsResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___ns1__GetOSDOptions(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _ns1__GetOSDOptions *ns1__GetOSDOptions)
+{	struct __ns1__GetOSDOptions soap_tmp___ns1__GetOSDOptions;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver20/media/wsdl/GetOSDOptions";
+	soap_tmp___ns1__GetOSDOptions.ns1__GetOSDOptions = ns1__GetOSDOptions;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___ns1__GetOSDOptions(soap, &soap_tmp___ns1__GetOSDOptions);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___ns1__GetOSDOptions(soap, &soap_tmp___ns1__GetOSDOptions, "-ns1:GetOSDOptions", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___ns1__GetOSDOptions(soap, &soap_tmp___ns1__GetOSDOptions, "-ns1:GetOSDOptions", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___ns1__GetOSDOptions(struct soap *soap, struct _ns1__GetOSDOptionsResponse *ns1__GetOSDOptionsResponse)
+{
+	if (!ns1__GetOSDOptionsResponse)
+		return soap_closesock(soap);
+	soap_default__ns1__GetOSDOptionsResponse(soap, ns1__GetOSDOptionsResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__ns1__GetOSDOptionsResponse(soap, ns1__GetOSDOptionsResponse, "ns1:GetOSDOptionsResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___ns1__SetOSD(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _ns1__SetOSD *ns1__SetOSD, struct ns1__SetConfigurationResponse *ns1__SetOSDResponse)
+{	if (soap_send___ns1__SetOSD(soap, soap_endpoint, soap_action, ns1__SetOSD) || soap_recv___ns1__SetOSD(soap, ns1__SetOSDResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___ns1__SetOSD(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _ns1__SetOSD *ns1__SetOSD)
+{	struct __ns1__SetOSD soap_tmp___ns1__SetOSD;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver20/media/wsdl/SetOSD";
+	soap_tmp___ns1__SetOSD.ns1__SetOSD = ns1__SetOSD;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___ns1__SetOSD(soap, &soap_tmp___ns1__SetOSD);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___ns1__SetOSD(soap, &soap_tmp___ns1__SetOSD, "-ns1:SetOSD", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___ns1__SetOSD(soap, &soap_tmp___ns1__SetOSD, "-ns1:SetOSD", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___ns1__SetOSD(struct soap *soap, struct ns1__SetConfigurationResponse *ns1__SetOSDResponse)
+{
+	if (!ns1__SetOSDResponse)
+		return soap_closesock(soap);
+	soap_default_ns1__SetConfigurationResponse(soap, ns1__SetOSDResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get_ns1__SetConfigurationResponse(soap, ns1__SetOSDResponse, "ns1:SetOSDResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___ns1__CreateOSD(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _ns1__CreateOSD *ns1__CreateOSD, struct _ns1__CreateOSDResponse *ns1__CreateOSDResponse)
+{	if (soap_send___ns1__CreateOSD(soap, soap_endpoint, soap_action, ns1__CreateOSD) || soap_recv___ns1__CreateOSD(soap, ns1__CreateOSDResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___ns1__CreateOSD(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _ns1__CreateOSD *ns1__CreateOSD)
+{	struct __ns1__CreateOSD soap_tmp___ns1__CreateOSD;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver20/media/wsdl/CreateOSD";
+	soap_tmp___ns1__CreateOSD.ns1__CreateOSD = ns1__CreateOSD;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___ns1__CreateOSD(soap, &soap_tmp___ns1__CreateOSD);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___ns1__CreateOSD(soap, &soap_tmp___ns1__CreateOSD, "-ns1:CreateOSD", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___ns1__CreateOSD(soap, &soap_tmp___ns1__CreateOSD, "-ns1:CreateOSD", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___ns1__CreateOSD(struct soap *soap, struct _ns1__CreateOSDResponse *ns1__CreateOSDResponse)
+{
+	if (!ns1__CreateOSDResponse)
+		return soap_closesock(soap);
+	soap_default__ns1__CreateOSDResponse(soap, ns1__CreateOSDResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__ns1__CreateOSDResponse(soap, ns1__CreateOSDResponse, "ns1:CreateOSDResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___ns1__DeleteOSD(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _ns1__DeleteOSD *ns1__DeleteOSD, struct ns1__SetConfigurationResponse *ns1__DeleteOSDResponse)
+{	if (soap_send___ns1__DeleteOSD(soap, soap_endpoint, soap_action, ns1__DeleteOSD) || soap_recv___ns1__DeleteOSD(soap, ns1__DeleteOSDResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___ns1__DeleteOSD(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _ns1__DeleteOSD *ns1__DeleteOSD)
+{	struct __ns1__DeleteOSD soap_tmp___ns1__DeleteOSD;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver20/media/wsdl/DeleteOSD";
+	soap_tmp___ns1__DeleteOSD.ns1__DeleteOSD = ns1__DeleteOSD;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___ns1__DeleteOSD(soap, &soap_tmp___ns1__DeleteOSD);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___ns1__DeleteOSD(soap, &soap_tmp___ns1__DeleteOSD, "-ns1:DeleteOSD", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___ns1__DeleteOSD(soap, &soap_tmp___ns1__DeleteOSD, "-ns1:DeleteOSD", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___ns1__DeleteOSD(struct soap *soap, struct ns1__SetConfigurationResponse *ns1__DeleteOSDResponse)
+{
+	if (!ns1__DeleteOSDResponse)
+		return soap_closesock(soap);
+	soap_default_ns1__SetConfigurationResponse(soap, ns1__DeleteOSDResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get_ns1__SetConfigurationResponse(soap, ns1__DeleteOSDResponse, "ns1:DeleteOSDResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___ns1__GetMasks(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _ns1__GetMasks *ns1__GetMasks, struct _ns1__GetMasksResponse *ns1__GetMasksResponse)
+{	if (soap_send___ns1__GetMasks(soap, soap_endpoint, soap_action, ns1__GetMasks) || soap_recv___ns1__GetMasks(soap, ns1__GetMasksResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___ns1__GetMasks(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _ns1__GetMasks *ns1__GetMasks)
+{	struct __ns1__GetMasks soap_tmp___ns1__GetMasks;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver20/media/wsdl/GetMasks";
+	soap_tmp___ns1__GetMasks.ns1__GetMasks = ns1__GetMasks;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___ns1__GetMasks(soap, &soap_tmp___ns1__GetMasks);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___ns1__GetMasks(soap, &soap_tmp___ns1__GetMasks, "-ns1:GetMasks", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___ns1__GetMasks(soap, &soap_tmp___ns1__GetMasks, "-ns1:GetMasks", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___ns1__GetMasks(struct soap *soap, struct _ns1__GetMasksResponse *ns1__GetMasksResponse)
+{
+	if (!ns1__GetMasksResponse)
+		return soap_closesock(soap);
+	soap_default__ns1__GetMasksResponse(soap, ns1__GetMasksResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__ns1__GetMasksResponse(soap, ns1__GetMasksResponse, "ns1:GetMasksResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___ns1__GetMaskOptions(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _ns1__GetMaskOptions *ns1__GetMaskOptions, struct _ns1__GetMaskOptionsResponse *ns1__GetMaskOptionsResponse)
+{	if (soap_send___ns1__GetMaskOptions(soap, soap_endpoint, soap_action, ns1__GetMaskOptions) || soap_recv___ns1__GetMaskOptions(soap, ns1__GetMaskOptionsResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___ns1__GetMaskOptions(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _ns1__GetMaskOptions *ns1__GetMaskOptions)
+{	struct __ns1__GetMaskOptions soap_tmp___ns1__GetMaskOptions;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver20/media/wsdl/GetMaskOptions";
+	soap_tmp___ns1__GetMaskOptions.ns1__GetMaskOptions = ns1__GetMaskOptions;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___ns1__GetMaskOptions(soap, &soap_tmp___ns1__GetMaskOptions);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___ns1__GetMaskOptions(soap, &soap_tmp___ns1__GetMaskOptions, "-ns1:GetMaskOptions", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___ns1__GetMaskOptions(soap, &soap_tmp___ns1__GetMaskOptions, "-ns1:GetMaskOptions", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___ns1__GetMaskOptions(struct soap *soap, struct _ns1__GetMaskOptionsResponse *ns1__GetMaskOptionsResponse)
+{
+	if (!ns1__GetMaskOptionsResponse)
+		return soap_closesock(soap);
+	soap_default__ns1__GetMaskOptionsResponse(soap, ns1__GetMaskOptionsResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__ns1__GetMaskOptionsResponse(soap, ns1__GetMaskOptionsResponse, "ns1:GetMaskOptionsResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___ns1__SetMask(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _ns1__SetMask *ns1__SetMask, struct ns1__SetConfigurationResponse *ns1__SetMaskResponse)
+{	if (soap_send___ns1__SetMask(soap, soap_endpoint, soap_action, ns1__SetMask) || soap_recv___ns1__SetMask(soap, ns1__SetMaskResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___ns1__SetMask(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _ns1__SetMask *ns1__SetMask)
+{	struct __ns1__SetMask soap_tmp___ns1__SetMask;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver20/media/wsdl/SetMask";
+	soap_tmp___ns1__SetMask.ns1__SetMask = ns1__SetMask;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___ns1__SetMask(soap, &soap_tmp___ns1__SetMask);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___ns1__SetMask(soap, &soap_tmp___ns1__SetMask, "-ns1:SetMask", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___ns1__SetMask(soap, &soap_tmp___ns1__SetMask, "-ns1:SetMask", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___ns1__SetMask(struct soap *soap, struct ns1__SetConfigurationResponse *ns1__SetMaskResponse)
+{
+	if (!ns1__SetMaskResponse)
+		return soap_closesock(soap);
+	soap_default_ns1__SetConfigurationResponse(soap, ns1__SetMaskResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get_ns1__SetConfigurationResponse(soap, ns1__SetMaskResponse, "ns1:SetMaskResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___ns1__CreateMask(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _ns1__CreateMask *ns1__CreateMask, struct _ns1__CreateMaskResponse *ns1__CreateMaskResponse)
+{	if (soap_send___ns1__CreateMask(soap, soap_endpoint, soap_action, ns1__CreateMask) || soap_recv___ns1__CreateMask(soap, ns1__CreateMaskResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___ns1__CreateMask(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _ns1__CreateMask *ns1__CreateMask)
+{	struct __ns1__CreateMask soap_tmp___ns1__CreateMask;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver20/media/wsdl/CreateMask";
+	soap_tmp___ns1__CreateMask.ns1__CreateMask = ns1__CreateMask;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___ns1__CreateMask(soap, &soap_tmp___ns1__CreateMask);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___ns1__CreateMask(soap, &soap_tmp___ns1__CreateMask, "-ns1:CreateMask", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___ns1__CreateMask(soap, &soap_tmp___ns1__CreateMask, "-ns1:CreateMask", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___ns1__CreateMask(struct soap *soap, struct _ns1__CreateMaskResponse *ns1__CreateMaskResponse)
+{
+	if (!ns1__CreateMaskResponse)
+		return soap_closesock(soap);
+	soap_default__ns1__CreateMaskResponse(soap, ns1__CreateMaskResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__ns1__CreateMaskResponse(soap, ns1__CreateMaskResponse, "ns1:CreateMaskResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___ns1__DeleteMask(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _ns1__DeleteMask *ns1__DeleteMask, struct ns1__SetConfigurationResponse *ns1__DeleteMaskResponse)
+{	if (soap_send___ns1__DeleteMask(soap, soap_endpoint, soap_action, ns1__DeleteMask) || soap_recv___ns1__DeleteMask(soap, ns1__DeleteMaskResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___ns1__DeleteMask(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _ns1__DeleteMask *ns1__DeleteMask)
+{	struct __ns1__DeleteMask soap_tmp___ns1__DeleteMask;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver20/media/wsdl/DeleteMask";
+	soap_tmp___ns1__DeleteMask.ns1__DeleteMask = ns1__DeleteMask;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___ns1__DeleteMask(soap, &soap_tmp___ns1__DeleteMask);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___ns1__DeleteMask(soap, &soap_tmp___ns1__DeleteMask, "-ns1:DeleteMask", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___ns1__DeleteMask(soap, &soap_tmp___ns1__DeleteMask, "-ns1:DeleteMask", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___ns1__DeleteMask(struct soap *soap, struct ns1__SetConfigurationResponse *ns1__DeleteMaskResponse)
+{
+	if (!ns1__DeleteMaskResponse)
+		return soap_closesock(soap);
+	soap_default_ns1__SetConfigurationResponse(soap, ns1__DeleteMaskResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get_ns1__SetConfigurationResponse(soap, ns1__DeleteMaskResponse, "ns1:DeleteMaskResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
 	 || soap_envelope_end_in(soap)
 	 || soap_end_recv(soap))
 		return soap_closesock(soap);
@@ -6687,6 +9493,13902 @@ SOAP_FMAC5 int SOAP_FMAC6 soap_recv___tds__SetHashingAlgorithm(struct soap *soap
 	 || soap_body_begin_in(soap))
 		return soap_closesock(soap);
 	soap_get__tds__SetHashingAlgorithmResponse(soap, tds__SetHashingAlgorithmResponse, "tds:SetHashingAlgorithmResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___tev__PullMessages(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tev__PullMessages *tev__PullMessages, struct _tev__PullMessagesResponse *tev__PullMessagesResponse)
+{	if (soap_send___tev__PullMessages(soap, soap_endpoint, soap_action, tev__PullMessages) || soap_recv___tev__PullMessages(soap, tev__PullMessagesResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___tev__PullMessages(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tev__PullMessages *tev__PullMessages)
+{	struct __tev__PullMessages soap_tmp___tev__PullMessages;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/events/wsdl/PullPointSubscription/PullMessagesRequest";
+	soap_tmp___tev__PullMessages.tev__PullMessages = tev__PullMessages;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___tev__PullMessages(soap, &soap_tmp___tev__PullMessages);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___tev__PullMessages(soap, &soap_tmp___tev__PullMessages, "-tev:PullMessages", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___tev__PullMessages(soap, &soap_tmp___tev__PullMessages, "-tev:PullMessages", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___tev__PullMessages(struct soap *soap, struct _tev__PullMessagesResponse *tev__PullMessagesResponse)
+{
+	if (!tev__PullMessagesResponse)
+		return soap_closesock(soap);
+	soap_default__tev__PullMessagesResponse(soap, tev__PullMessagesResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__tev__PullMessagesResponse(soap, tev__PullMessagesResponse, "tev:PullMessagesResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___tev__Seek(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tev__Seek *tev__Seek, struct _tev__SeekResponse *tev__SeekResponse)
+{	if (soap_send___tev__Seek(soap, soap_endpoint, soap_action, tev__Seek) || soap_recv___tev__Seek(soap, tev__SeekResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___tev__Seek(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tev__Seek *tev__Seek)
+{	struct __tev__Seek soap_tmp___tev__Seek;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/events/wsdl/PullPointSubscription/SeekRequest";
+	soap_tmp___tev__Seek.tev__Seek = tev__Seek;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___tev__Seek(soap, &soap_tmp___tev__Seek);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___tev__Seek(soap, &soap_tmp___tev__Seek, "-tev:Seek", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___tev__Seek(soap, &soap_tmp___tev__Seek, "-tev:Seek", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___tev__Seek(struct soap *soap, struct _tev__SeekResponse *tev__SeekResponse)
+{
+	if (!tev__SeekResponse)
+		return soap_closesock(soap);
+	soap_default__tev__SeekResponse(soap, tev__SeekResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__tev__SeekResponse(soap, tev__SeekResponse, "tev:SeekResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___tev__SetSynchronizationPoint(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tev__SetSynchronizationPoint *tev__SetSynchronizationPoint, struct _tev__SetSynchronizationPointResponse *tev__SetSynchronizationPointResponse)
+{	if (soap_send___tev__SetSynchronizationPoint(soap, soap_endpoint, soap_action, tev__SetSynchronizationPoint) || soap_recv___tev__SetSynchronizationPoint(soap, tev__SetSynchronizationPointResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___tev__SetSynchronizationPoint(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tev__SetSynchronizationPoint *tev__SetSynchronizationPoint)
+{	struct __tev__SetSynchronizationPoint soap_tmp___tev__SetSynchronizationPoint;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/events/wsdl/PullPointSubscription/SetSynchronizationPointRequest";
+	soap_tmp___tev__SetSynchronizationPoint.tev__SetSynchronizationPoint = tev__SetSynchronizationPoint;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___tev__SetSynchronizationPoint(soap, &soap_tmp___tev__SetSynchronizationPoint);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___tev__SetSynchronizationPoint(soap, &soap_tmp___tev__SetSynchronizationPoint, "-tev:SetSynchronizationPoint", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___tev__SetSynchronizationPoint(soap, &soap_tmp___tev__SetSynchronizationPoint, "-tev:SetSynchronizationPoint", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___tev__SetSynchronizationPoint(struct soap *soap, struct _tev__SetSynchronizationPointResponse *tev__SetSynchronizationPointResponse)
+{
+	if (!tev__SetSynchronizationPointResponse)
+		return soap_closesock(soap);
+	soap_default__tev__SetSynchronizationPointResponse(soap, tev__SetSynchronizationPointResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__tev__SetSynchronizationPointResponse(soap, tev__SetSynchronizationPointResponse, "tev:SetSynchronizationPointResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___tev__Unsubscribe(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _wsnt__Unsubscribe *wsnt__Unsubscribe, struct _wsnt__UnsubscribeResponse *wsnt__UnsubscribeResponse)
+{	if (soap_send___tev__Unsubscribe(soap, soap_endpoint, soap_action, wsnt__Unsubscribe) || soap_recv___tev__Unsubscribe(soap, wsnt__UnsubscribeResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___tev__Unsubscribe(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _wsnt__Unsubscribe *wsnt__Unsubscribe)
+{	struct __tev__Unsubscribe soap_tmp___tev__Unsubscribe;
+	if (soap_action == NULL)
+		soap_action = "http://docs.oasis-open.org/wsn/bw-2/SubscriptionManager/UnsubscribeRequest";
+	soap_tmp___tev__Unsubscribe.wsnt__Unsubscribe = wsnt__Unsubscribe;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___tev__Unsubscribe(soap, &soap_tmp___tev__Unsubscribe);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___tev__Unsubscribe(soap, &soap_tmp___tev__Unsubscribe, "-tev:Unsubscribe", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___tev__Unsubscribe(soap, &soap_tmp___tev__Unsubscribe, "-tev:Unsubscribe", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___tev__Unsubscribe(struct soap *soap, struct _wsnt__UnsubscribeResponse *wsnt__UnsubscribeResponse)
+{
+	if (!wsnt__UnsubscribeResponse)
+		return soap_closesock(soap);
+	soap_default__wsnt__UnsubscribeResponse(soap, wsnt__UnsubscribeResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__wsnt__UnsubscribeResponse(soap, wsnt__UnsubscribeResponse, "wsnt:UnsubscribeResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___tev__GetServiceCapabilities(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tev__GetServiceCapabilities *tev__GetServiceCapabilities, struct _tev__GetServiceCapabilitiesResponse *tev__GetServiceCapabilitiesResponse)
+{	if (soap_send___tev__GetServiceCapabilities(soap, soap_endpoint, soap_action, tev__GetServiceCapabilities) || soap_recv___tev__GetServiceCapabilities(soap, tev__GetServiceCapabilitiesResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___tev__GetServiceCapabilities(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tev__GetServiceCapabilities *tev__GetServiceCapabilities)
+{	struct __tev__GetServiceCapabilities soap_tmp___tev__GetServiceCapabilities;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/events/wsdl/EventPortType/GetServiceCapabilitiesRequest";
+	soap_tmp___tev__GetServiceCapabilities.tev__GetServiceCapabilities = tev__GetServiceCapabilities;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___tev__GetServiceCapabilities(soap, &soap_tmp___tev__GetServiceCapabilities);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___tev__GetServiceCapabilities(soap, &soap_tmp___tev__GetServiceCapabilities, "-tev:GetServiceCapabilities", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___tev__GetServiceCapabilities(soap, &soap_tmp___tev__GetServiceCapabilities, "-tev:GetServiceCapabilities", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___tev__GetServiceCapabilities(struct soap *soap, struct _tev__GetServiceCapabilitiesResponse *tev__GetServiceCapabilitiesResponse)
+{
+	if (!tev__GetServiceCapabilitiesResponse)
+		return soap_closesock(soap);
+	soap_default__tev__GetServiceCapabilitiesResponse(soap, tev__GetServiceCapabilitiesResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__tev__GetServiceCapabilitiesResponse(soap, tev__GetServiceCapabilitiesResponse, "tev:GetServiceCapabilitiesResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___tev__CreatePullPointSubscription(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tev__CreatePullPointSubscription *tev__CreatePullPointSubscription, struct _tev__CreatePullPointSubscriptionResponse *tev__CreatePullPointSubscriptionResponse)
+{	if (soap_send___tev__CreatePullPointSubscription(soap, soap_endpoint, soap_action, tev__CreatePullPointSubscription) || soap_recv___tev__CreatePullPointSubscription(soap, tev__CreatePullPointSubscriptionResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___tev__CreatePullPointSubscription(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tev__CreatePullPointSubscription *tev__CreatePullPointSubscription)
+{	struct __tev__CreatePullPointSubscription soap_tmp___tev__CreatePullPointSubscription;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/events/wsdl/EventPortType/CreatePullPointSubscriptionRequest";
+	soap_tmp___tev__CreatePullPointSubscription.tev__CreatePullPointSubscription = tev__CreatePullPointSubscription;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___tev__CreatePullPointSubscription(soap, &soap_tmp___tev__CreatePullPointSubscription);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___tev__CreatePullPointSubscription(soap, &soap_tmp___tev__CreatePullPointSubscription, "-tev:CreatePullPointSubscription", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___tev__CreatePullPointSubscription(soap, &soap_tmp___tev__CreatePullPointSubscription, "-tev:CreatePullPointSubscription", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___tev__CreatePullPointSubscription(struct soap *soap, struct _tev__CreatePullPointSubscriptionResponse *tev__CreatePullPointSubscriptionResponse)
+{
+	if (!tev__CreatePullPointSubscriptionResponse)
+		return soap_closesock(soap);
+	soap_default__tev__CreatePullPointSubscriptionResponse(soap, tev__CreatePullPointSubscriptionResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__tev__CreatePullPointSubscriptionResponse(soap, tev__CreatePullPointSubscriptionResponse, "tev:CreatePullPointSubscriptionResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___tev__GetEventProperties(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tev__GetEventProperties *tev__GetEventProperties, struct _tev__GetEventPropertiesResponse *tev__GetEventPropertiesResponse)
+{	if (soap_send___tev__GetEventProperties(soap, soap_endpoint, soap_action, tev__GetEventProperties) || soap_recv___tev__GetEventProperties(soap, tev__GetEventPropertiesResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___tev__GetEventProperties(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tev__GetEventProperties *tev__GetEventProperties)
+{	struct __tev__GetEventProperties soap_tmp___tev__GetEventProperties;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/events/wsdl/EventPortType/GetEventPropertiesRequest";
+	soap_tmp___tev__GetEventProperties.tev__GetEventProperties = tev__GetEventProperties;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___tev__GetEventProperties(soap, &soap_tmp___tev__GetEventProperties);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___tev__GetEventProperties(soap, &soap_tmp___tev__GetEventProperties, "-tev:GetEventProperties", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___tev__GetEventProperties(soap, &soap_tmp___tev__GetEventProperties, "-tev:GetEventProperties", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___tev__GetEventProperties(struct soap *soap, struct _tev__GetEventPropertiesResponse *tev__GetEventPropertiesResponse)
+{
+	if (!tev__GetEventPropertiesResponse)
+		return soap_closesock(soap);
+	soap_default__tev__GetEventPropertiesResponse(soap, tev__GetEventPropertiesResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__tev__GetEventPropertiesResponse(soap, tev__GetEventPropertiesResponse, "tev:GetEventPropertiesResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___tev__AddEventBroker(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tev__AddEventBroker *tev__AddEventBroker, struct _tev__AddEventBrokerResponse *tev__AddEventBrokerResponse)
+{	if (soap_send___tev__AddEventBroker(soap, soap_endpoint, soap_action, tev__AddEventBroker) || soap_recv___tev__AddEventBroker(soap, tev__AddEventBrokerResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___tev__AddEventBroker(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tev__AddEventBroker *tev__AddEventBroker)
+{	struct __tev__AddEventBroker soap_tmp___tev__AddEventBroker;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/events/wsdl/EventPortType/AddEventBrokerRequest";
+	soap_tmp___tev__AddEventBroker.tev__AddEventBroker = tev__AddEventBroker;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___tev__AddEventBroker(soap, &soap_tmp___tev__AddEventBroker);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___tev__AddEventBroker(soap, &soap_tmp___tev__AddEventBroker, "-tev:AddEventBroker", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___tev__AddEventBroker(soap, &soap_tmp___tev__AddEventBroker, "-tev:AddEventBroker", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___tev__AddEventBroker(struct soap *soap, struct _tev__AddEventBrokerResponse *tev__AddEventBrokerResponse)
+{
+	if (!tev__AddEventBrokerResponse)
+		return soap_closesock(soap);
+	soap_default__tev__AddEventBrokerResponse(soap, tev__AddEventBrokerResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__tev__AddEventBrokerResponse(soap, tev__AddEventBrokerResponse, "tev:AddEventBrokerResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___tev__DeleteEventBroker(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tev__DeleteEventBroker *tev__DeleteEventBroker, struct _tev__DeleteEventBrokerResponse *tev__DeleteEventBrokerResponse)
+{	if (soap_send___tev__DeleteEventBroker(soap, soap_endpoint, soap_action, tev__DeleteEventBroker) || soap_recv___tev__DeleteEventBroker(soap, tev__DeleteEventBrokerResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___tev__DeleteEventBroker(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tev__DeleteEventBroker *tev__DeleteEventBroker)
+{	struct __tev__DeleteEventBroker soap_tmp___tev__DeleteEventBroker;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/events/wsdl/EventPortType/DeleteEventBrokerRequest";
+	soap_tmp___tev__DeleteEventBroker.tev__DeleteEventBroker = tev__DeleteEventBroker;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___tev__DeleteEventBroker(soap, &soap_tmp___tev__DeleteEventBroker);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___tev__DeleteEventBroker(soap, &soap_tmp___tev__DeleteEventBroker, "-tev:DeleteEventBroker", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___tev__DeleteEventBroker(soap, &soap_tmp___tev__DeleteEventBroker, "-tev:DeleteEventBroker", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___tev__DeleteEventBroker(struct soap *soap, struct _tev__DeleteEventBrokerResponse *tev__DeleteEventBrokerResponse)
+{
+	if (!tev__DeleteEventBrokerResponse)
+		return soap_closesock(soap);
+	soap_default__tev__DeleteEventBrokerResponse(soap, tev__DeleteEventBrokerResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__tev__DeleteEventBrokerResponse(soap, tev__DeleteEventBrokerResponse, "tev:DeleteEventBrokerResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___tev__GetEventBrokers(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tev__GetEventBrokers *tev__GetEventBrokers, struct _tev__GetEventBrokersResponse *tev__GetEventBrokersResponse)
+{	if (soap_send___tev__GetEventBrokers(soap, soap_endpoint, soap_action, tev__GetEventBrokers) || soap_recv___tev__GetEventBrokers(soap, tev__GetEventBrokersResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___tev__GetEventBrokers(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tev__GetEventBrokers *tev__GetEventBrokers)
+{	struct __tev__GetEventBrokers soap_tmp___tev__GetEventBrokers;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/events/wsdl/EventPortType/GetEventBrokersRequest";
+	soap_tmp___tev__GetEventBrokers.tev__GetEventBrokers = tev__GetEventBrokers;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___tev__GetEventBrokers(soap, &soap_tmp___tev__GetEventBrokers);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___tev__GetEventBrokers(soap, &soap_tmp___tev__GetEventBrokers, "-tev:GetEventBrokers", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___tev__GetEventBrokers(soap, &soap_tmp___tev__GetEventBrokers, "-tev:GetEventBrokers", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___tev__GetEventBrokers(struct soap *soap, struct _tev__GetEventBrokersResponse *tev__GetEventBrokersResponse)
+{
+	if (!tev__GetEventBrokersResponse)
+		return soap_closesock(soap);
+	soap_default__tev__GetEventBrokersResponse(soap, tev__GetEventBrokersResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__tev__GetEventBrokersResponse(soap, tev__GetEventBrokersResponse, "tev:GetEventBrokersResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___tev__Renew(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _wsnt__Renew *wsnt__Renew, struct _wsnt__RenewResponse *wsnt__RenewResponse)
+{	if (soap_send___tev__Renew(soap, soap_endpoint, soap_action, wsnt__Renew) || soap_recv___tev__Renew(soap, wsnt__RenewResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___tev__Renew(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _wsnt__Renew *wsnt__Renew)
+{	struct __tev__Renew soap_tmp___tev__Renew;
+	if (soap_action == NULL)
+		soap_action = "http://docs.oasis-open.org/wsn/bw-2/SubscriptionManager/RenewRequest";
+	soap_tmp___tev__Renew.wsnt__Renew = wsnt__Renew;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___tev__Renew(soap, &soap_tmp___tev__Renew);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___tev__Renew(soap, &soap_tmp___tev__Renew, "-tev:Renew", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___tev__Renew(soap, &soap_tmp___tev__Renew, "-tev:Renew", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___tev__Renew(struct soap *soap, struct _wsnt__RenewResponse *wsnt__RenewResponse)
+{
+	if (!wsnt__RenewResponse)
+		return soap_closesock(soap);
+	soap_default__wsnt__RenewResponse(soap, wsnt__RenewResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__wsnt__RenewResponse(soap, wsnt__RenewResponse, "wsnt:RenewResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___tev__Unsubscribe_(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _wsnt__Unsubscribe *wsnt__Unsubscribe, struct _wsnt__UnsubscribeResponse *wsnt__UnsubscribeResponse)
+{	if (soap_send___tev__Unsubscribe_(soap, soap_endpoint, soap_action, wsnt__Unsubscribe) || soap_recv___tev__Unsubscribe_(soap, wsnt__UnsubscribeResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___tev__Unsubscribe_(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _wsnt__Unsubscribe *wsnt__Unsubscribe)
+{	struct __tev__Unsubscribe_ soap_tmp___tev__Unsubscribe_;
+	if (soap_action == NULL)
+		soap_action = "http://docs.oasis-open.org/wsn/bw-2/SubscriptionManager/UnsubscribeRequest";
+	soap_tmp___tev__Unsubscribe_.wsnt__Unsubscribe = wsnt__Unsubscribe;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___tev__Unsubscribe_(soap, &soap_tmp___tev__Unsubscribe_);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___tev__Unsubscribe_(soap, &soap_tmp___tev__Unsubscribe_, "-tev:Unsubscribe", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___tev__Unsubscribe_(soap, &soap_tmp___tev__Unsubscribe_, "-tev:Unsubscribe", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___tev__Unsubscribe_(struct soap *soap, struct _wsnt__UnsubscribeResponse *wsnt__UnsubscribeResponse)
+{
+	if (!wsnt__UnsubscribeResponse)
+		return soap_closesock(soap);
+	soap_default__wsnt__UnsubscribeResponse(soap, wsnt__UnsubscribeResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__wsnt__UnsubscribeResponse(soap, wsnt__UnsubscribeResponse, "wsnt:UnsubscribeResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___tev__Subscribe(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _wsnt__Subscribe *wsnt__Subscribe, struct _wsnt__SubscribeResponse *wsnt__SubscribeResponse)
+{	if (soap_send___tev__Subscribe(soap, soap_endpoint, soap_action, wsnt__Subscribe) || soap_recv___tev__Subscribe(soap, wsnt__SubscribeResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___tev__Subscribe(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _wsnt__Subscribe *wsnt__Subscribe)
+{	struct __tev__Subscribe soap_tmp___tev__Subscribe;
+	if (soap_action == NULL)
+		soap_action = "http://docs.oasis-open.org/wsn/bw-2/NotificationProducer/SubscribeRequest";
+	soap_tmp___tev__Subscribe.wsnt__Subscribe = wsnt__Subscribe;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___tev__Subscribe(soap, &soap_tmp___tev__Subscribe);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___tev__Subscribe(soap, &soap_tmp___tev__Subscribe, "-tev:Subscribe", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___tev__Subscribe(soap, &soap_tmp___tev__Subscribe, "-tev:Subscribe", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___tev__Subscribe(struct soap *soap, struct _wsnt__SubscribeResponse *wsnt__SubscribeResponse)
+{
+	if (!wsnt__SubscribeResponse)
+		return soap_closesock(soap);
+	soap_default__wsnt__SubscribeResponse(soap, wsnt__SubscribeResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__wsnt__SubscribeResponse(soap, wsnt__SubscribeResponse, "wsnt:SubscribeResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___tev__GetCurrentMessage(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _wsnt__GetCurrentMessage *wsnt__GetCurrentMessage, struct _wsnt__GetCurrentMessageResponse *wsnt__GetCurrentMessageResponse)
+{	if (soap_send___tev__GetCurrentMessage(soap, soap_endpoint, soap_action, wsnt__GetCurrentMessage) || soap_recv___tev__GetCurrentMessage(soap, wsnt__GetCurrentMessageResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___tev__GetCurrentMessage(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _wsnt__GetCurrentMessage *wsnt__GetCurrentMessage)
+{	struct __tev__GetCurrentMessage soap_tmp___tev__GetCurrentMessage;
+	if (soap_action == NULL)
+		soap_action = "http://docs.oasis-open.org/wsn/bw-2/NotificationProducer/GetCurrentMessageRequest";
+	soap_tmp___tev__GetCurrentMessage.wsnt__GetCurrentMessage = wsnt__GetCurrentMessage;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___tev__GetCurrentMessage(soap, &soap_tmp___tev__GetCurrentMessage);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___tev__GetCurrentMessage(soap, &soap_tmp___tev__GetCurrentMessage, "-tev:GetCurrentMessage", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___tev__GetCurrentMessage(soap, &soap_tmp___tev__GetCurrentMessage, "-tev:GetCurrentMessage", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___tev__GetCurrentMessage(struct soap *soap, struct _wsnt__GetCurrentMessageResponse *wsnt__GetCurrentMessageResponse)
+{
+	if (!wsnt__GetCurrentMessageResponse)
+		return soap_closesock(soap);
+	soap_default__wsnt__GetCurrentMessageResponse(soap, wsnt__GetCurrentMessageResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__wsnt__GetCurrentMessageResponse(soap, wsnt__GetCurrentMessageResponse, "wsnt:GetCurrentMessageResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___tev__Notify(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _wsnt__Notify *wsnt__Notify)
+{	struct __tev__Notify soap_tmp___tev__Notify;
+	if (soap_action == NULL)
+		soap_action = "http://docs.oasis-open.org/wsn/bw-2/NotificationConsumer/Notify";
+	soap_tmp___tev__Notify.wsnt__Notify = wsnt__Notify;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___tev__Notify(soap, &soap_tmp___tev__Notify);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___tev__Notify(soap, &soap_tmp___tev__Notify, "-tev:Notify", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___tev__Notify(soap, &soap_tmp___tev__Notify, "-tev:Notify", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___tev__Notify(struct soap *soap, struct __tev__Notify *_param_1)
+{
+	soap_default___tev__Notify(soap, _param_1);
+	soap_begin(soap);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get___tev__Notify(soap, _param_1, "-tev:Notify", NULL);
+	if (soap->error == SOAP_TAG_MISMATCH && soap->level == 2)
+		soap->error = SOAP_OK;
+	if (soap->error
+	 || soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___tev__GetMessages(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _wsnt__GetMessages *wsnt__GetMessages, struct _wsnt__GetMessagesResponse *wsnt__GetMessagesResponse)
+{	if (soap_send___tev__GetMessages(soap, soap_endpoint, soap_action, wsnt__GetMessages) || soap_recv___tev__GetMessages(soap, wsnt__GetMessagesResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___tev__GetMessages(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _wsnt__GetMessages *wsnt__GetMessages)
+{	struct __tev__GetMessages soap_tmp___tev__GetMessages;
+	if (soap_action == NULL)
+		soap_action = "http://docs.oasis-open.org/wsn/bw-2/PullPoint/GetMessagesRequest";
+	soap_tmp___tev__GetMessages.wsnt__GetMessages = wsnt__GetMessages;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___tev__GetMessages(soap, &soap_tmp___tev__GetMessages);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___tev__GetMessages(soap, &soap_tmp___tev__GetMessages, "-tev:GetMessages", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___tev__GetMessages(soap, &soap_tmp___tev__GetMessages, "-tev:GetMessages", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___tev__GetMessages(struct soap *soap, struct _wsnt__GetMessagesResponse *wsnt__GetMessagesResponse)
+{
+	if (!wsnt__GetMessagesResponse)
+		return soap_closesock(soap);
+	soap_default__wsnt__GetMessagesResponse(soap, wsnt__GetMessagesResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__wsnt__GetMessagesResponse(soap, wsnt__GetMessagesResponse, "wsnt:GetMessagesResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___tev__DestroyPullPoint(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _wsnt__DestroyPullPoint *wsnt__DestroyPullPoint, struct _wsnt__DestroyPullPointResponse *wsnt__DestroyPullPointResponse)
+{	if (soap_send___tev__DestroyPullPoint(soap, soap_endpoint, soap_action, wsnt__DestroyPullPoint) || soap_recv___tev__DestroyPullPoint(soap, wsnt__DestroyPullPointResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___tev__DestroyPullPoint(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _wsnt__DestroyPullPoint *wsnt__DestroyPullPoint)
+{	struct __tev__DestroyPullPoint soap_tmp___tev__DestroyPullPoint;
+	if (soap_action == NULL)
+		soap_action = "http://docs.oasis-open.org/wsn/bw-2/PullPoint/DestroyPullPointRequest";
+	soap_tmp___tev__DestroyPullPoint.wsnt__DestroyPullPoint = wsnt__DestroyPullPoint;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___tev__DestroyPullPoint(soap, &soap_tmp___tev__DestroyPullPoint);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___tev__DestroyPullPoint(soap, &soap_tmp___tev__DestroyPullPoint, "-tev:DestroyPullPoint", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___tev__DestroyPullPoint(soap, &soap_tmp___tev__DestroyPullPoint, "-tev:DestroyPullPoint", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___tev__DestroyPullPoint(struct soap *soap, struct _wsnt__DestroyPullPointResponse *wsnt__DestroyPullPointResponse)
+{
+	if (!wsnt__DestroyPullPointResponse)
+		return soap_closesock(soap);
+	soap_default__wsnt__DestroyPullPointResponse(soap, wsnt__DestroyPullPointResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__wsnt__DestroyPullPointResponse(soap, wsnt__DestroyPullPointResponse, "wsnt:DestroyPullPointResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___tev__Notify_(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _wsnt__Notify *wsnt__Notify)
+{	struct __tev__Notify_ soap_tmp___tev__Notify_;
+	if (soap_action == NULL)
+		soap_action = "http://docs.oasis-open.org/wsn/bw-2/PullPoint/Notify";
+	soap_tmp___tev__Notify_.wsnt__Notify = wsnt__Notify;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___tev__Notify_(soap, &soap_tmp___tev__Notify_);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___tev__Notify_(soap, &soap_tmp___tev__Notify_, "-tev:Notify", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___tev__Notify_(soap, &soap_tmp___tev__Notify_, "-tev:Notify", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___tev__Notify_(struct soap *soap, struct __tev__Notify_ *_param_1)
+{
+	soap_default___tev__Notify_(soap, _param_1);
+	soap_begin(soap);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get___tev__Notify_(soap, _param_1, "-tev:Notify", NULL);
+	if (soap->error == SOAP_TAG_MISMATCH && soap->level == 2)
+		soap->error = SOAP_OK;
+	if (soap->error
+	 || soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___tev__CreatePullPoint(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _wsnt__CreatePullPoint *wsnt__CreatePullPoint, struct _wsnt__CreatePullPointResponse *wsnt__CreatePullPointResponse)
+{	if (soap_send___tev__CreatePullPoint(soap, soap_endpoint, soap_action, wsnt__CreatePullPoint) || soap_recv___tev__CreatePullPoint(soap, wsnt__CreatePullPointResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___tev__CreatePullPoint(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _wsnt__CreatePullPoint *wsnt__CreatePullPoint)
+{	struct __tev__CreatePullPoint soap_tmp___tev__CreatePullPoint;
+	if (soap_action == NULL)
+		soap_action = "http://docs.oasis-open.org/wsn/bw-2/CreatePullPoint/CreatePullPointRequest";
+	soap_tmp___tev__CreatePullPoint.wsnt__CreatePullPoint = wsnt__CreatePullPoint;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___tev__CreatePullPoint(soap, &soap_tmp___tev__CreatePullPoint);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___tev__CreatePullPoint(soap, &soap_tmp___tev__CreatePullPoint, "-tev:CreatePullPoint", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___tev__CreatePullPoint(soap, &soap_tmp___tev__CreatePullPoint, "-tev:CreatePullPoint", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___tev__CreatePullPoint(struct soap *soap, struct _wsnt__CreatePullPointResponse *wsnt__CreatePullPointResponse)
+{
+	if (!wsnt__CreatePullPointResponse)
+		return soap_closesock(soap);
+	soap_default__wsnt__CreatePullPointResponse(soap, wsnt__CreatePullPointResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__wsnt__CreatePullPointResponse(soap, wsnt__CreatePullPointResponse, "wsnt:CreatePullPointResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___tev__Renew_(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _wsnt__Renew *wsnt__Renew, struct _wsnt__RenewResponse *wsnt__RenewResponse)
+{	if (soap_send___tev__Renew_(soap, soap_endpoint, soap_action, wsnt__Renew) || soap_recv___tev__Renew_(soap, wsnt__RenewResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___tev__Renew_(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _wsnt__Renew *wsnt__Renew)
+{	struct __tev__Renew_ soap_tmp___tev__Renew_;
+	if (soap_action == NULL)
+		soap_action = "http://docs.oasis-open.org/wsn/bw-2/PausableSubscriptionManager/RenewRequest";
+	soap_tmp___tev__Renew_.wsnt__Renew = wsnt__Renew;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___tev__Renew_(soap, &soap_tmp___tev__Renew_);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___tev__Renew_(soap, &soap_tmp___tev__Renew_, "-tev:Renew", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___tev__Renew_(soap, &soap_tmp___tev__Renew_, "-tev:Renew", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___tev__Renew_(struct soap *soap, struct _wsnt__RenewResponse *wsnt__RenewResponse)
+{
+	if (!wsnt__RenewResponse)
+		return soap_closesock(soap);
+	soap_default__wsnt__RenewResponse(soap, wsnt__RenewResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__wsnt__RenewResponse(soap, wsnt__RenewResponse, "wsnt:RenewResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___tev__Unsubscribe__(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _wsnt__Unsubscribe *wsnt__Unsubscribe, struct _wsnt__UnsubscribeResponse *wsnt__UnsubscribeResponse)
+{	if (soap_send___tev__Unsubscribe__(soap, soap_endpoint, soap_action, wsnt__Unsubscribe) || soap_recv___tev__Unsubscribe__(soap, wsnt__UnsubscribeResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___tev__Unsubscribe__(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _wsnt__Unsubscribe *wsnt__Unsubscribe)
+{	struct __tev__Unsubscribe__ soap_tmp___tev__Unsubscribe__;
+	if (soap_action == NULL)
+		soap_action = "http://docs.oasis-open.org/wsn/bw-2/PausableSubscriptionManager/UnsubscribeRequest";
+	soap_tmp___tev__Unsubscribe__.wsnt__Unsubscribe = wsnt__Unsubscribe;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___tev__Unsubscribe__(soap, &soap_tmp___tev__Unsubscribe__);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___tev__Unsubscribe__(soap, &soap_tmp___tev__Unsubscribe__, "-tev:Unsubscribe", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___tev__Unsubscribe__(soap, &soap_tmp___tev__Unsubscribe__, "-tev:Unsubscribe", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___tev__Unsubscribe__(struct soap *soap, struct _wsnt__UnsubscribeResponse *wsnt__UnsubscribeResponse)
+{
+	if (!wsnt__UnsubscribeResponse)
+		return soap_closesock(soap);
+	soap_default__wsnt__UnsubscribeResponse(soap, wsnt__UnsubscribeResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__wsnt__UnsubscribeResponse(soap, wsnt__UnsubscribeResponse, "wsnt:UnsubscribeResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___tev__PauseSubscription(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _wsnt__PauseSubscription *wsnt__PauseSubscription, struct _wsnt__PauseSubscriptionResponse *wsnt__PauseSubscriptionResponse)
+{	if (soap_send___tev__PauseSubscription(soap, soap_endpoint, soap_action, wsnt__PauseSubscription) || soap_recv___tev__PauseSubscription(soap, wsnt__PauseSubscriptionResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___tev__PauseSubscription(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _wsnt__PauseSubscription *wsnt__PauseSubscription)
+{	struct __tev__PauseSubscription soap_tmp___tev__PauseSubscription;
+	if (soap_action == NULL)
+		soap_action = "http://docs.oasis-open.org/wsn/bw-2/PausableSubscriptionManager/PauseSubscriptionRequest";
+	soap_tmp___tev__PauseSubscription.wsnt__PauseSubscription = wsnt__PauseSubscription;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___tev__PauseSubscription(soap, &soap_tmp___tev__PauseSubscription);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___tev__PauseSubscription(soap, &soap_tmp___tev__PauseSubscription, "-tev:PauseSubscription", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___tev__PauseSubscription(soap, &soap_tmp___tev__PauseSubscription, "-tev:PauseSubscription", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___tev__PauseSubscription(struct soap *soap, struct _wsnt__PauseSubscriptionResponse *wsnt__PauseSubscriptionResponse)
+{
+	if (!wsnt__PauseSubscriptionResponse)
+		return soap_closesock(soap);
+	soap_default__wsnt__PauseSubscriptionResponse(soap, wsnt__PauseSubscriptionResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__wsnt__PauseSubscriptionResponse(soap, wsnt__PauseSubscriptionResponse, "wsnt:PauseSubscriptionResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___tev__ResumeSubscription(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _wsnt__ResumeSubscription *wsnt__ResumeSubscription, struct _wsnt__ResumeSubscriptionResponse *wsnt__ResumeSubscriptionResponse)
+{	if (soap_send___tev__ResumeSubscription(soap, soap_endpoint, soap_action, wsnt__ResumeSubscription) || soap_recv___tev__ResumeSubscription(soap, wsnt__ResumeSubscriptionResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___tev__ResumeSubscription(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _wsnt__ResumeSubscription *wsnt__ResumeSubscription)
+{	struct __tev__ResumeSubscription soap_tmp___tev__ResumeSubscription;
+	if (soap_action == NULL)
+		soap_action = "http://docs.oasis-open.org/wsn/bw-2/PausableSubscriptionManager/ResumeSubscriptionRequest";
+	soap_tmp___tev__ResumeSubscription.wsnt__ResumeSubscription = wsnt__ResumeSubscription;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___tev__ResumeSubscription(soap, &soap_tmp___tev__ResumeSubscription);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___tev__ResumeSubscription(soap, &soap_tmp___tev__ResumeSubscription, "-tev:ResumeSubscription", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___tev__ResumeSubscription(soap, &soap_tmp___tev__ResumeSubscription, "-tev:ResumeSubscription", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___tev__ResumeSubscription(struct soap *soap, struct _wsnt__ResumeSubscriptionResponse *wsnt__ResumeSubscriptionResponse)
+{
+	if (!wsnt__ResumeSubscriptionResponse)
+		return soap_closesock(soap);
+	soap_default__wsnt__ResumeSubscriptionResponse(soap, wsnt__ResumeSubscriptionResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__wsnt__ResumeSubscriptionResponse(soap, wsnt__ResumeSubscriptionResponse, "wsnt:ResumeSubscriptionResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___timg__GetServiceCapabilities(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _timg__GetServiceCapabilities *timg__GetServiceCapabilities, struct _timg__GetServiceCapabilitiesResponse *timg__GetServiceCapabilitiesResponse)
+{	if (soap_send___timg__GetServiceCapabilities(soap, soap_endpoint, soap_action, timg__GetServiceCapabilities) || soap_recv___timg__GetServiceCapabilities(soap, timg__GetServiceCapabilitiesResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___timg__GetServiceCapabilities(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _timg__GetServiceCapabilities *timg__GetServiceCapabilities)
+{	struct __timg__GetServiceCapabilities soap_tmp___timg__GetServiceCapabilities;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver20/imaging/wsdl/GetServiceCapabilities";
+	soap_tmp___timg__GetServiceCapabilities.timg__GetServiceCapabilities = timg__GetServiceCapabilities;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___timg__GetServiceCapabilities(soap, &soap_tmp___timg__GetServiceCapabilities);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___timg__GetServiceCapabilities(soap, &soap_tmp___timg__GetServiceCapabilities, "-timg:GetServiceCapabilities", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___timg__GetServiceCapabilities(soap, &soap_tmp___timg__GetServiceCapabilities, "-timg:GetServiceCapabilities", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___timg__GetServiceCapabilities(struct soap *soap, struct _timg__GetServiceCapabilitiesResponse *timg__GetServiceCapabilitiesResponse)
+{
+	if (!timg__GetServiceCapabilitiesResponse)
+		return soap_closesock(soap);
+	soap_default__timg__GetServiceCapabilitiesResponse(soap, timg__GetServiceCapabilitiesResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__timg__GetServiceCapabilitiesResponse(soap, timg__GetServiceCapabilitiesResponse, "timg:GetServiceCapabilitiesResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___timg__GetImagingSettings(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _timg__GetImagingSettings *timg__GetImagingSettings, struct _timg__GetImagingSettingsResponse *timg__GetImagingSettingsResponse)
+{	if (soap_send___timg__GetImagingSettings(soap, soap_endpoint, soap_action, timg__GetImagingSettings) || soap_recv___timg__GetImagingSettings(soap, timg__GetImagingSettingsResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___timg__GetImagingSettings(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _timg__GetImagingSettings *timg__GetImagingSettings)
+{	struct __timg__GetImagingSettings soap_tmp___timg__GetImagingSettings;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver20/imaging/wsdl/GetImagingSettings";
+	soap_tmp___timg__GetImagingSettings.timg__GetImagingSettings = timg__GetImagingSettings;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___timg__GetImagingSettings(soap, &soap_tmp___timg__GetImagingSettings);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___timg__GetImagingSettings(soap, &soap_tmp___timg__GetImagingSettings, "-timg:GetImagingSettings", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___timg__GetImagingSettings(soap, &soap_tmp___timg__GetImagingSettings, "-timg:GetImagingSettings", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___timg__GetImagingSettings(struct soap *soap, struct _timg__GetImagingSettingsResponse *timg__GetImagingSettingsResponse)
+{
+	if (!timg__GetImagingSettingsResponse)
+		return soap_closesock(soap);
+	soap_default__timg__GetImagingSettingsResponse(soap, timg__GetImagingSettingsResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__timg__GetImagingSettingsResponse(soap, timg__GetImagingSettingsResponse, "timg:GetImagingSettingsResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___timg__SetImagingSettings(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _timg__SetImagingSettings *timg__SetImagingSettings, struct _timg__SetImagingSettingsResponse *timg__SetImagingSettingsResponse)
+{	if (soap_send___timg__SetImagingSettings(soap, soap_endpoint, soap_action, timg__SetImagingSettings) || soap_recv___timg__SetImagingSettings(soap, timg__SetImagingSettingsResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___timg__SetImagingSettings(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _timg__SetImagingSettings *timg__SetImagingSettings)
+{	struct __timg__SetImagingSettings soap_tmp___timg__SetImagingSettings;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver20/imaging/wsdl/SetImagingSettings";
+	soap_tmp___timg__SetImagingSettings.timg__SetImagingSettings = timg__SetImagingSettings;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___timg__SetImagingSettings(soap, &soap_tmp___timg__SetImagingSettings);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___timg__SetImagingSettings(soap, &soap_tmp___timg__SetImagingSettings, "-timg:SetImagingSettings", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___timg__SetImagingSettings(soap, &soap_tmp___timg__SetImagingSettings, "-timg:SetImagingSettings", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___timg__SetImagingSettings(struct soap *soap, struct _timg__SetImagingSettingsResponse *timg__SetImagingSettingsResponse)
+{
+	if (!timg__SetImagingSettingsResponse)
+		return soap_closesock(soap);
+	soap_default__timg__SetImagingSettingsResponse(soap, timg__SetImagingSettingsResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__timg__SetImagingSettingsResponse(soap, timg__SetImagingSettingsResponse, "timg:SetImagingSettingsResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___timg__GetOptions(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _timg__GetOptions *timg__GetOptions, struct _timg__GetOptionsResponse *timg__GetOptionsResponse)
+{	if (soap_send___timg__GetOptions(soap, soap_endpoint, soap_action, timg__GetOptions) || soap_recv___timg__GetOptions(soap, timg__GetOptionsResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___timg__GetOptions(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _timg__GetOptions *timg__GetOptions)
+{	struct __timg__GetOptions soap_tmp___timg__GetOptions;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver20/imaging/wsdl/GetOptions";
+	soap_tmp___timg__GetOptions.timg__GetOptions = timg__GetOptions;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___timg__GetOptions(soap, &soap_tmp___timg__GetOptions);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___timg__GetOptions(soap, &soap_tmp___timg__GetOptions, "-timg:GetOptions", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___timg__GetOptions(soap, &soap_tmp___timg__GetOptions, "-timg:GetOptions", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___timg__GetOptions(struct soap *soap, struct _timg__GetOptionsResponse *timg__GetOptionsResponse)
+{
+	if (!timg__GetOptionsResponse)
+		return soap_closesock(soap);
+	soap_default__timg__GetOptionsResponse(soap, timg__GetOptionsResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__timg__GetOptionsResponse(soap, timg__GetOptionsResponse, "timg:GetOptionsResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___timg__Move(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _timg__Move *timg__Move, struct _timg__MoveResponse *timg__MoveResponse)
+{	if (soap_send___timg__Move(soap, soap_endpoint, soap_action, timg__Move) || soap_recv___timg__Move(soap, timg__MoveResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___timg__Move(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _timg__Move *timg__Move)
+{	struct __timg__Move soap_tmp___timg__Move;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver20/imaging/wsdl/Move";
+	soap_tmp___timg__Move.timg__Move = timg__Move;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___timg__Move(soap, &soap_tmp___timg__Move);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___timg__Move(soap, &soap_tmp___timg__Move, "-timg:Move", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___timg__Move(soap, &soap_tmp___timg__Move, "-timg:Move", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___timg__Move(struct soap *soap, struct _timg__MoveResponse *timg__MoveResponse)
+{
+	if (!timg__MoveResponse)
+		return soap_closesock(soap);
+	soap_default__timg__MoveResponse(soap, timg__MoveResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__timg__MoveResponse(soap, timg__MoveResponse, "timg:MoveResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___timg__Stop(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _timg__Stop *timg__Stop, struct _timg__StopResponse *timg__StopResponse)
+{	if (soap_send___timg__Stop(soap, soap_endpoint, soap_action, timg__Stop) || soap_recv___timg__Stop(soap, timg__StopResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___timg__Stop(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _timg__Stop *timg__Stop)
+{	struct __timg__Stop soap_tmp___timg__Stop;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver20/imaging/wsdl/FocusStop";
+	soap_tmp___timg__Stop.timg__Stop = timg__Stop;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___timg__Stop(soap, &soap_tmp___timg__Stop);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___timg__Stop(soap, &soap_tmp___timg__Stop, "-timg:Stop", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___timg__Stop(soap, &soap_tmp___timg__Stop, "-timg:Stop", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___timg__Stop(struct soap *soap, struct _timg__StopResponse *timg__StopResponse)
+{
+	if (!timg__StopResponse)
+		return soap_closesock(soap);
+	soap_default__timg__StopResponse(soap, timg__StopResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__timg__StopResponse(soap, timg__StopResponse, "timg:StopResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___timg__GetStatus(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _timg__GetStatus *timg__GetStatus, struct _timg__GetStatusResponse *timg__GetStatusResponse)
+{	if (soap_send___timg__GetStatus(soap, soap_endpoint, soap_action, timg__GetStatus) || soap_recv___timg__GetStatus(soap, timg__GetStatusResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___timg__GetStatus(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _timg__GetStatus *timg__GetStatus)
+{	struct __timg__GetStatus soap_tmp___timg__GetStatus;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver20/imaging/wsdl/GetStatus";
+	soap_tmp___timg__GetStatus.timg__GetStatus = timg__GetStatus;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___timg__GetStatus(soap, &soap_tmp___timg__GetStatus);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___timg__GetStatus(soap, &soap_tmp___timg__GetStatus, "-timg:GetStatus", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___timg__GetStatus(soap, &soap_tmp___timg__GetStatus, "-timg:GetStatus", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___timg__GetStatus(struct soap *soap, struct _timg__GetStatusResponse *timg__GetStatusResponse)
+{
+	if (!timg__GetStatusResponse)
+		return soap_closesock(soap);
+	soap_default__timg__GetStatusResponse(soap, timg__GetStatusResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__timg__GetStatusResponse(soap, timg__GetStatusResponse, "timg:GetStatusResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___timg__GetMoveOptions(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _timg__GetMoveOptions *timg__GetMoveOptions, struct _timg__GetMoveOptionsResponse *timg__GetMoveOptionsResponse)
+{	if (soap_send___timg__GetMoveOptions(soap, soap_endpoint, soap_action, timg__GetMoveOptions) || soap_recv___timg__GetMoveOptions(soap, timg__GetMoveOptionsResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___timg__GetMoveOptions(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _timg__GetMoveOptions *timg__GetMoveOptions)
+{	struct __timg__GetMoveOptions soap_tmp___timg__GetMoveOptions;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver20/imaging/wsdl/GetMoveOptions";
+	soap_tmp___timg__GetMoveOptions.timg__GetMoveOptions = timg__GetMoveOptions;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___timg__GetMoveOptions(soap, &soap_tmp___timg__GetMoveOptions);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___timg__GetMoveOptions(soap, &soap_tmp___timg__GetMoveOptions, "-timg:GetMoveOptions", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___timg__GetMoveOptions(soap, &soap_tmp___timg__GetMoveOptions, "-timg:GetMoveOptions", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___timg__GetMoveOptions(struct soap *soap, struct _timg__GetMoveOptionsResponse *timg__GetMoveOptionsResponse)
+{
+	if (!timg__GetMoveOptionsResponse)
+		return soap_closesock(soap);
+	soap_default__timg__GetMoveOptionsResponse(soap, timg__GetMoveOptionsResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__timg__GetMoveOptionsResponse(soap, timg__GetMoveOptionsResponse, "timg:GetMoveOptionsResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___timg__GetPresets(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _timg__GetPresets *timg__GetPresets, struct _timg__GetPresetsResponse *timg__GetPresetsResponse)
+{	if (soap_send___timg__GetPresets(soap, soap_endpoint, soap_action, timg__GetPresets) || soap_recv___timg__GetPresets(soap, timg__GetPresetsResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___timg__GetPresets(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _timg__GetPresets *timg__GetPresets)
+{	struct __timg__GetPresets soap_tmp___timg__GetPresets;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver20/imaging/wsdl/GetPresets";
+	soap_tmp___timg__GetPresets.timg__GetPresets = timg__GetPresets;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___timg__GetPresets(soap, &soap_tmp___timg__GetPresets);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___timg__GetPresets(soap, &soap_tmp___timg__GetPresets, "-timg:GetPresets", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___timg__GetPresets(soap, &soap_tmp___timg__GetPresets, "-timg:GetPresets", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___timg__GetPresets(struct soap *soap, struct _timg__GetPresetsResponse *timg__GetPresetsResponse)
+{
+	if (!timg__GetPresetsResponse)
+		return soap_closesock(soap);
+	soap_default__timg__GetPresetsResponse(soap, timg__GetPresetsResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__timg__GetPresetsResponse(soap, timg__GetPresetsResponse, "timg:GetPresetsResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___timg__GetCurrentPreset(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _timg__GetCurrentPreset *timg__GetCurrentPreset, struct _timg__GetCurrentPresetResponse *timg__GetCurrentPresetResponse)
+{	if (soap_send___timg__GetCurrentPreset(soap, soap_endpoint, soap_action, timg__GetCurrentPreset) || soap_recv___timg__GetCurrentPreset(soap, timg__GetCurrentPresetResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___timg__GetCurrentPreset(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _timg__GetCurrentPreset *timg__GetCurrentPreset)
+{	struct __timg__GetCurrentPreset soap_tmp___timg__GetCurrentPreset;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver20/imaging/wsdl/GetCurrentPreset";
+	soap_tmp___timg__GetCurrentPreset.timg__GetCurrentPreset = timg__GetCurrentPreset;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___timg__GetCurrentPreset(soap, &soap_tmp___timg__GetCurrentPreset);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___timg__GetCurrentPreset(soap, &soap_tmp___timg__GetCurrentPreset, "-timg:GetCurrentPreset", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___timg__GetCurrentPreset(soap, &soap_tmp___timg__GetCurrentPreset, "-timg:GetCurrentPreset", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___timg__GetCurrentPreset(struct soap *soap, struct _timg__GetCurrentPresetResponse *timg__GetCurrentPresetResponse)
+{
+	if (!timg__GetCurrentPresetResponse)
+		return soap_closesock(soap);
+	soap_default__timg__GetCurrentPresetResponse(soap, timg__GetCurrentPresetResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__timg__GetCurrentPresetResponse(soap, timg__GetCurrentPresetResponse, "timg:GetCurrentPresetResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___timg__SetCurrentPreset(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _timg__SetCurrentPreset *timg__SetCurrentPreset, struct _timg__SetCurrentPresetResponse *timg__SetCurrentPresetResponse)
+{	if (soap_send___timg__SetCurrentPreset(soap, soap_endpoint, soap_action, timg__SetCurrentPreset) || soap_recv___timg__SetCurrentPreset(soap, timg__SetCurrentPresetResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___timg__SetCurrentPreset(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _timg__SetCurrentPreset *timg__SetCurrentPreset)
+{	struct __timg__SetCurrentPreset soap_tmp___timg__SetCurrentPreset;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver20/imaging/wsdl/SetCurrentPreset";
+	soap_tmp___timg__SetCurrentPreset.timg__SetCurrentPreset = timg__SetCurrentPreset;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___timg__SetCurrentPreset(soap, &soap_tmp___timg__SetCurrentPreset);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___timg__SetCurrentPreset(soap, &soap_tmp___timg__SetCurrentPreset, "-timg:SetCurrentPreset", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___timg__SetCurrentPreset(soap, &soap_tmp___timg__SetCurrentPreset, "-timg:SetCurrentPreset", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___timg__SetCurrentPreset(struct soap *soap, struct _timg__SetCurrentPresetResponse *timg__SetCurrentPresetResponse)
+{
+	if (!timg__SetCurrentPresetResponse)
+		return soap_closesock(soap);
+	soap_default__timg__SetCurrentPresetResponse(soap, timg__SetCurrentPresetResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__timg__SetCurrentPresetResponse(soap, timg__SetCurrentPresetResponse, "timg:SetCurrentPresetResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___tls__GetServiceCapabilities(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tls__GetServiceCapabilities *tls__GetServiceCapabilities, struct _tls__GetServiceCapabilitiesResponse *tls__GetServiceCapabilitiesResponse)
+{	if (soap_send___tls__GetServiceCapabilities(soap, soap_endpoint, soap_action, tls__GetServiceCapabilities) || soap_recv___tls__GetServiceCapabilities(soap, tls__GetServiceCapabilitiesResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___tls__GetServiceCapabilities(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tls__GetServiceCapabilities *tls__GetServiceCapabilities)
+{	struct __tls__GetServiceCapabilities soap_tmp___tls__GetServiceCapabilities;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/display/wsdl/GetServiceCapabilities";
+	soap_tmp___tls__GetServiceCapabilities.tls__GetServiceCapabilities = tls__GetServiceCapabilities;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___tls__GetServiceCapabilities(soap, &soap_tmp___tls__GetServiceCapabilities);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___tls__GetServiceCapabilities(soap, &soap_tmp___tls__GetServiceCapabilities, "-tls:GetServiceCapabilities", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___tls__GetServiceCapabilities(soap, &soap_tmp___tls__GetServiceCapabilities, "-tls:GetServiceCapabilities", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___tls__GetServiceCapabilities(struct soap *soap, struct _tls__GetServiceCapabilitiesResponse *tls__GetServiceCapabilitiesResponse)
+{
+	if (!tls__GetServiceCapabilitiesResponse)
+		return soap_closesock(soap);
+	soap_default__tls__GetServiceCapabilitiesResponse(soap, tls__GetServiceCapabilitiesResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__tls__GetServiceCapabilitiesResponse(soap, tls__GetServiceCapabilitiesResponse, "tls:GetServiceCapabilitiesResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___tls__GetLayout(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tls__GetLayout *tls__GetLayout, struct _tls__GetLayoutResponse *tls__GetLayoutResponse)
+{	if (soap_send___tls__GetLayout(soap, soap_endpoint, soap_action, tls__GetLayout) || soap_recv___tls__GetLayout(soap, tls__GetLayoutResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___tls__GetLayout(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tls__GetLayout *tls__GetLayout)
+{	struct __tls__GetLayout soap_tmp___tls__GetLayout;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/display/wsdl/GetLayout";
+	soap_tmp___tls__GetLayout.tls__GetLayout = tls__GetLayout;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___tls__GetLayout(soap, &soap_tmp___tls__GetLayout);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___tls__GetLayout(soap, &soap_tmp___tls__GetLayout, "-tls:GetLayout", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___tls__GetLayout(soap, &soap_tmp___tls__GetLayout, "-tls:GetLayout", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___tls__GetLayout(struct soap *soap, struct _tls__GetLayoutResponse *tls__GetLayoutResponse)
+{
+	if (!tls__GetLayoutResponse)
+		return soap_closesock(soap);
+	soap_default__tls__GetLayoutResponse(soap, tls__GetLayoutResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__tls__GetLayoutResponse(soap, tls__GetLayoutResponse, "tls:GetLayoutResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___tls__SetLayout(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tls__SetLayout *tls__SetLayout, struct _tls__SetLayoutResponse *tls__SetLayoutResponse)
+{	if (soap_send___tls__SetLayout(soap, soap_endpoint, soap_action, tls__SetLayout) || soap_recv___tls__SetLayout(soap, tls__SetLayoutResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___tls__SetLayout(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tls__SetLayout *tls__SetLayout)
+{	struct __tls__SetLayout soap_tmp___tls__SetLayout;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/display/wsdl/SetLayout";
+	soap_tmp___tls__SetLayout.tls__SetLayout = tls__SetLayout;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___tls__SetLayout(soap, &soap_tmp___tls__SetLayout);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___tls__SetLayout(soap, &soap_tmp___tls__SetLayout, "-tls:SetLayout", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___tls__SetLayout(soap, &soap_tmp___tls__SetLayout, "-tls:SetLayout", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___tls__SetLayout(struct soap *soap, struct _tls__SetLayoutResponse *tls__SetLayoutResponse)
+{
+	if (!tls__SetLayoutResponse)
+		return soap_closesock(soap);
+	soap_default__tls__SetLayoutResponse(soap, tls__SetLayoutResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__tls__SetLayoutResponse(soap, tls__SetLayoutResponse, "tls:SetLayoutResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___tls__GetDisplayOptions(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tls__GetDisplayOptions *tls__GetDisplayOptions, struct _tls__GetDisplayOptionsResponse *tls__GetDisplayOptionsResponse)
+{	if (soap_send___tls__GetDisplayOptions(soap, soap_endpoint, soap_action, tls__GetDisplayOptions) || soap_recv___tls__GetDisplayOptions(soap, tls__GetDisplayOptionsResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___tls__GetDisplayOptions(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tls__GetDisplayOptions *tls__GetDisplayOptions)
+{	struct __tls__GetDisplayOptions soap_tmp___tls__GetDisplayOptions;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/display/wsdl/GetDisplayOptions";
+	soap_tmp___tls__GetDisplayOptions.tls__GetDisplayOptions = tls__GetDisplayOptions;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___tls__GetDisplayOptions(soap, &soap_tmp___tls__GetDisplayOptions);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___tls__GetDisplayOptions(soap, &soap_tmp___tls__GetDisplayOptions, "-tls:GetDisplayOptions", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___tls__GetDisplayOptions(soap, &soap_tmp___tls__GetDisplayOptions, "-tls:GetDisplayOptions", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___tls__GetDisplayOptions(struct soap *soap, struct _tls__GetDisplayOptionsResponse *tls__GetDisplayOptionsResponse)
+{
+	if (!tls__GetDisplayOptionsResponse)
+		return soap_closesock(soap);
+	soap_default__tls__GetDisplayOptionsResponse(soap, tls__GetDisplayOptionsResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__tls__GetDisplayOptionsResponse(soap, tls__GetDisplayOptionsResponse, "tls:GetDisplayOptionsResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___tls__GetPaneConfigurations(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tls__GetPaneConfigurations *tls__GetPaneConfigurations, struct _tls__GetPaneConfigurationsResponse *tls__GetPaneConfigurationsResponse)
+{	if (soap_send___tls__GetPaneConfigurations(soap, soap_endpoint, soap_action, tls__GetPaneConfigurations) || soap_recv___tls__GetPaneConfigurations(soap, tls__GetPaneConfigurationsResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___tls__GetPaneConfigurations(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tls__GetPaneConfigurations *tls__GetPaneConfigurations)
+{	struct __tls__GetPaneConfigurations soap_tmp___tls__GetPaneConfigurations;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/display/wsdl/GetPaneConfigurations";
+	soap_tmp___tls__GetPaneConfigurations.tls__GetPaneConfigurations = tls__GetPaneConfigurations;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___tls__GetPaneConfigurations(soap, &soap_tmp___tls__GetPaneConfigurations);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___tls__GetPaneConfigurations(soap, &soap_tmp___tls__GetPaneConfigurations, "-tls:GetPaneConfigurations", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___tls__GetPaneConfigurations(soap, &soap_tmp___tls__GetPaneConfigurations, "-tls:GetPaneConfigurations", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___tls__GetPaneConfigurations(struct soap *soap, struct _tls__GetPaneConfigurationsResponse *tls__GetPaneConfigurationsResponse)
+{
+	if (!tls__GetPaneConfigurationsResponse)
+		return soap_closesock(soap);
+	soap_default__tls__GetPaneConfigurationsResponse(soap, tls__GetPaneConfigurationsResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__tls__GetPaneConfigurationsResponse(soap, tls__GetPaneConfigurationsResponse, "tls:GetPaneConfigurationsResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___tls__GetPaneConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tls__GetPaneConfiguration *tls__GetPaneConfiguration, struct _tls__GetPaneConfigurationResponse *tls__GetPaneConfigurationResponse)
+{	if (soap_send___tls__GetPaneConfiguration(soap, soap_endpoint, soap_action, tls__GetPaneConfiguration) || soap_recv___tls__GetPaneConfiguration(soap, tls__GetPaneConfigurationResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___tls__GetPaneConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tls__GetPaneConfiguration *tls__GetPaneConfiguration)
+{	struct __tls__GetPaneConfiguration soap_tmp___tls__GetPaneConfiguration;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/display/wsdl/GetPaneConfiguration";
+	soap_tmp___tls__GetPaneConfiguration.tls__GetPaneConfiguration = tls__GetPaneConfiguration;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___tls__GetPaneConfiguration(soap, &soap_tmp___tls__GetPaneConfiguration);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___tls__GetPaneConfiguration(soap, &soap_tmp___tls__GetPaneConfiguration, "-tls:GetPaneConfiguration", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___tls__GetPaneConfiguration(soap, &soap_tmp___tls__GetPaneConfiguration, "-tls:GetPaneConfiguration", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___tls__GetPaneConfiguration(struct soap *soap, struct _tls__GetPaneConfigurationResponse *tls__GetPaneConfigurationResponse)
+{
+	if (!tls__GetPaneConfigurationResponse)
+		return soap_closesock(soap);
+	soap_default__tls__GetPaneConfigurationResponse(soap, tls__GetPaneConfigurationResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__tls__GetPaneConfigurationResponse(soap, tls__GetPaneConfigurationResponse, "tls:GetPaneConfigurationResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___tls__SetPaneConfigurations(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tls__SetPaneConfigurations *tls__SetPaneConfigurations, struct _tls__SetPaneConfigurationsResponse *tls__SetPaneConfigurationsResponse)
+{	if (soap_send___tls__SetPaneConfigurations(soap, soap_endpoint, soap_action, tls__SetPaneConfigurations) || soap_recv___tls__SetPaneConfigurations(soap, tls__SetPaneConfigurationsResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___tls__SetPaneConfigurations(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tls__SetPaneConfigurations *tls__SetPaneConfigurations)
+{	struct __tls__SetPaneConfigurations soap_tmp___tls__SetPaneConfigurations;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/display/wsdl/SetPaneConfigurations";
+	soap_tmp___tls__SetPaneConfigurations.tls__SetPaneConfigurations = tls__SetPaneConfigurations;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___tls__SetPaneConfigurations(soap, &soap_tmp___tls__SetPaneConfigurations);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___tls__SetPaneConfigurations(soap, &soap_tmp___tls__SetPaneConfigurations, "-tls:SetPaneConfigurations", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___tls__SetPaneConfigurations(soap, &soap_tmp___tls__SetPaneConfigurations, "-tls:SetPaneConfigurations", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___tls__SetPaneConfigurations(struct soap *soap, struct _tls__SetPaneConfigurationsResponse *tls__SetPaneConfigurationsResponse)
+{
+	if (!tls__SetPaneConfigurationsResponse)
+		return soap_closesock(soap);
+	soap_default__tls__SetPaneConfigurationsResponse(soap, tls__SetPaneConfigurationsResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__tls__SetPaneConfigurationsResponse(soap, tls__SetPaneConfigurationsResponse, "tls:SetPaneConfigurationsResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___tls__SetPaneConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tls__SetPaneConfiguration *tls__SetPaneConfiguration, struct _tls__SetPaneConfigurationResponse *tls__SetPaneConfigurationResponse)
+{	if (soap_send___tls__SetPaneConfiguration(soap, soap_endpoint, soap_action, tls__SetPaneConfiguration) || soap_recv___tls__SetPaneConfiguration(soap, tls__SetPaneConfigurationResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___tls__SetPaneConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tls__SetPaneConfiguration *tls__SetPaneConfiguration)
+{	struct __tls__SetPaneConfiguration soap_tmp___tls__SetPaneConfiguration;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/display/wsdl/SetPaneConfiguration";
+	soap_tmp___tls__SetPaneConfiguration.tls__SetPaneConfiguration = tls__SetPaneConfiguration;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___tls__SetPaneConfiguration(soap, &soap_tmp___tls__SetPaneConfiguration);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___tls__SetPaneConfiguration(soap, &soap_tmp___tls__SetPaneConfiguration, "-tls:SetPaneConfiguration", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___tls__SetPaneConfiguration(soap, &soap_tmp___tls__SetPaneConfiguration, "-tls:SetPaneConfiguration", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___tls__SetPaneConfiguration(struct soap *soap, struct _tls__SetPaneConfigurationResponse *tls__SetPaneConfigurationResponse)
+{
+	if (!tls__SetPaneConfigurationResponse)
+		return soap_closesock(soap);
+	soap_default__tls__SetPaneConfigurationResponse(soap, tls__SetPaneConfigurationResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__tls__SetPaneConfigurationResponse(soap, tls__SetPaneConfigurationResponse, "tls:SetPaneConfigurationResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___tls__CreatePaneConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tls__CreatePaneConfiguration *tls__CreatePaneConfiguration, struct _tls__CreatePaneConfigurationResponse *tls__CreatePaneConfigurationResponse)
+{	if (soap_send___tls__CreatePaneConfiguration(soap, soap_endpoint, soap_action, tls__CreatePaneConfiguration) || soap_recv___tls__CreatePaneConfiguration(soap, tls__CreatePaneConfigurationResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___tls__CreatePaneConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tls__CreatePaneConfiguration *tls__CreatePaneConfiguration)
+{	struct __tls__CreatePaneConfiguration soap_tmp___tls__CreatePaneConfiguration;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/display/wsdl/CreatePaneConfiguration";
+	soap_tmp___tls__CreatePaneConfiguration.tls__CreatePaneConfiguration = tls__CreatePaneConfiguration;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___tls__CreatePaneConfiguration(soap, &soap_tmp___tls__CreatePaneConfiguration);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___tls__CreatePaneConfiguration(soap, &soap_tmp___tls__CreatePaneConfiguration, "-tls:CreatePaneConfiguration", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___tls__CreatePaneConfiguration(soap, &soap_tmp___tls__CreatePaneConfiguration, "-tls:CreatePaneConfiguration", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___tls__CreatePaneConfiguration(struct soap *soap, struct _tls__CreatePaneConfigurationResponse *tls__CreatePaneConfigurationResponse)
+{
+	if (!tls__CreatePaneConfigurationResponse)
+		return soap_closesock(soap);
+	soap_default__tls__CreatePaneConfigurationResponse(soap, tls__CreatePaneConfigurationResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__tls__CreatePaneConfigurationResponse(soap, tls__CreatePaneConfigurationResponse, "tls:CreatePaneConfigurationResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___tls__DeletePaneConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tls__DeletePaneConfiguration *tls__DeletePaneConfiguration, struct _tls__DeletePaneConfigurationResponse *tls__DeletePaneConfigurationResponse)
+{	if (soap_send___tls__DeletePaneConfiguration(soap, soap_endpoint, soap_action, tls__DeletePaneConfiguration) || soap_recv___tls__DeletePaneConfiguration(soap, tls__DeletePaneConfigurationResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___tls__DeletePaneConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tls__DeletePaneConfiguration *tls__DeletePaneConfiguration)
+{	struct __tls__DeletePaneConfiguration soap_tmp___tls__DeletePaneConfiguration;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/display/wsdl/DeletePaneConfiguration";
+	soap_tmp___tls__DeletePaneConfiguration.tls__DeletePaneConfiguration = tls__DeletePaneConfiguration;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___tls__DeletePaneConfiguration(soap, &soap_tmp___tls__DeletePaneConfiguration);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___tls__DeletePaneConfiguration(soap, &soap_tmp___tls__DeletePaneConfiguration, "-tls:DeletePaneConfiguration", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___tls__DeletePaneConfiguration(soap, &soap_tmp___tls__DeletePaneConfiguration, "-tls:DeletePaneConfiguration", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___tls__DeletePaneConfiguration(struct soap *soap, struct _tls__DeletePaneConfigurationResponse *tls__DeletePaneConfigurationResponse)
+{
+	if (!tls__DeletePaneConfigurationResponse)
+		return soap_closesock(soap);
+	soap_default__tls__DeletePaneConfigurationResponse(soap, tls__DeletePaneConfigurationResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__tls__DeletePaneConfigurationResponse(soap, tls__DeletePaneConfigurationResponse, "tls:DeletePaneConfigurationResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___tmd__GetServiceCapabilities(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tmd__GetServiceCapabilities *tmd__GetServiceCapabilities, struct _tmd__GetServiceCapabilitiesResponse *tmd__GetServiceCapabilitiesResponse)
+{	if (soap_send___tmd__GetServiceCapabilities(soap, soap_endpoint, soap_action, tmd__GetServiceCapabilities) || soap_recv___tmd__GetServiceCapabilities(soap, tmd__GetServiceCapabilitiesResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___tmd__GetServiceCapabilities(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tmd__GetServiceCapabilities *tmd__GetServiceCapabilities)
+{	struct __tmd__GetServiceCapabilities soap_tmp___tmd__GetServiceCapabilities;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/deviceio/wsdl/GetServiceCapabilities";
+	soap_tmp___tmd__GetServiceCapabilities.tmd__GetServiceCapabilities = tmd__GetServiceCapabilities;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___tmd__GetServiceCapabilities(soap, &soap_tmp___tmd__GetServiceCapabilities);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___tmd__GetServiceCapabilities(soap, &soap_tmp___tmd__GetServiceCapabilities, "-tmd:GetServiceCapabilities", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___tmd__GetServiceCapabilities(soap, &soap_tmp___tmd__GetServiceCapabilities, "-tmd:GetServiceCapabilities", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___tmd__GetServiceCapabilities(struct soap *soap, struct _tmd__GetServiceCapabilitiesResponse *tmd__GetServiceCapabilitiesResponse)
+{
+	if (!tmd__GetServiceCapabilitiesResponse)
+		return soap_closesock(soap);
+	soap_default__tmd__GetServiceCapabilitiesResponse(soap, tmd__GetServiceCapabilitiesResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__tmd__GetServiceCapabilitiesResponse(soap, tmd__GetServiceCapabilitiesResponse, "tmd:GetServiceCapabilitiesResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___tmd__GetRelayOutputOptions(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tmd__GetRelayOutputOptions *tmd__GetRelayOutputOptions, struct _tmd__GetRelayOutputOptionsResponse *tmd__GetRelayOutputOptionsResponse)
+{	if (soap_send___tmd__GetRelayOutputOptions(soap, soap_endpoint, soap_action, tmd__GetRelayOutputOptions) || soap_recv___tmd__GetRelayOutputOptions(soap, tmd__GetRelayOutputOptionsResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___tmd__GetRelayOutputOptions(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tmd__GetRelayOutputOptions *tmd__GetRelayOutputOptions)
+{	struct __tmd__GetRelayOutputOptions soap_tmp___tmd__GetRelayOutputOptions;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/deviceio/wsdl/GetRelayOutputOptions";
+	soap_tmp___tmd__GetRelayOutputOptions.tmd__GetRelayOutputOptions = tmd__GetRelayOutputOptions;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___tmd__GetRelayOutputOptions(soap, &soap_tmp___tmd__GetRelayOutputOptions);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___tmd__GetRelayOutputOptions(soap, &soap_tmp___tmd__GetRelayOutputOptions, "-tmd:GetRelayOutputOptions", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___tmd__GetRelayOutputOptions(soap, &soap_tmp___tmd__GetRelayOutputOptions, "-tmd:GetRelayOutputOptions", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___tmd__GetRelayOutputOptions(struct soap *soap, struct _tmd__GetRelayOutputOptionsResponse *tmd__GetRelayOutputOptionsResponse)
+{
+	if (!tmd__GetRelayOutputOptionsResponse)
+		return soap_closesock(soap);
+	soap_default__tmd__GetRelayOutputOptionsResponse(soap, tmd__GetRelayOutputOptionsResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__tmd__GetRelayOutputOptionsResponse(soap, tmd__GetRelayOutputOptionsResponse, "tmd:GetRelayOutputOptionsResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___tmd__GetAudioSources(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct tmd__Get *tmd__GetAudioSources, struct tmd__GetResponse *tmd__GetAudioSourcesResponse)
+{	if (soap_send___tmd__GetAudioSources(soap, soap_endpoint, soap_action, tmd__GetAudioSources) || soap_recv___tmd__GetAudioSources(soap, tmd__GetAudioSourcesResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___tmd__GetAudioSources(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct tmd__Get *tmd__GetAudioSources)
+{	struct __tmd__GetAudioSources soap_tmp___tmd__GetAudioSources;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/deviceio/wsdl/GetAudioSources";
+	soap_tmp___tmd__GetAudioSources.tmd__GetAudioSources = tmd__GetAudioSources;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___tmd__GetAudioSources(soap, &soap_tmp___tmd__GetAudioSources);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___tmd__GetAudioSources(soap, &soap_tmp___tmd__GetAudioSources, "-tmd:GetAudioSources", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___tmd__GetAudioSources(soap, &soap_tmp___tmd__GetAudioSources, "-tmd:GetAudioSources", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___tmd__GetAudioSources(struct soap *soap, struct tmd__GetResponse *tmd__GetAudioSourcesResponse)
+{
+	if (!tmd__GetAudioSourcesResponse)
+		return soap_closesock(soap);
+	soap_default_tmd__GetResponse(soap, tmd__GetAudioSourcesResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get_tmd__GetResponse(soap, tmd__GetAudioSourcesResponse, "tmd:GetAudioSourcesResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___tmd__GetAudioOutputs(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct tmd__Get *tmd__GetAudioOutputs, struct tmd__GetResponse *tmd__GetAudioOutputsResponse)
+{	if (soap_send___tmd__GetAudioOutputs(soap, soap_endpoint, soap_action, tmd__GetAudioOutputs) || soap_recv___tmd__GetAudioOutputs(soap, tmd__GetAudioOutputsResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___tmd__GetAudioOutputs(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct tmd__Get *tmd__GetAudioOutputs)
+{	struct __tmd__GetAudioOutputs soap_tmp___tmd__GetAudioOutputs;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/deviceio/wsdl/GetAudioOutputs";
+	soap_tmp___tmd__GetAudioOutputs.tmd__GetAudioOutputs = tmd__GetAudioOutputs;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___tmd__GetAudioOutputs(soap, &soap_tmp___tmd__GetAudioOutputs);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___tmd__GetAudioOutputs(soap, &soap_tmp___tmd__GetAudioOutputs, "-tmd:GetAudioOutputs", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___tmd__GetAudioOutputs(soap, &soap_tmp___tmd__GetAudioOutputs, "-tmd:GetAudioOutputs", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___tmd__GetAudioOutputs(struct soap *soap, struct tmd__GetResponse *tmd__GetAudioOutputsResponse)
+{
+	if (!tmd__GetAudioOutputsResponse)
+		return soap_closesock(soap);
+	soap_default_tmd__GetResponse(soap, tmd__GetAudioOutputsResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get_tmd__GetResponse(soap, tmd__GetAudioOutputsResponse, "tmd:GetAudioOutputsResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___tmd__GetVideoSources(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct tmd__Get *tmd__GetVideoSources, struct tmd__GetResponse *tmd__GetVideoSourcesResponse)
+{	if (soap_send___tmd__GetVideoSources(soap, soap_endpoint, soap_action, tmd__GetVideoSources) || soap_recv___tmd__GetVideoSources(soap, tmd__GetVideoSourcesResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___tmd__GetVideoSources(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct tmd__Get *tmd__GetVideoSources)
+{	struct __tmd__GetVideoSources soap_tmp___tmd__GetVideoSources;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/deviceio/wsdl/GetVideoSources";
+	soap_tmp___tmd__GetVideoSources.tmd__GetVideoSources = tmd__GetVideoSources;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___tmd__GetVideoSources(soap, &soap_tmp___tmd__GetVideoSources);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___tmd__GetVideoSources(soap, &soap_tmp___tmd__GetVideoSources, "-tmd:GetVideoSources", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___tmd__GetVideoSources(soap, &soap_tmp___tmd__GetVideoSources, "-tmd:GetVideoSources", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___tmd__GetVideoSources(struct soap *soap, struct tmd__GetResponse *tmd__GetVideoSourcesResponse)
+{
+	if (!tmd__GetVideoSourcesResponse)
+		return soap_closesock(soap);
+	soap_default_tmd__GetResponse(soap, tmd__GetVideoSourcesResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get_tmd__GetResponse(soap, tmd__GetVideoSourcesResponse, "tmd:GetVideoSourcesResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___tmd__GetVideoOutputs(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tmd__GetVideoOutputs *tmd__GetVideoOutputs, struct _tmd__GetVideoOutputsResponse *tmd__GetVideoOutputsResponse)
+{	if (soap_send___tmd__GetVideoOutputs(soap, soap_endpoint, soap_action, tmd__GetVideoOutputs) || soap_recv___tmd__GetVideoOutputs(soap, tmd__GetVideoOutputsResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___tmd__GetVideoOutputs(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tmd__GetVideoOutputs *tmd__GetVideoOutputs)
+{	struct __tmd__GetVideoOutputs soap_tmp___tmd__GetVideoOutputs;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/deviceio/wsdl/GetVideoOutputs";
+	soap_tmp___tmd__GetVideoOutputs.tmd__GetVideoOutputs = tmd__GetVideoOutputs;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___tmd__GetVideoOutputs(soap, &soap_tmp___tmd__GetVideoOutputs);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___tmd__GetVideoOutputs(soap, &soap_tmp___tmd__GetVideoOutputs, "-tmd:GetVideoOutputs", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___tmd__GetVideoOutputs(soap, &soap_tmp___tmd__GetVideoOutputs, "-tmd:GetVideoOutputs", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___tmd__GetVideoOutputs(struct soap *soap, struct _tmd__GetVideoOutputsResponse *tmd__GetVideoOutputsResponse)
+{
+	if (!tmd__GetVideoOutputsResponse)
+		return soap_closesock(soap);
+	soap_default__tmd__GetVideoOutputsResponse(soap, tmd__GetVideoOutputsResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__tmd__GetVideoOutputsResponse(soap, tmd__GetVideoOutputsResponse, "tmd:GetVideoOutputsResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___tmd__GetVideoSourceConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tmd__GetVideoSourceConfiguration *tmd__GetVideoSourceConfiguration, struct _tmd__GetVideoSourceConfigurationResponse *tmd__GetVideoSourceConfigurationResponse)
+{	if (soap_send___tmd__GetVideoSourceConfiguration(soap, soap_endpoint, soap_action, tmd__GetVideoSourceConfiguration) || soap_recv___tmd__GetVideoSourceConfiguration(soap, tmd__GetVideoSourceConfigurationResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___tmd__GetVideoSourceConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tmd__GetVideoSourceConfiguration *tmd__GetVideoSourceConfiguration)
+{	struct __tmd__GetVideoSourceConfiguration soap_tmp___tmd__GetVideoSourceConfiguration;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/deviceio/wsdl/GetVideoSourceConfiguration";
+	soap_tmp___tmd__GetVideoSourceConfiguration.tmd__GetVideoSourceConfiguration = tmd__GetVideoSourceConfiguration;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___tmd__GetVideoSourceConfiguration(soap, &soap_tmp___tmd__GetVideoSourceConfiguration);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___tmd__GetVideoSourceConfiguration(soap, &soap_tmp___tmd__GetVideoSourceConfiguration, "-tmd:GetVideoSourceConfiguration", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___tmd__GetVideoSourceConfiguration(soap, &soap_tmp___tmd__GetVideoSourceConfiguration, "-tmd:GetVideoSourceConfiguration", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___tmd__GetVideoSourceConfiguration(struct soap *soap, struct _tmd__GetVideoSourceConfigurationResponse *tmd__GetVideoSourceConfigurationResponse)
+{
+	if (!tmd__GetVideoSourceConfigurationResponse)
+		return soap_closesock(soap);
+	soap_default__tmd__GetVideoSourceConfigurationResponse(soap, tmd__GetVideoSourceConfigurationResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__tmd__GetVideoSourceConfigurationResponse(soap, tmd__GetVideoSourceConfigurationResponse, "tmd:GetVideoSourceConfigurationResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___tmd__GetVideoOutputConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tmd__GetVideoOutputConfiguration *tmd__GetVideoOutputConfiguration, struct _tmd__GetVideoOutputConfigurationResponse *tmd__GetVideoOutputConfigurationResponse)
+{	if (soap_send___tmd__GetVideoOutputConfiguration(soap, soap_endpoint, soap_action, tmd__GetVideoOutputConfiguration) || soap_recv___tmd__GetVideoOutputConfiguration(soap, tmd__GetVideoOutputConfigurationResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___tmd__GetVideoOutputConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tmd__GetVideoOutputConfiguration *tmd__GetVideoOutputConfiguration)
+{	struct __tmd__GetVideoOutputConfiguration soap_tmp___tmd__GetVideoOutputConfiguration;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/deviceio/wsdl/GetVideoOutputConfiguration";
+	soap_tmp___tmd__GetVideoOutputConfiguration.tmd__GetVideoOutputConfiguration = tmd__GetVideoOutputConfiguration;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___tmd__GetVideoOutputConfiguration(soap, &soap_tmp___tmd__GetVideoOutputConfiguration);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___tmd__GetVideoOutputConfiguration(soap, &soap_tmp___tmd__GetVideoOutputConfiguration, "-tmd:GetVideoOutputConfiguration", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___tmd__GetVideoOutputConfiguration(soap, &soap_tmp___tmd__GetVideoOutputConfiguration, "-tmd:GetVideoOutputConfiguration", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___tmd__GetVideoOutputConfiguration(struct soap *soap, struct _tmd__GetVideoOutputConfigurationResponse *tmd__GetVideoOutputConfigurationResponse)
+{
+	if (!tmd__GetVideoOutputConfigurationResponse)
+		return soap_closesock(soap);
+	soap_default__tmd__GetVideoOutputConfigurationResponse(soap, tmd__GetVideoOutputConfigurationResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__tmd__GetVideoOutputConfigurationResponse(soap, tmd__GetVideoOutputConfigurationResponse, "tmd:GetVideoOutputConfigurationResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___tmd__GetAudioSourceConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tmd__GetAudioSourceConfiguration *tmd__GetAudioSourceConfiguration, struct _tmd__GetAudioSourceConfigurationResponse *tmd__GetAudioSourceConfigurationResponse)
+{	if (soap_send___tmd__GetAudioSourceConfiguration(soap, soap_endpoint, soap_action, tmd__GetAudioSourceConfiguration) || soap_recv___tmd__GetAudioSourceConfiguration(soap, tmd__GetAudioSourceConfigurationResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___tmd__GetAudioSourceConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tmd__GetAudioSourceConfiguration *tmd__GetAudioSourceConfiguration)
+{	struct __tmd__GetAudioSourceConfiguration soap_tmp___tmd__GetAudioSourceConfiguration;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/deviceio/wsdl/GetAudioSourceConfiguration";
+	soap_tmp___tmd__GetAudioSourceConfiguration.tmd__GetAudioSourceConfiguration = tmd__GetAudioSourceConfiguration;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___tmd__GetAudioSourceConfiguration(soap, &soap_tmp___tmd__GetAudioSourceConfiguration);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___tmd__GetAudioSourceConfiguration(soap, &soap_tmp___tmd__GetAudioSourceConfiguration, "-tmd:GetAudioSourceConfiguration", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___tmd__GetAudioSourceConfiguration(soap, &soap_tmp___tmd__GetAudioSourceConfiguration, "-tmd:GetAudioSourceConfiguration", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___tmd__GetAudioSourceConfiguration(struct soap *soap, struct _tmd__GetAudioSourceConfigurationResponse *tmd__GetAudioSourceConfigurationResponse)
+{
+	if (!tmd__GetAudioSourceConfigurationResponse)
+		return soap_closesock(soap);
+	soap_default__tmd__GetAudioSourceConfigurationResponse(soap, tmd__GetAudioSourceConfigurationResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__tmd__GetAudioSourceConfigurationResponse(soap, tmd__GetAudioSourceConfigurationResponse, "tmd:GetAudioSourceConfigurationResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___tmd__GetAudioOutputConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tmd__GetAudioOutputConfiguration *tmd__GetAudioOutputConfiguration, struct _tmd__GetAudioOutputConfigurationResponse *tmd__GetAudioOutputConfigurationResponse)
+{	if (soap_send___tmd__GetAudioOutputConfiguration(soap, soap_endpoint, soap_action, tmd__GetAudioOutputConfiguration) || soap_recv___tmd__GetAudioOutputConfiguration(soap, tmd__GetAudioOutputConfigurationResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___tmd__GetAudioOutputConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tmd__GetAudioOutputConfiguration *tmd__GetAudioOutputConfiguration)
+{	struct __tmd__GetAudioOutputConfiguration soap_tmp___tmd__GetAudioOutputConfiguration;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/deviceio/wsdl/GetAudioOutputConfiguration";
+	soap_tmp___tmd__GetAudioOutputConfiguration.tmd__GetAudioOutputConfiguration = tmd__GetAudioOutputConfiguration;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___tmd__GetAudioOutputConfiguration(soap, &soap_tmp___tmd__GetAudioOutputConfiguration);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___tmd__GetAudioOutputConfiguration(soap, &soap_tmp___tmd__GetAudioOutputConfiguration, "-tmd:GetAudioOutputConfiguration", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___tmd__GetAudioOutputConfiguration(soap, &soap_tmp___tmd__GetAudioOutputConfiguration, "-tmd:GetAudioOutputConfiguration", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___tmd__GetAudioOutputConfiguration(struct soap *soap, struct _tmd__GetAudioOutputConfigurationResponse *tmd__GetAudioOutputConfigurationResponse)
+{
+	if (!tmd__GetAudioOutputConfigurationResponse)
+		return soap_closesock(soap);
+	soap_default__tmd__GetAudioOutputConfigurationResponse(soap, tmd__GetAudioOutputConfigurationResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__tmd__GetAudioOutputConfigurationResponse(soap, tmd__GetAudioOutputConfigurationResponse, "tmd:GetAudioOutputConfigurationResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___tmd__SetVideoSourceConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tmd__SetVideoSourceConfiguration *tmd__SetVideoSourceConfiguration, struct _tmd__SetVideoSourceConfigurationResponse *tmd__SetVideoSourceConfigurationResponse)
+{	if (soap_send___tmd__SetVideoSourceConfiguration(soap, soap_endpoint, soap_action, tmd__SetVideoSourceConfiguration) || soap_recv___tmd__SetVideoSourceConfiguration(soap, tmd__SetVideoSourceConfigurationResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___tmd__SetVideoSourceConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tmd__SetVideoSourceConfiguration *tmd__SetVideoSourceConfiguration)
+{	struct __tmd__SetVideoSourceConfiguration soap_tmp___tmd__SetVideoSourceConfiguration;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/deviceio/wsdl/SetVideoSourceConfiguration";
+	soap_tmp___tmd__SetVideoSourceConfiguration.tmd__SetVideoSourceConfiguration = tmd__SetVideoSourceConfiguration;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___tmd__SetVideoSourceConfiguration(soap, &soap_tmp___tmd__SetVideoSourceConfiguration);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___tmd__SetVideoSourceConfiguration(soap, &soap_tmp___tmd__SetVideoSourceConfiguration, "-tmd:SetVideoSourceConfiguration", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___tmd__SetVideoSourceConfiguration(soap, &soap_tmp___tmd__SetVideoSourceConfiguration, "-tmd:SetVideoSourceConfiguration", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___tmd__SetVideoSourceConfiguration(struct soap *soap, struct _tmd__SetVideoSourceConfigurationResponse *tmd__SetVideoSourceConfigurationResponse)
+{
+	if (!tmd__SetVideoSourceConfigurationResponse)
+		return soap_closesock(soap);
+	soap_default__tmd__SetVideoSourceConfigurationResponse(soap, tmd__SetVideoSourceConfigurationResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__tmd__SetVideoSourceConfigurationResponse(soap, tmd__SetVideoSourceConfigurationResponse, "tmd:SetVideoSourceConfigurationResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___tmd__SetVideoOutputConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tmd__SetVideoOutputConfiguration *tmd__SetVideoOutputConfiguration, struct _tmd__SetVideoOutputConfigurationResponse *tmd__SetVideoOutputConfigurationResponse)
+{	if (soap_send___tmd__SetVideoOutputConfiguration(soap, soap_endpoint, soap_action, tmd__SetVideoOutputConfiguration) || soap_recv___tmd__SetVideoOutputConfiguration(soap, tmd__SetVideoOutputConfigurationResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___tmd__SetVideoOutputConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tmd__SetVideoOutputConfiguration *tmd__SetVideoOutputConfiguration)
+{	struct __tmd__SetVideoOutputConfiguration soap_tmp___tmd__SetVideoOutputConfiguration;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/deviceio/wsdl/SetVideoOutputConfiguration";
+	soap_tmp___tmd__SetVideoOutputConfiguration.tmd__SetVideoOutputConfiguration = tmd__SetVideoOutputConfiguration;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___tmd__SetVideoOutputConfiguration(soap, &soap_tmp___tmd__SetVideoOutputConfiguration);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___tmd__SetVideoOutputConfiguration(soap, &soap_tmp___tmd__SetVideoOutputConfiguration, "-tmd:SetVideoOutputConfiguration", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___tmd__SetVideoOutputConfiguration(soap, &soap_tmp___tmd__SetVideoOutputConfiguration, "-tmd:SetVideoOutputConfiguration", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___tmd__SetVideoOutputConfiguration(struct soap *soap, struct _tmd__SetVideoOutputConfigurationResponse *tmd__SetVideoOutputConfigurationResponse)
+{
+	if (!tmd__SetVideoOutputConfigurationResponse)
+		return soap_closesock(soap);
+	soap_default__tmd__SetVideoOutputConfigurationResponse(soap, tmd__SetVideoOutputConfigurationResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__tmd__SetVideoOutputConfigurationResponse(soap, tmd__SetVideoOutputConfigurationResponse, "tmd:SetVideoOutputConfigurationResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___tmd__SetAudioSourceConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tmd__SetAudioSourceConfiguration *tmd__SetAudioSourceConfiguration, struct _tmd__SetAudioSourceConfigurationResponse *tmd__SetAudioSourceConfigurationResponse)
+{	if (soap_send___tmd__SetAudioSourceConfiguration(soap, soap_endpoint, soap_action, tmd__SetAudioSourceConfiguration) || soap_recv___tmd__SetAudioSourceConfiguration(soap, tmd__SetAudioSourceConfigurationResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___tmd__SetAudioSourceConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tmd__SetAudioSourceConfiguration *tmd__SetAudioSourceConfiguration)
+{	struct __tmd__SetAudioSourceConfiguration soap_tmp___tmd__SetAudioSourceConfiguration;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/deviceio/wsdl/SetAudioSourceConfiguration";
+	soap_tmp___tmd__SetAudioSourceConfiguration.tmd__SetAudioSourceConfiguration = tmd__SetAudioSourceConfiguration;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___tmd__SetAudioSourceConfiguration(soap, &soap_tmp___tmd__SetAudioSourceConfiguration);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___tmd__SetAudioSourceConfiguration(soap, &soap_tmp___tmd__SetAudioSourceConfiguration, "-tmd:SetAudioSourceConfiguration", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___tmd__SetAudioSourceConfiguration(soap, &soap_tmp___tmd__SetAudioSourceConfiguration, "-tmd:SetAudioSourceConfiguration", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___tmd__SetAudioSourceConfiguration(struct soap *soap, struct _tmd__SetAudioSourceConfigurationResponse *tmd__SetAudioSourceConfigurationResponse)
+{
+	if (!tmd__SetAudioSourceConfigurationResponse)
+		return soap_closesock(soap);
+	soap_default__tmd__SetAudioSourceConfigurationResponse(soap, tmd__SetAudioSourceConfigurationResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__tmd__SetAudioSourceConfigurationResponse(soap, tmd__SetAudioSourceConfigurationResponse, "tmd:SetAudioSourceConfigurationResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___tmd__SetAudioOutputConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tmd__SetAudioOutputConfiguration *tmd__SetAudioOutputConfiguration, struct _tmd__SetAudioOutputConfigurationResponse *tmd__SetAudioOutputConfigurationResponse)
+{	if (soap_send___tmd__SetAudioOutputConfiguration(soap, soap_endpoint, soap_action, tmd__SetAudioOutputConfiguration) || soap_recv___tmd__SetAudioOutputConfiguration(soap, tmd__SetAudioOutputConfigurationResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___tmd__SetAudioOutputConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tmd__SetAudioOutputConfiguration *tmd__SetAudioOutputConfiguration)
+{	struct __tmd__SetAudioOutputConfiguration soap_tmp___tmd__SetAudioOutputConfiguration;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/deviceio/wsdl/SetAudioOutputConfiguration";
+	soap_tmp___tmd__SetAudioOutputConfiguration.tmd__SetAudioOutputConfiguration = tmd__SetAudioOutputConfiguration;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___tmd__SetAudioOutputConfiguration(soap, &soap_tmp___tmd__SetAudioOutputConfiguration);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___tmd__SetAudioOutputConfiguration(soap, &soap_tmp___tmd__SetAudioOutputConfiguration, "-tmd:SetAudioOutputConfiguration", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___tmd__SetAudioOutputConfiguration(soap, &soap_tmp___tmd__SetAudioOutputConfiguration, "-tmd:SetAudioOutputConfiguration", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___tmd__SetAudioOutputConfiguration(struct soap *soap, struct _tmd__SetAudioOutputConfigurationResponse *tmd__SetAudioOutputConfigurationResponse)
+{
+	if (!tmd__SetAudioOutputConfigurationResponse)
+		return soap_closesock(soap);
+	soap_default__tmd__SetAudioOutputConfigurationResponse(soap, tmd__SetAudioOutputConfigurationResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__tmd__SetAudioOutputConfigurationResponse(soap, tmd__SetAudioOutputConfigurationResponse, "tmd:SetAudioOutputConfigurationResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___tmd__GetVideoSourceConfigurationOptions(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tmd__GetVideoSourceConfigurationOptions *tmd__GetVideoSourceConfigurationOptions, struct _tmd__GetVideoSourceConfigurationOptionsResponse *tmd__GetVideoSourceConfigurationOptionsResponse)
+{	if (soap_send___tmd__GetVideoSourceConfigurationOptions(soap, soap_endpoint, soap_action, tmd__GetVideoSourceConfigurationOptions) || soap_recv___tmd__GetVideoSourceConfigurationOptions(soap, tmd__GetVideoSourceConfigurationOptionsResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___tmd__GetVideoSourceConfigurationOptions(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tmd__GetVideoSourceConfigurationOptions *tmd__GetVideoSourceConfigurationOptions)
+{	struct __tmd__GetVideoSourceConfigurationOptions soap_tmp___tmd__GetVideoSourceConfigurationOptions;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/deviceio/wsdl/GetVideoSourceConfigurationOptions";
+	soap_tmp___tmd__GetVideoSourceConfigurationOptions.tmd__GetVideoSourceConfigurationOptions = tmd__GetVideoSourceConfigurationOptions;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___tmd__GetVideoSourceConfigurationOptions(soap, &soap_tmp___tmd__GetVideoSourceConfigurationOptions);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___tmd__GetVideoSourceConfigurationOptions(soap, &soap_tmp___tmd__GetVideoSourceConfigurationOptions, "-tmd:GetVideoSourceConfigurationOptions", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___tmd__GetVideoSourceConfigurationOptions(soap, &soap_tmp___tmd__GetVideoSourceConfigurationOptions, "-tmd:GetVideoSourceConfigurationOptions", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___tmd__GetVideoSourceConfigurationOptions(struct soap *soap, struct _tmd__GetVideoSourceConfigurationOptionsResponse *tmd__GetVideoSourceConfigurationOptionsResponse)
+{
+	if (!tmd__GetVideoSourceConfigurationOptionsResponse)
+		return soap_closesock(soap);
+	soap_default__tmd__GetVideoSourceConfigurationOptionsResponse(soap, tmd__GetVideoSourceConfigurationOptionsResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__tmd__GetVideoSourceConfigurationOptionsResponse(soap, tmd__GetVideoSourceConfigurationOptionsResponse, "tmd:GetVideoSourceConfigurationOptionsResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___tmd__GetVideoOutputConfigurationOptions(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tmd__GetVideoOutputConfigurationOptions *tmd__GetVideoOutputConfigurationOptions, struct _tmd__GetVideoOutputConfigurationOptionsResponse *tmd__GetVideoOutputConfigurationOptionsResponse)
+{	if (soap_send___tmd__GetVideoOutputConfigurationOptions(soap, soap_endpoint, soap_action, tmd__GetVideoOutputConfigurationOptions) || soap_recv___tmd__GetVideoOutputConfigurationOptions(soap, tmd__GetVideoOutputConfigurationOptionsResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___tmd__GetVideoOutputConfigurationOptions(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tmd__GetVideoOutputConfigurationOptions *tmd__GetVideoOutputConfigurationOptions)
+{	struct __tmd__GetVideoOutputConfigurationOptions soap_tmp___tmd__GetVideoOutputConfigurationOptions;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/deviceio/wsdl/GetVideoOutputConfigurationOptions";
+	soap_tmp___tmd__GetVideoOutputConfigurationOptions.tmd__GetVideoOutputConfigurationOptions = tmd__GetVideoOutputConfigurationOptions;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___tmd__GetVideoOutputConfigurationOptions(soap, &soap_tmp___tmd__GetVideoOutputConfigurationOptions);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___tmd__GetVideoOutputConfigurationOptions(soap, &soap_tmp___tmd__GetVideoOutputConfigurationOptions, "-tmd:GetVideoOutputConfigurationOptions", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___tmd__GetVideoOutputConfigurationOptions(soap, &soap_tmp___tmd__GetVideoOutputConfigurationOptions, "-tmd:GetVideoOutputConfigurationOptions", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___tmd__GetVideoOutputConfigurationOptions(struct soap *soap, struct _tmd__GetVideoOutputConfigurationOptionsResponse *tmd__GetVideoOutputConfigurationOptionsResponse)
+{
+	if (!tmd__GetVideoOutputConfigurationOptionsResponse)
+		return soap_closesock(soap);
+	soap_default__tmd__GetVideoOutputConfigurationOptionsResponse(soap, tmd__GetVideoOutputConfigurationOptionsResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__tmd__GetVideoOutputConfigurationOptionsResponse(soap, tmd__GetVideoOutputConfigurationOptionsResponse, "tmd:GetVideoOutputConfigurationOptionsResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___tmd__GetAudioSourceConfigurationOptions(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tmd__GetAudioSourceConfigurationOptions *tmd__GetAudioSourceConfigurationOptions, struct _tmd__GetAudioSourceConfigurationOptionsResponse *tmd__GetAudioSourceConfigurationOptionsResponse)
+{	if (soap_send___tmd__GetAudioSourceConfigurationOptions(soap, soap_endpoint, soap_action, tmd__GetAudioSourceConfigurationOptions) || soap_recv___tmd__GetAudioSourceConfigurationOptions(soap, tmd__GetAudioSourceConfigurationOptionsResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___tmd__GetAudioSourceConfigurationOptions(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tmd__GetAudioSourceConfigurationOptions *tmd__GetAudioSourceConfigurationOptions)
+{	struct __tmd__GetAudioSourceConfigurationOptions soap_tmp___tmd__GetAudioSourceConfigurationOptions;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/deviceio/wsdl/GetAudioSourceConfigurationOptions";
+	soap_tmp___tmd__GetAudioSourceConfigurationOptions.tmd__GetAudioSourceConfigurationOptions = tmd__GetAudioSourceConfigurationOptions;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___tmd__GetAudioSourceConfigurationOptions(soap, &soap_tmp___tmd__GetAudioSourceConfigurationOptions);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___tmd__GetAudioSourceConfigurationOptions(soap, &soap_tmp___tmd__GetAudioSourceConfigurationOptions, "-tmd:GetAudioSourceConfigurationOptions", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___tmd__GetAudioSourceConfigurationOptions(soap, &soap_tmp___tmd__GetAudioSourceConfigurationOptions, "-tmd:GetAudioSourceConfigurationOptions", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___tmd__GetAudioSourceConfigurationOptions(struct soap *soap, struct _tmd__GetAudioSourceConfigurationOptionsResponse *tmd__GetAudioSourceConfigurationOptionsResponse)
+{
+	if (!tmd__GetAudioSourceConfigurationOptionsResponse)
+		return soap_closesock(soap);
+	soap_default__tmd__GetAudioSourceConfigurationOptionsResponse(soap, tmd__GetAudioSourceConfigurationOptionsResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__tmd__GetAudioSourceConfigurationOptionsResponse(soap, tmd__GetAudioSourceConfigurationOptionsResponse, "tmd:GetAudioSourceConfigurationOptionsResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___tmd__GetAudioOutputConfigurationOptions(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tmd__GetAudioOutputConfigurationOptions *tmd__GetAudioOutputConfigurationOptions, struct _tmd__GetAudioOutputConfigurationOptionsResponse *tmd__GetAudioOutputConfigurationOptionsResponse)
+{	if (soap_send___tmd__GetAudioOutputConfigurationOptions(soap, soap_endpoint, soap_action, tmd__GetAudioOutputConfigurationOptions) || soap_recv___tmd__GetAudioOutputConfigurationOptions(soap, tmd__GetAudioOutputConfigurationOptionsResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___tmd__GetAudioOutputConfigurationOptions(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tmd__GetAudioOutputConfigurationOptions *tmd__GetAudioOutputConfigurationOptions)
+{	struct __tmd__GetAudioOutputConfigurationOptions soap_tmp___tmd__GetAudioOutputConfigurationOptions;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/deviceio/wsdl/GetAudioOutputConfigurationOptions";
+	soap_tmp___tmd__GetAudioOutputConfigurationOptions.tmd__GetAudioOutputConfigurationOptions = tmd__GetAudioOutputConfigurationOptions;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___tmd__GetAudioOutputConfigurationOptions(soap, &soap_tmp___tmd__GetAudioOutputConfigurationOptions);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___tmd__GetAudioOutputConfigurationOptions(soap, &soap_tmp___tmd__GetAudioOutputConfigurationOptions, "-tmd:GetAudioOutputConfigurationOptions", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___tmd__GetAudioOutputConfigurationOptions(soap, &soap_tmp___tmd__GetAudioOutputConfigurationOptions, "-tmd:GetAudioOutputConfigurationOptions", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___tmd__GetAudioOutputConfigurationOptions(struct soap *soap, struct _tmd__GetAudioOutputConfigurationOptionsResponse *tmd__GetAudioOutputConfigurationOptionsResponse)
+{
+	if (!tmd__GetAudioOutputConfigurationOptionsResponse)
+		return soap_closesock(soap);
+	soap_default__tmd__GetAudioOutputConfigurationOptionsResponse(soap, tmd__GetAudioOutputConfigurationOptionsResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__tmd__GetAudioOutputConfigurationOptionsResponse(soap, tmd__GetAudioOutputConfigurationOptionsResponse, "tmd:GetAudioOutputConfigurationOptionsResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___tmd__GetRelayOutputs(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tds__GetRelayOutputs *tds__GetRelayOutputs, struct _tds__GetRelayOutputsResponse *tds__GetRelayOutputsResponse)
+{	if (soap_send___tmd__GetRelayOutputs(soap, soap_endpoint, soap_action, tds__GetRelayOutputs) || soap_recv___tmd__GetRelayOutputs(soap, tds__GetRelayOutputsResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___tmd__GetRelayOutputs(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tds__GetRelayOutputs *tds__GetRelayOutputs)
+{	struct __tmd__GetRelayOutputs soap_tmp___tmd__GetRelayOutputs;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/deviceio/wsdl/GetRelayOutputs";
+	soap_tmp___tmd__GetRelayOutputs.tds__GetRelayOutputs = tds__GetRelayOutputs;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___tmd__GetRelayOutputs(soap, &soap_tmp___tmd__GetRelayOutputs);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___tmd__GetRelayOutputs(soap, &soap_tmp___tmd__GetRelayOutputs, "-tmd:GetRelayOutputs", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___tmd__GetRelayOutputs(soap, &soap_tmp___tmd__GetRelayOutputs, "-tmd:GetRelayOutputs", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___tmd__GetRelayOutputs(struct soap *soap, struct _tds__GetRelayOutputsResponse *tds__GetRelayOutputsResponse)
+{
+	if (!tds__GetRelayOutputsResponse)
+		return soap_closesock(soap);
+	soap_default__tds__GetRelayOutputsResponse(soap, tds__GetRelayOutputsResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__tds__GetRelayOutputsResponse(soap, tds__GetRelayOutputsResponse, "tds:GetRelayOutputsResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___tmd__SetRelayOutputSettings(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tmd__SetRelayOutputSettings *tmd__SetRelayOutputSettings, struct _tmd__SetRelayOutputSettingsResponse *tmd__SetRelayOutputSettingsResponse)
+{	if (soap_send___tmd__SetRelayOutputSettings(soap, soap_endpoint, soap_action, tmd__SetRelayOutputSettings) || soap_recv___tmd__SetRelayOutputSettings(soap, tmd__SetRelayOutputSettingsResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___tmd__SetRelayOutputSettings(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tmd__SetRelayOutputSettings *tmd__SetRelayOutputSettings)
+{	struct __tmd__SetRelayOutputSettings soap_tmp___tmd__SetRelayOutputSettings;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/deviceio/wsdl/SetRelayOutputSettings";
+	soap_tmp___tmd__SetRelayOutputSettings.tmd__SetRelayOutputSettings = tmd__SetRelayOutputSettings;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___tmd__SetRelayOutputSettings(soap, &soap_tmp___tmd__SetRelayOutputSettings);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___tmd__SetRelayOutputSettings(soap, &soap_tmp___tmd__SetRelayOutputSettings, "-tmd:SetRelayOutputSettings", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___tmd__SetRelayOutputSettings(soap, &soap_tmp___tmd__SetRelayOutputSettings, "-tmd:SetRelayOutputSettings", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___tmd__SetRelayOutputSettings(struct soap *soap, struct _tmd__SetRelayOutputSettingsResponse *tmd__SetRelayOutputSettingsResponse)
+{
+	if (!tmd__SetRelayOutputSettingsResponse)
+		return soap_closesock(soap);
+	soap_default__tmd__SetRelayOutputSettingsResponse(soap, tmd__SetRelayOutputSettingsResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__tmd__SetRelayOutputSettingsResponse(soap, tmd__SetRelayOutputSettingsResponse, "tmd:SetRelayOutputSettingsResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___tmd__SetRelayOutputState(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tds__SetRelayOutputState *tds__SetRelayOutputState, struct _tds__SetRelayOutputStateResponse *tds__SetRelayOutputStateResponse)
+{	if (soap_send___tmd__SetRelayOutputState(soap, soap_endpoint, soap_action, tds__SetRelayOutputState) || soap_recv___tmd__SetRelayOutputState(soap, tds__SetRelayOutputStateResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___tmd__SetRelayOutputState(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tds__SetRelayOutputState *tds__SetRelayOutputState)
+{	struct __tmd__SetRelayOutputState soap_tmp___tmd__SetRelayOutputState;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/deviceio/wsdl/SetRelayOutputState";
+	soap_tmp___tmd__SetRelayOutputState.tds__SetRelayOutputState = tds__SetRelayOutputState;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___tmd__SetRelayOutputState(soap, &soap_tmp___tmd__SetRelayOutputState);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___tmd__SetRelayOutputState(soap, &soap_tmp___tmd__SetRelayOutputState, "-tmd:SetRelayOutputState", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___tmd__SetRelayOutputState(soap, &soap_tmp___tmd__SetRelayOutputState, "-tmd:SetRelayOutputState", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___tmd__SetRelayOutputState(struct soap *soap, struct _tds__SetRelayOutputStateResponse *tds__SetRelayOutputStateResponse)
+{
+	if (!tds__SetRelayOutputStateResponse)
+		return soap_closesock(soap);
+	soap_default__tds__SetRelayOutputStateResponse(soap, tds__SetRelayOutputStateResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__tds__SetRelayOutputStateResponse(soap, tds__SetRelayOutputStateResponse, "tds:SetRelayOutputStateResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___tmd__GetDigitalInputs(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tmd__GetDigitalInputs *tmd__GetDigitalInputs, struct _tmd__GetDigitalInputsResponse *tmd__GetDigitalInputsResponse)
+{	if (soap_send___tmd__GetDigitalInputs(soap, soap_endpoint, soap_action, tmd__GetDigitalInputs) || soap_recv___tmd__GetDigitalInputs(soap, tmd__GetDigitalInputsResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___tmd__GetDigitalInputs(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tmd__GetDigitalInputs *tmd__GetDigitalInputs)
+{	struct __tmd__GetDigitalInputs soap_tmp___tmd__GetDigitalInputs;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/deviceio/wsdl/GetDigitalInputs";
+	soap_tmp___tmd__GetDigitalInputs.tmd__GetDigitalInputs = tmd__GetDigitalInputs;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___tmd__GetDigitalInputs(soap, &soap_tmp___tmd__GetDigitalInputs);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___tmd__GetDigitalInputs(soap, &soap_tmp___tmd__GetDigitalInputs, "-tmd:GetDigitalInputs", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___tmd__GetDigitalInputs(soap, &soap_tmp___tmd__GetDigitalInputs, "-tmd:GetDigitalInputs", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___tmd__GetDigitalInputs(struct soap *soap, struct _tmd__GetDigitalInputsResponse *tmd__GetDigitalInputsResponse)
+{
+	if (!tmd__GetDigitalInputsResponse)
+		return soap_closesock(soap);
+	soap_default__tmd__GetDigitalInputsResponse(soap, tmd__GetDigitalInputsResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__tmd__GetDigitalInputsResponse(soap, tmd__GetDigitalInputsResponse, "tmd:GetDigitalInputsResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___tmd__GetDigitalInputConfigurationOptions(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tmd__GetDigitalInputConfigurationOptions *tmd__GetDigitalInputConfigurationOptions, struct _tmd__GetDigitalInputConfigurationOptionsResponse *tmd__GetDigitalInputConfigurationOptionsResponse)
+{	if (soap_send___tmd__GetDigitalInputConfigurationOptions(soap, soap_endpoint, soap_action, tmd__GetDigitalInputConfigurationOptions) || soap_recv___tmd__GetDigitalInputConfigurationOptions(soap, tmd__GetDigitalInputConfigurationOptionsResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___tmd__GetDigitalInputConfigurationOptions(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tmd__GetDigitalInputConfigurationOptions *tmd__GetDigitalInputConfigurationOptions)
+{	struct __tmd__GetDigitalInputConfigurationOptions soap_tmp___tmd__GetDigitalInputConfigurationOptions;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/deviceio/wsdl/GetDigitalInputConfigurationOptions";
+	soap_tmp___tmd__GetDigitalInputConfigurationOptions.tmd__GetDigitalInputConfigurationOptions = tmd__GetDigitalInputConfigurationOptions;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___tmd__GetDigitalInputConfigurationOptions(soap, &soap_tmp___tmd__GetDigitalInputConfigurationOptions);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___tmd__GetDigitalInputConfigurationOptions(soap, &soap_tmp___tmd__GetDigitalInputConfigurationOptions, "-tmd:GetDigitalInputConfigurationOptions", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___tmd__GetDigitalInputConfigurationOptions(soap, &soap_tmp___tmd__GetDigitalInputConfigurationOptions, "-tmd:GetDigitalInputConfigurationOptions", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___tmd__GetDigitalInputConfigurationOptions(struct soap *soap, struct _tmd__GetDigitalInputConfigurationOptionsResponse *tmd__GetDigitalInputConfigurationOptionsResponse)
+{
+	if (!tmd__GetDigitalInputConfigurationOptionsResponse)
+		return soap_closesock(soap);
+	soap_default__tmd__GetDigitalInputConfigurationOptionsResponse(soap, tmd__GetDigitalInputConfigurationOptionsResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__tmd__GetDigitalInputConfigurationOptionsResponse(soap, tmd__GetDigitalInputConfigurationOptionsResponse, "tmd:GetDigitalInputConfigurationOptionsResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___tmd__SetDigitalInputConfigurations(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tmd__SetDigitalInputConfigurations *tmd__SetDigitalInputConfigurations, struct _tmd__SetDigitalInputConfigurationsResponse *tmd__SetDigitalInputConfigurationsResponse)
+{	if (soap_send___tmd__SetDigitalInputConfigurations(soap, soap_endpoint, soap_action, tmd__SetDigitalInputConfigurations) || soap_recv___tmd__SetDigitalInputConfigurations(soap, tmd__SetDigitalInputConfigurationsResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___tmd__SetDigitalInputConfigurations(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tmd__SetDigitalInputConfigurations *tmd__SetDigitalInputConfigurations)
+{	struct __tmd__SetDigitalInputConfigurations soap_tmp___tmd__SetDigitalInputConfigurations;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/deviceio/wsdl/SetDigitalInputConfigurations";
+	soap_tmp___tmd__SetDigitalInputConfigurations.tmd__SetDigitalInputConfigurations = tmd__SetDigitalInputConfigurations;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___tmd__SetDigitalInputConfigurations(soap, &soap_tmp___tmd__SetDigitalInputConfigurations);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___tmd__SetDigitalInputConfigurations(soap, &soap_tmp___tmd__SetDigitalInputConfigurations, "-tmd:SetDigitalInputConfigurations", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___tmd__SetDigitalInputConfigurations(soap, &soap_tmp___tmd__SetDigitalInputConfigurations, "-tmd:SetDigitalInputConfigurations", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___tmd__SetDigitalInputConfigurations(struct soap *soap, struct _tmd__SetDigitalInputConfigurationsResponse *tmd__SetDigitalInputConfigurationsResponse)
+{
+	if (!tmd__SetDigitalInputConfigurationsResponse)
+		return soap_closesock(soap);
+	soap_default__tmd__SetDigitalInputConfigurationsResponse(soap, tmd__SetDigitalInputConfigurationsResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__tmd__SetDigitalInputConfigurationsResponse(soap, tmd__SetDigitalInputConfigurationsResponse, "tmd:SetDigitalInputConfigurationsResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___tmd__GetSerialPorts(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tmd__GetSerialPorts *tmd__GetSerialPorts, struct _tmd__GetSerialPortsResponse *tmd__GetSerialPortsResponse)
+{	if (soap_send___tmd__GetSerialPorts(soap, soap_endpoint, soap_action, tmd__GetSerialPorts) || soap_recv___tmd__GetSerialPorts(soap, tmd__GetSerialPortsResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___tmd__GetSerialPorts(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tmd__GetSerialPorts *tmd__GetSerialPorts)
+{	struct __tmd__GetSerialPorts soap_tmp___tmd__GetSerialPorts;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/deviceio/wsdl/GetSerialPorts";
+	soap_tmp___tmd__GetSerialPorts.tmd__GetSerialPorts = tmd__GetSerialPorts;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___tmd__GetSerialPorts(soap, &soap_tmp___tmd__GetSerialPorts);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___tmd__GetSerialPorts(soap, &soap_tmp___tmd__GetSerialPorts, "-tmd:GetSerialPorts", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___tmd__GetSerialPorts(soap, &soap_tmp___tmd__GetSerialPorts, "-tmd:GetSerialPorts", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___tmd__GetSerialPorts(struct soap *soap, struct _tmd__GetSerialPortsResponse *tmd__GetSerialPortsResponse)
+{
+	if (!tmd__GetSerialPortsResponse)
+		return soap_closesock(soap);
+	soap_default__tmd__GetSerialPortsResponse(soap, tmd__GetSerialPortsResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__tmd__GetSerialPortsResponse(soap, tmd__GetSerialPortsResponse, "tmd:GetSerialPortsResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___tmd__GetSerialPortConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tmd__GetSerialPortConfiguration *tmd__GetSerialPortConfiguration, struct _tmd__GetSerialPortConfigurationResponse *tmd__GetSerialPortConfigurationResponse)
+{	if (soap_send___tmd__GetSerialPortConfiguration(soap, soap_endpoint, soap_action, tmd__GetSerialPortConfiguration) || soap_recv___tmd__GetSerialPortConfiguration(soap, tmd__GetSerialPortConfigurationResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___tmd__GetSerialPortConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tmd__GetSerialPortConfiguration *tmd__GetSerialPortConfiguration)
+{	struct __tmd__GetSerialPortConfiguration soap_tmp___tmd__GetSerialPortConfiguration;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/deviceio/wsdl/GetSerialPortConfigurations";
+	soap_tmp___tmd__GetSerialPortConfiguration.tmd__GetSerialPortConfiguration = tmd__GetSerialPortConfiguration;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___tmd__GetSerialPortConfiguration(soap, &soap_tmp___tmd__GetSerialPortConfiguration);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___tmd__GetSerialPortConfiguration(soap, &soap_tmp___tmd__GetSerialPortConfiguration, "-tmd:GetSerialPortConfiguration", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___tmd__GetSerialPortConfiguration(soap, &soap_tmp___tmd__GetSerialPortConfiguration, "-tmd:GetSerialPortConfiguration", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___tmd__GetSerialPortConfiguration(struct soap *soap, struct _tmd__GetSerialPortConfigurationResponse *tmd__GetSerialPortConfigurationResponse)
+{
+	if (!tmd__GetSerialPortConfigurationResponse)
+		return soap_closesock(soap);
+	soap_default__tmd__GetSerialPortConfigurationResponse(soap, tmd__GetSerialPortConfigurationResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__tmd__GetSerialPortConfigurationResponse(soap, tmd__GetSerialPortConfigurationResponse, "tmd:GetSerialPortConfigurationResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___tmd__SetSerialPortConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tmd__SetSerialPortConfiguration *tmd__SetSerialPortConfiguration, struct _tmd__SetSerialPortConfigurationResponse *tmd__SetSerialPortConfigurationResponse)
+{	if (soap_send___tmd__SetSerialPortConfiguration(soap, soap_endpoint, soap_action, tmd__SetSerialPortConfiguration) || soap_recv___tmd__SetSerialPortConfiguration(soap, tmd__SetSerialPortConfigurationResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___tmd__SetSerialPortConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tmd__SetSerialPortConfiguration *tmd__SetSerialPortConfiguration)
+{	struct __tmd__SetSerialPortConfiguration soap_tmp___tmd__SetSerialPortConfiguration;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/deviceio/wsdl/SetSerialPortConfiguration";
+	soap_tmp___tmd__SetSerialPortConfiguration.tmd__SetSerialPortConfiguration = tmd__SetSerialPortConfiguration;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___tmd__SetSerialPortConfiguration(soap, &soap_tmp___tmd__SetSerialPortConfiguration);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___tmd__SetSerialPortConfiguration(soap, &soap_tmp___tmd__SetSerialPortConfiguration, "-tmd:SetSerialPortConfiguration", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___tmd__SetSerialPortConfiguration(soap, &soap_tmp___tmd__SetSerialPortConfiguration, "-tmd:SetSerialPortConfiguration", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___tmd__SetSerialPortConfiguration(struct soap *soap, struct _tmd__SetSerialPortConfigurationResponse *tmd__SetSerialPortConfigurationResponse)
+{
+	if (!tmd__SetSerialPortConfigurationResponse)
+		return soap_closesock(soap);
+	soap_default__tmd__SetSerialPortConfigurationResponse(soap, tmd__SetSerialPortConfigurationResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__tmd__SetSerialPortConfigurationResponse(soap, tmd__SetSerialPortConfigurationResponse, "tmd:SetSerialPortConfigurationResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___tmd__GetSerialPortConfigurationOptions(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tmd__GetSerialPortConfigurationOptions *tmd__GetSerialPortConfigurationOptions, struct _tmd__GetSerialPortConfigurationOptionsResponse *tmd__GetSerialPortConfigurationOptionsResponse)
+{	if (soap_send___tmd__GetSerialPortConfigurationOptions(soap, soap_endpoint, soap_action, tmd__GetSerialPortConfigurationOptions) || soap_recv___tmd__GetSerialPortConfigurationOptions(soap, tmd__GetSerialPortConfigurationOptionsResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___tmd__GetSerialPortConfigurationOptions(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tmd__GetSerialPortConfigurationOptions *tmd__GetSerialPortConfigurationOptions)
+{	struct __tmd__GetSerialPortConfigurationOptions soap_tmp___tmd__GetSerialPortConfigurationOptions;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/deviceio/wsdl/GetSerialPortConfigurationOptions";
+	soap_tmp___tmd__GetSerialPortConfigurationOptions.tmd__GetSerialPortConfigurationOptions = tmd__GetSerialPortConfigurationOptions;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___tmd__GetSerialPortConfigurationOptions(soap, &soap_tmp___tmd__GetSerialPortConfigurationOptions);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___tmd__GetSerialPortConfigurationOptions(soap, &soap_tmp___tmd__GetSerialPortConfigurationOptions, "-tmd:GetSerialPortConfigurationOptions", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___tmd__GetSerialPortConfigurationOptions(soap, &soap_tmp___tmd__GetSerialPortConfigurationOptions, "-tmd:GetSerialPortConfigurationOptions", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___tmd__GetSerialPortConfigurationOptions(struct soap *soap, struct _tmd__GetSerialPortConfigurationOptionsResponse *tmd__GetSerialPortConfigurationOptionsResponse)
+{
+	if (!tmd__GetSerialPortConfigurationOptionsResponse)
+		return soap_closesock(soap);
+	soap_default__tmd__GetSerialPortConfigurationOptionsResponse(soap, tmd__GetSerialPortConfigurationOptionsResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__tmd__GetSerialPortConfigurationOptionsResponse(soap, tmd__GetSerialPortConfigurationOptionsResponse, "tmd:GetSerialPortConfigurationOptionsResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___tmd__SendReceiveSerialCommand(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tmd__SendReceiveSerialCommand *tmd__SendReceiveSerialCommand, struct _tmd__SendReceiveSerialCommandResponse *tmd__SendReceiveSerialCommandResponse)
+{	if (soap_send___tmd__SendReceiveSerialCommand(soap, soap_endpoint, soap_action, tmd__SendReceiveSerialCommand) || soap_recv___tmd__SendReceiveSerialCommand(soap, tmd__SendReceiveSerialCommandResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___tmd__SendReceiveSerialCommand(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tmd__SendReceiveSerialCommand *tmd__SendReceiveSerialCommand)
+{	struct __tmd__SendReceiveSerialCommand soap_tmp___tmd__SendReceiveSerialCommand;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/deviceio/wsdl/SendReceiveSerialCommand";
+	soap_tmp___tmd__SendReceiveSerialCommand.tmd__SendReceiveSerialCommand = tmd__SendReceiveSerialCommand;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___tmd__SendReceiveSerialCommand(soap, &soap_tmp___tmd__SendReceiveSerialCommand);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___tmd__SendReceiveSerialCommand(soap, &soap_tmp___tmd__SendReceiveSerialCommand, "-tmd:SendReceiveSerialCommand", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___tmd__SendReceiveSerialCommand(soap, &soap_tmp___tmd__SendReceiveSerialCommand, "-tmd:SendReceiveSerialCommand", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___tmd__SendReceiveSerialCommand(struct soap *soap, struct _tmd__SendReceiveSerialCommandResponse *tmd__SendReceiveSerialCommandResponse)
+{
+	if (!tmd__SendReceiveSerialCommandResponse)
+		return soap_closesock(soap);
+	soap_default__tmd__SendReceiveSerialCommandResponse(soap, tmd__SendReceiveSerialCommandResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__tmd__SendReceiveSerialCommandResponse(soap, tmd__SendReceiveSerialCommandResponse, "tmd:SendReceiveSerialCommandResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___tptz__GetServiceCapabilities(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tptz__GetServiceCapabilities *tptz__GetServiceCapabilities, struct _tptz__GetServiceCapabilitiesResponse *tptz__GetServiceCapabilitiesResponse)
+{	if (soap_send___tptz__GetServiceCapabilities(soap, soap_endpoint, soap_action, tptz__GetServiceCapabilities) || soap_recv___tptz__GetServiceCapabilities(soap, tptz__GetServiceCapabilitiesResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___tptz__GetServiceCapabilities(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tptz__GetServiceCapabilities *tptz__GetServiceCapabilities)
+{	struct __tptz__GetServiceCapabilities soap_tmp___tptz__GetServiceCapabilities;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver20/ptz/wsdl/GetServiceCapabilities";
+	soap_tmp___tptz__GetServiceCapabilities.tptz__GetServiceCapabilities = tptz__GetServiceCapabilities;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___tptz__GetServiceCapabilities(soap, &soap_tmp___tptz__GetServiceCapabilities);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___tptz__GetServiceCapabilities(soap, &soap_tmp___tptz__GetServiceCapabilities, "-tptz:GetServiceCapabilities", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___tptz__GetServiceCapabilities(soap, &soap_tmp___tptz__GetServiceCapabilities, "-tptz:GetServiceCapabilities", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___tptz__GetServiceCapabilities(struct soap *soap, struct _tptz__GetServiceCapabilitiesResponse *tptz__GetServiceCapabilitiesResponse)
+{
+	if (!tptz__GetServiceCapabilitiesResponse)
+		return soap_closesock(soap);
+	soap_default__tptz__GetServiceCapabilitiesResponse(soap, tptz__GetServiceCapabilitiesResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__tptz__GetServiceCapabilitiesResponse(soap, tptz__GetServiceCapabilitiesResponse, "tptz:GetServiceCapabilitiesResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___tptz__GetConfigurations(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tptz__GetConfigurations *tptz__GetConfigurations, struct _tptz__GetConfigurationsResponse *tptz__GetConfigurationsResponse)
+{	if (soap_send___tptz__GetConfigurations(soap, soap_endpoint, soap_action, tptz__GetConfigurations) || soap_recv___tptz__GetConfigurations(soap, tptz__GetConfigurationsResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___tptz__GetConfigurations(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tptz__GetConfigurations *tptz__GetConfigurations)
+{	struct __tptz__GetConfigurations soap_tmp___tptz__GetConfigurations;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver20/ptz/wsdl/GetConfigurations";
+	soap_tmp___tptz__GetConfigurations.tptz__GetConfigurations = tptz__GetConfigurations;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___tptz__GetConfigurations(soap, &soap_tmp___tptz__GetConfigurations);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___tptz__GetConfigurations(soap, &soap_tmp___tptz__GetConfigurations, "-tptz:GetConfigurations", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___tptz__GetConfigurations(soap, &soap_tmp___tptz__GetConfigurations, "-tptz:GetConfigurations", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___tptz__GetConfigurations(struct soap *soap, struct _tptz__GetConfigurationsResponse *tptz__GetConfigurationsResponse)
+{
+	if (!tptz__GetConfigurationsResponse)
+		return soap_closesock(soap);
+	soap_default__tptz__GetConfigurationsResponse(soap, tptz__GetConfigurationsResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__tptz__GetConfigurationsResponse(soap, tptz__GetConfigurationsResponse, "tptz:GetConfigurationsResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___tptz__GetPresets(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tptz__GetPresets *tptz__GetPresets, struct _tptz__GetPresetsResponse *tptz__GetPresetsResponse)
+{	if (soap_send___tptz__GetPresets(soap, soap_endpoint, soap_action, tptz__GetPresets) || soap_recv___tptz__GetPresets(soap, tptz__GetPresetsResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___tptz__GetPresets(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tptz__GetPresets *tptz__GetPresets)
+{	struct __tptz__GetPresets soap_tmp___tptz__GetPresets;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver20/ptz/wsdl/GetPresets";
+	soap_tmp___tptz__GetPresets.tptz__GetPresets = tptz__GetPresets;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___tptz__GetPresets(soap, &soap_tmp___tptz__GetPresets);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___tptz__GetPresets(soap, &soap_tmp___tptz__GetPresets, "-tptz:GetPresets", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___tptz__GetPresets(soap, &soap_tmp___tptz__GetPresets, "-tptz:GetPresets", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___tptz__GetPresets(struct soap *soap, struct _tptz__GetPresetsResponse *tptz__GetPresetsResponse)
+{
+	if (!tptz__GetPresetsResponse)
+		return soap_closesock(soap);
+	soap_default__tptz__GetPresetsResponse(soap, tptz__GetPresetsResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__tptz__GetPresetsResponse(soap, tptz__GetPresetsResponse, "tptz:GetPresetsResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___tptz__SetPreset(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tptz__SetPreset *tptz__SetPreset, struct _tptz__SetPresetResponse *tptz__SetPresetResponse)
+{	if (soap_send___tptz__SetPreset(soap, soap_endpoint, soap_action, tptz__SetPreset) || soap_recv___tptz__SetPreset(soap, tptz__SetPresetResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___tptz__SetPreset(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tptz__SetPreset *tptz__SetPreset)
+{	struct __tptz__SetPreset soap_tmp___tptz__SetPreset;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver20/ptz/wsdl/SetPreset";
+	soap_tmp___tptz__SetPreset.tptz__SetPreset = tptz__SetPreset;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___tptz__SetPreset(soap, &soap_tmp___tptz__SetPreset);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___tptz__SetPreset(soap, &soap_tmp___tptz__SetPreset, "-tptz:SetPreset", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___tptz__SetPreset(soap, &soap_tmp___tptz__SetPreset, "-tptz:SetPreset", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___tptz__SetPreset(struct soap *soap, struct _tptz__SetPresetResponse *tptz__SetPresetResponse)
+{
+	if (!tptz__SetPresetResponse)
+		return soap_closesock(soap);
+	soap_default__tptz__SetPresetResponse(soap, tptz__SetPresetResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__tptz__SetPresetResponse(soap, tptz__SetPresetResponse, "tptz:SetPresetResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___tptz__RemovePreset(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tptz__RemovePreset *tptz__RemovePreset, struct _tptz__RemovePresetResponse *tptz__RemovePresetResponse)
+{	if (soap_send___tptz__RemovePreset(soap, soap_endpoint, soap_action, tptz__RemovePreset) || soap_recv___tptz__RemovePreset(soap, tptz__RemovePresetResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___tptz__RemovePreset(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tptz__RemovePreset *tptz__RemovePreset)
+{	struct __tptz__RemovePreset soap_tmp___tptz__RemovePreset;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver20/ptz/wsdl/RemovePreset";
+	soap_tmp___tptz__RemovePreset.tptz__RemovePreset = tptz__RemovePreset;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___tptz__RemovePreset(soap, &soap_tmp___tptz__RemovePreset);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___tptz__RemovePreset(soap, &soap_tmp___tptz__RemovePreset, "-tptz:RemovePreset", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___tptz__RemovePreset(soap, &soap_tmp___tptz__RemovePreset, "-tptz:RemovePreset", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___tptz__RemovePreset(struct soap *soap, struct _tptz__RemovePresetResponse *tptz__RemovePresetResponse)
+{
+	if (!tptz__RemovePresetResponse)
+		return soap_closesock(soap);
+	soap_default__tptz__RemovePresetResponse(soap, tptz__RemovePresetResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__tptz__RemovePresetResponse(soap, tptz__RemovePresetResponse, "tptz:RemovePresetResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___tptz__GotoPreset(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tptz__GotoPreset *tptz__GotoPreset, struct _tptz__GotoPresetResponse *tptz__GotoPresetResponse)
+{	if (soap_send___tptz__GotoPreset(soap, soap_endpoint, soap_action, tptz__GotoPreset) || soap_recv___tptz__GotoPreset(soap, tptz__GotoPresetResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___tptz__GotoPreset(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tptz__GotoPreset *tptz__GotoPreset)
+{	struct __tptz__GotoPreset soap_tmp___tptz__GotoPreset;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver20/ptz/wsdl/GotoPreset";
+	soap_tmp___tptz__GotoPreset.tptz__GotoPreset = tptz__GotoPreset;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___tptz__GotoPreset(soap, &soap_tmp___tptz__GotoPreset);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___tptz__GotoPreset(soap, &soap_tmp___tptz__GotoPreset, "-tptz:GotoPreset", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___tptz__GotoPreset(soap, &soap_tmp___tptz__GotoPreset, "-tptz:GotoPreset", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___tptz__GotoPreset(struct soap *soap, struct _tptz__GotoPresetResponse *tptz__GotoPresetResponse)
+{
+	if (!tptz__GotoPresetResponse)
+		return soap_closesock(soap);
+	soap_default__tptz__GotoPresetResponse(soap, tptz__GotoPresetResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__tptz__GotoPresetResponse(soap, tptz__GotoPresetResponse, "tptz:GotoPresetResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___tptz__GetStatus(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tptz__GetStatus *tptz__GetStatus, struct _tptz__GetStatusResponse *tptz__GetStatusResponse)
+{	if (soap_send___tptz__GetStatus(soap, soap_endpoint, soap_action, tptz__GetStatus) || soap_recv___tptz__GetStatus(soap, tptz__GetStatusResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___tptz__GetStatus(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tptz__GetStatus *tptz__GetStatus)
+{	struct __tptz__GetStatus soap_tmp___tptz__GetStatus;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver20/ptz/wsdl/GetStatus";
+	soap_tmp___tptz__GetStatus.tptz__GetStatus = tptz__GetStatus;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___tptz__GetStatus(soap, &soap_tmp___tptz__GetStatus);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___tptz__GetStatus(soap, &soap_tmp___tptz__GetStatus, "-tptz:GetStatus", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___tptz__GetStatus(soap, &soap_tmp___tptz__GetStatus, "-tptz:GetStatus", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___tptz__GetStatus(struct soap *soap, struct _tptz__GetStatusResponse *tptz__GetStatusResponse)
+{
+	if (!tptz__GetStatusResponse)
+		return soap_closesock(soap);
+	soap_default__tptz__GetStatusResponse(soap, tptz__GetStatusResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__tptz__GetStatusResponse(soap, tptz__GetStatusResponse, "tptz:GetStatusResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___tptz__GetConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tptz__GetConfiguration *tptz__GetConfiguration, struct _tptz__GetConfigurationResponse *tptz__GetConfigurationResponse)
+{	if (soap_send___tptz__GetConfiguration(soap, soap_endpoint, soap_action, tptz__GetConfiguration) || soap_recv___tptz__GetConfiguration(soap, tptz__GetConfigurationResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___tptz__GetConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tptz__GetConfiguration *tptz__GetConfiguration)
+{	struct __tptz__GetConfiguration soap_tmp___tptz__GetConfiguration;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver20/ptz/wsdl/GetConfiguration";
+	soap_tmp___tptz__GetConfiguration.tptz__GetConfiguration = tptz__GetConfiguration;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___tptz__GetConfiguration(soap, &soap_tmp___tptz__GetConfiguration);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___tptz__GetConfiguration(soap, &soap_tmp___tptz__GetConfiguration, "-tptz:GetConfiguration", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___tptz__GetConfiguration(soap, &soap_tmp___tptz__GetConfiguration, "-tptz:GetConfiguration", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___tptz__GetConfiguration(struct soap *soap, struct _tptz__GetConfigurationResponse *tptz__GetConfigurationResponse)
+{
+	if (!tptz__GetConfigurationResponse)
+		return soap_closesock(soap);
+	soap_default__tptz__GetConfigurationResponse(soap, tptz__GetConfigurationResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__tptz__GetConfigurationResponse(soap, tptz__GetConfigurationResponse, "tptz:GetConfigurationResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___tptz__GetNodes(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tptz__GetNodes *tptz__GetNodes, struct _tptz__GetNodesResponse *tptz__GetNodesResponse)
+{	if (soap_send___tptz__GetNodes(soap, soap_endpoint, soap_action, tptz__GetNodes) || soap_recv___tptz__GetNodes(soap, tptz__GetNodesResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___tptz__GetNodes(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tptz__GetNodes *tptz__GetNodes)
+{	struct __tptz__GetNodes soap_tmp___tptz__GetNodes;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver20/ptz/wsdl/GetNodes";
+	soap_tmp___tptz__GetNodes.tptz__GetNodes = tptz__GetNodes;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___tptz__GetNodes(soap, &soap_tmp___tptz__GetNodes);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___tptz__GetNodes(soap, &soap_tmp___tptz__GetNodes, "-tptz:GetNodes", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___tptz__GetNodes(soap, &soap_tmp___tptz__GetNodes, "-tptz:GetNodes", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___tptz__GetNodes(struct soap *soap, struct _tptz__GetNodesResponse *tptz__GetNodesResponse)
+{
+	if (!tptz__GetNodesResponse)
+		return soap_closesock(soap);
+	soap_default__tptz__GetNodesResponse(soap, tptz__GetNodesResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__tptz__GetNodesResponse(soap, tptz__GetNodesResponse, "tptz:GetNodesResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___tptz__GetNode(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tptz__GetNode *tptz__GetNode, struct _tptz__GetNodeResponse *tptz__GetNodeResponse)
+{	if (soap_send___tptz__GetNode(soap, soap_endpoint, soap_action, tptz__GetNode) || soap_recv___tptz__GetNode(soap, tptz__GetNodeResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___tptz__GetNode(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tptz__GetNode *tptz__GetNode)
+{	struct __tptz__GetNode soap_tmp___tptz__GetNode;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver20/ptz/wsdl/GetNode";
+	soap_tmp___tptz__GetNode.tptz__GetNode = tptz__GetNode;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___tptz__GetNode(soap, &soap_tmp___tptz__GetNode);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___tptz__GetNode(soap, &soap_tmp___tptz__GetNode, "-tptz:GetNode", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___tptz__GetNode(soap, &soap_tmp___tptz__GetNode, "-tptz:GetNode", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___tptz__GetNode(struct soap *soap, struct _tptz__GetNodeResponse *tptz__GetNodeResponse)
+{
+	if (!tptz__GetNodeResponse)
+		return soap_closesock(soap);
+	soap_default__tptz__GetNodeResponse(soap, tptz__GetNodeResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__tptz__GetNodeResponse(soap, tptz__GetNodeResponse, "tptz:GetNodeResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___tptz__SetConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tptz__SetConfiguration *tptz__SetConfiguration, struct _tptz__SetConfigurationResponse *tptz__SetConfigurationResponse)
+{	if (soap_send___tptz__SetConfiguration(soap, soap_endpoint, soap_action, tptz__SetConfiguration) || soap_recv___tptz__SetConfiguration(soap, tptz__SetConfigurationResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___tptz__SetConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tptz__SetConfiguration *tptz__SetConfiguration)
+{	struct __tptz__SetConfiguration soap_tmp___tptz__SetConfiguration;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver20/ptz/wsdl/SetConfiguration";
+	soap_tmp___tptz__SetConfiguration.tptz__SetConfiguration = tptz__SetConfiguration;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___tptz__SetConfiguration(soap, &soap_tmp___tptz__SetConfiguration);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___tptz__SetConfiguration(soap, &soap_tmp___tptz__SetConfiguration, "-tptz:SetConfiguration", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___tptz__SetConfiguration(soap, &soap_tmp___tptz__SetConfiguration, "-tptz:SetConfiguration", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___tptz__SetConfiguration(struct soap *soap, struct _tptz__SetConfigurationResponse *tptz__SetConfigurationResponse)
+{
+	if (!tptz__SetConfigurationResponse)
+		return soap_closesock(soap);
+	soap_default__tptz__SetConfigurationResponse(soap, tptz__SetConfigurationResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__tptz__SetConfigurationResponse(soap, tptz__SetConfigurationResponse, "tptz:SetConfigurationResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___tptz__GetConfigurationOptions(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tptz__GetConfigurationOptions *tptz__GetConfigurationOptions, struct _tptz__GetConfigurationOptionsResponse *tptz__GetConfigurationOptionsResponse)
+{	if (soap_send___tptz__GetConfigurationOptions(soap, soap_endpoint, soap_action, tptz__GetConfigurationOptions) || soap_recv___tptz__GetConfigurationOptions(soap, tptz__GetConfigurationOptionsResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___tptz__GetConfigurationOptions(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tptz__GetConfigurationOptions *tptz__GetConfigurationOptions)
+{	struct __tptz__GetConfigurationOptions soap_tmp___tptz__GetConfigurationOptions;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver20/ptz/wsdl/GetConfigurationOptions";
+	soap_tmp___tptz__GetConfigurationOptions.tptz__GetConfigurationOptions = tptz__GetConfigurationOptions;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___tptz__GetConfigurationOptions(soap, &soap_tmp___tptz__GetConfigurationOptions);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___tptz__GetConfigurationOptions(soap, &soap_tmp___tptz__GetConfigurationOptions, "-tptz:GetConfigurationOptions", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___tptz__GetConfigurationOptions(soap, &soap_tmp___tptz__GetConfigurationOptions, "-tptz:GetConfigurationOptions", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___tptz__GetConfigurationOptions(struct soap *soap, struct _tptz__GetConfigurationOptionsResponse *tptz__GetConfigurationOptionsResponse)
+{
+	if (!tptz__GetConfigurationOptionsResponse)
+		return soap_closesock(soap);
+	soap_default__tptz__GetConfigurationOptionsResponse(soap, tptz__GetConfigurationOptionsResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__tptz__GetConfigurationOptionsResponse(soap, tptz__GetConfigurationOptionsResponse, "tptz:GetConfigurationOptionsResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___tptz__GotoHomePosition(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tptz__GotoHomePosition *tptz__GotoHomePosition, struct _tptz__GotoHomePositionResponse *tptz__GotoHomePositionResponse)
+{	if (soap_send___tptz__GotoHomePosition(soap, soap_endpoint, soap_action, tptz__GotoHomePosition) || soap_recv___tptz__GotoHomePosition(soap, tptz__GotoHomePositionResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___tptz__GotoHomePosition(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tptz__GotoHomePosition *tptz__GotoHomePosition)
+{	struct __tptz__GotoHomePosition soap_tmp___tptz__GotoHomePosition;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver20/ptz/wsdl/GotoHomePosition";
+	soap_tmp___tptz__GotoHomePosition.tptz__GotoHomePosition = tptz__GotoHomePosition;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___tptz__GotoHomePosition(soap, &soap_tmp___tptz__GotoHomePosition);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___tptz__GotoHomePosition(soap, &soap_tmp___tptz__GotoHomePosition, "-tptz:GotoHomePosition", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___tptz__GotoHomePosition(soap, &soap_tmp___tptz__GotoHomePosition, "-tptz:GotoHomePosition", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___tptz__GotoHomePosition(struct soap *soap, struct _tptz__GotoHomePositionResponse *tptz__GotoHomePositionResponse)
+{
+	if (!tptz__GotoHomePositionResponse)
+		return soap_closesock(soap);
+	soap_default__tptz__GotoHomePositionResponse(soap, tptz__GotoHomePositionResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__tptz__GotoHomePositionResponse(soap, tptz__GotoHomePositionResponse, "tptz:GotoHomePositionResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___tptz__SetHomePosition(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tptz__SetHomePosition *tptz__SetHomePosition, struct _tptz__SetHomePositionResponse *tptz__SetHomePositionResponse)
+{	if (soap_send___tptz__SetHomePosition(soap, soap_endpoint, soap_action, tptz__SetHomePosition) || soap_recv___tptz__SetHomePosition(soap, tptz__SetHomePositionResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___tptz__SetHomePosition(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tptz__SetHomePosition *tptz__SetHomePosition)
+{	struct __tptz__SetHomePosition soap_tmp___tptz__SetHomePosition;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver20/ptz/wsdl/SetHomePosition";
+	soap_tmp___tptz__SetHomePosition.tptz__SetHomePosition = tptz__SetHomePosition;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___tptz__SetHomePosition(soap, &soap_tmp___tptz__SetHomePosition);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___tptz__SetHomePosition(soap, &soap_tmp___tptz__SetHomePosition, "-tptz:SetHomePosition", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___tptz__SetHomePosition(soap, &soap_tmp___tptz__SetHomePosition, "-tptz:SetHomePosition", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___tptz__SetHomePosition(struct soap *soap, struct _tptz__SetHomePositionResponse *tptz__SetHomePositionResponse)
+{
+	if (!tptz__SetHomePositionResponse)
+		return soap_closesock(soap);
+	soap_default__tptz__SetHomePositionResponse(soap, tptz__SetHomePositionResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__tptz__SetHomePositionResponse(soap, tptz__SetHomePositionResponse, "tptz:SetHomePositionResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___tptz__ContinuousMove(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tptz__ContinuousMove *tptz__ContinuousMove, struct _tptz__ContinuousMoveResponse *tptz__ContinuousMoveResponse)
+{	if (soap_send___tptz__ContinuousMove(soap, soap_endpoint, soap_action, tptz__ContinuousMove) || soap_recv___tptz__ContinuousMove(soap, tptz__ContinuousMoveResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___tptz__ContinuousMove(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tptz__ContinuousMove *tptz__ContinuousMove)
+{	struct __tptz__ContinuousMove soap_tmp___tptz__ContinuousMove;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver20/ptz/wsdl/ContinuousMove";
+	soap_tmp___tptz__ContinuousMove.tptz__ContinuousMove = tptz__ContinuousMove;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___tptz__ContinuousMove(soap, &soap_tmp___tptz__ContinuousMove);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___tptz__ContinuousMove(soap, &soap_tmp___tptz__ContinuousMove, "-tptz:ContinuousMove", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___tptz__ContinuousMove(soap, &soap_tmp___tptz__ContinuousMove, "-tptz:ContinuousMove", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___tptz__ContinuousMove(struct soap *soap, struct _tptz__ContinuousMoveResponse *tptz__ContinuousMoveResponse)
+{
+	if (!tptz__ContinuousMoveResponse)
+		return soap_closesock(soap);
+	soap_default__tptz__ContinuousMoveResponse(soap, tptz__ContinuousMoveResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__tptz__ContinuousMoveResponse(soap, tptz__ContinuousMoveResponse, "tptz:ContinuousMoveResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___tptz__RelativeMove(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tptz__RelativeMove *tptz__RelativeMove, struct _tptz__RelativeMoveResponse *tptz__RelativeMoveResponse)
+{	if (soap_send___tptz__RelativeMove(soap, soap_endpoint, soap_action, tptz__RelativeMove) || soap_recv___tptz__RelativeMove(soap, tptz__RelativeMoveResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___tptz__RelativeMove(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tptz__RelativeMove *tptz__RelativeMove)
+{	struct __tptz__RelativeMove soap_tmp___tptz__RelativeMove;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver20/ptz/wsdl/RelativeMove";
+	soap_tmp___tptz__RelativeMove.tptz__RelativeMove = tptz__RelativeMove;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___tptz__RelativeMove(soap, &soap_tmp___tptz__RelativeMove);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___tptz__RelativeMove(soap, &soap_tmp___tptz__RelativeMove, "-tptz:RelativeMove", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___tptz__RelativeMove(soap, &soap_tmp___tptz__RelativeMove, "-tptz:RelativeMove", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___tptz__RelativeMove(struct soap *soap, struct _tptz__RelativeMoveResponse *tptz__RelativeMoveResponse)
+{
+	if (!tptz__RelativeMoveResponse)
+		return soap_closesock(soap);
+	soap_default__tptz__RelativeMoveResponse(soap, tptz__RelativeMoveResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__tptz__RelativeMoveResponse(soap, tptz__RelativeMoveResponse, "tptz:RelativeMoveResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___tptz__SendAuxiliaryCommand(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tptz__SendAuxiliaryCommand *tptz__SendAuxiliaryCommand, struct _tptz__SendAuxiliaryCommandResponse *tptz__SendAuxiliaryCommandResponse)
+{	if (soap_send___tptz__SendAuxiliaryCommand(soap, soap_endpoint, soap_action, tptz__SendAuxiliaryCommand) || soap_recv___tptz__SendAuxiliaryCommand(soap, tptz__SendAuxiliaryCommandResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___tptz__SendAuxiliaryCommand(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tptz__SendAuxiliaryCommand *tptz__SendAuxiliaryCommand)
+{	struct __tptz__SendAuxiliaryCommand soap_tmp___tptz__SendAuxiliaryCommand;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver20/ptz/wsdl/SendAuxiliaryCommand";
+	soap_tmp___tptz__SendAuxiliaryCommand.tptz__SendAuxiliaryCommand = tptz__SendAuxiliaryCommand;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___tptz__SendAuxiliaryCommand(soap, &soap_tmp___tptz__SendAuxiliaryCommand);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___tptz__SendAuxiliaryCommand(soap, &soap_tmp___tptz__SendAuxiliaryCommand, "-tptz:SendAuxiliaryCommand", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___tptz__SendAuxiliaryCommand(soap, &soap_tmp___tptz__SendAuxiliaryCommand, "-tptz:SendAuxiliaryCommand", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___tptz__SendAuxiliaryCommand(struct soap *soap, struct _tptz__SendAuxiliaryCommandResponse *tptz__SendAuxiliaryCommandResponse)
+{
+	if (!tptz__SendAuxiliaryCommandResponse)
+		return soap_closesock(soap);
+	soap_default__tptz__SendAuxiliaryCommandResponse(soap, tptz__SendAuxiliaryCommandResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__tptz__SendAuxiliaryCommandResponse(soap, tptz__SendAuxiliaryCommandResponse, "tptz:SendAuxiliaryCommandResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___tptz__AbsoluteMove(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tptz__AbsoluteMove *tptz__AbsoluteMove, struct _tptz__AbsoluteMoveResponse *tptz__AbsoluteMoveResponse)
+{	if (soap_send___tptz__AbsoluteMove(soap, soap_endpoint, soap_action, tptz__AbsoluteMove) || soap_recv___tptz__AbsoluteMove(soap, tptz__AbsoluteMoveResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___tptz__AbsoluteMove(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tptz__AbsoluteMove *tptz__AbsoluteMove)
+{	struct __tptz__AbsoluteMove soap_tmp___tptz__AbsoluteMove;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver20/ptz/wsdl/AbsoluteMove";
+	soap_tmp___tptz__AbsoluteMove.tptz__AbsoluteMove = tptz__AbsoluteMove;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___tptz__AbsoluteMove(soap, &soap_tmp___tptz__AbsoluteMove);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___tptz__AbsoluteMove(soap, &soap_tmp___tptz__AbsoluteMove, "-tptz:AbsoluteMove", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___tptz__AbsoluteMove(soap, &soap_tmp___tptz__AbsoluteMove, "-tptz:AbsoluteMove", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___tptz__AbsoluteMove(struct soap *soap, struct _tptz__AbsoluteMoveResponse *tptz__AbsoluteMoveResponse)
+{
+	if (!tptz__AbsoluteMoveResponse)
+		return soap_closesock(soap);
+	soap_default__tptz__AbsoluteMoveResponse(soap, tptz__AbsoluteMoveResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__tptz__AbsoluteMoveResponse(soap, tptz__AbsoluteMoveResponse, "tptz:AbsoluteMoveResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___tptz__GeoMove(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tptz__GeoMove *tptz__GeoMove, struct _tptz__GeoMoveResponse *tptz__GeoMoveResponse)
+{	if (soap_send___tptz__GeoMove(soap, soap_endpoint, soap_action, tptz__GeoMove) || soap_recv___tptz__GeoMove(soap, tptz__GeoMoveResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___tptz__GeoMove(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tptz__GeoMove *tptz__GeoMove)
+{	struct __tptz__GeoMove soap_tmp___tptz__GeoMove;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver20/ptz/wsdl/GeoMove";
+	soap_tmp___tptz__GeoMove.tptz__GeoMove = tptz__GeoMove;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___tptz__GeoMove(soap, &soap_tmp___tptz__GeoMove);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___tptz__GeoMove(soap, &soap_tmp___tptz__GeoMove, "-tptz:GeoMove", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___tptz__GeoMove(soap, &soap_tmp___tptz__GeoMove, "-tptz:GeoMove", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___tptz__GeoMove(struct soap *soap, struct _tptz__GeoMoveResponse *tptz__GeoMoveResponse)
+{
+	if (!tptz__GeoMoveResponse)
+		return soap_closesock(soap);
+	soap_default__tptz__GeoMoveResponse(soap, tptz__GeoMoveResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__tptz__GeoMoveResponse(soap, tptz__GeoMoveResponse, "tptz:GeoMoveResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___tptz__Stop(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tptz__Stop *tptz__Stop, struct _tptz__StopResponse *tptz__StopResponse)
+{	if (soap_send___tptz__Stop(soap, soap_endpoint, soap_action, tptz__Stop) || soap_recv___tptz__Stop(soap, tptz__StopResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___tptz__Stop(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tptz__Stop *tptz__Stop)
+{	struct __tptz__Stop soap_tmp___tptz__Stop;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver20/ptz/wsdl/Stop";
+	soap_tmp___tptz__Stop.tptz__Stop = tptz__Stop;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___tptz__Stop(soap, &soap_tmp___tptz__Stop);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___tptz__Stop(soap, &soap_tmp___tptz__Stop, "-tptz:Stop", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___tptz__Stop(soap, &soap_tmp___tptz__Stop, "-tptz:Stop", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___tptz__Stop(struct soap *soap, struct _tptz__StopResponse *tptz__StopResponse)
+{
+	if (!tptz__StopResponse)
+		return soap_closesock(soap);
+	soap_default__tptz__StopResponse(soap, tptz__StopResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__tptz__StopResponse(soap, tptz__StopResponse, "tptz:StopResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___tptz__GetPresetTours(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tptz__GetPresetTours *tptz__GetPresetTours, struct _tptz__GetPresetToursResponse *tptz__GetPresetToursResponse)
+{	if (soap_send___tptz__GetPresetTours(soap, soap_endpoint, soap_action, tptz__GetPresetTours) || soap_recv___tptz__GetPresetTours(soap, tptz__GetPresetToursResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___tptz__GetPresetTours(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tptz__GetPresetTours *tptz__GetPresetTours)
+{	struct __tptz__GetPresetTours soap_tmp___tptz__GetPresetTours;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver20/ptz/wsdl/GetPresetTours";
+	soap_tmp___tptz__GetPresetTours.tptz__GetPresetTours = tptz__GetPresetTours;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___tptz__GetPresetTours(soap, &soap_tmp___tptz__GetPresetTours);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___tptz__GetPresetTours(soap, &soap_tmp___tptz__GetPresetTours, "-tptz:GetPresetTours", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___tptz__GetPresetTours(soap, &soap_tmp___tptz__GetPresetTours, "-tptz:GetPresetTours", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___tptz__GetPresetTours(struct soap *soap, struct _tptz__GetPresetToursResponse *tptz__GetPresetToursResponse)
+{
+	if (!tptz__GetPresetToursResponse)
+		return soap_closesock(soap);
+	soap_default__tptz__GetPresetToursResponse(soap, tptz__GetPresetToursResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__tptz__GetPresetToursResponse(soap, tptz__GetPresetToursResponse, "tptz:GetPresetToursResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___tptz__GetPresetTour(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tptz__GetPresetTour *tptz__GetPresetTour, struct _tptz__GetPresetTourResponse *tptz__GetPresetTourResponse)
+{	if (soap_send___tptz__GetPresetTour(soap, soap_endpoint, soap_action, tptz__GetPresetTour) || soap_recv___tptz__GetPresetTour(soap, tptz__GetPresetTourResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___tptz__GetPresetTour(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tptz__GetPresetTour *tptz__GetPresetTour)
+{	struct __tptz__GetPresetTour soap_tmp___tptz__GetPresetTour;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver20/ptz/wsdl/GetPresetTour";
+	soap_tmp___tptz__GetPresetTour.tptz__GetPresetTour = tptz__GetPresetTour;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___tptz__GetPresetTour(soap, &soap_tmp___tptz__GetPresetTour);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___tptz__GetPresetTour(soap, &soap_tmp___tptz__GetPresetTour, "-tptz:GetPresetTour", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___tptz__GetPresetTour(soap, &soap_tmp___tptz__GetPresetTour, "-tptz:GetPresetTour", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___tptz__GetPresetTour(struct soap *soap, struct _tptz__GetPresetTourResponse *tptz__GetPresetTourResponse)
+{
+	if (!tptz__GetPresetTourResponse)
+		return soap_closesock(soap);
+	soap_default__tptz__GetPresetTourResponse(soap, tptz__GetPresetTourResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__tptz__GetPresetTourResponse(soap, tptz__GetPresetTourResponse, "tptz:GetPresetTourResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___tptz__GetPresetTourOptions(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tptz__GetPresetTourOptions *tptz__GetPresetTourOptions, struct _tptz__GetPresetTourOptionsResponse *tptz__GetPresetTourOptionsResponse)
+{	if (soap_send___tptz__GetPresetTourOptions(soap, soap_endpoint, soap_action, tptz__GetPresetTourOptions) || soap_recv___tptz__GetPresetTourOptions(soap, tptz__GetPresetTourOptionsResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___tptz__GetPresetTourOptions(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tptz__GetPresetTourOptions *tptz__GetPresetTourOptions)
+{	struct __tptz__GetPresetTourOptions soap_tmp___tptz__GetPresetTourOptions;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver20/ptz/wsdl/GetPresetTourOptions";
+	soap_tmp___tptz__GetPresetTourOptions.tptz__GetPresetTourOptions = tptz__GetPresetTourOptions;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___tptz__GetPresetTourOptions(soap, &soap_tmp___tptz__GetPresetTourOptions);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___tptz__GetPresetTourOptions(soap, &soap_tmp___tptz__GetPresetTourOptions, "-tptz:GetPresetTourOptions", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___tptz__GetPresetTourOptions(soap, &soap_tmp___tptz__GetPresetTourOptions, "-tptz:GetPresetTourOptions", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___tptz__GetPresetTourOptions(struct soap *soap, struct _tptz__GetPresetTourOptionsResponse *tptz__GetPresetTourOptionsResponse)
+{
+	if (!tptz__GetPresetTourOptionsResponse)
+		return soap_closesock(soap);
+	soap_default__tptz__GetPresetTourOptionsResponse(soap, tptz__GetPresetTourOptionsResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__tptz__GetPresetTourOptionsResponse(soap, tptz__GetPresetTourOptionsResponse, "tptz:GetPresetTourOptionsResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___tptz__CreatePresetTour(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tptz__CreatePresetTour *tptz__CreatePresetTour, struct _tptz__CreatePresetTourResponse *tptz__CreatePresetTourResponse)
+{	if (soap_send___tptz__CreatePresetTour(soap, soap_endpoint, soap_action, tptz__CreatePresetTour) || soap_recv___tptz__CreatePresetTour(soap, tptz__CreatePresetTourResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___tptz__CreatePresetTour(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tptz__CreatePresetTour *tptz__CreatePresetTour)
+{	struct __tptz__CreatePresetTour soap_tmp___tptz__CreatePresetTour;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver20/ptz/wsdl/CreatePresetTour";
+	soap_tmp___tptz__CreatePresetTour.tptz__CreatePresetTour = tptz__CreatePresetTour;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___tptz__CreatePresetTour(soap, &soap_tmp___tptz__CreatePresetTour);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___tptz__CreatePresetTour(soap, &soap_tmp___tptz__CreatePresetTour, "-tptz:CreatePresetTour", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___tptz__CreatePresetTour(soap, &soap_tmp___tptz__CreatePresetTour, "-tptz:CreatePresetTour", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___tptz__CreatePresetTour(struct soap *soap, struct _tptz__CreatePresetTourResponse *tptz__CreatePresetTourResponse)
+{
+	if (!tptz__CreatePresetTourResponse)
+		return soap_closesock(soap);
+	soap_default__tptz__CreatePresetTourResponse(soap, tptz__CreatePresetTourResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__tptz__CreatePresetTourResponse(soap, tptz__CreatePresetTourResponse, "tptz:CreatePresetTourResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___tptz__ModifyPresetTour(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tptz__ModifyPresetTour *tptz__ModifyPresetTour, struct _tptz__ModifyPresetTourResponse *tptz__ModifyPresetTourResponse)
+{	if (soap_send___tptz__ModifyPresetTour(soap, soap_endpoint, soap_action, tptz__ModifyPresetTour) || soap_recv___tptz__ModifyPresetTour(soap, tptz__ModifyPresetTourResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___tptz__ModifyPresetTour(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tptz__ModifyPresetTour *tptz__ModifyPresetTour)
+{	struct __tptz__ModifyPresetTour soap_tmp___tptz__ModifyPresetTour;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver20/ptz/wsdl/ModifyPresetTour";
+	soap_tmp___tptz__ModifyPresetTour.tptz__ModifyPresetTour = tptz__ModifyPresetTour;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___tptz__ModifyPresetTour(soap, &soap_tmp___tptz__ModifyPresetTour);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___tptz__ModifyPresetTour(soap, &soap_tmp___tptz__ModifyPresetTour, "-tptz:ModifyPresetTour", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___tptz__ModifyPresetTour(soap, &soap_tmp___tptz__ModifyPresetTour, "-tptz:ModifyPresetTour", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___tptz__ModifyPresetTour(struct soap *soap, struct _tptz__ModifyPresetTourResponse *tptz__ModifyPresetTourResponse)
+{
+	if (!tptz__ModifyPresetTourResponse)
+		return soap_closesock(soap);
+	soap_default__tptz__ModifyPresetTourResponse(soap, tptz__ModifyPresetTourResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__tptz__ModifyPresetTourResponse(soap, tptz__ModifyPresetTourResponse, "tptz:ModifyPresetTourResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___tptz__OperatePresetTour(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tptz__OperatePresetTour *tptz__OperatePresetTour, struct _tptz__OperatePresetTourResponse *tptz__OperatePresetTourResponse)
+{	if (soap_send___tptz__OperatePresetTour(soap, soap_endpoint, soap_action, tptz__OperatePresetTour) || soap_recv___tptz__OperatePresetTour(soap, tptz__OperatePresetTourResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___tptz__OperatePresetTour(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tptz__OperatePresetTour *tptz__OperatePresetTour)
+{	struct __tptz__OperatePresetTour soap_tmp___tptz__OperatePresetTour;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver20/ptz/wsdl/OperatePresetTour";
+	soap_tmp___tptz__OperatePresetTour.tptz__OperatePresetTour = tptz__OperatePresetTour;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___tptz__OperatePresetTour(soap, &soap_tmp___tptz__OperatePresetTour);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___tptz__OperatePresetTour(soap, &soap_tmp___tptz__OperatePresetTour, "-tptz:OperatePresetTour", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___tptz__OperatePresetTour(soap, &soap_tmp___tptz__OperatePresetTour, "-tptz:OperatePresetTour", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___tptz__OperatePresetTour(struct soap *soap, struct _tptz__OperatePresetTourResponse *tptz__OperatePresetTourResponse)
+{
+	if (!tptz__OperatePresetTourResponse)
+		return soap_closesock(soap);
+	soap_default__tptz__OperatePresetTourResponse(soap, tptz__OperatePresetTourResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__tptz__OperatePresetTourResponse(soap, tptz__OperatePresetTourResponse, "tptz:OperatePresetTourResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___tptz__RemovePresetTour(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tptz__RemovePresetTour *tptz__RemovePresetTour, struct _tptz__RemovePresetTourResponse *tptz__RemovePresetTourResponse)
+{	if (soap_send___tptz__RemovePresetTour(soap, soap_endpoint, soap_action, tptz__RemovePresetTour) || soap_recv___tptz__RemovePresetTour(soap, tptz__RemovePresetTourResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___tptz__RemovePresetTour(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tptz__RemovePresetTour *tptz__RemovePresetTour)
+{	struct __tptz__RemovePresetTour soap_tmp___tptz__RemovePresetTour;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver20/ptz/wsdl/RemovePresetTour";
+	soap_tmp___tptz__RemovePresetTour.tptz__RemovePresetTour = tptz__RemovePresetTour;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___tptz__RemovePresetTour(soap, &soap_tmp___tptz__RemovePresetTour);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___tptz__RemovePresetTour(soap, &soap_tmp___tptz__RemovePresetTour, "-tptz:RemovePresetTour", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___tptz__RemovePresetTour(soap, &soap_tmp___tptz__RemovePresetTour, "-tptz:RemovePresetTour", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___tptz__RemovePresetTour(struct soap *soap, struct _tptz__RemovePresetTourResponse *tptz__RemovePresetTourResponse)
+{
+	if (!tptz__RemovePresetTourResponse)
+		return soap_closesock(soap);
+	soap_default__tptz__RemovePresetTourResponse(soap, tptz__RemovePresetTourResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__tptz__RemovePresetTourResponse(soap, tptz__RemovePresetTourResponse, "tptz:RemovePresetTourResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___tptz__GetCompatibleConfigurations(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tptz__GetCompatibleConfigurations *tptz__GetCompatibleConfigurations, struct _tptz__GetCompatibleConfigurationsResponse *tptz__GetCompatibleConfigurationsResponse)
+{	if (soap_send___tptz__GetCompatibleConfigurations(soap, soap_endpoint, soap_action, tptz__GetCompatibleConfigurations) || soap_recv___tptz__GetCompatibleConfigurations(soap, tptz__GetCompatibleConfigurationsResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___tptz__GetCompatibleConfigurations(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tptz__GetCompatibleConfigurations *tptz__GetCompatibleConfigurations)
+{	struct __tptz__GetCompatibleConfigurations soap_tmp___tptz__GetCompatibleConfigurations;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver20/ptz/wsdl/GetCompatibleConfigurations";
+	soap_tmp___tptz__GetCompatibleConfigurations.tptz__GetCompatibleConfigurations = tptz__GetCompatibleConfigurations;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___tptz__GetCompatibleConfigurations(soap, &soap_tmp___tptz__GetCompatibleConfigurations);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___tptz__GetCompatibleConfigurations(soap, &soap_tmp___tptz__GetCompatibleConfigurations, "-tptz:GetCompatibleConfigurations", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___tptz__GetCompatibleConfigurations(soap, &soap_tmp___tptz__GetCompatibleConfigurations, "-tptz:GetCompatibleConfigurations", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___tptz__GetCompatibleConfigurations(struct soap *soap, struct _tptz__GetCompatibleConfigurationsResponse *tptz__GetCompatibleConfigurationsResponse)
+{
+	if (!tptz__GetCompatibleConfigurationsResponse)
+		return soap_closesock(soap);
+	soap_default__tptz__GetCompatibleConfigurationsResponse(soap, tptz__GetCompatibleConfigurationsResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__tptz__GetCompatibleConfigurationsResponse(soap, tptz__GetCompatibleConfigurationsResponse, "tptz:GetCompatibleConfigurationsResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___tptz__MoveAndStartTracking(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tptz__MoveAndStartTracking *tptz__MoveAndStartTracking, struct _tptz__MoveAndStartTrackingResponse *tptz__MoveAndStartTrackingResponse)
+{	if (soap_send___tptz__MoveAndStartTracking(soap, soap_endpoint, soap_action, tptz__MoveAndStartTracking) || soap_recv___tptz__MoveAndStartTracking(soap, tptz__MoveAndStartTrackingResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___tptz__MoveAndStartTracking(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tptz__MoveAndStartTracking *tptz__MoveAndStartTracking)
+{	struct __tptz__MoveAndStartTracking soap_tmp___tptz__MoveAndStartTracking;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver20/ptz/wsdl/MoveAndStartTracking";
+	soap_tmp___tptz__MoveAndStartTracking.tptz__MoveAndStartTracking = tptz__MoveAndStartTracking;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___tptz__MoveAndStartTracking(soap, &soap_tmp___tptz__MoveAndStartTracking);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___tptz__MoveAndStartTracking(soap, &soap_tmp___tptz__MoveAndStartTracking, "-tptz:MoveAndStartTracking", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___tptz__MoveAndStartTracking(soap, &soap_tmp___tptz__MoveAndStartTracking, "-tptz:MoveAndStartTracking", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___tptz__MoveAndStartTracking(struct soap *soap, struct _tptz__MoveAndStartTrackingResponse *tptz__MoveAndStartTrackingResponse)
+{
+	if (!tptz__MoveAndStartTrackingResponse)
+		return soap_closesock(soap);
+	soap_default__tptz__MoveAndStartTrackingResponse(soap, tptz__MoveAndStartTrackingResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__tptz__MoveAndStartTrackingResponse(soap, tptz__MoveAndStartTrackingResponse, "tptz:MoveAndStartTrackingResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trc__GetServiceCapabilities(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trc__GetServiceCapabilities *trc__GetServiceCapabilities, struct _trc__GetServiceCapabilitiesResponse *trc__GetServiceCapabilitiesResponse)
+{	if (soap_send___trc__GetServiceCapabilities(soap, soap_endpoint, soap_action, trc__GetServiceCapabilities) || soap_recv___trc__GetServiceCapabilities(soap, trc__GetServiceCapabilitiesResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trc__GetServiceCapabilities(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trc__GetServiceCapabilities *trc__GetServiceCapabilities)
+{	struct __trc__GetServiceCapabilities soap_tmp___trc__GetServiceCapabilities;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/recording/wsdl/GetServiceCapabilities";
+	soap_tmp___trc__GetServiceCapabilities.trc__GetServiceCapabilities = trc__GetServiceCapabilities;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trc__GetServiceCapabilities(soap, &soap_tmp___trc__GetServiceCapabilities);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trc__GetServiceCapabilities(soap, &soap_tmp___trc__GetServiceCapabilities, "-trc:GetServiceCapabilities", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trc__GetServiceCapabilities(soap, &soap_tmp___trc__GetServiceCapabilities, "-trc:GetServiceCapabilities", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trc__GetServiceCapabilities(struct soap *soap, struct _trc__GetServiceCapabilitiesResponse *trc__GetServiceCapabilitiesResponse)
+{
+	if (!trc__GetServiceCapabilitiesResponse)
+		return soap_closesock(soap);
+	soap_default__trc__GetServiceCapabilitiesResponse(soap, trc__GetServiceCapabilitiesResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trc__GetServiceCapabilitiesResponse(soap, trc__GetServiceCapabilitiesResponse, "trc:GetServiceCapabilitiesResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trc__CreateRecording(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trc__CreateRecording *trc__CreateRecording, struct _trc__CreateRecordingResponse *trc__CreateRecordingResponse)
+{	if (soap_send___trc__CreateRecording(soap, soap_endpoint, soap_action, trc__CreateRecording) || soap_recv___trc__CreateRecording(soap, trc__CreateRecordingResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trc__CreateRecording(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trc__CreateRecording *trc__CreateRecording)
+{	struct __trc__CreateRecording soap_tmp___trc__CreateRecording;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/recording/wsdl/CreateRecording";
+	soap_tmp___trc__CreateRecording.trc__CreateRecording = trc__CreateRecording;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trc__CreateRecording(soap, &soap_tmp___trc__CreateRecording);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trc__CreateRecording(soap, &soap_tmp___trc__CreateRecording, "-trc:CreateRecording", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trc__CreateRecording(soap, &soap_tmp___trc__CreateRecording, "-trc:CreateRecording", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trc__CreateRecording(struct soap *soap, struct _trc__CreateRecordingResponse *trc__CreateRecordingResponse)
+{
+	if (!trc__CreateRecordingResponse)
+		return soap_closesock(soap);
+	soap_default__trc__CreateRecordingResponse(soap, trc__CreateRecordingResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trc__CreateRecordingResponse(soap, trc__CreateRecordingResponse, "trc:CreateRecordingResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trc__DeleteRecording(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trc__DeleteRecording *trc__DeleteRecording, struct _trc__DeleteRecordingResponse *trc__DeleteRecordingResponse)
+{	if (soap_send___trc__DeleteRecording(soap, soap_endpoint, soap_action, trc__DeleteRecording) || soap_recv___trc__DeleteRecording(soap, trc__DeleteRecordingResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trc__DeleteRecording(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trc__DeleteRecording *trc__DeleteRecording)
+{	struct __trc__DeleteRecording soap_tmp___trc__DeleteRecording;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/recording/wsdl/DeleteRecording";
+	soap_tmp___trc__DeleteRecording.trc__DeleteRecording = trc__DeleteRecording;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trc__DeleteRecording(soap, &soap_tmp___trc__DeleteRecording);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trc__DeleteRecording(soap, &soap_tmp___trc__DeleteRecording, "-trc:DeleteRecording", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trc__DeleteRecording(soap, &soap_tmp___trc__DeleteRecording, "-trc:DeleteRecording", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trc__DeleteRecording(struct soap *soap, struct _trc__DeleteRecordingResponse *trc__DeleteRecordingResponse)
+{
+	if (!trc__DeleteRecordingResponse)
+		return soap_closesock(soap);
+	soap_default__trc__DeleteRecordingResponse(soap, trc__DeleteRecordingResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trc__DeleteRecordingResponse(soap, trc__DeleteRecordingResponse, "trc:DeleteRecordingResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trc__GetRecordings(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trc__GetRecordings *trc__GetRecordings, struct _trc__GetRecordingsResponse *trc__GetRecordingsResponse)
+{	if (soap_send___trc__GetRecordings(soap, soap_endpoint, soap_action, trc__GetRecordings) || soap_recv___trc__GetRecordings(soap, trc__GetRecordingsResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trc__GetRecordings(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trc__GetRecordings *trc__GetRecordings)
+{	struct __trc__GetRecordings soap_tmp___trc__GetRecordings;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/recording/wsdl/GetRecordings";
+	soap_tmp___trc__GetRecordings.trc__GetRecordings = trc__GetRecordings;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trc__GetRecordings(soap, &soap_tmp___trc__GetRecordings);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trc__GetRecordings(soap, &soap_tmp___trc__GetRecordings, "-trc:GetRecordings", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trc__GetRecordings(soap, &soap_tmp___trc__GetRecordings, "-trc:GetRecordings", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trc__GetRecordings(struct soap *soap, struct _trc__GetRecordingsResponse *trc__GetRecordingsResponse)
+{
+	if (!trc__GetRecordingsResponse)
+		return soap_closesock(soap);
+	soap_default__trc__GetRecordingsResponse(soap, trc__GetRecordingsResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trc__GetRecordingsResponse(soap, trc__GetRecordingsResponse, "trc:GetRecordingsResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trc__SetRecordingConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trc__SetRecordingConfiguration *trc__SetRecordingConfiguration, struct _trc__SetRecordingConfigurationResponse *trc__SetRecordingConfigurationResponse)
+{	if (soap_send___trc__SetRecordingConfiguration(soap, soap_endpoint, soap_action, trc__SetRecordingConfiguration) || soap_recv___trc__SetRecordingConfiguration(soap, trc__SetRecordingConfigurationResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trc__SetRecordingConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trc__SetRecordingConfiguration *trc__SetRecordingConfiguration)
+{	struct __trc__SetRecordingConfiguration soap_tmp___trc__SetRecordingConfiguration;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/recording/wsdl/SetRecordingConfiguration";
+	soap_tmp___trc__SetRecordingConfiguration.trc__SetRecordingConfiguration = trc__SetRecordingConfiguration;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trc__SetRecordingConfiguration(soap, &soap_tmp___trc__SetRecordingConfiguration);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trc__SetRecordingConfiguration(soap, &soap_tmp___trc__SetRecordingConfiguration, "-trc:SetRecordingConfiguration", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trc__SetRecordingConfiguration(soap, &soap_tmp___trc__SetRecordingConfiguration, "-trc:SetRecordingConfiguration", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trc__SetRecordingConfiguration(struct soap *soap, struct _trc__SetRecordingConfigurationResponse *trc__SetRecordingConfigurationResponse)
+{
+	if (!trc__SetRecordingConfigurationResponse)
+		return soap_closesock(soap);
+	soap_default__trc__SetRecordingConfigurationResponse(soap, trc__SetRecordingConfigurationResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trc__SetRecordingConfigurationResponse(soap, trc__SetRecordingConfigurationResponse, "trc:SetRecordingConfigurationResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trc__GetRecordingConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trc__GetRecordingConfiguration *trc__GetRecordingConfiguration, struct _trc__GetRecordingConfigurationResponse *trc__GetRecordingConfigurationResponse)
+{	if (soap_send___trc__GetRecordingConfiguration(soap, soap_endpoint, soap_action, trc__GetRecordingConfiguration) || soap_recv___trc__GetRecordingConfiguration(soap, trc__GetRecordingConfigurationResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trc__GetRecordingConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trc__GetRecordingConfiguration *trc__GetRecordingConfiguration)
+{	struct __trc__GetRecordingConfiguration soap_tmp___trc__GetRecordingConfiguration;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/recording/wsdl/GetRecordingConfiguration";
+	soap_tmp___trc__GetRecordingConfiguration.trc__GetRecordingConfiguration = trc__GetRecordingConfiguration;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trc__GetRecordingConfiguration(soap, &soap_tmp___trc__GetRecordingConfiguration);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trc__GetRecordingConfiguration(soap, &soap_tmp___trc__GetRecordingConfiguration, "-trc:GetRecordingConfiguration", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trc__GetRecordingConfiguration(soap, &soap_tmp___trc__GetRecordingConfiguration, "-trc:GetRecordingConfiguration", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trc__GetRecordingConfiguration(struct soap *soap, struct _trc__GetRecordingConfigurationResponse *trc__GetRecordingConfigurationResponse)
+{
+	if (!trc__GetRecordingConfigurationResponse)
+		return soap_closesock(soap);
+	soap_default__trc__GetRecordingConfigurationResponse(soap, trc__GetRecordingConfigurationResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trc__GetRecordingConfigurationResponse(soap, trc__GetRecordingConfigurationResponse, "trc:GetRecordingConfigurationResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trc__GetRecordingOptions(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trc__GetRecordingOptions *trc__GetRecordingOptions, struct _trc__GetRecordingOptionsResponse *trc__GetRecordingOptionsResponse)
+{	if (soap_send___trc__GetRecordingOptions(soap, soap_endpoint, soap_action, trc__GetRecordingOptions) || soap_recv___trc__GetRecordingOptions(soap, trc__GetRecordingOptionsResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trc__GetRecordingOptions(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trc__GetRecordingOptions *trc__GetRecordingOptions)
+{	struct __trc__GetRecordingOptions soap_tmp___trc__GetRecordingOptions;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/recording/wsdl/GetRecordingOptions";
+	soap_tmp___trc__GetRecordingOptions.trc__GetRecordingOptions = trc__GetRecordingOptions;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trc__GetRecordingOptions(soap, &soap_tmp___trc__GetRecordingOptions);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trc__GetRecordingOptions(soap, &soap_tmp___trc__GetRecordingOptions, "-trc:GetRecordingOptions", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trc__GetRecordingOptions(soap, &soap_tmp___trc__GetRecordingOptions, "-trc:GetRecordingOptions", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trc__GetRecordingOptions(struct soap *soap, struct _trc__GetRecordingOptionsResponse *trc__GetRecordingOptionsResponse)
+{
+	if (!trc__GetRecordingOptionsResponse)
+		return soap_closesock(soap);
+	soap_default__trc__GetRecordingOptionsResponse(soap, trc__GetRecordingOptionsResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trc__GetRecordingOptionsResponse(soap, trc__GetRecordingOptionsResponse, "trc:GetRecordingOptionsResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trc__CreateTrack(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trc__CreateTrack *trc__CreateTrack, struct _trc__CreateTrackResponse *trc__CreateTrackResponse)
+{	if (soap_send___trc__CreateTrack(soap, soap_endpoint, soap_action, trc__CreateTrack) || soap_recv___trc__CreateTrack(soap, trc__CreateTrackResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trc__CreateTrack(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trc__CreateTrack *trc__CreateTrack)
+{	struct __trc__CreateTrack soap_tmp___trc__CreateTrack;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/recording/wsdl/CreateTrack";
+	soap_tmp___trc__CreateTrack.trc__CreateTrack = trc__CreateTrack;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trc__CreateTrack(soap, &soap_tmp___trc__CreateTrack);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trc__CreateTrack(soap, &soap_tmp___trc__CreateTrack, "-trc:CreateTrack", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trc__CreateTrack(soap, &soap_tmp___trc__CreateTrack, "-trc:CreateTrack", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trc__CreateTrack(struct soap *soap, struct _trc__CreateTrackResponse *trc__CreateTrackResponse)
+{
+	if (!trc__CreateTrackResponse)
+		return soap_closesock(soap);
+	soap_default__trc__CreateTrackResponse(soap, trc__CreateTrackResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trc__CreateTrackResponse(soap, trc__CreateTrackResponse, "trc:CreateTrackResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trc__DeleteTrack(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trc__DeleteTrack *trc__DeleteTrack, struct _trc__DeleteTrackResponse *trc__DeleteTrackResponse)
+{	if (soap_send___trc__DeleteTrack(soap, soap_endpoint, soap_action, trc__DeleteTrack) || soap_recv___trc__DeleteTrack(soap, trc__DeleteTrackResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trc__DeleteTrack(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trc__DeleteTrack *trc__DeleteTrack)
+{	struct __trc__DeleteTrack soap_tmp___trc__DeleteTrack;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/recording/wsdl/DeleteTrack";
+	soap_tmp___trc__DeleteTrack.trc__DeleteTrack = trc__DeleteTrack;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trc__DeleteTrack(soap, &soap_tmp___trc__DeleteTrack);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trc__DeleteTrack(soap, &soap_tmp___trc__DeleteTrack, "-trc:DeleteTrack", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trc__DeleteTrack(soap, &soap_tmp___trc__DeleteTrack, "-trc:DeleteTrack", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trc__DeleteTrack(struct soap *soap, struct _trc__DeleteTrackResponse *trc__DeleteTrackResponse)
+{
+	if (!trc__DeleteTrackResponse)
+		return soap_closesock(soap);
+	soap_default__trc__DeleteTrackResponse(soap, trc__DeleteTrackResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trc__DeleteTrackResponse(soap, trc__DeleteTrackResponse, "trc:DeleteTrackResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trc__GetTrackConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trc__GetTrackConfiguration *trc__GetTrackConfiguration, struct _trc__GetTrackConfigurationResponse *trc__GetTrackConfigurationResponse)
+{	if (soap_send___trc__GetTrackConfiguration(soap, soap_endpoint, soap_action, trc__GetTrackConfiguration) || soap_recv___trc__GetTrackConfiguration(soap, trc__GetTrackConfigurationResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trc__GetTrackConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trc__GetTrackConfiguration *trc__GetTrackConfiguration)
+{	struct __trc__GetTrackConfiguration soap_tmp___trc__GetTrackConfiguration;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/recording/wsdl/GetTrackConfiguration";
+	soap_tmp___trc__GetTrackConfiguration.trc__GetTrackConfiguration = trc__GetTrackConfiguration;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trc__GetTrackConfiguration(soap, &soap_tmp___trc__GetTrackConfiguration);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trc__GetTrackConfiguration(soap, &soap_tmp___trc__GetTrackConfiguration, "-trc:GetTrackConfiguration", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trc__GetTrackConfiguration(soap, &soap_tmp___trc__GetTrackConfiguration, "-trc:GetTrackConfiguration", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trc__GetTrackConfiguration(struct soap *soap, struct _trc__GetTrackConfigurationResponse *trc__GetTrackConfigurationResponse)
+{
+	if (!trc__GetTrackConfigurationResponse)
+		return soap_closesock(soap);
+	soap_default__trc__GetTrackConfigurationResponse(soap, trc__GetTrackConfigurationResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trc__GetTrackConfigurationResponse(soap, trc__GetTrackConfigurationResponse, "trc:GetTrackConfigurationResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trc__SetTrackConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trc__SetTrackConfiguration *trc__SetTrackConfiguration, struct _trc__SetTrackConfigurationResponse *trc__SetTrackConfigurationResponse)
+{	if (soap_send___trc__SetTrackConfiguration(soap, soap_endpoint, soap_action, trc__SetTrackConfiguration) || soap_recv___trc__SetTrackConfiguration(soap, trc__SetTrackConfigurationResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trc__SetTrackConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trc__SetTrackConfiguration *trc__SetTrackConfiguration)
+{	struct __trc__SetTrackConfiguration soap_tmp___trc__SetTrackConfiguration;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/recording/wsdl/SetTrackConfiguration";
+	soap_tmp___trc__SetTrackConfiguration.trc__SetTrackConfiguration = trc__SetTrackConfiguration;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trc__SetTrackConfiguration(soap, &soap_tmp___trc__SetTrackConfiguration);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trc__SetTrackConfiguration(soap, &soap_tmp___trc__SetTrackConfiguration, "-trc:SetTrackConfiguration", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trc__SetTrackConfiguration(soap, &soap_tmp___trc__SetTrackConfiguration, "-trc:SetTrackConfiguration", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trc__SetTrackConfiguration(struct soap *soap, struct _trc__SetTrackConfigurationResponse *trc__SetTrackConfigurationResponse)
+{
+	if (!trc__SetTrackConfigurationResponse)
+		return soap_closesock(soap);
+	soap_default__trc__SetTrackConfigurationResponse(soap, trc__SetTrackConfigurationResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trc__SetTrackConfigurationResponse(soap, trc__SetTrackConfigurationResponse, "trc:SetTrackConfigurationResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trc__CreateRecordingJob(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trc__CreateRecordingJob *trc__CreateRecordingJob, struct _trc__CreateRecordingJobResponse *trc__CreateRecordingJobResponse)
+{	if (soap_send___trc__CreateRecordingJob(soap, soap_endpoint, soap_action, trc__CreateRecordingJob) || soap_recv___trc__CreateRecordingJob(soap, trc__CreateRecordingJobResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trc__CreateRecordingJob(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trc__CreateRecordingJob *trc__CreateRecordingJob)
+{	struct __trc__CreateRecordingJob soap_tmp___trc__CreateRecordingJob;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/recording/wsdl/CreateRecordingJob";
+	soap_tmp___trc__CreateRecordingJob.trc__CreateRecordingJob = trc__CreateRecordingJob;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trc__CreateRecordingJob(soap, &soap_tmp___trc__CreateRecordingJob);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trc__CreateRecordingJob(soap, &soap_tmp___trc__CreateRecordingJob, "-trc:CreateRecordingJob", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trc__CreateRecordingJob(soap, &soap_tmp___trc__CreateRecordingJob, "-trc:CreateRecordingJob", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trc__CreateRecordingJob(struct soap *soap, struct _trc__CreateRecordingJobResponse *trc__CreateRecordingJobResponse)
+{
+	if (!trc__CreateRecordingJobResponse)
+		return soap_closesock(soap);
+	soap_default__trc__CreateRecordingJobResponse(soap, trc__CreateRecordingJobResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trc__CreateRecordingJobResponse(soap, trc__CreateRecordingJobResponse, "trc:CreateRecordingJobResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trc__DeleteRecordingJob(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trc__DeleteRecordingJob *trc__DeleteRecordingJob, struct _trc__DeleteRecordingJobResponse *trc__DeleteRecordingJobResponse)
+{	if (soap_send___trc__DeleteRecordingJob(soap, soap_endpoint, soap_action, trc__DeleteRecordingJob) || soap_recv___trc__DeleteRecordingJob(soap, trc__DeleteRecordingJobResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trc__DeleteRecordingJob(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trc__DeleteRecordingJob *trc__DeleteRecordingJob)
+{	struct __trc__DeleteRecordingJob soap_tmp___trc__DeleteRecordingJob;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/recording/wsdl/DeleteRecordingJob";
+	soap_tmp___trc__DeleteRecordingJob.trc__DeleteRecordingJob = trc__DeleteRecordingJob;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trc__DeleteRecordingJob(soap, &soap_tmp___trc__DeleteRecordingJob);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trc__DeleteRecordingJob(soap, &soap_tmp___trc__DeleteRecordingJob, "-trc:DeleteRecordingJob", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trc__DeleteRecordingJob(soap, &soap_tmp___trc__DeleteRecordingJob, "-trc:DeleteRecordingJob", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trc__DeleteRecordingJob(struct soap *soap, struct _trc__DeleteRecordingJobResponse *trc__DeleteRecordingJobResponse)
+{
+	if (!trc__DeleteRecordingJobResponse)
+		return soap_closesock(soap);
+	soap_default__trc__DeleteRecordingJobResponse(soap, trc__DeleteRecordingJobResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trc__DeleteRecordingJobResponse(soap, trc__DeleteRecordingJobResponse, "trc:DeleteRecordingJobResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trc__GetRecordingJobs(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trc__GetRecordingJobs *trc__GetRecordingJobs, struct _trc__GetRecordingJobsResponse *trc__GetRecordingJobsResponse)
+{	if (soap_send___trc__GetRecordingJobs(soap, soap_endpoint, soap_action, trc__GetRecordingJobs) || soap_recv___trc__GetRecordingJobs(soap, trc__GetRecordingJobsResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trc__GetRecordingJobs(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trc__GetRecordingJobs *trc__GetRecordingJobs)
+{	struct __trc__GetRecordingJobs soap_tmp___trc__GetRecordingJobs;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/recording/wsdl/GetRecordingJobs";
+	soap_tmp___trc__GetRecordingJobs.trc__GetRecordingJobs = trc__GetRecordingJobs;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trc__GetRecordingJobs(soap, &soap_tmp___trc__GetRecordingJobs);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trc__GetRecordingJobs(soap, &soap_tmp___trc__GetRecordingJobs, "-trc:GetRecordingJobs", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trc__GetRecordingJobs(soap, &soap_tmp___trc__GetRecordingJobs, "-trc:GetRecordingJobs", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trc__GetRecordingJobs(struct soap *soap, struct _trc__GetRecordingJobsResponse *trc__GetRecordingJobsResponse)
+{
+	if (!trc__GetRecordingJobsResponse)
+		return soap_closesock(soap);
+	soap_default__trc__GetRecordingJobsResponse(soap, trc__GetRecordingJobsResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trc__GetRecordingJobsResponse(soap, trc__GetRecordingJobsResponse, "trc:GetRecordingJobsResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trc__SetRecordingJobConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trc__SetRecordingJobConfiguration *trc__SetRecordingJobConfiguration, struct _trc__SetRecordingJobConfigurationResponse *trc__SetRecordingJobConfigurationResponse)
+{	if (soap_send___trc__SetRecordingJobConfiguration(soap, soap_endpoint, soap_action, trc__SetRecordingJobConfiguration) || soap_recv___trc__SetRecordingJobConfiguration(soap, trc__SetRecordingJobConfigurationResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trc__SetRecordingJobConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trc__SetRecordingJobConfiguration *trc__SetRecordingJobConfiguration)
+{	struct __trc__SetRecordingJobConfiguration soap_tmp___trc__SetRecordingJobConfiguration;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/recording/wsdl/SetRecordingJobConfiguration";
+	soap_tmp___trc__SetRecordingJobConfiguration.trc__SetRecordingJobConfiguration = trc__SetRecordingJobConfiguration;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trc__SetRecordingJobConfiguration(soap, &soap_tmp___trc__SetRecordingJobConfiguration);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trc__SetRecordingJobConfiguration(soap, &soap_tmp___trc__SetRecordingJobConfiguration, "-trc:SetRecordingJobConfiguration", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trc__SetRecordingJobConfiguration(soap, &soap_tmp___trc__SetRecordingJobConfiguration, "-trc:SetRecordingJobConfiguration", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trc__SetRecordingJobConfiguration(struct soap *soap, struct _trc__SetRecordingJobConfigurationResponse *trc__SetRecordingJobConfigurationResponse)
+{
+	if (!trc__SetRecordingJobConfigurationResponse)
+		return soap_closesock(soap);
+	soap_default__trc__SetRecordingJobConfigurationResponse(soap, trc__SetRecordingJobConfigurationResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trc__SetRecordingJobConfigurationResponse(soap, trc__SetRecordingJobConfigurationResponse, "trc:SetRecordingJobConfigurationResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trc__GetRecordingJobConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trc__GetRecordingJobConfiguration *trc__GetRecordingJobConfiguration, struct _trc__GetRecordingJobConfigurationResponse *trc__GetRecordingJobConfigurationResponse)
+{	if (soap_send___trc__GetRecordingJobConfiguration(soap, soap_endpoint, soap_action, trc__GetRecordingJobConfiguration) || soap_recv___trc__GetRecordingJobConfiguration(soap, trc__GetRecordingJobConfigurationResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trc__GetRecordingJobConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trc__GetRecordingJobConfiguration *trc__GetRecordingJobConfiguration)
+{	struct __trc__GetRecordingJobConfiguration soap_tmp___trc__GetRecordingJobConfiguration;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/recording/wsdl/GetRecordingJobConfiguration";
+	soap_tmp___trc__GetRecordingJobConfiguration.trc__GetRecordingJobConfiguration = trc__GetRecordingJobConfiguration;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trc__GetRecordingJobConfiguration(soap, &soap_tmp___trc__GetRecordingJobConfiguration);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trc__GetRecordingJobConfiguration(soap, &soap_tmp___trc__GetRecordingJobConfiguration, "-trc:GetRecordingJobConfiguration", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trc__GetRecordingJobConfiguration(soap, &soap_tmp___trc__GetRecordingJobConfiguration, "-trc:GetRecordingJobConfiguration", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trc__GetRecordingJobConfiguration(struct soap *soap, struct _trc__GetRecordingJobConfigurationResponse *trc__GetRecordingJobConfigurationResponse)
+{
+	if (!trc__GetRecordingJobConfigurationResponse)
+		return soap_closesock(soap);
+	soap_default__trc__GetRecordingJobConfigurationResponse(soap, trc__GetRecordingJobConfigurationResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trc__GetRecordingJobConfigurationResponse(soap, trc__GetRecordingJobConfigurationResponse, "trc:GetRecordingJobConfigurationResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trc__SetRecordingJobMode(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trc__SetRecordingJobMode *trc__SetRecordingJobMode, struct _trc__SetRecordingJobModeResponse *trc__SetRecordingJobModeResponse)
+{	if (soap_send___trc__SetRecordingJobMode(soap, soap_endpoint, soap_action, trc__SetRecordingJobMode) || soap_recv___trc__SetRecordingJobMode(soap, trc__SetRecordingJobModeResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trc__SetRecordingJobMode(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trc__SetRecordingJobMode *trc__SetRecordingJobMode)
+{	struct __trc__SetRecordingJobMode soap_tmp___trc__SetRecordingJobMode;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/recording/wsdl/SetRecordingJobMode";
+	soap_tmp___trc__SetRecordingJobMode.trc__SetRecordingJobMode = trc__SetRecordingJobMode;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trc__SetRecordingJobMode(soap, &soap_tmp___trc__SetRecordingJobMode);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trc__SetRecordingJobMode(soap, &soap_tmp___trc__SetRecordingJobMode, "-trc:SetRecordingJobMode", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trc__SetRecordingJobMode(soap, &soap_tmp___trc__SetRecordingJobMode, "-trc:SetRecordingJobMode", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trc__SetRecordingJobMode(struct soap *soap, struct _trc__SetRecordingJobModeResponse *trc__SetRecordingJobModeResponse)
+{
+	if (!trc__SetRecordingJobModeResponse)
+		return soap_closesock(soap);
+	soap_default__trc__SetRecordingJobModeResponse(soap, trc__SetRecordingJobModeResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trc__SetRecordingJobModeResponse(soap, trc__SetRecordingJobModeResponse, "trc:SetRecordingJobModeResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trc__GetRecordingJobState(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trc__GetRecordingJobState *trc__GetRecordingJobState, struct _trc__GetRecordingJobStateResponse *trc__GetRecordingJobStateResponse)
+{	if (soap_send___trc__GetRecordingJobState(soap, soap_endpoint, soap_action, trc__GetRecordingJobState) || soap_recv___trc__GetRecordingJobState(soap, trc__GetRecordingJobStateResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trc__GetRecordingJobState(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trc__GetRecordingJobState *trc__GetRecordingJobState)
+{	struct __trc__GetRecordingJobState soap_tmp___trc__GetRecordingJobState;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/recording/wsdl/GetRecordingJobState";
+	soap_tmp___trc__GetRecordingJobState.trc__GetRecordingJobState = trc__GetRecordingJobState;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trc__GetRecordingJobState(soap, &soap_tmp___trc__GetRecordingJobState);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trc__GetRecordingJobState(soap, &soap_tmp___trc__GetRecordingJobState, "-trc:GetRecordingJobState", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trc__GetRecordingJobState(soap, &soap_tmp___trc__GetRecordingJobState, "-trc:GetRecordingJobState", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trc__GetRecordingJobState(struct soap *soap, struct _trc__GetRecordingJobStateResponse *trc__GetRecordingJobStateResponse)
+{
+	if (!trc__GetRecordingJobStateResponse)
+		return soap_closesock(soap);
+	soap_default__trc__GetRecordingJobStateResponse(soap, trc__GetRecordingJobStateResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trc__GetRecordingJobStateResponse(soap, trc__GetRecordingJobStateResponse, "trc:GetRecordingJobStateResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trc__ExportRecordedData(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trc__ExportRecordedData *trc__ExportRecordedData, struct _trc__ExportRecordedDataResponse *trc__ExportRecordedDataResponse)
+{	if (soap_send___trc__ExportRecordedData(soap, soap_endpoint, soap_action, trc__ExportRecordedData) || soap_recv___trc__ExportRecordedData(soap, trc__ExportRecordedDataResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trc__ExportRecordedData(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trc__ExportRecordedData *trc__ExportRecordedData)
+{	struct __trc__ExportRecordedData soap_tmp___trc__ExportRecordedData;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/recording/wsdl/ExportRecordedData";
+	soap_tmp___trc__ExportRecordedData.trc__ExportRecordedData = trc__ExportRecordedData;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trc__ExportRecordedData(soap, &soap_tmp___trc__ExportRecordedData);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trc__ExportRecordedData(soap, &soap_tmp___trc__ExportRecordedData, "-trc:ExportRecordedData", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trc__ExportRecordedData(soap, &soap_tmp___trc__ExportRecordedData, "-trc:ExportRecordedData", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trc__ExportRecordedData(struct soap *soap, struct _trc__ExportRecordedDataResponse *trc__ExportRecordedDataResponse)
+{
+	if (!trc__ExportRecordedDataResponse)
+		return soap_closesock(soap);
+	soap_default__trc__ExportRecordedDataResponse(soap, trc__ExportRecordedDataResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trc__ExportRecordedDataResponse(soap, trc__ExportRecordedDataResponse, "trc:ExportRecordedDataResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trc__StopExportRecordedData(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trc__StopExportRecordedData *trc__StopExportRecordedData, struct _trc__StopExportRecordedDataResponse *trc__StopExportRecordedDataResponse)
+{	if (soap_send___trc__StopExportRecordedData(soap, soap_endpoint, soap_action, trc__StopExportRecordedData) || soap_recv___trc__StopExportRecordedData(soap, trc__StopExportRecordedDataResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trc__StopExportRecordedData(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trc__StopExportRecordedData *trc__StopExportRecordedData)
+{	struct __trc__StopExportRecordedData soap_tmp___trc__StopExportRecordedData;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/recording/wsdl/StopExportRecordedData";
+	soap_tmp___trc__StopExportRecordedData.trc__StopExportRecordedData = trc__StopExportRecordedData;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trc__StopExportRecordedData(soap, &soap_tmp___trc__StopExportRecordedData);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trc__StopExportRecordedData(soap, &soap_tmp___trc__StopExportRecordedData, "-trc:StopExportRecordedData", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trc__StopExportRecordedData(soap, &soap_tmp___trc__StopExportRecordedData, "-trc:StopExportRecordedData", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trc__StopExportRecordedData(struct soap *soap, struct _trc__StopExportRecordedDataResponse *trc__StopExportRecordedDataResponse)
+{
+	if (!trc__StopExportRecordedDataResponse)
+		return soap_closesock(soap);
+	soap_default__trc__StopExportRecordedDataResponse(soap, trc__StopExportRecordedDataResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trc__StopExportRecordedDataResponse(soap, trc__StopExportRecordedDataResponse, "trc:StopExportRecordedDataResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trc__GetExportRecordedDataState(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trc__GetExportRecordedDataState *trc__GetExportRecordedDataState, struct _trc__GetExportRecordedDataStateResponse *trc__GetExportRecordedDataStateResponse)
+{	if (soap_send___trc__GetExportRecordedDataState(soap, soap_endpoint, soap_action, trc__GetExportRecordedDataState) || soap_recv___trc__GetExportRecordedDataState(soap, trc__GetExportRecordedDataStateResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trc__GetExportRecordedDataState(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trc__GetExportRecordedDataState *trc__GetExportRecordedDataState)
+{	struct __trc__GetExportRecordedDataState soap_tmp___trc__GetExportRecordedDataState;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/recording/wsdl/GetExportRecordedDataState";
+	soap_tmp___trc__GetExportRecordedDataState.trc__GetExportRecordedDataState = trc__GetExportRecordedDataState;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trc__GetExportRecordedDataState(soap, &soap_tmp___trc__GetExportRecordedDataState);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trc__GetExportRecordedDataState(soap, &soap_tmp___trc__GetExportRecordedDataState, "-trc:GetExportRecordedDataState", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trc__GetExportRecordedDataState(soap, &soap_tmp___trc__GetExportRecordedDataState, "-trc:GetExportRecordedDataState", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trc__GetExportRecordedDataState(struct soap *soap, struct _trc__GetExportRecordedDataStateResponse *trc__GetExportRecordedDataStateResponse)
+{
+	if (!trc__GetExportRecordedDataStateResponse)
+		return soap_closesock(soap);
+	soap_default__trc__GetExportRecordedDataStateResponse(soap, trc__GetExportRecordedDataStateResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trc__GetExportRecordedDataStateResponse(soap, trc__GetExportRecordedDataStateResponse, "trc:GetExportRecordedDataStateResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trp__GetServiceCapabilities(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trp__GetServiceCapabilities *trp__GetServiceCapabilities, struct _trp__GetServiceCapabilitiesResponse *trp__GetServiceCapabilitiesResponse)
+{	if (soap_send___trp__GetServiceCapabilities(soap, soap_endpoint, soap_action, trp__GetServiceCapabilities) || soap_recv___trp__GetServiceCapabilities(soap, trp__GetServiceCapabilitiesResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trp__GetServiceCapabilities(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trp__GetServiceCapabilities *trp__GetServiceCapabilities)
+{	struct __trp__GetServiceCapabilities soap_tmp___trp__GetServiceCapabilities;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/replay/wsdl/GetServiceCapabilities";
+	soap_tmp___trp__GetServiceCapabilities.trp__GetServiceCapabilities = trp__GetServiceCapabilities;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trp__GetServiceCapabilities(soap, &soap_tmp___trp__GetServiceCapabilities);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trp__GetServiceCapabilities(soap, &soap_tmp___trp__GetServiceCapabilities, "-trp:GetServiceCapabilities", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trp__GetServiceCapabilities(soap, &soap_tmp___trp__GetServiceCapabilities, "-trp:GetServiceCapabilities", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trp__GetServiceCapabilities(struct soap *soap, struct _trp__GetServiceCapabilitiesResponse *trp__GetServiceCapabilitiesResponse)
+{
+	if (!trp__GetServiceCapabilitiesResponse)
+		return soap_closesock(soap);
+	soap_default__trp__GetServiceCapabilitiesResponse(soap, trp__GetServiceCapabilitiesResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trp__GetServiceCapabilitiesResponse(soap, trp__GetServiceCapabilitiesResponse, "trp:GetServiceCapabilitiesResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trp__GetReplayUri(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trp__GetReplayUri *trp__GetReplayUri, struct _trp__GetReplayUriResponse *trp__GetReplayUriResponse)
+{	if (soap_send___trp__GetReplayUri(soap, soap_endpoint, soap_action, trp__GetReplayUri) || soap_recv___trp__GetReplayUri(soap, trp__GetReplayUriResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trp__GetReplayUri(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trp__GetReplayUri *trp__GetReplayUri)
+{	struct __trp__GetReplayUri soap_tmp___trp__GetReplayUri;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/replay/wsdl/GetReplayUri";
+	soap_tmp___trp__GetReplayUri.trp__GetReplayUri = trp__GetReplayUri;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trp__GetReplayUri(soap, &soap_tmp___trp__GetReplayUri);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trp__GetReplayUri(soap, &soap_tmp___trp__GetReplayUri, "-trp:GetReplayUri", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trp__GetReplayUri(soap, &soap_tmp___trp__GetReplayUri, "-trp:GetReplayUri", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trp__GetReplayUri(struct soap *soap, struct _trp__GetReplayUriResponse *trp__GetReplayUriResponse)
+{
+	if (!trp__GetReplayUriResponse)
+		return soap_closesock(soap);
+	soap_default__trp__GetReplayUriResponse(soap, trp__GetReplayUriResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trp__GetReplayUriResponse(soap, trp__GetReplayUriResponse, "trp:GetReplayUriResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trp__GetReplayConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trp__GetReplayConfiguration *trp__GetReplayConfiguration, struct _trp__GetReplayConfigurationResponse *trp__GetReplayConfigurationResponse)
+{	if (soap_send___trp__GetReplayConfiguration(soap, soap_endpoint, soap_action, trp__GetReplayConfiguration) || soap_recv___trp__GetReplayConfiguration(soap, trp__GetReplayConfigurationResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trp__GetReplayConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trp__GetReplayConfiguration *trp__GetReplayConfiguration)
+{	struct __trp__GetReplayConfiguration soap_tmp___trp__GetReplayConfiguration;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/replay/wsdl/GetReplayConfiguration";
+	soap_tmp___trp__GetReplayConfiguration.trp__GetReplayConfiguration = trp__GetReplayConfiguration;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trp__GetReplayConfiguration(soap, &soap_tmp___trp__GetReplayConfiguration);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trp__GetReplayConfiguration(soap, &soap_tmp___trp__GetReplayConfiguration, "-trp:GetReplayConfiguration", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trp__GetReplayConfiguration(soap, &soap_tmp___trp__GetReplayConfiguration, "-trp:GetReplayConfiguration", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trp__GetReplayConfiguration(struct soap *soap, struct _trp__GetReplayConfigurationResponse *trp__GetReplayConfigurationResponse)
+{
+	if (!trp__GetReplayConfigurationResponse)
+		return soap_closesock(soap);
+	soap_default__trp__GetReplayConfigurationResponse(soap, trp__GetReplayConfigurationResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trp__GetReplayConfigurationResponse(soap, trp__GetReplayConfigurationResponse, "trp:GetReplayConfigurationResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trp__SetReplayConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trp__SetReplayConfiguration *trp__SetReplayConfiguration, struct _trp__SetReplayConfigurationResponse *trp__SetReplayConfigurationResponse)
+{	if (soap_send___trp__SetReplayConfiguration(soap, soap_endpoint, soap_action, trp__SetReplayConfiguration) || soap_recv___trp__SetReplayConfiguration(soap, trp__SetReplayConfigurationResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trp__SetReplayConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trp__SetReplayConfiguration *trp__SetReplayConfiguration)
+{	struct __trp__SetReplayConfiguration soap_tmp___trp__SetReplayConfiguration;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/replay/wsdl/SetReplayConfiguration";
+	soap_tmp___trp__SetReplayConfiguration.trp__SetReplayConfiguration = trp__SetReplayConfiguration;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trp__SetReplayConfiguration(soap, &soap_tmp___trp__SetReplayConfiguration);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trp__SetReplayConfiguration(soap, &soap_tmp___trp__SetReplayConfiguration, "-trp:SetReplayConfiguration", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trp__SetReplayConfiguration(soap, &soap_tmp___trp__SetReplayConfiguration, "-trp:SetReplayConfiguration", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trp__SetReplayConfiguration(struct soap *soap, struct _trp__SetReplayConfigurationResponse *trp__SetReplayConfigurationResponse)
+{
+	if (!trp__SetReplayConfigurationResponse)
+		return soap_closesock(soap);
+	soap_default__trp__SetReplayConfigurationResponse(soap, trp__SetReplayConfigurationResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trp__SetReplayConfigurationResponse(soap, trp__SetReplayConfigurationResponse, "trp:SetReplayConfigurationResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trt__GetServiceCapabilities(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__GetServiceCapabilities *trt__GetServiceCapabilities, struct _trt__GetServiceCapabilitiesResponse *trt__GetServiceCapabilitiesResponse)
+{	if (soap_send___trt__GetServiceCapabilities(soap, soap_endpoint, soap_action, trt__GetServiceCapabilities) || soap_recv___trt__GetServiceCapabilities(soap, trt__GetServiceCapabilitiesResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trt__GetServiceCapabilities(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__GetServiceCapabilities *trt__GetServiceCapabilities)
+{	struct __trt__GetServiceCapabilities soap_tmp___trt__GetServiceCapabilities;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/media/wsdl/GetServiceCapabilities";
+	soap_tmp___trt__GetServiceCapabilities.trt__GetServiceCapabilities = trt__GetServiceCapabilities;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trt__GetServiceCapabilities(soap, &soap_tmp___trt__GetServiceCapabilities);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trt__GetServiceCapabilities(soap, &soap_tmp___trt__GetServiceCapabilities, "-trt:GetServiceCapabilities", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trt__GetServiceCapabilities(soap, &soap_tmp___trt__GetServiceCapabilities, "-trt:GetServiceCapabilities", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trt__GetServiceCapabilities(struct soap *soap, struct _trt__GetServiceCapabilitiesResponse *trt__GetServiceCapabilitiesResponse)
+{
+	if (!trt__GetServiceCapabilitiesResponse)
+		return soap_closesock(soap);
+	soap_default__trt__GetServiceCapabilitiesResponse(soap, trt__GetServiceCapabilitiesResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trt__GetServiceCapabilitiesResponse(soap, trt__GetServiceCapabilitiesResponse, "trt:GetServiceCapabilitiesResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trt__GetVideoSources(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__GetVideoSources *trt__GetVideoSources, struct _trt__GetVideoSourcesResponse *trt__GetVideoSourcesResponse)
+{	if (soap_send___trt__GetVideoSources(soap, soap_endpoint, soap_action, trt__GetVideoSources) || soap_recv___trt__GetVideoSources(soap, trt__GetVideoSourcesResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trt__GetVideoSources(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__GetVideoSources *trt__GetVideoSources)
+{	struct __trt__GetVideoSources soap_tmp___trt__GetVideoSources;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/media/wsdlGetVideoSources/";
+	soap_tmp___trt__GetVideoSources.trt__GetVideoSources = trt__GetVideoSources;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trt__GetVideoSources(soap, &soap_tmp___trt__GetVideoSources);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trt__GetVideoSources(soap, &soap_tmp___trt__GetVideoSources, "-trt:GetVideoSources", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trt__GetVideoSources(soap, &soap_tmp___trt__GetVideoSources, "-trt:GetVideoSources", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trt__GetVideoSources(struct soap *soap, struct _trt__GetVideoSourcesResponse *trt__GetVideoSourcesResponse)
+{
+	if (!trt__GetVideoSourcesResponse)
+		return soap_closesock(soap);
+	soap_default__trt__GetVideoSourcesResponse(soap, trt__GetVideoSourcesResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trt__GetVideoSourcesResponse(soap, trt__GetVideoSourcesResponse, "trt:GetVideoSourcesResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trt__GetAudioSources(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__GetAudioSources *trt__GetAudioSources, struct _trt__GetAudioSourcesResponse *trt__GetAudioSourcesResponse)
+{	if (soap_send___trt__GetAudioSources(soap, soap_endpoint, soap_action, trt__GetAudioSources) || soap_recv___trt__GetAudioSources(soap, trt__GetAudioSourcesResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trt__GetAudioSources(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__GetAudioSources *trt__GetAudioSources)
+{	struct __trt__GetAudioSources soap_tmp___trt__GetAudioSources;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/media/wsdl/GetAudioSources";
+	soap_tmp___trt__GetAudioSources.trt__GetAudioSources = trt__GetAudioSources;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trt__GetAudioSources(soap, &soap_tmp___trt__GetAudioSources);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trt__GetAudioSources(soap, &soap_tmp___trt__GetAudioSources, "-trt:GetAudioSources", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trt__GetAudioSources(soap, &soap_tmp___trt__GetAudioSources, "-trt:GetAudioSources", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trt__GetAudioSources(struct soap *soap, struct _trt__GetAudioSourcesResponse *trt__GetAudioSourcesResponse)
+{
+	if (!trt__GetAudioSourcesResponse)
+		return soap_closesock(soap);
+	soap_default__trt__GetAudioSourcesResponse(soap, trt__GetAudioSourcesResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trt__GetAudioSourcesResponse(soap, trt__GetAudioSourcesResponse, "trt:GetAudioSourcesResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trt__GetAudioOutputs(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__GetAudioOutputs *trt__GetAudioOutputs, struct _trt__GetAudioOutputsResponse *trt__GetAudioOutputsResponse)
+{	if (soap_send___trt__GetAudioOutputs(soap, soap_endpoint, soap_action, trt__GetAudioOutputs) || soap_recv___trt__GetAudioOutputs(soap, trt__GetAudioOutputsResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trt__GetAudioOutputs(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__GetAudioOutputs *trt__GetAudioOutputs)
+{	struct __trt__GetAudioOutputs soap_tmp___trt__GetAudioOutputs;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/media/wsdl/GetAudioOutputs";
+	soap_tmp___trt__GetAudioOutputs.trt__GetAudioOutputs = trt__GetAudioOutputs;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trt__GetAudioOutputs(soap, &soap_tmp___trt__GetAudioOutputs);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trt__GetAudioOutputs(soap, &soap_tmp___trt__GetAudioOutputs, "-trt:GetAudioOutputs", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trt__GetAudioOutputs(soap, &soap_tmp___trt__GetAudioOutputs, "-trt:GetAudioOutputs", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trt__GetAudioOutputs(struct soap *soap, struct _trt__GetAudioOutputsResponse *trt__GetAudioOutputsResponse)
+{
+	if (!trt__GetAudioOutputsResponse)
+		return soap_closesock(soap);
+	soap_default__trt__GetAudioOutputsResponse(soap, trt__GetAudioOutputsResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trt__GetAudioOutputsResponse(soap, trt__GetAudioOutputsResponse, "trt:GetAudioOutputsResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trt__CreateProfile(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__CreateProfile *trt__CreateProfile, struct _trt__CreateProfileResponse *trt__CreateProfileResponse)
+{	if (soap_send___trt__CreateProfile(soap, soap_endpoint, soap_action, trt__CreateProfile) || soap_recv___trt__CreateProfile(soap, trt__CreateProfileResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trt__CreateProfile(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__CreateProfile *trt__CreateProfile)
+{	struct __trt__CreateProfile soap_tmp___trt__CreateProfile;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/media/wsdl/CreateProfile";
+	soap_tmp___trt__CreateProfile.trt__CreateProfile = trt__CreateProfile;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trt__CreateProfile(soap, &soap_tmp___trt__CreateProfile);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trt__CreateProfile(soap, &soap_tmp___trt__CreateProfile, "-trt:CreateProfile", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trt__CreateProfile(soap, &soap_tmp___trt__CreateProfile, "-trt:CreateProfile", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trt__CreateProfile(struct soap *soap, struct _trt__CreateProfileResponse *trt__CreateProfileResponse)
+{
+	if (!trt__CreateProfileResponse)
+		return soap_closesock(soap);
+	soap_default__trt__CreateProfileResponse(soap, trt__CreateProfileResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trt__CreateProfileResponse(soap, trt__CreateProfileResponse, "trt:CreateProfileResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trt__GetProfile(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__GetProfile *trt__GetProfile, struct _trt__GetProfileResponse *trt__GetProfileResponse)
+{	if (soap_send___trt__GetProfile(soap, soap_endpoint, soap_action, trt__GetProfile) || soap_recv___trt__GetProfile(soap, trt__GetProfileResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trt__GetProfile(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__GetProfile *trt__GetProfile)
+{	struct __trt__GetProfile soap_tmp___trt__GetProfile;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/media/wsdlGetProfile/";
+	soap_tmp___trt__GetProfile.trt__GetProfile = trt__GetProfile;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trt__GetProfile(soap, &soap_tmp___trt__GetProfile);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trt__GetProfile(soap, &soap_tmp___trt__GetProfile, "-trt:GetProfile", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trt__GetProfile(soap, &soap_tmp___trt__GetProfile, "-trt:GetProfile", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trt__GetProfile(struct soap *soap, struct _trt__GetProfileResponse *trt__GetProfileResponse)
+{
+	if (!trt__GetProfileResponse)
+		return soap_closesock(soap);
+	soap_default__trt__GetProfileResponse(soap, trt__GetProfileResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trt__GetProfileResponse(soap, trt__GetProfileResponse, "trt:GetProfileResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trt__GetProfiles(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__GetProfiles *trt__GetProfiles, struct _trt__GetProfilesResponse *trt__GetProfilesResponse)
+{	if (soap_send___trt__GetProfiles(soap, soap_endpoint, soap_action, trt__GetProfiles) || soap_recv___trt__GetProfiles(soap, trt__GetProfilesResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trt__GetProfiles(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__GetProfiles *trt__GetProfiles)
+{	struct __trt__GetProfiles soap_tmp___trt__GetProfiles;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/media/wsdl/GetProfiles";
+	soap_tmp___trt__GetProfiles.trt__GetProfiles = trt__GetProfiles;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trt__GetProfiles(soap, &soap_tmp___trt__GetProfiles);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trt__GetProfiles(soap, &soap_tmp___trt__GetProfiles, "-trt:GetProfiles", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trt__GetProfiles(soap, &soap_tmp___trt__GetProfiles, "-trt:GetProfiles", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trt__GetProfiles(struct soap *soap, struct _trt__GetProfilesResponse *trt__GetProfilesResponse)
+{
+	if (!trt__GetProfilesResponse)
+		return soap_closesock(soap);
+	soap_default__trt__GetProfilesResponse(soap, trt__GetProfilesResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trt__GetProfilesResponse(soap, trt__GetProfilesResponse, "trt:GetProfilesResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trt__AddVideoEncoderConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__AddVideoEncoderConfiguration *trt__AddVideoEncoderConfiguration, struct _trt__AddVideoEncoderConfigurationResponse *trt__AddVideoEncoderConfigurationResponse)
+{	if (soap_send___trt__AddVideoEncoderConfiguration(soap, soap_endpoint, soap_action, trt__AddVideoEncoderConfiguration) || soap_recv___trt__AddVideoEncoderConfiguration(soap, trt__AddVideoEncoderConfigurationResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trt__AddVideoEncoderConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__AddVideoEncoderConfiguration *trt__AddVideoEncoderConfiguration)
+{	struct __trt__AddVideoEncoderConfiguration soap_tmp___trt__AddVideoEncoderConfiguration;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/media/wsdl/AddVideoEncoderConfiguration";
+	soap_tmp___trt__AddVideoEncoderConfiguration.trt__AddVideoEncoderConfiguration = trt__AddVideoEncoderConfiguration;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trt__AddVideoEncoderConfiguration(soap, &soap_tmp___trt__AddVideoEncoderConfiguration);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trt__AddVideoEncoderConfiguration(soap, &soap_tmp___trt__AddVideoEncoderConfiguration, "-trt:AddVideoEncoderConfiguration", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trt__AddVideoEncoderConfiguration(soap, &soap_tmp___trt__AddVideoEncoderConfiguration, "-trt:AddVideoEncoderConfiguration", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trt__AddVideoEncoderConfiguration(struct soap *soap, struct _trt__AddVideoEncoderConfigurationResponse *trt__AddVideoEncoderConfigurationResponse)
+{
+	if (!trt__AddVideoEncoderConfigurationResponse)
+		return soap_closesock(soap);
+	soap_default__trt__AddVideoEncoderConfigurationResponse(soap, trt__AddVideoEncoderConfigurationResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trt__AddVideoEncoderConfigurationResponse(soap, trt__AddVideoEncoderConfigurationResponse, "trt:AddVideoEncoderConfigurationResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trt__AddVideoSourceConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__AddVideoSourceConfiguration *trt__AddVideoSourceConfiguration, struct _trt__AddVideoSourceConfigurationResponse *trt__AddVideoSourceConfigurationResponse)
+{	if (soap_send___trt__AddVideoSourceConfiguration(soap, soap_endpoint, soap_action, trt__AddVideoSourceConfiguration) || soap_recv___trt__AddVideoSourceConfiguration(soap, trt__AddVideoSourceConfigurationResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trt__AddVideoSourceConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__AddVideoSourceConfiguration *trt__AddVideoSourceConfiguration)
+{	struct __trt__AddVideoSourceConfiguration soap_tmp___trt__AddVideoSourceConfiguration;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/media/wsdl/AddVideoSourceConfiguration";
+	soap_tmp___trt__AddVideoSourceConfiguration.trt__AddVideoSourceConfiguration = trt__AddVideoSourceConfiguration;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trt__AddVideoSourceConfiguration(soap, &soap_tmp___trt__AddVideoSourceConfiguration);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trt__AddVideoSourceConfiguration(soap, &soap_tmp___trt__AddVideoSourceConfiguration, "-trt:AddVideoSourceConfiguration", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trt__AddVideoSourceConfiguration(soap, &soap_tmp___trt__AddVideoSourceConfiguration, "-trt:AddVideoSourceConfiguration", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trt__AddVideoSourceConfiguration(struct soap *soap, struct _trt__AddVideoSourceConfigurationResponse *trt__AddVideoSourceConfigurationResponse)
+{
+	if (!trt__AddVideoSourceConfigurationResponse)
+		return soap_closesock(soap);
+	soap_default__trt__AddVideoSourceConfigurationResponse(soap, trt__AddVideoSourceConfigurationResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trt__AddVideoSourceConfigurationResponse(soap, trt__AddVideoSourceConfigurationResponse, "trt:AddVideoSourceConfigurationResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trt__AddAudioEncoderConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__AddAudioEncoderConfiguration *trt__AddAudioEncoderConfiguration, struct _trt__AddAudioEncoderConfigurationResponse *trt__AddAudioEncoderConfigurationResponse)
+{	if (soap_send___trt__AddAudioEncoderConfiguration(soap, soap_endpoint, soap_action, trt__AddAudioEncoderConfiguration) || soap_recv___trt__AddAudioEncoderConfiguration(soap, trt__AddAudioEncoderConfigurationResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trt__AddAudioEncoderConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__AddAudioEncoderConfiguration *trt__AddAudioEncoderConfiguration)
+{	struct __trt__AddAudioEncoderConfiguration soap_tmp___trt__AddAudioEncoderConfiguration;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/media/wsdl/AddAudioEncoderConfiguration";
+	soap_tmp___trt__AddAudioEncoderConfiguration.trt__AddAudioEncoderConfiguration = trt__AddAudioEncoderConfiguration;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trt__AddAudioEncoderConfiguration(soap, &soap_tmp___trt__AddAudioEncoderConfiguration);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trt__AddAudioEncoderConfiguration(soap, &soap_tmp___trt__AddAudioEncoderConfiguration, "-trt:AddAudioEncoderConfiguration", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trt__AddAudioEncoderConfiguration(soap, &soap_tmp___trt__AddAudioEncoderConfiguration, "-trt:AddAudioEncoderConfiguration", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trt__AddAudioEncoderConfiguration(struct soap *soap, struct _trt__AddAudioEncoderConfigurationResponse *trt__AddAudioEncoderConfigurationResponse)
+{
+	if (!trt__AddAudioEncoderConfigurationResponse)
+		return soap_closesock(soap);
+	soap_default__trt__AddAudioEncoderConfigurationResponse(soap, trt__AddAudioEncoderConfigurationResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trt__AddAudioEncoderConfigurationResponse(soap, trt__AddAudioEncoderConfigurationResponse, "trt:AddAudioEncoderConfigurationResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trt__AddAudioSourceConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__AddAudioSourceConfiguration *trt__AddAudioSourceConfiguration, struct _trt__AddAudioSourceConfigurationResponse *trt__AddAudioSourceConfigurationResponse)
+{	if (soap_send___trt__AddAudioSourceConfiguration(soap, soap_endpoint, soap_action, trt__AddAudioSourceConfiguration) || soap_recv___trt__AddAudioSourceConfiguration(soap, trt__AddAudioSourceConfigurationResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trt__AddAudioSourceConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__AddAudioSourceConfiguration *trt__AddAudioSourceConfiguration)
+{	struct __trt__AddAudioSourceConfiguration soap_tmp___trt__AddAudioSourceConfiguration;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/media/wsdl/AddAudioSourceConfiguration";
+	soap_tmp___trt__AddAudioSourceConfiguration.trt__AddAudioSourceConfiguration = trt__AddAudioSourceConfiguration;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trt__AddAudioSourceConfiguration(soap, &soap_tmp___trt__AddAudioSourceConfiguration);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trt__AddAudioSourceConfiguration(soap, &soap_tmp___trt__AddAudioSourceConfiguration, "-trt:AddAudioSourceConfiguration", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trt__AddAudioSourceConfiguration(soap, &soap_tmp___trt__AddAudioSourceConfiguration, "-trt:AddAudioSourceConfiguration", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trt__AddAudioSourceConfiguration(struct soap *soap, struct _trt__AddAudioSourceConfigurationResponse *trt__AddAudioSourceConfigurationResponse)
+{
+	if (!trt__AddAudioSourceConfigurationResponse)
+		return soap_closesock(soap);
+	soap_default__trt__AddAudioSourceConfigurationResponse(soap, trt__AddAudioSourceConfigurationResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trt__AddAudioSourceConfigurationResponse(soap, trt__AddAudioSourceConfigurationResponse, "trt:AddAudioSourceConfigurationResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trt__AddPTZConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__AddPTZConfiguration *trt__AddPTZConfiguration, struct _trt__AddPTZConfigurationResponse *trt__AddPTZConfigurationResponse)
+{	if (soap_send___trt__AddPTZConfiguration(soap, soap_endpoint, soap_action, trt__AddPTZConfiguration) || soap_recv___trt__AddPTZConfiguration(soap, trt__AddPTZConfigurationResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trt__AddPTZConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__AddPTZConfiguration *trt__AddPTZConfiguration)
+{	struct __trt__AddPTZConfiguration soap_tmp___trt__AddPTZConfiguration;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/media/wsdl/AddPTZConfiguration";
+	soap_tmp___trt__AddPTZConfiguration.trt__AddPTZConfiguration = trt__AddPTZConfiguration;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trt__AddPTZConfiguration(soap, &soap_tmp___trt__AddPTZConfiguration);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trt__AddPTZConfiguration(soap, &soap_tmp___trt__AddPTZConfiguration, "-trt:AddPTZConfiguration", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trt__AddPTZConfiguration(soap, &soap_tmp___trt__AddPTZConfiguration, "-trt:AddPTZConfiguration", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trt__AddPTZConfiguration(struct soap *soap, struct _trt__AddPTZConfigurationResponse *trt__AddPTZConfigurationResponse)
+{
+	if (!trt__AddPTZConfigurationResponse)
+		return soap_closesock(soap);
+	soap_default__trt__AddPTZConfigurationResponse(soap, trt__AddPTZConfigurationResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trt__AddPTZConfigurationResponse(soap, trt__AddPTZConfigurationResponse, "trt:AddPTZConfigurationResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trt__AddVideoAnalyticsConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__AddVideoAnalyticsConfiguration *trt__AddVideoAnalyticsConfiguration, struct _trt__AddVideoAnalyticsConfigurationResponse *trt__AddVideoAnalyticsConfigurationResponse)
+{	if (soap_send___trt__AddVideoAnalyticsConfiguration(soap, soap_endpoint, soap_action, trt__AddVideoAnalyticsConfiguration) || soap_recv___trt__AddVideoAnalyticsConfiguration(soap, trt__AddVideoAnalyticsConfigurationResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trt__AddVideoAnalyticsConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__AddVideoAnalyticsConfiguration *trt__AddVideoAnalyticsConfiguration)
+{	struct __trt__AddVideoAnalyticsConfiguration soap_tmp___trt__AddVideoAnalyticsConfiguration;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/media/wsdl/AddVideoAnalyticsConfiguration";
+	soap_tmp___trt__AddVideoAnalyticsConfiguration.trt__AddVideoAnalyticsConfiguration = trt__AddVideoAnalyticsConfiguration;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trt__AddVideoAnalyticsConfiguration(soap, &soap_tmp___trt__AddVideoAnalyticsConfiguration);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trt__AddVideoAnalyticsConfiguration(soap, &soap_tmp___trt__AddVideoAnalyticsConfiguration, "-trt:AddVideoAnalyticsConfiguration", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trt__AddVideoAnalyticsConfiguration(soap, &soap_tmp___trt__AddVideoAnalyticsConfiguration, "-trt:AddVideoAnalyticsConfiguration", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trt__AddVideoAnalyticsConfiguration(struct soap *soap, struct _trt__AddVideoAnalyticsConfigurationResponse *trt__AddVideoAnalyticsConfigurationResponse)
+{
+	if (!trt__AddVideoAnalyticsConfigurationResponse)
+		return soap_closesock(soap);
+	soap_default__trt__AddVideoAnalyticsConfigurationResponse(soap, trt__AddVideoAnalyticsConfigurationResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trt__AddVideoAnalyticsConfigurationResponse(soap, trt__AddVideoAnalyticsConfigurationResponse, "trt:AddVideoAnalyticsConfigurationResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trt__AddMetadataConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__AddMetadataConfiguration *trt__AddMetadataConfiguration, struct _trt__AddMetadataConfigurationResponse *trt__AddMetadataConfigurationResponse)
+{	if (soap_send___trt__AddMetadataConfiguration(soap, soap_endpoint, soap_action, trt__AddMetadataConfiguration) || soap_recv___trt__AddMetadataConfiguration(soap, trt__AddMetadataConfigurationResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trt__AddMetadataConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__AddMetadataConfiguration *trt__AddMetadataConfiguration)
+{	struct __trt__AddMetadataConfiguration soap_tmp___trt__AddMetadataConfiguration;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/media/wsdl/AddMetadataConfiguration";
+	soap_tmp___trt__AddMetadataConfiguration.trt__AddMetadataConfiguration = trt__AddMetadataConfiguration;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trt__AddMetadataConfiguration(soap, &soap_tmp___trt__AddMetadataConfiguration);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trt__AddMetadataConfiguration(soap, &soap_tmp___trt__AddMetadataConfiguration, "-trt:AddMetadataConfiguration", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trt__AddMetadataConfiguration(soap, &soap_tmp___trt__AddMetadataConfiguration, "-trt:AddMetadataConfiguration", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trt__AddMetadataConfiguration(struct soap *soap, struct _trt__AddMetadataConfigurationResponse *trt__AddMetadataConfigurationResponse)
+{
+	if (!trt__AddMetadataConfigurationResponse)
+		return soap_closesock(soap);
+	soap_default__trt__AddMetadataConfigurationResponse(soap, trt__AddMetadataConfigurationResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trt__AddMetadataConfigurationResponse(soap, trt__AddMetadataConfigurationResponse, "trt:AddMetadataConfigurationResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trt__AddAudioOutputConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__AddAudioOutputConfiguration *trt__AddAudioOutputConfiguration, struct _trt__AddAudioOutputConfigurationResponse *trt__AddAudioOutputConfigurationResponse)
+{	if (soap_send___trt__AddAudioOutputConfiguration(soap, soap_endpoint, soap_action, trt__AddAudioOutputConfiguration) || soap_recv___trt__AddAudioOutputConfiguration(soap, trt__AddAudioOutputConfigurationResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trt__AddAudioOutputConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__AddAudioOutputConfiguration *trt__AddAudioOutputConfiguration)
+{	struct __trt__AddAudioOutputConfiguration soap_tmp___trt__AddAudioOutputConfiguration;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/media/wsdl/AddAudioOutputConfiguration";
+	soap_tmp___trt__AddAudioOutputConfiguration.trt__AddAudioOutputConfiguration = trt__AddAudioOutputConfiguration;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trt__AddAudioOutputConfiguration(soap, &soap_tmp___trt__AddAudioOutputConfiguration);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trt__AddAudioOutputConfiguration(soap, &soap_tmp___trt__AddAudioOutputConfiguration, "-trt:AddAudioOutputConfiguration", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trt__AddAudioOutputConfiguration(soap, &soap_tmp___trt__AddAudioOutputConfiguration, "-trt:AddAudioOutputConfiguration", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trt__AddAudioOutputConfiguration(struct soap *soap, struct _trt__AddAudioOutputConfigurationResponse *trt__AddAudioOutputConfigurationResponse)
+{
+	if (!trt__AddAudioOutputConfigurationResponse)
+		return soap_closesock(soap);
+	soap_default__trt__AddAudioOutputConfigurationResponse(soap, trt__AddAudioOutputConfigurationResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trt__AddAudioOutputConfigurationResponse(soap, trt__AddAudioOutputConfigurationResponse, "trt:AddAudioOutputConfigurationResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trt__AddAudioDecoderConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__AddAudioDecoderConfiguration *trt__AddAudioDecoderConfiguration, struct _trt__AddAudioDecoderConfigurationResponse *trt__AddAudioDecoderConfigurationResponse)
+{	if (soap_send___trt__AddAudioDecoderConfiguration(soap, soap_endpoint, soap_action, trt__AddAudioDecoderConfiguration) || soap_recv___trt__AddAudioDecoderConfiguration(soap, trt__AddAudioDecoderConfigurationResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trt__AddAudioDecoderConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__AddAudioDecoderConfiguration *trt__AddAudioDecoderConfiguration)
+{	struct __trt__AddAudioDecoderConfiguration soap_tmp___trt__AddAudioDecoderConfiguration;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/media/wsdl/AddAudioDecoderConfiguration";
+	soap_tmp___trt__AddAudioDecoderConfiguration.trt__AddAudioDecoderConfiguration = trt__AddAudioDecoderConfiguration;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trt__AddAudioDecoderConfiguration(soap, &soap_tmp___trt__AddAudioDecoderConfiguration);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trt__AddAudioDecoderConfiguration(soap, &soap_tmp___trt__AddAudioDecoderConfiguration, "-trt:AddAudioDecoderConfiguration", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trt__AddAudioDecoderConfiguration(soap, &soap_tmp___trt__AddAudioDecoderConfiguration, "-trt:AddAudioDecoderConfiguration", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trt__AddAudioDecoderConfiguration(struct soap *soap, struct _trt__AddAudioDecoderConfigurationResponse *trt__AddAudioDecoderConfigurationResponse)
+{
+	if (!trt__AddAudioDecoderConfigurationResponse)
+		return soap_closesock(soap);
+	soap_default__trt__AddAudioDecoderConfigurationResponse(soap, trt__AddAudioDecoderConfigurationResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trt__AddAudioDecoderConfigurationResponse(soap, trt__AddAudioDecoderConfigurationResponse, "trt:AddAudioDecoderConfigurationResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trt__RemoveVideoEncoderConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__RemoveVideoEncoderConfiguration *trt__RemoveVideoEncoderConfiguration, struct _trt__RemoveVideoEncoderConfigurationResponse *trt__RemoveVideoEncoderConfigurationResponse)
+{	if (soap_send___trt__RemoveVideoEncoderConfiguration(soap, soap_endpoint, soap_action, trt__RemoveVideoEncoderConfiguration) || soap_recv___trt__RemoveVideoEncoderConfiguration(soap, trt__RemoveVideoEncoderConfigurationResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trt__RemoveVideoEncoderConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__RemoveVideoEncoderConfiguration *trt__RemoveVideoEncoderConfiguration)
+{	struct __trt__RemoveVideoEncoderConfiguration soap_tmp___trt__RemoveVideoEncoderConfiguration;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/media/wsdl/RemoveVideoEncoderConfiguration";
+	soap_tmp___trt__RemoveVideoEncoderConfiguration.trt__RemoveVideoEncoderConfiguration = trt__RemoveVideoEncoderConfiguration;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trt__RemoveVideoEncoderConfiguration(soap, &soap_tmp___trt__RemoveVideoEncoderConfiguration);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trt__RemoveVideoEncoderConfiguration(soap, &soap_tmp___trt__RemoveVideoEncoderConfiguration, "-trt:RemoveVideoEncoderConfiguration", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trt__RemoveVideoEncoderConfiguration(soap, &soap_tmp___trt__RemoveVideoEncoderConfiguration, "-trt:RemoveVideoEncoderConfiguration", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trt__RemoveVideoEncoderConfiguration(struct soap *soap, struct _trt__RemoveVideoEncoderConfigurationResponse *trt__RemoveVideoEncoderConfigurationResponse)
+{
+	if (!trt__RemoveVideoEncoderConfigurationResponse)
+		return soap_closesock(soap);
+	soap_default__trt__RemoveVideoEncoderConfigurationResponse(soap, trt__RemoveVideoEncoderConfigurationResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trt__RemoveVideoEncoderConfigurationResponse(soap, trt__RemoveVideoEncoderConfigurationResponse, "trt:RemoveVideoEncoderConfigurationResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trt__RemoveVideoSourceConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__RemoveVideoSourceConfiguration *trt__RemoveVideoSourceConfiguration, struct _trt__RemoveVideoSourceConfigurationResponse *trt__RemoveVideoSourceConfigurationResponse)
+{	if (soap_send___trt__RemoveVideoSourceConfiguration(soap, soap_endpoint, soap_action, trt__RemoveVideoSourceConfiguration) || soap_recv___trt__RemoveVideoSourceConfiguration(soap, trt__RemoveVideoSourceConfigurationResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trt__RemoveVideoSourceConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__RemoveVideoSourceConfiguration *trt__RemoveVideoSourceConfiguration)
+{	struct __trt__RemoveVideoSourceConfiguration soap_tmp___trt__RemoveVideoSourceConfiguration;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/media/wsdl/RemoveVideoSourceConfiguration";
+	soap_tmp___trt__RemoveVideoSourceConfiguration.trt__RemoveVideoSourceConfiguration = trt__RemoveVideoSourceConfiguration;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trt__RemoveVideoSourceConfiguration(soap, &soap_tmp___trt__RemoveVideoSourceConfiguration);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trt__RemoveVideoSourceConfiguration(soap, &soap_tmp___trt__RemoveVideoSourceConfiguration, "-trt:RemoveVideoSourceConfiguration", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trt__RemoveVideoSourceConfiguration(soap, &soap_tmp___trt__RemoveVideoSourceConfiguration, "-trt:RemoveVideoSourceConfiguration", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trt__RemoveVideoSourceConfiguration(struct soap *soap, struct _trt__RemoveVideoSourceConfigurationResponse *trt__RemoveVideoSourceConfigurationResponse)
+{
+	if (!trt__RemoveVideoSourceConfigurationResponse)
+		return soap_closesock(soap);
+	soap_default__trt__RemoveVideoSourceConfigurationResponse(soap, trt__RemoveVideoSourceConfigurationResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trt__RemoveVideoSourceConfigurationResponse(soap, trt__RemoveVideoSourceConfigurationResponse, "trt:RemoveVideoSourceConfigurationResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trt__RemoveAudioEncoderConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__RemoveAudioEncoderConfiguration *trt__RemoveAudioEncoderConfiguration, struct _trt__RemoveAudioEncoderConfigurationResponse *trt__RemoveAudioEncoderConfigurationResponse)
+{	if (soap_send___trt__RemoveAudioEncoderConfiguration(soap, soap_endpoint, soap_action, trt__RemoveAudioEncoderConfiguration) || soap_recv___trt__RemoveAudioEncoderConfiguration(soap, trt__RemoveAudioEncoderConfigurationResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trt__RemoveAudioEncoderConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__RemoveAudioEncoderConfiguration *trt__RemoveAudioEncoderConfiguration)
+{	struct __trt__RemoveAudioEncoderConfiguration soap_tmp___trt__RemoveAudioEncoderConfiguration;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/media/wsdl/RemoveAudioEncoderConfiguration";
+	soap_tmp___trt__RemoveAudioEncoderConfiguration.trt__RemoveAudioEncoderConfiguration = trt__RemoveAudioEncoderConfiguration;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trt__RemoveAudioEncoderConfiguration(soap, &soap_tmp___trt__RemoveAudioEncoderConfiguration);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trt__RemoveAudioEncoderConfiguration(soap, &soap_tmp___trt__RemoveAudioEncoderConfiguration, "-trt:RemoveAudioEncoderConfiguration", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trt__RemoveAudioEncoderConfiguration(soap, &soap_tmp___trt__RemoveAudioEncoderConfiguration, "-trt:RemoveAudioEncoderConfiguration", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trt__RemoveAudioEncoderConfiguration(struct soap *soap, struct _trt__RemoveAudioEncoderConfigurationResponse *trt__RemoveAudioEncoderConfigurationResponse)
+{
+	if (!trt__RemoveAudioEncoderConfigurationResponse)
+		return soap_closesock(soap);
+	soap_default__trt__RemoveAudioEncoderConfigurationResponse(soap, trt__RemoveAudioEncoderConfigurationResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trt__RemoveAudioEncoderConfigurationResponse(soap, trt__RemoveAudioEncoderConfigurationResponse, "trt:RemoveAudioEncoderConfigurationResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trt__RemoveAudioSourceConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__RemoveAudioSourceConfiguration *trt__RemoveAudioSourceConfiguration, struct _trt__RemoveAudioSourceConfigurationResponse *trt__RemoveAudioSourceConfigurationResponse)
+{	if (soap_send___trt__RemoveAudioSourceConfiguration(soap, soap_endpoint, soap_action, trt__RemoveAudioSourceConfiguration) || soap_recv___trt__RemoveAudioSourceConfiguration(soap, trt__RemoveAudioSourceConfigurationResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trt__RemoveAudioSourceConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__RemoveAudioSourceConfiguration *trt__RemoveAudioSourceConfiguration)
+{	struct __trt__RemoveAudioSourceConfiguration soap_tmp___trt__RemoveAudioSourceConfiguration;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/media/wsdl/RemoveAudioSourceConfiguration";
+	soap_tmp___trt__RemoveAudioSourceConfiguration.trt__RemoveAudioSourceConfiguration = trt__RemoveAudioSourceConfiguration;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trt__RemoveAudioSourceConfiguration(soap, &soap_tmp___trt__RemoveAudioSourceConfiguration);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trt__RemoveAudioSourceConfiguration(soap, &soap_tmp___trt__RemoveAudioSourceConfiguration, "-trt:RemoveAudioSourceConfiguration", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trt__RemoveAudioSourceConfiguration(soap, &soap_tmp___trt__RemoveAudioSourceConfiguration, "-trt:RemoveAudioSourceConfiguration", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trt__RemoveAudioSourceConfiguration(struct soap *soap, struct _trt__RemoveAudioSourceConfigurationResponse *trt__RemoveAudioSourceConfigurationResponse)
+{
+	if (!trt__RemoveAudioSourceConfigurationResponse)
+		return soap_closesock(soap);
+	soap_default__trt__RemoveAudioSourceConfigurationResponse(soap, trt__RemoveAudioSourceConfigurationResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trt__RemoveAudioSourceConfigurationResponse(soap, trt__RemoveAudioSourceConfigurationResponse, "trt:RemoveAudioSourceConfigurationResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trt__RemovePTZConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__RemovePTZConfiguration *trt__RemovePTZConfiguration, struct _trt__RemovePTZConfigurationResponse *trt__RemovePTZConfigurationResponse)
+{	if (soap_send___trt__RemovePTZConfiguration(soap, soap_endpoint, soap_action, trt__RemovePTZConfiguration) || soap_recv___trt__RemovePTZConfiguration(soap, trt__RemovePTZConfigurationResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trt__RemovePTZConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__RemovePTZConfiguration *trt__RemovePTZConfiguration)
+{	struct __trt__RemovePTZConfiguration soap_tmp___trt__RemovePTZConfiguration;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/media/wsdl/RemovePTZConfiguration";
+	soap_tmp___trt__RemovePTZConfiguration.trt__RemovePTZConfiguration = trt__RemovePTZConfiguration;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trt__RemovePTZConfiguration(soap, &soap_tmp___trt__RemovePTZConfiguration);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trt__RemovePTZConfiguration(soap, &soap_tmp___trt__RemovePTZConfiguration, "-trt:RemovePTZConfiguration", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trt__RemovePTZConfiguration(soap, &soap_tmp___trt__RemovePTZConfiguration, "-trt:RemovePTZConfiguration", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trt__RemovePTZConfiguration(struct soap *soap, struct _trt__RemovePTZConfigurationResponse *trt__RemovePTZConfigurationResponse)
+{
+	if (!trt__RemovePTZConfigurationResponse)
+		return soap_closesock(soap);
+	soap_default__trt__RemovePTZConfigurationResponse(soap, trt__RemovePTZConfigurationResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trt__RemovePTZConfigurationResponse(soap, trt__RemovePTZConfigurationResponse, "trt:RemovePTZConfigurationResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trt__RemoveVideoAnalyticsConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__RemoveVideoAnalyticsConfiguration *trt__RemoveVideoAnalyticsConfiguration, struct _trt__RemoveVideoAnalyticsConfigurationResponse *trt__RemoveVideoAnalyticsConfigurationResponse)
+{	if (soap_send___trt__RemoveVideoAnalyticsConfiguration(soap, soap_endpoint, soap_action, trt__RemoveVideoAnalyticsConfiguration) || soap_recv___trt__RemoveVideoAnalyticsConfiguration(soap, trt__RemoveVideoAnalyticsConfigurationResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trt__RemoveVideoAnalyticsConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__RemoveVideoAnalyticsConfiguration *trt__RemoveVideoAnalyticsConfiguration)
+{	struct __trt__RemoveVideoAnalyticsConfiguration soap_tmp___trt__RemoveVideoAnalyticsConfiguration;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/media/wsdl/RemoveVideoAnalyticsConfiguration";
+	soap_tmp___trt__RemoveVideoAnalyticsConfiguration.trt__RemoveVideoAnalyticsConfiguration = trt__RemoveVideoAnalyticsConfiguration;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trt__RemoveVideoAnalyticsConfiguration(soap, &soap_tmp___trt__RemoveVideoAnalyticsConfiguration);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trt__RemoveVideoAnalyticsConfiguration(soap, &soap_tmp___trt__RemoveVideoAnalyticsConfiguration, "-trt:RemoveVideoAnalyticsConfiguration", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trt__RemoveVideoAnalyticsConfiguration(soap, &soap_tmp___trt__RemoveVideoAnalyticsConfiguration, "-trt:RemoveVideoAnalyticsConfiguration", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trt__RemoveVideoAnalyticsConfiguration(struct soap *soap, struct _trt__RemoveVideoAnalyticsConfigurationResponse *trt__RemoveVideoAnalyticsConfigurationResponse)
+{
+	if (!trt__RemoveVideoAnalyticsConfigurationResponse)
+		return soap_closesock(soap);
+	soap_default__trt__RemoveVideoAnalyticsConfigurationResponse(soap, trt__RemoveVideoAnalyticsConfigurationResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trt__RemoveVideoAnalyticsConfigurationResponse(soap, trt__RemoveVideoAnalyticsConfigurationResponse, "trt:RemoveVideoAnalyticsConfigurationResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trt__RemoveMetadataConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__RemoveMetadataConfiguration *trt__RemoveMetadataConfiguration, struct _trt__RemoveMetadataConfigurationResponse *trt__RemoveMetadataConfigurationResponse)
+{	if (soap_send___trt__RemoveMetadataConfiguration(soap, soap_endpoint, soap_action, trt__RemoveMetadataConfiguration) || soap_recv___trt__RemoveMetadataConfiguration(soap, trt__RemoveMetadataConfigurationResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trt__RemoveMetadataConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__RemoveMetadataConfiguration *trt__RemoveMetadataConfiguration)
+{	struct __trt__RemoveMetadataConfiguration soap_tmp___trt__RemoveMetadataConfiguration;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/media/wsdl/RemoveMetadataConfiguration";
+	soap_tmp___trt__RemoveMetadataConfiguration.trt__RemoveMetadataConfiguration = trt__RemoveMetadataConfiguration;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trt__RemoveMetadataConfiguration(soap, &soap_tmp___trt__RemoveMetadataConfiguration);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trt__RemoveMetadataConfiguration(soap, &soap_tmp___trt__RemoveMetadataConfiguration, "-trt:RemoveMetadataConfiguration", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trt__RemoveMetadataConfiguration(soap, &soap_tmp___trt__RemoveMetadataConfiguration, "-trt:RemoveMetadataConfiguration", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trt__RemoveMetadataConfiguration(struct soap *soap, struct _trt__RemoveMetadataConfigurationResponse *trt__RemoveMetadataConfigurationResponse)
+{
+	if (!trt__RemoveMetadataConfigurationResponse)
+		return soap_closesock(soap);
+	soap_default__trt__RemoveMetadataConfigurationResponse(soap, trt__RemoveMetadataConfigurationResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trt__RemoveMetadataConfigurationResponse(soap, trt__RemoveMetadataConfigurationResponse, "trt:RemoveMetadataConfigurationResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trt__RemoveAudioOutputConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__RemoveAudioOutputConfiguration *trt__RemoveAudioOutputConfiguration, struct _trt__RemoveAudioOutputConfigurationResponse *trt__RemoveAudioOutputConfigurationResponse)
+{	if (soap_send___trt__RemoveAudioOutputConfiguration(soap, soap_endpoint, soap_action, trt__RemoveAudioOutputConfiguration) || soap_recv___trt__RemoveAudioOutputConfiguration(soap, trt__RemoveAudioOutputConfigurationResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trt__RemoveAudioOutputConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__RemoveAudioOutputConfiguration *trt__RemoveAudioOutputConfiguration)
+{	struct __trt__RemoveAudioOutputConfiguration soap_tmp___trt__RemoveAudioOutputConfiguration;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/media/wsdl/RemoveAudioOutputConfiguration";
+	soap_tmp___trt__RemoveAudioOutputConfiguration.trt__RemoveAudioOutputConfiguration = trt__RemoveAudioOutputConfiguration;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trt__RemoveAudioOutputConfiguration(soap, &soap_tmp___trt__RemoveAudioOutputConfiguration);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trt__RemoveAudioOutputConfiguration(soap, &soap_tmp___trt__RemoveAudioOutputConfiguration, "-trt:RemoveAudioOutputConfiguration", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trt__RemoveAudioOutputConfiguration(soap, &soap_tmp___trt__RemoveAudioOutputConfiguration, "-trt:RemoveAudioOutputConfiguration", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trt__RemoveAudioOutputConfiguration(struct soap *soap, struct _trt__RemoveAudioOutputConfigurationResponse *trt__RemoveAudioOutputConfigurationResponse)
+{
+	if (!trt__RemoveAudioOutputConfigurationResponse)
+		return soap_closesock(soap);
+	soap_default__trt__RemoveAudioOutputConfigurationResponse(soap, trt__RemoveAudioOutputConfigurationResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trt__RemoveAudioOutputConfigurationResponse(soap, trt__RemoveAudioOutputConfigurationResponse, "trt:RemoveAudioOutputConfigurationResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trt__RemoveAudioDecoderConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__RemoveAudioDecoderConfiguration *trt__RemoveAudioDecoderConfiguration, struct _trt__RemoveAudioDecoderConfigurationResponse *trt__RemoveAudioDecoderConfigurationResponse)
+{	if (soap_send___trt__RemoveAudioDecoderConfiguration(soap, soap_endpoint, soap_action, trt__RemoveAudioDecoderConfiguration) || soap_recv___trt__RemoveAudioDecoderConfiguration(soap, trt__RemoveAudioDecoderConfigurationResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trt__RemoveAudioDecoderConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__RemoveAudioDecoderConfiguration *trt__RemoveAudioDecoderConfiguration)
+{	struct __trt__RemoveAudioDecoderConfiguration soap_tmp___trt__RemoveAudioDecoderConfiguration;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/media/wsdl/RemoveAudioDecoderConfiguration";
+	soap_tmp___trt__RemoveAudioDecoderConfiguration.trt__RemoveAudioDecoderConfiguration = trt__RemoveAudioDecoderConfiguration;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trt__RemoveAudioDecoderConfiguration(soap, &soap_tmp___trt__RemoveAudioDecoderConfiguration);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trt__RemoveAudioDecoderConfiguration(soap, &soap_tmp___trt__RemoveAudioDecoderConfiguration, "-trt:RemoveAudioDecoderConfiguration", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trt__RemoveAudioDecoderConfiguration(soap, &soap_tmp___trt__RemoveAudioDecoderConfiguration, "-trt:RemoveAudioDecoderConfiguration", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trt__RemoveAudioDecoderConfiguration(struct soap *soap, struct _trt__RemoveAudioDecoderConfigurationResponse *trt__RemoveAudioDecoderConfigurationResponse)
+{
+	if (!trt__RemoveAudioDecoderConfigurationResponse)
+		return soap_closesock(soap);
+	soap_default__trt__RemoveAudioDecoderConfigurationResponse(soap, trt__RemoveAudioDecoderConfigurationResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trt__RemoveAudioDecoderConfigurationResponse(soap, trt__RemoveAudioDecoderConfigurationResponse, "trt:RemoveAudioDecoderConfigurationResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trt__DeleteProfile(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__DeleteProfile *trt__DeleteProfile, struct _trt__DeleteProfileResponse *trt__DeleteProfileResponse)
+{	if (soap_send___trt__DeleteProfile(soap, soap_endpoint, soap_action, trt__DeleteProfile) || soap_recv___trt__DeleteProfile(soap, trt__DeleteProfileResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trt__DeleteProfile(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__DeleteProfile *trt__DeleteProfile)
+{	struct __trt__DeleteProfile soap_tmp___trt__DeleteProfile;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/media/wsdl/DeleteProfile";
+	soap_tmp___trt__DeleteProfile.trt__DeleteProfile = trt__DeleteProfile;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trt__DeleteProfile(soap, &soap_tmp___trt__DeleteProfile);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trt__DeleteProfile(soap, &soap_tmp___trt__DeleteProfile, "-trt:DeleteProfile", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trt__DeleteProfile(soap, &soap_tmp___trt__DeleteProfile, "-trt:DeleteProfile", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trt__DeleteProfile(struct soap *soap, struct _trt__DeleteProfileResponse *trt__DeleteProfileResponse)
+{
+	if (!trt__DeleteProfileResponse)
+		return soap_closesock(soap);
+	soap_default__trt__DeleteProfileResponse(soap, trt__DeleteProfileResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trt__DeleteProfileResponse(soap, trt__DeleteProfileResponse, "trt:DeleteProfileResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trt__GetVideoSourceConfigurations(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__GetVideoSourceConfigurations *trt__GetVideoSourceConfigurations, struct _trt__GetVideoSourceConfigurationsResponse *trt__GetVideoSourceConfigurationsResponse)
+{	if (soap_send___trt__GetVideoSourceConfigurations(soap, soap_endpoint, soap_action, trt__GetVideoSourceConfigurations) || soap_recv___trt__GetVideoSourceConfigurations(soap, trt__GetVideoSourceConfigurationsResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trt__GetVideoSourceConfigurations(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__GetVideoSourceConfigurations *trt__GetVideoSourceConfigurations)
+{	struct __trt__GetVideoSourceConfigurations soap_tmp___trt__GetVideoSourceConfigurations;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/media/wsdl/GetVideoSourceConfigurations";
+	soap_tmp___trt__GetVideoSourceConfigurations.trt__GetVideoSourceConfigurations = trt__GetVideoSourceConfigurations;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trt__GetVideoSourceConfigurations(soap, &soap_tmp___trt__GetVideoSourceConfigurations);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trt__GetVideoSourceConfigurations(soap, &soap_tmp___trt__GetVideoSourceConfigurations, "-trt:GetVideoSourceConfigurations", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trt__GetVideoSourceConfigurations(soap, &soap_tmp___trt__GetVideoSourceConfigurations, "-trt:GetVideoSourceConfigurations", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trt__GetVideoSourceConfigurations(struct soap *soap, struct _trt__GetVideoSourceConfigurationsResponse *trt__GetVideoSourceConfigurationsResponse)
+{
+	if (!trt__GetVideoSourceConfigurationsResponse)
+		return soap_closesock(soap);
+	soap_default__trt__GetVideoSourceConfigurationsResponse(soap, trt__GetVideoSourceConfigurationsResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trt__GetVideoSourceConfigurationsResponse(soap, trt__GetVideoSourceConfigurationsResponse, "trt:GetVideoSourceConfigurationsResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trt__GetVideoEncoderConfigurations(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__GetVideoEncoderConfigurations *trt__GetVideoEncoderConfigurations, struct _trt__GetVideoEncoderConfigurationsResponse *trt__GetVideoEncoderConfigurationsResponse)
+{	if (soap_send___trt__GetVideoEncoderConfigurations(soap, soap_endpoint, soap_action, trt__GetVideoEncoderConfigurations) || soap_recv___trt__GetVideoEncoderConfigurations(soap, trt__GetVideoEncoderConfigurationsResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trt__GetVideoEncoderConfigurations(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__GetVideoEncoderConfigurations *trt__GetVideoEncoderConfigurations)
+{	struct __trt__GetVideoEncoderConfigurations soap_tmp___trt__GetVideoEncoderConfigurations;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/media/wsdl/GetVideoEncoderConfigurations";
+	soap_tmp___trt__GetVideoEncoderConfigurations.trt__GetVideoEncoderConfigurations = trt__GetVideoEncoderConfigurations;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trt__GetVideoEncoderConfigurations(soap, &soap_tmp___trt__GetVideoEncoderConfigurations);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trt__GetVideoEncoderConfigurations(soap, &soap_tmp___trt__GetVideoEncoderConfigurations, "-trt:GetVideoEncoderConfigurations", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trt__GetVideoEncoderConfigurations(soap, &soap_tmp___trt__GetVideoEncoderConfigurations, "-trt:GetVideoEncoderConfigurations", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trt__GetVideoEncoderConfigurations(struct soap *soap, struct _trt__GetVideoEncoderConfigurationsResponse *trt__GetVideoEncoderConfigurationsResponse)
+{
+	if (!trt__GetVideoEncoderConfigurationsResponse)
+		return soap_closesock(soap);
+	soap_default__trt__GetVideoEncoderConfigurationsResponse(soap, trt__GetVideoEncoderConfigurationsResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trt__GetVideoEncoderConfigurationsResponse(soap, trt__GetVideoEncoderConfigurationsResponse, "trt:GetVideoEncoderConfigurationsResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trt__GetAudioSourceConfigurations(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__GetAudioSourceConfigurations *trt__GetAudioSourceConfigurations, struct _trt__GetAudioSourceConfigurationsResponse *trt__GetAudioSourceConfigurationsResponse)
+{	if (soap_send___trt__GetAudioSourceConfigurations(soap, soap_endpoint, soap_action, trt__GetAudioSourceConfigurations) || soap_recv___trt__GetAudioSourceConfigurations(soap, trt__GetAudioSourceConfigurationsResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trt__GetAudioSourceConfigurations(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__GetAudioSourceConfigurations *trt__GetAudioSourceConfigurations)
+{	struct __trt__GetAudioSourceConfigurations soap_tmp___trt__GetAudioSourceConfigurations;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/media/wsdlGetAudioSourceConfigurations/";
+	soap_tmp___trt__GetAudioSourceConfigurations.trt__GetAudioSourceConfigurations = trt__GetAudioSourceConfigurations;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trt__GetAudioSourceConfigurations(soap, &soap_tmp___trt__GetAudioSourceConfigurations);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trt__GetAudioSourceConfigurations(soap, &soap_tmp___trt__GetAudioSourceConfigurations, "-trt:GetAudioSourceConfigurations", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trt__GetAudioSourceConfigurations(soap, &soap_tmp___trt__GetAudioSourceConfigurations, "-trt:GetAudioSourceConfigurations", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trt__GetAudioSourceConfigurations(struct soap *soap, struct _trt__GetAudioSourceConfigurationsResponse *trt__GetAudioSourceConfigurationsResponse)
+{
+	if (!trt__GetAudioSourceConfigurationsResponse)
+		return soap_closesock(soap);
+	soap_default__trt__GetAudioSourceConfigurationsResponse(soap, trt__GetAudioSourceConfigurationsResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trt__GetAudioSourceConfigurationsResponse(soap, trt__GetAudioSourceConfigurationsResponse, "trt:GetAudioSourceConfigurationsResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trt__GetAudioEncoderConfigurations(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__GetAudioEncoderConfigurations *trt__GetAudioEncoderConfigurations, struct _trt__GetAudioEncoderConfigurationsResponse *trt__GetAudioEncoderConfigurationsResponse)
+{	if (soap_send___trt__GetAudioEncoderConfigurations(soap, soap_endpoint, soap_action, trt__GetAudioEncoderConfigurations) || soap_recv___trt__GetAudioEncoderConfigurations(soap, trt__GetAudioEncoderConfigurationsResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trt__GetAudioEncoderConfigurations(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__GetAudioEncoderConfigurations *trt__GetAudioEncoderConfigurations)
+{	struct __trt__GetAudioEncoderConfigurations soap_tmp___trt__GetAudioEncoderConfigurations;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/media/wsdl/GetAudioEncoderConfigurations";
+	soap_tmp___trt__GetAudioEncoderConfigurations.trt__GetAudioEncoderConfigurations = trt__GetAudioEncoderConfigurations;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trt__GetAudioEncoderConfigurations(soap, &soap_tmp___trt__GetAudioEncoderConfigurations);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trt__GetAudioEncoderConfigurations(soap, &soap_tmp___trt__GetAudioEncoderConfigurations, "-trt:GetAudioEncoderConfigurations", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trt__GetAudioEncoderConfigurations(soap, &soap_tmp___trt__GetAudioEncoderConfigurations, "-trt:GetAudioEncoderConfigurations", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trt__GetAudioEncoderConfigurations(struct soap *soap, struct _trt__GetAudioEncoderConfigurationsResponse *trt__GetAudioEncoderConfigurationsResponse)
+{
+	if (!trt__GetAudioEncoderConfigurationsResponse)
+		return soap_closesock(soap);
+	soap_default__trt__GetAudioEncoderConfigurationsResponse(soap, trt__GetAudioEncoderConfigurationsResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trt__GetAudioEncoderConfigurationsResponse(soap, trt__GetAudioEncoderConfigurationsResponse, "trt:GetAudioEncoderConfigurationsResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trt__GetVideoAnalyticsConfigurations(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__GetVideoAnalyticsConfigurations *trt__GetVideoAnalyticsConfigurations, struct _trt__GetVideoAnalyticsConfigurationsResponse *trt__GetVideoAnalyticsConfigurationsResponse)
+{	if (soap_send___trt__GetVideoAnalyticsConfigurations(soap, soap_endpoint, soap_action, trt__GetVideoAnalyticsConfigurations) || soap_recv___trt__GetVideoAnalyticsConfigurations(soap, trt__GetVideoAnalyticsConfigurationsResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trt__GetVideoAnalyticsConfigurations(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__GetVideoAnalyticsConfigurations *trt__GetVideoAnalyticsConfigurations)
+{	struct __trt__GetVideoAnalyticsConfigurations soap_tmp___trt__GetVideoAnalyticsConfigurations;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/media/wsdl/GetVideoAnalyticsConfigurations";
+	soap_tmp___trt__GetVideoAnalyticsConfigurations.trt__GetVideoAnalyticsConfigurations = trt__GetVideoAnalyticsConfigurations;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trt__GetVideoAnalyticsConfigurations(soap, &soap_tmp___trt__GetVideoAnalyticsConfigurations);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trt__GetVideoAnalyticsConfigurations(soap, &soap_tmp___trt__GetVideoAnalyticsConfigurations, "-trt:GetVideoAnalyticsConfigurations", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trt__GetVideoAnalyticsConfigurations(soap, &soap_tmp___trt__GetVideoAnalyticsConfigurations, "-trt:GetVideoAnalyticsConfigurations", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trt__GetVideoAnalyticsConfigurations(struct soap *soap, struct _trt__GetVideoAnalyticsConfigurationsResponse *trt__GetVideoAnalyticsConfigurationsResponse)
+{
+	if (!trt__GetVideoAnalyticsConfigurationsResponse)
+		return soap_closesock(soap);
+	soap_default__trt__GetVideoAnalyticsConfigurationsResponse(soap, trt__GetVideoAnalyticsConfigurationsResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trt__GetVideoAnalyticsConfigurationsResponse(soap, trt__GetVideoAnalyticsConfigurationsResponse, "trt:GetVideoAnalyticsConfigurationsResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trt__GetMetadataConfigurations(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__GetMetadataConfigurations *trt__GetMetadataConfigurations, struct _trt__GetMetadataConfigurationsResponse *trt__GetMetadataConfigurationsResponse)
+{	if (soap_send___trt__GetMetadataConfigurations(soap, soap_endpoint, soap_action, trt__GetMetadataConfigurations) || soap_recv___trt__GetMetadataConfigurations(soap, trt__GetMetadataConfigurationsResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trt__GetMetadataConfigurations(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__GetMetadataConfigurations *trt__GetMetadataConfigurations)
+{	struct __trt__GetMetadataConfigurations soap_tmp___trt__GetMetadataConfigurations;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/media/wsdl/GetMetadataConfigurations";
+	soap_tmp___trt__GetMetadataConfigurations.trt__GetMetadataConfigurations = trt__GetMetadataConfigurations;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trt__GetMetadataConfigurations(soap, &soap_tmp___trt__GetMetadataConfigurations);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trt__GetMetadataConfigurations(soap, &soap_tmp___trt__GetMetadataConfigurations, "-trt:GetMetadataConfigurations", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trt__GetMetadataConfigurations(soap, &soap_tmp___trt__GetMetadataConfigurations, "-trt:GetMetadataConfigurations", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trt__GetMetadataConfigurations(struct soap *soap, struct _trt__GetMetadataConfigurationsResponse *trt__GetMetadataConfigurationsResponse)
+{
+	if (!trt__GetMetadataConfigurationsResponse)
+		return soap_closesock(soap);
+	soap_default__trt__GetMetadataConfigurationsResponse(soap, trt__GetMetadataConfigurationsResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trt__GetMetadataConfigurationsResponse(soap, trt__GetMetadataConfigurationsResponse, "trt:GetMetadataConfigurationsResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trt__GetAudioOutputConfigurations(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__GetAudioOutputConfigurations *trt__GetAudioOutputConfigurations, struct _trt__GetAudioOutputConfigurationsResponse *trt__GetAudioOutputConfigurationsResponse)
+{	if (soap_send___trt__GetAudioOutputConfigurations(soap, soap_endpoint, soap_action, trt__GetAudioOutputConfigurations) || soap_recv___trt__GetAudioOutputConfigurations(soap, trt__GetAudioOutputConfigurationsResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trt__GetAudioOutputConfigurations(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__GetAudioOutputConfigurations *trt__GetAudioOutputConfigurations)
+{	struct __trt__GetAudioOutputConfigurations soap_tmp___trt__GetAudioOutputConfigurations;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/media/wsdl/GetAudioOutputConfigurations";
+	soap_tmp___trt__GetAudioOutputConfigurations.trt__GetAudioOutputConfigurations = trt__GetAudioOutputConfigurations;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trt__GetAudioOutputConfigurations(soap, &soap_tmp___trt__GetAudioOutputConfigurations);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trt__GetAudioOutputConfigurations(soap, &soap_tmp___trt__GetAudioOutputConfigurations, "-trt:GetAudioOutputConfigurations", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trt__GetAudioOutputConfigurations(soap, &soap_tmp___trt__GetAudioOutputConfigurations, "-trt:GetAudioOutputConfigurations", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trt__GetAudioOutputConfigurations(struct soap *soap, struct _trt__GetAudioOutputConfigurationsResponse *trt__GetAudioOutputConfigurationsResponse)
+{
+	if (!trt__GetAudioOutputConfigurationsResponse)
+		return soap_closesock(soap);
+	soap_default__trt__GetAudioOutputConfigurationsResponse(soap, trt__GetAudioOutputConfigurationsResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trt__GetAudioOutputConfigurationsResponse(soap, trt__GetAudioOutputConfigurationsResponse, "trt:GetAudioOutputConfigurationsResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trt__GetAudioDecoderConfigurations(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__GetAudioDecoderConfigurations *trt__GetAudioDecoderConfigurations, struct _trt__GetAudioDecoderConfigurationsResponse *trt__GetAudioDecoderConfigurationsResponse)
+{	if (soap_send___trt__GetAudioDecoderConfigurations(soap, soap_endpoint, soap_action, trt__GetAudioDecoderConfigurations) || soap_recv___trt__GetAudioDecoderConfigurations(soap, trt__GetAudioDecoderConfigurationsResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trt__GetAudioDecoderConfigurations(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__GetAudioDecoderConfigurations *trt__GetAudioDecoderConfigurations)
+{	struct __trt__GetAudioDecoderConfigurations soap_tmp___trt__GetAudioDecoderConfigurations;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/media/wsdl/GetAudioDecoderConfigurations";
+	soap_tmp___trt__GetAudioDecoderConfigurations.trt__GetAudioDecoderConfigurations = trt__GetAudioDecoderConfigurations;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trt__GetAudioDecoderConfigurations(soap, &soap_tmp___trt__GetAudioDecoderConfigurations);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trt__GetAudioDecoderConfigurations(soap, &soap_tmp___trt__GetAudioDecoderConfigurations, "-trt:GetAudioDecoderConfigurations", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trt__GetAudioDecoderConfigurations(soap, &soap_tmp___trt__GetAudioDecoderConfigurations, "-trt:GetAudioDecoderConfigurations", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trt__GetAudioDecoderConfigurations(struct soap *soap, struct _trt__GetAudioDecoderConfigurationsResponse *trt__GetAudioDecoderConfigurationsResponse)
+{
+	if (!trt__GetAudioDecoderConfigurationsResponse)
+		return soap_closesock(soap);
+	soap_default__trt__GetAudioDecoderConfigurationsResponse(soap, trt__GetAudioDecoderConfigurationsResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trt__GetAudioDecoderConfigurationsResponse(soap, trt__GetAudioDecoderConfigurationsResponse, "trt:GetAudioDecoderConfigurationsResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trt__GetVideoSourceConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__GetVideoSourceConfiguration *trt__GetVideoSourceConfiguration, struct _trt__GetVideoSourceConfigurationResponse *trt__GetVideoSourceConfigurationResponse)
+{	if (soap_send___trt__GetVideoSourceConfiguration(soap, soap_endpoint, soap_action, trt__GetVideoSourceConfiguration) || soap_recv___trt__GetVideoSourceConfiguration(soap, trt__GetVideoSourceConfigurationResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trt__GetVideoSourceConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__GetVideoSourceConfiguration *trt__GetVideoSourceConfiguration)
+{	struct __trt__GetVideoSourceConfiguration soap_tmp___trt__GetVideoSourceConfiguration;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/media/wsdl/GetVideoSourceConfiguration";
+	soap_tmp___trt__GetVideoSourceConfiguration.trt__GetVideoSourceConfiguration = trt__GetVideoSourceConfiguration;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trt__GetVideoSourceConfiguration(soap, &soap_tmp___trt__GetVideoSourceConfiguration);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trt__GetVideoSourceConfiguration(soap, &soap_tmp___trt__GetVideoSourceConfiguration, "-trt:GetVideoSourceConfiguration", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trt__GetVideoSourceConfiguration(soap, &soap_tmp___trt__GetVideoSourceConfiguration, "-trt:GetVideoSourceConfiguration", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trt__GetVideoSourceConfiguration(struct soap *soap, struct _trt__GetVideoSourceConfigurationResponse *trt__GetVideoSourceConfigurationResponse)
+{
+	if (!trt__GetVideoSourceConfigurationResponse)
+		return soap_closesock(soap);
+	soap_default__trt__GetVideoSourceConfigurationResponse(soap, trt__GetVideoSourceConfigurationResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trt__GetVideoSourceConfigurationResponse(soap, trt__GetVideoSourceConfigurationResponse, "trt:GetVideoSourceConfigurationResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trt__GetVideoEncoderConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__GetVideoEncoderConfiguration *trt__GetVideoEncoderConfiguration, struct _trt__GetVideoEncoderConfigurationResponse *trt__GetVideoEncoderConfigurationResponse)
+{	if (soap_send___trt__GetVideoEncoderConfiguration(soap, soap_endpoint, soap_action, trt__GetVideoEncoderConfiguration) || soap_recv___trt__GetVideoEncoderConfiguration(soap, trt__GetVideoEncoderConfigurationResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trt__GetVideoEncoderConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__GetVideoEncoderConfiguration *trt__GetVideoEncoderConfiguration)
+{	struct __trt__GetVideoEncoderConfiguration soap_tmp___trt__GetVideoEncoderConfiguration;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/media/wsdl/GetVideoEncoderConfiguration";
+	soap_tmp___trt__GetVideoEncoderConfiguration.trt__GetVideoEncoderConfiguration = trt__GetVideoEncoderConfiguration;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trt__GetVideoEncoderConfiguration(soap, &soap_tmp___trt__GetVideoEncoderConfiguration);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trt__GetVideoEncoderConfiguration(soap, &soap_tmp___trt__GetVideoEncoderConfiguration, "-trt:GetVideoEncoderConfiguration", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trt__GetVideoEncoderConfiguration(soap, &soap_tmp___trt__GetVideoEncoderConfiguration, "-trt:GetVideoEncoderConfiguration", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trt__GetVideoEncoderConfiguration(struct soap *soap, struct _trt__GetVideoEncoderConfigurationResponse *trt__GetVideoEncoderConfigurationResponse)
+{
+	if (!trt__GetVideoEncoderConfigurationResponse)
+		return soap_closesock(soap);
+	soap_default__trt__GetVideoEncoderConfigurationResponse(soap, trt__GetVideoEncoderConfigurationResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trt__GetVideoEncoderConfigurationResponse(soap, trt__GetVideoEncoderConfigurationResponse, "trt:GetVideoEncoderConfigurationResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trt__GetAudioSourceConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__GetAudioSourceConfiguration *trt__GetAudioSourceConfiguration, struct _trt__GetAudioSourceConfigurationResponse *trt__GetAudioSourceConfigurationResponse)
+{	if (soap_send___trt__GetAudioSourceConfiguration(soap, soap_endpoint, soap_action, trt__GetAudioSourceConfiguration) || soap_recv___trt__GetAudioSourceConfiguration(soap, trt__GetAudioSourceConfigurationResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trt__GetAudioSourceConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__GetAudioSourceConfiguration *trt__GetAudioSourceConfiguration)
+{	struct __trt__GetAudioSourceConfiguration soap_tmp___trt__GetAudioSourceConfiguration;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/media/wsdl/GetAudioSourceConfiguration";
+	soap_tmp___trt__GetAudioSourceConfiguration.trt__GetAudioSourceConfiguration = trt__GetAudioSourceConfiguration;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trt__GetAudioSourceConfiguration(soap, &soap_tmp___trt__GetAudioSourceConfiguration);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trt__GetAudioSourceConfiguration(soap, &soap_tmp___trt__GetAudioSourceConfiguration, "-trt:GetAudioSourceConfiguration", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trt__GetAudioSourceConfiguration(soap, &soap_tmp___trt__GetAudioSourceConfiguration, "-trt:GetAudioSourceConfiguration", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trt__GetAudioSourceConfiguration(struct soap *soap, struct _trt__GetAudioSourceConfigurationResponse *trt__GetAudioSourceConfigurationResponse)
+{
+	if (!trt__GetAudioSourceConfigurationResponse)
+		return soap_closesock(soap);
+	soap_default__trt__GetAudioSourceConfigurationResponse(soap, trt__GetAudioSourceConfigurationResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trt__GetAudioSourceConfigurationResponse(soap, trt__GetAudioSourceConfigurationResponse, "trt:GetAudioSourceConfigurationResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trt__GetAudioEncoderConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__GetAudioEncoderConfiguration *trt__GetAudioEncoderConfiguration, struct _trt__GetAudioEncoderConfigurationResponse *trt__GetAudioEncoderConfigurationResponse)
+{	if (soap_send___trt__GetAudioEncoderConfiguration(soap, soap_endpoint, soap_action, trt__GetAudioEncoderConfiguration) || soap_recv___trt__GetAudioEncoderConfiguration(soap, trt__GetAudioEncoderConfigurationResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trt__GetAudioEncoderConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__GetAudioEncoderConfiguration *trt__GetAudioEncoderConfiguration)
+{	struct __trt__GetAudioEncoderConfiguration soap_tmp___trt__GetAudioEncoderConfiguration;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/media/wsdl/GetAudioEncoderConfiguration";
+	soap_tmp___trt__GetAudioEncoderConfiguration.trt__GetAudioEncoderConfiguration = trt__GetAudioEncoderConfiguration;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trt__GetAudioEncoderConfiguration(soap, &soap_tmp___trt__GetAudioEncoderConfiguration);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trt__GetAudioEncoderConfiguration(soap, &soap_tmp___trt__GetAudioEncoderConfiguration, "-trt:GetAudioEncoderConfiguration", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trt__GetAudioEncoderConfiguration(soap, &soap_tmp___trt__GetAudioEncoderConfiguration, "-trt:GetAudioEncoderConfiguration", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trt__GetAudioEncoderConfiguration(struct soap *soap, struct _trt__GetAudioEncoderConfigurationResponse *trt__GetAudioEncoderConfigurationResponse)
+{
+	if (!trt__GetAudioEncoderConfigurationResponse)
+		return soap_closesock(soap);
+	soap_default__trt__GetAudioEncoderConfigurationResponse(soap, trt__GetAudioEncoderConfigurationResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trt__GetAudioEncoderConfigurationResponse(soap, trt__GetAudioEncoderConfigurationResponse, "trt:GetAudioEncoderConfigurationResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trt__GetVideoAnalyticsConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__GetVideoAnalyticsConfiguration *trt__GetVideoAnalyticsConfiguration, struct _trt__GetVideoAnalyticsConfigurationResponse *trt__GetVideoAnalyticsConfigurationResponse)
+{	if (soap_send___trt__GetVideoAnalyticsConfiguration(soap, soap_endpoint, soap_action, trt__GetVideoAnalyticsConfiguration) || soap_recv___trt__GetVideoAnalyticsConfiguration(soap, trt__GetVideoAnalyticsConfigurationResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trt__GetVideoAnalyticsConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__GetVideoAnalyticsConfiguration *trt__GetVideoAnalyticsConfiguration)
+{	struct __trt__GetVideoAnalyticsConfiguration soap_tmp___trt__GetVideoAnalyticsConfiguration;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/media/wsdl/GetVideoAnalyticsConfiguration";
+	soap_tmp___trt__GetVideoAnalyticsConfiguration.trt__GetVideoAnalyticsConfiguration = trt__GetVideoAnalyticsConfiguration;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trt__GetVideoAnalyticsConfiguration(soap, &soap_tmp___trt__GetVideoAnalyticsConfiguration);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trt__GetVideoAnalyticsConfiguration(soap, &soap_tmp___trt__GetVideoAnalyticsConfiguration, "-trt:GetVideoAnalyticsConfiguration", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trt__GetVideoAnalyticsConfiguration(soap, &soap_tmp___trt__GetVideoAnalyticsConfiguration, "-trt:GetVideoAnalyticsConfiguration", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trt__GetVideoAnalyticsConfiguration(struct soap *soap, struct _trt__GetVideoAnalyticsConfigurationResponse *trt__GetVideoAnalyticsConfigurationResponse)
+{
+	if (!trt__GetVideoAnalyticsConfigurationResponse)
+		return soap_closesock(soap);
+	soap_default__trt__GetVideoAnalyticsConfigurationResponse(soap, trt__GetVideoAnalyticsConfigurationResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trt__GetVideoAnalyticsConfigurationResponse(soap, trt__GetVideoAnalyticsConfigurationResponse, "trt:GetVideoAnalyticsConfigurationResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trt__GetMetadataConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__GetMetadataConfiguration *trt__GetMetadataConfiguration, struct _trt__GetMetadataConfigurationResponse *trt__GetMetadataConfigurationResponse)
+{	if (soap_send___trt__GetMetadataConfiguration(soap, soap_endpoint, soap_action, trt__GetMetadataConfiguration) || soap_recv___trt__GetMetadataConfiguration(soap, trt__GetMetadataConfigurationResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trt__GetMetadataConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__GetMetadataConfiguration *trt__GetMetadataConfiguration)
+{	struct __trt__GetMetadataConfiguration soap_tmp___trt__GetMetadataConfiguration;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/media/wsdl/GetMetadataConfiguration";
+	soap_tmp___trt__GetMetadataConfiguration.trt__GetMetadataConfiguration = trt__GetMetadataConfiguration;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trt__GetMetadataConfiguration(soap, &soap_tmp___trt__GetMetadataConfiguration);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trt__GetMetadataConfiguration(soap, &soap_tmp___trt__GetMetadataConfiguration, "-trt:GetMetadataConfiguration", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trt__GetMetadataConfiguration(soap, &soap_tmp___trt__GetMetadataConfiguration, "-trt:GetMetadataConfiguration", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trt__GetMetadataConfiguration(struct soap *soap, struct _trt__GetMetadataConfigurationResponse *trt__GetMetadataConfigurationResponse)
+{
+	if (!trt__GetMetadataConfigurationResponse)
+		return soap_closesock(soap);
+	soap_default__trt__GetMetadataConfigurationResponse(soap, trt__GetMetadataConfigurationResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trt__GetMetadataConfigurationResponse(soap, trt__GetMetadataConfigurationResponse, "trt:GetMetadataConfigurationResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trt__GetAudioOutputConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__GetAudioOutputConfiguration *trt__GetAudioOutputConfiguration, struct _trt__GetAudioOutputConfigurationResponse *trt__GetAudioOutputConfigurationResponse)
+{	if (soap_send___trt__GetAudioOutputConfiguration(soap, soap_endpoint, soap_action, trt__GetAudioOutputConfiguration) || soap_recv___trt__GetAudioOutputConfiguration(soap, trt__GetAudioOutputConfigurationResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trt__GetAudioOutputConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__GetAudioOutputConfiguration *trt__GetAudioOutputConfiguration)
+{	struct __trt__GetAudioOutputConfiguration soap_tmp___trt__GetAudioOutputConfiguration;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/media/wsdl/GetAudioOutputConfiguration";
+	soap_tmp___trt__GetAudioOutputConfiguration.trt__GetAudioOutputConfiguration = trt__GetAudioOutputConfiguration;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trt__GetAudioOutputConfiguration(soap, &soap_tmp___trt__GetAudioOutputConfiguration);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trt__GetAudioOutputConfiguration(soap, &soap_tmp___trt__GetAudioOutputConfiguration, "-trt:GetAudioOutputConfiguration", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trt__GetAudioOutputConfiguration(soap, &soap_tmp___trt__GetAudioOutputConfiguration, "-trt:GetAudioOutputConfiguration", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trt__GetAudioOutputConfiguration(struct soap *soap, struct _trt__GetAudioOutputConfigurationResponse *trt__GetAudioOutputConfigurationResponse)
+{
+	if (!trt__GetAudioOutputConfigurationResponse)
+		return soap_closesock(soap);
+	soap_default__trt__GetAudioOutputConfigurationResponse(soap, trt__GetAudioOutputConfigurationResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trt__GetAudioOutputConfigurationResponse(soap, trt__GetAudioOutputConfigurationResponse, "trt:GetAudioOutputConfigurationResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trt__GetAudioDecoderConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__GetAudioDecoderConfiguration *trt__GetAudioDecoderConfiguration, struct _trt__GetAudioDecoderConfigurationResponse *trt__GetAudioDecoderConfigurationResponse)
+{	if (soap_send___trt__GetAudioDecoderConfiguration(soap, soap_endpoint, soap_action, trt__GetAudioDecoderConfiguration) || soap_recv___trt__GetAudioDecoderConfiguration(soap, trt__GetAudioDecoderConfigurationResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trt__GetAudioDecoderConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__GetAudioDecoderConfiguration *trt__GetAudioDecoderConfiguration)
+{	struct __trt__GetAudioDecoderConfiguration soap_tmp___trt__GetAudioDecoderConfiguration;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/media/wsdl/GetAudioDecoderConfiguration";
+	soap_tmp___trt__GetAudioDecoderConfiguration.trt__GetAudioDecoderConfiguration = trt__GetAudioDecoderConfiguration;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trt__GetAudioDecoderConfiguration(soap, &soap_tmp___trt__GetAudioDecoderConfiguration);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trt__GetAudioDecoderConfiguration(soap, &soap_tmp___trt__GetAudioDecoderConfiguration, "-trt:GetAudioDecoderConfiguration", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trt__GetAudioDecoderConfiguration(soap, &soap_tmp___trt__GetAudioDecoderConfiguration, "-trt:GetAudioDecoderConfiguration", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trt__GetAudioDecoderConfiguration(struct soap *soap, struct _trt__GetAudioDecoderConfigurationResponse *trt__GetAudioDecoderConfigurationResponse)
+{
+	if (!trt__GetAudioDecoderConfigurationResponse)
+		return soap_closesock(soap);
+	soap_default__trt__GetAudioDecoderConfigurationResponse(soap, trt__GetAudioDecoderConfigurationResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trt__GetAudioDecoderConfigurationResponse(soap, trt__GetAudioDecoderConfigurationResponse, "trt:GetAudioDecoderConfigurationResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trt__GetCompatibleVideoEncoderConfigurations(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__GetCompatibleVideoEncoderConfigurations *trt__GetCompatibleVideoEncoderConfigurations, struct _trt__GetCompatibleVideoEncoderConfigurationsResponse *trt__GetCompatibleVideoEncoderConfigurationsResponse)
+{	if (soap_send___trt__GetCompatibleVideoEncoderConfigurations(soap, soap_endpoint, soap_action, trt__GetCompatibleVideoEncoderConfigurations) || soap_recv___trt__GetCompatibleVideoEncoderConfigurations(soap, trt__GetCompatibleVideoEncoderConfigurationsResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trt__GetCompatibleVideoEncoderConfigurations(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__GetCompatibleVideoEncoderConfigurations *trt__GetCompatibleVideoEncoderConfigurations)
+{	struct __trt__GetCompatibleVideoEncoderConfigurations soap_tmp___trt__GetCompatibleVideoEncoderConfigurations;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/media/wsdl/GetCompatibleVideoEncoderConfigurations";
+	soap_tmp___trt__GetCompatibleVideoEncoderConfigurations.trt__GetCompatibleVideoEncoderConfigurations = trt__GetCompatibleVideoEncoderConfigurations;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trt__GetCompatibleVideoEncoderConfigurations(soap, &soap_tmp___trt__GetCompatibleVideoEncoderConfigurations);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trt__GetCompatibleVideoEncoderConfigurations(soap, &soap_tmp___trt__GetCompatibleVideoEncoderConfigurations, "-trt:GetCompatibleVideoEncoderConfigurations", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trt__GetCompatibleVideoEncoderConfigurations(soap, &soap_tmp___trt__GetCompatibleVideoEncoderConfigurations, "-trt:GetCompatibleVideoEncoderConfigurations", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trt__GetCompatibleVideoEncoderConfigurations(struct soap *soap, struct _trt__GetCompatibleVideoEncoderConfigurationsResponse *trt__GetCompatibleVideoEncoderConfigurationsResponse)
+{
+	if (!trt__GetCompatibleVideoEncoderConfigurationsResponse)
+		return soap_closesock(soap);
+	soap_default__trt__GetCompatibleVideoEncoderConfigurationsResponse(soap, trt__GetCompatibleVideoEncoderConfigurationsResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trt__GetCompatibleVideoEncoderConfigurationsResponse(soap, trt__GetCompatibleVideoEncoderConfigurationsResponse, "trt:GetCompatibleVideoEncoderConfigurationsResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trt__GetCompatibleVideoSourceConfigurations(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__GetCompatibleVideoSourceConfigurations *trt__GetCompatibleVideoSourceConfigurations, struct _trt__GetCompatibleVideoSourceConfigurationsResponse *trt__GetCompatibleVideoSourceConfigurationsResponse)
+{	if (soap_send___trt__GetCompatibleVideoSourceConfigurations(soap, soap_endpoint, soap_action, trt__GetCompatibleVideoSourceConfigurations) || soap_recv___trt__GetCompatibleVideoSourceConfigurations(soap, trt__GetCompatibleVideoSourceConfigurationsResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trt__GetCompatibleVideoSourceConfigurations(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__GetCompatibleVideoSourceConfigurations *trt__GetCompatibleVideoSourceConfigurations)
+{	struct __trt__GetCompatibleVideoSourceConfigurations soap_tmp___trt__GetCompatibleVideoSourceConfigurations;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/media/wsdl/GetCompatibleVideoSourceConfigurations";
+	soap_tmp___trt__GetCompatibleVideoSourceConfigurations.trt__GetCompatibleVideoSourceConfigurations = trt__GetCompatibleVideoSourceConfigurations;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trt__GetCompatibleVideoSourceConfigurations(soap, &soap_tmp___trt__GetCompatibleVideoSourceConfigurations);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trt__GetCompatibleVideoSourceConfigurations(soap, &soap_tmp___trt__GetCompatibleVideoSourceConfigurations, "-trt:GetCompatibleVideoSourceConfigurations", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trt__GetCompatibleVideoSourceConfigurations(soap, &soap_tmp___trt__GetCompatibleVideoSourceConfigurations, "-trt:GetCompatibleVideoSourceConfigurations", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trt__GetCompatibleVideoSourceConfigurations(struct soap *soap, struct _trt__GetCompatibleVideoSourceConfigurationsResponse *trt__GetCompatibleVideoSourceConfigurationsResponse)
+{
+	if (!trt__GetCompatibleVideoSourceConfigurationsResponse)
+		return soap_closesock(soap);
+	soap_default__trt__GetCompatibleVideoSourceConfigurationsResponse(soap, trt__GetCompatibleVideoSourceConfigurationsResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trt__GetCompatibleVideoSourceConfigurationsResponse(soap, trt__GetCompatibleVideoSourceConfigurationsResponse, "trt:GetCompatibleVideoSourceConfigurationsResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trt__GetCompatibleAudioEncoderConfigurations(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__GetCompatibleAudioEncoderConfigurations *trt__GetCompatibleAudioEncoderConfigurations, struct _trt__GetCompatibleAudioEncoderConfigurationsResponse *trt__GetCompatibleAudioEncoderConfigurationsResponse)
+{	if (soap_send___trt__GetCompatibleAudioEncoderConfigurations(soap, soap_endpoint, soap_action, trt__GetCompatibleAudioEncoderConfigurations) || soap_recv___trt__GetCompatibleAudioEncoderConfigurations(soap, trt__GetCompatibleAudioEncoderConfigurationsResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trt__GetCompatibleAudioEncoderConfigurations(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__GetCompatibleAudioEncoderConfigurations *trt__GetCompatibleAudioEncoderConfigurations)
+{	struct __trt__GetCompatibleAudioEncoderConfigurations soap_tmp___trt__GetCompatibleAudioEncoderConfigurations;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/media/wsdl/GetCompatibleAudioEncoderConfigurations";
+	soap_tmp___trt__GetCompatibleAudioEncoderConfigurations.trt__GetCompatibleAudioEncoderConfigurations = trt__GetCompatibleAudioEncoderConfigurations;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trt__GetCompatibleAudioEncoderConfigurations(soap, &soap_tmp___trt__GetCompatibleAudioEncoderConfigurations);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trt__GetCompatibleAudioEncoderConfigurations(soap, &soap_tmp___trt__GetCompatibleAudioEncoderConfigurations, "-trt:GetCompatibleAudioEncoderConfigurations", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trt__GetCompatibleAudioEncoderConfigurations(soap, &soap_tmp___trt__GetCompatibleAudioEncoderConfigurations, "-trt:GetCompatibleAudioEncoderConfigurations", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trt__GetCompatibleAudioEncoderConfigurations(struct soap *soap, struct _trt__GetCompatibleAudioEncoderConfigurationsResponse *trt__GetCompatibleAudioEncoderConfigurationsResponse)
+{
+	if (!trt__GetCompatibleAudioEncoderConfigurationsResponse)
+		return soap_closesock(soap);
+	soap_default__trt__GetCompatibleAudioEncoderConfigurationsResponse(soap, trt__GetCompatibleAudioEncoderConfigurationsResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trt__GetCompatibleAudioEncoderConfigurationsResponse(soap, trt__GetCompatibleAudioEncoderConfigurationsResponse, "trt:GetCompatibleAudioEncoderConfigurationsResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trt__GetCompatibleAudioSourceConfigurations(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__GetCompatibleAudioSourceConfigurations *trt__GetCompatibleAudioSourceConfigurations, struct _trt__GetCompatibleAudioSourceConfigurationsResponse *trt__GetCompatibleAudioSourceConfigurationsResponse)
+{	if (soap_send___trt__GetCompatibleAudioSourceConfigurations(soap, soap_endpoint, soap_action, trt__GetCompatibleAudioSourceConfigurations) || soap_recv___trt__GetCompatibleAudioSourceConfigurations(soap, trt__GetCompatibleAudioSourceConfigurationsResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trt__GetCompatibleAudioSourceConfigurations(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__GetCompatibleAudioSourceConfigurations *trt__GetCompatibleAudioSourceConfigurations)
+{	struct __trt__GetCompatibleAudioSourceConfigurations soap_tmp___trt__GetCompatibleAudioSourceConfigurations;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/media/wsdl/GetCompatibleAudioSourceConfigurations";
+	soap_tmp___trt__GetCompatibleAudioSourceConfigurations.trt__GetCompatibleAudioSourceConfigurations = trt__GetCompatibleAudioSourceConfigurations;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trt__GetCompatibleAudioSourceConfigurations(soap, &soap_tmp___trt__GetCompatibleAudioSourceConfigurations);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trt__GetCompatibleAudioSourceConfigurations(soap, &soap_tmp___trt__GetCompatibleAudioSourceConfigurations, "-trt:GetCompatibleAudioSourceConfigurations", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trt__GetCompatibleAudioSourceConfigurations(soap, &soap_tmp___trt__GetCompatibleAudioSourceConfigurations, "-trt:GetCompatibleAudioSourceConfigurations", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trt__GetCompatibleAudioSourceConfigurations(struct soap *soap, struct _trt__GetCompatibleAudioSourceConfigurationsResponse *trt__GetCompatibleAudioSourceConfigurationsResponse)
+{
+	if (!trt__GetCompatibleAudioSourceConfigurationsResponse)
+		return soap_closesock(soap);
+	soap_default__trt__GetCompatibleAudioSourceConfigurationsResponse(soap, trt__GetCompatibleAudioSourceConfigurationsResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trt__GetCompatibleAudioSourceConfigurationsResponse(soap, trt__GetCompatibleAudioSourceConfigurationsResponse, "trt:GetCompatibleAudioSourceConfigurationsResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trt__GetCompatibleVideoAnalyticsConfigurations(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__GetCompatibleVideoAnalyticsConfigurations *trt__GetCompatibleVideoAnalyticsConfigurations, struct _trt__GetCompatibleVideoAnalyticsConfigurationsResponse *trt__GetCompatibleVideoAnalyticsConfigurationsResponse)
+{	if (soap_send___trt__GetCompatibleVideoAnalyticsConfigurations(soap, soap_endpoint, soap_action, trt__GetCompatibleVideoAnalyticsConfigurations) || soap_recv___trt__GetCompatibleVideoAnalyticsConfigurations(soap, trt__GetCompatibleVideoAnalyticsConfigurationsResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trt__GetCompatibleVideoAnalyticsConfigurations(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__GetCompatibleVideoAnalyticsConfigurations *trt__GetCompatibleVideoAnalyticsConfigurations)
+{	struct __trt__GetCompatibleVideoAnalyticsConfigurations soap_tmp___trt__GetCompatibleVideoAnalyticsConfigurations;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/media/wsdl/GetCompatibleVideoAnalyticsConfigurations";
+	soap_tmp___trt__GetCompatibleVideoAnalyticsConfigurations.trt__GetCompatibleVideoAnalyticsConfigurations = trt__GetCompatibleVideoAnalyticsConfigurations;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trt__GetCompatibleVideoAnalyticsConfigurations(soap, &soap_tmp___trt__GetCompatibleVideoAnalyticsConfigurations);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trt__GetCompatibleVideoAnalyticsConfigurations(soap, &soap_tmp___trt__GetCompatibleVideoAnalyticsConfigurations, "-trt:GetCompatibleVideoAnalyticsConfigurations", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trt__GetCompatibleVideoAnalyticsConfigurations(soap, &soap_tmp___trt__GetCompatibleVideoAnalyticsConfigurations, "-trt:GetCompatibleVideoAnalyticsConfigurations", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trt__GetCompatibleVideoAnalyticsConfigurations(struct soap *soap, struct _trt__GetCompatibleVideoAnalyticsConfigurationsResponse *trt__GetCompatibleVideoAnalyticsConfigurationsResponse)
+{
+	if (!trt__GetCompatibleVideoAnalyticsConfigurationsResponse)
+		return soap_closesock(soap);
+	soap_default__trt__GetCompatibleVideoAnalyticsConfigurationsResponse(soap, trt__GetCompatibleVideoAnalyticsConfigurationsResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trt__GetCompatibleVideoAnalyticsConfigurationsResponse(soap, trt__GetCompatibleVideoAnalyticsConfigurationsResponse, "trt:GetCompatibleVideoAnalyticsConfigurationsResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trt__GetCompatibleMetadataConfigurations(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__GetCompatibleMetadataConfigurations *trt__GetCompatibleMetadataConfigurations, struct _trt__GetCompatibleMetadataConfigurationsResponse *trt__GetCompatibleMetadataConfigurationsResponse)
+{	if (soap_send___trt__GetCompatibleMetadataConfigurations(soap, soap_endpoint, soap_action, trt__GetCompatibleMetadataConfigurations) || soap_recv___trt__GetCompatibleMetadataConfigurations(soap, trt__GetCompatibleMetadataConfigurationsResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trt__GetCompatibleMetadataConfigurations(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__GetCompatibleMetadataConfigurations *trt__GetCompatibleMetadataConfigurations)
+{	struct __trt__GetCompatibleMetadataConfigurations soap_tmp___trt__GetCompatibleMetadataConfigurations;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/media/wsdl/GetCompatibleMetadataConfigurations";
+	soap_tmp___trt__GetCompatibleMetadataConfigurations.trt__GetCompatibleMetadataConfigurations = trt__GetCompatibleMetadataConfigurations;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trt__GetCompatibleMetadataConfigurations(soap, &soap_tmp___trt__GetCompatibleMetadataConfigurations);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trt__GetCompatibleMetadataConfigurations(soap, &soap_tmp___trt__GetCompatibleMetadataConfigurations, "-trt:GetCompatibleMetadataConfigurations", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trt__GetCompatibleMetadataConfigurations(soap, &soap_tmp___trt__GetCompatibleMetadataConfigurations, "-trt:GetCompatibleMetadataConfigurations", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trt__GetCompatibleMetadataConfigurations(struct soap *soap, struct _trt__GetCompatibleMetadataConfigurationsResponse *trt__GetCompatibleMetadataConfigurationsResponse)
+{
+	if (!trt__GetCompatibleMetadataConfigurationsResponse)
+		return soap_closesock(soap);
+	soap_default__trt__GetCompatibleMetadataConfigurationsResponse(soap, trt__GetCompatibleMetadataConfigurationsResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trt__GetCompatibleMetadataConfigurationsResponse(soap, trt__GetCompatibleMetadataConfigurationsResponse, "trt:GetCompatibleMetadataConfigurationsResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trt__GetCompatibleAudioOutputConfigurations(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__GetCompatibleAudioOutputConfigurations *trt__GetCompatibleAudioOutputConfigurations, struct _trt__GetCompatibleAudioOutputConfigurationsResponse *trt__GetCompatibleAudioOutputConfigurationsResponse)
+{	if (soap_send___trt__GetCompatibleAudioOutputConfigurations(soap, soap_endpoint, soap_action, trt__GetCompatibleAudioOutputConfigurations) || soap_recv___trt__GetCompatibleAudioOutputConfigurations(soap, trt__GetCompatibleAudioOutputConfigurationsResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trt__GetCompatibleAudioOutputConfigurations(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__GetCompatibleAudioOutputConfigurations *trt__GetCompatibleAudioOutputConfigurations)
+{	struct __trt__GetCompatibleAudioOutputConfigurations soap_tmp___trt__GetCompatibleAudioOutputConfigurations;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/media/wsdl/GetCompatibleAudioOutputConfigurations";
+	soap_tmp___trt__GetCompatibleAudioOutputConfigurations.trt__GetCompatibleAudioOutputConfigurations = trt__GetCompatibleAudioOutputConfigurations;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trt__GetCompatibleAudioOutputConfigurations(soap, &soap_tmp___trt__GetCompatibleAudioOutputConfigurations);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trt__GetCompatibleAudioOutputConfigurations(soap, &soap_tmp___trt__GetCompatibleAudioOutputConfigurations, "-trt:GetCompatibleAudioOutputConfigurations", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trt__GetCompatibleAudioOutputConfigurations(soap, &soap_tmp___trt__GetCompatibleAudioOutputConfigurations, "-trt:GetCompatibleAudioOutputConfigurations", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trt__GetCompatibleAudioOutputConfigurations(struct soap *soap, struct _trt__GetCompatibleAudioOutputConfigurationsResponse *trt__GetCompatibleAudioOutputConfigurationsResponse)
+{
+	if (!trt__GetCompatibleAudioOutputConfigurationsResponse)
+		return soap_closesock(soap);
+	soap_default__trt__GetCompatibleAudioOutputConfigurationsResponse(soap, trt__GetCompatibleAudioOutputConfigurationsResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trt__GetCompatibleAudioOutputConfigurationsResponse(soap, trt__GetCompatibleAudioOutputConfigurationsResponse, "trt:GetCompatibleAudioOutputConfigurationsResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trt__GetCompatibleAudioDecoderConfigurations(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__GetCompatibleAudioDecoderConfigurations *trt__GetCompatibleAudioDecoderConfigurations, struct _trt__GetCompatibleAudioDecoderConfigurationsResponse *trt__GetCompatibleAudioDecoderConfigurationsResponse)
+{	if (soap_send___trt__GetCompatibleAudioDecoderConfigurations(soap, soap_endpoint, soap_action, trt__GetCompatibleAudioDecoderConfigurations) || soap_recv___trt__GetCompatibleAudioDecoderConfigurations(soap, trt__GetCompatibleAudioDecoderConfigurationsResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trt__GetCompatibleAudioDecoderConfigurations(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__GetCompatibleAudioDecoderConfigurations *trt__GetCompatibleAudioDecoderConfigurations)
+{	struct __trt__GetCompatibleAudioDecoderConfigurations soap_tmp___trt__GetCompatibleAudioDecoderConfigurations;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/media/wsdl/GetCompatibleAudioDecoderConfigurations";
+	soap_tmp___trt__GetCompatibleAudioDecoderConfigurations.trt__GetCompatibleAudioDecoderConfigurations = trt__GetCompatibleAudioDecoderConfigurations;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trt__GetCompatibleAudioDecoderConfigurations(soap, &soap_tmp___trt__GetCompatibleAudioDecoderConfigurations);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trt__GetCompatibleAudioDecoderConfigurations(soap, &soap_tmp___trt__GetCompatibleAudioDecoderConfigurations, "-trt:GetCompatibleAudioDecoderConfigurations", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trt__GetCompatibleAudioDecoderConfigurations(soap, &soap_tmp___trt__GetCompatibleAudioDecoderConfigurations, "-trt:GetCompatibleAudioDecoderConfigurations", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trt__GetCompatibleAudioDecoderConfigurations(struct soap *soap, struct _trt__GetCompatibleAudioDecoderConfigurationsResponse *trt__GetCompatibleAudioDecoderConfigurationsResponse)
+{
+	if (!trt__GetCompatibleAudioDecoderConfigurationsResponse)
+		return soap_closesock(soap);
+	soap_default__trt__GetCompatibleAudioDecoderConfigurationsResponse(soap, trt__GetCompatibleAudioDecoderConfigurationsResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trt__GetCompatibleAudioDecoderConfigurationsResponse(soap, trt__GetCompatibleAudioDecoderConfigurationsResponse, "trt:GetCompatibleAudioDecoderConfigurationsResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trt__SetVideoSourceConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__SetVideoSourceConfiguration *trt__SetVideoSourceConfiguration, struct _trt__SetVideoSourceConfigurationResponse *trt__SetVideoSourceConfigurationResponse)
+{	if (soap_send___trt__SetVideoSourceConfiguration(soap, soap_endpoint, soap_action, trt__SetVideoSourceConfiguration) || soap_recv___trt__SetVideoSourceConfiguration(soap, trt__SetVideoSourceConfigurationResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trt__SetVideoSourceConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__SetVideoSourceConfiguration *trt__SetVideoSourceConfiguration)
+{	struct __trt__SetVideoSourceConfiguration soap_tmp___trt__SetVideoSourceConfiguration;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/media/wsdl/SetVideoSourceConfiguration";
+	soap_tmp___trt__SetVideoSourceConfiguration.trt__SetVideoSourceConfiguration = trt__SetVideoSourceConfiguration;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trt__SetVideoSourceConfiguration(soap, &soap_tmp___trt__SetVideoSourceConfiguration);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trt__SetVideoSourceConfiguration(soap, &soap_tmp___trt__SetVideoSourceConfiguration, "-trt:SetVideoSourceConfiguration", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trt__SetVideoSourceConfiguration(soap, &soap_tmp___trt__SetVideoSourceConfiguration, "-trt:SetVideoSourceConfiguration", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trt__SetVideoSourceConfiguration(struct soap *soap, struct _trt__SetVideoSourceConfigurationResponse *trt__SetVideoSourceConfigurationResponse)
+{
+	if (!trt__SetVideoSourceConfigurationResponse)
+		return soap_closesock(soap);
+	soap_default__trt__SetVideoSourceConfigurationResponse(soap, trt__SetVideoSourceConfigurationResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trt__SetVideoSourceConfigurationResponse(soap, trt__SetVideoSourceConfigurationResponse, "trt:SetVideoSourceConfigurationResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trt__SetVideoEncoderConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__SetVideoEncoderConfiguration *trt__SetVideoEncoderConfiguration, struct _trt__SetVideoEncoderConfigurationResponse *trt__SetVideoEncoderConfigurationResponse)
+{	if (soap_send___trt__SetVideoEncoderConfiguration(soap, soap_endpoint, soap_action, trt__SetVideoEncoderConfiguration) || soap_recv___trt__SetVideoEncoderConfiguration(soap, trt__SetVideoEncoderConfigurationResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trt__SetVideoEncoderConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__SetVideoEncoderConfiguration *trt__SetVideoEncoderConfiguration)
+{	struct __trt__SetVideoEncoderConfiguration soap_tmp___trt__SetVideoEncoderConfiguration;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/media/wsdl/SetVideoEncoderConfiguration";
+	soap_tmp___trt__SetVideoEncoderConfiguration.trt__SetVideoEncoderConfiguration = trt__SetVideoEncoderConfiguration;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trt__SetVideoEncoderConfiguration(soap, &soap_tmp___trt__SetVideoEncoderConfiguration);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trt__SetVideoEncoderConfiguration(soap, &soap_tmp___trt__SetVideoEncoderConfiguration, "-trt:SetVideoEncoderConfiguration", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trt__SetVideoEncoderConfiguration(soap, &soap_tmp___trt__SetVideoEncoderConfiguration, "-trt:SetVideoEncoderConfiguration", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trt__SetVideoEncoderConfiguration(struct soap *soap, struct _trt__SetVideoEncoderConfigurationResponse *trt__SetVideoEncoderConfigurationResponse)
+{
+	if (!trt__SetVideoEncoderConfigurationResponse)
+		return soap_closesock(soap);
+	soap_default__trt__SetVideoEncoderConfigurationResponse(soap, trt__SetVideoEncoderConfigurationResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trt__SetVideoEncoderConfigurationResponse(soap, trt__SetVideoEncoderConfigurationResponse, "trt:SetVideoEncoderConfigurationResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trt__SetAudioSourceConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__SetAudioSourceConfiguration *trt__SetAudioSourceConfiguration, struct _trt__SetAudioSourceConfigurationResponse *trt__SetAudioSourceConfigurationResponse)
+{	if (soap_send___trt__SetAudioSourceConfiguration(soap, soap_endpoint, soap_action, trt__SetAudioSourceConfiguration) || soap_recv___trt__SetAudioSourceConfiguration(soap, trt__SetAudioSourceConfigurationResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trt__SetAudioSourceConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__SetAudioSourceConfiguration *trt__SetAudioSourceConfiguration)
+{	struct __trt__SetAudioSourceConfiguration soap_tmp___trt__SetAudioSourceConfiguration;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/media/wsdl/SetAudioSourceConfiguration";
+	soap_tmp___trt__SetAudioSourceConfiguration.trt__SetAudioSourceConfiguration = trt__SetAudioSourceConfiguration;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trt__SetAudioSourceConfiguration(soap, &soap_tmp___trt__SetAudioSourceConfiguration);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trt__SetAudioSourceConfiguration(soap, &soap_tmp___trt__SetAudioSourceConfiguration, "-trt:SetAudioSourceConfiguration", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trt__SetAudioSourceConfiguration(soap, &soap_tmp___trt__SetAudioSourceConfiguration, "-trt:SetAudioSourceConfiguration", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trt__SetAudioSourceConfiguration(struct soap *soap, struct _trt__SetAudioSourceConfigurationResponse *trt__SetAudioSourceConfigurationResponse)
+{
+	if (!trt__SetAudioSourceConfigurationResponse)
+		return soap_closesock(soap);
+	soap_default__trt__SetAudioSourceConfigurationResponse(soap, trt__SetAudioSourceConfigurationResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trt__SetAudioSourceConfigurationResponse(soap, trt__SetAudioSourceConfigurationResponse, "trt:SetAudioSourceConfigurationResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trt__SetAudioEncoderConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__SetAudioEncoderConfiguration *trt__SetAudioEncoderConfiguration, struct _trt__SetAudioEncoderConfigurationResponse *trt__SetAudioEncoderConfigurationResponse)
+{	if (soap_send___trt__SetAudioEncoderConfiguration(soap, soap_endpoint, soap_action, trt__SetAudioEncoderConfiguration) || soap_recv___trt__SetAudioEncoderConfiguration(soap, trt__SetAudioEncoderConfigurationResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trt__SetAudioEncoderConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__SetAudioEncoderConfiguration *trt__SetAudioEncoderConfiguration)
+{	struct __trt__SetAudioEncoderConfiguration soap_tmp___trt__SetAudioEncoderConfiguration;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/media/wsdl/SetAudioEncoderConfiguration";
+	soap_tmp___trt__SetAudioEncoderConfiguration.trt__SetAudioEncoderConfiguration = trt__SetAudioEncoderConfiguration;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trt__SetAudioEncoderConfiguration(soap, &soap_tmp___trt__SetAudioEncoderConfiguration);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trt__SetAudioEncoderConfiguration(soap, &soap_tmp___trt__SetAudioEncoderConfiguration, "-trt:SetAudioEncoderConfiguration", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trt__SetAudioEncoderConfiguration(soap, &soap_tmp___trt__SetAudioEncoderConfiguration, "-trt:SetAudioEncoderConfiguration", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trt__SetAudioEncoderConfiguration(struct soap *soap, struct _trt__SetAudioEncoderConfigurationResponse *trt__SetAudioEncoderConfigurationResponse)
+{
+	if (!trt__SetAudioEncoderConfigurationResponse)
+		return soap_closesock(soap);
+	soap_default__trt__SetAudioEncoderConfigurationResponse(soap, trt__SetAudioEncoderConfigurationResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trt__SetAudioEncoderConfigurationResponse(soap, trt__SetAudioEncoderConfigurationResponse, "trt:SetAudioEncoderConfigurationResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trt__SetVideoAnalyticsConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__SetVideoAnalyticsConfiguration *trt__SetVideoAnalyticsConfiguration, struct _trt__SetVideoAnalyticsConfigurationResponse *trt__SetVideoAnalyticsConfigurationResponse)
+{	if (soap_send___trt__SetVideoAnalyticsConfiguration(soap, soap_endpoint, soap_action, trt__SetVideoAnalyticsConfiguration) || soap_recv___trt__SetVideoAnalyticsConfiguration(soap, trt__SetVideoAnalyticsConfigurationResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trt__SetVideoAnalyticsConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__SetVideoAnalyticsConfiguration *trt__SetVideoAnalyticsConfiguration)
+{	struct __trt__SetVideoAnalyticsConfiguration soap_tmp___trt__SetVideoAnalyticsConfiguration;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/media/wsdl/SetVideoAnalyticsConfiguration";
+	soap_tmp___trt__SetVideoAnalyticsConfiguration.trt__SetVideoAnalyticsConfiguration = trt__SetVideoAnalyticsConfiguration;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trt__SetVideoAnalyticsConfiguration(soap, &soap_tmp___trt__SetVideoAnalyticsConfiguration);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trt__SetVideoAnalyticsConfiguration(soap, &soap_tmp___trt__SetVideoAnalyticsConfiguration, "-trt:SetVideoAnalyticsConfiguration", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trt__SetVideoAnalyticsConfiguration(soap, &soap_tmp___trt__SetVideoAnalyticsConfiguration, "-trt:SetVideoAnalyticsConfiguration", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trt__SetVideoAnalyticsConfiguration(struct soap *soap, struct _trt__SetVideoAnalyticsConfigurationResponse *trt__SetVideoAnalyticsConfigurationResponse)
+{
+	if (!trt__SetVideoAnalyticsConfigurationResponse)
+		return soap_closesock(soap);
+	soap_default__trt__SetVideoAnalyticsConfigurationResponse(soap, trt__SetVideoAnalyticsConfigurationResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trt__SetVideoAnalyticsConfigurationResponse(soap, trt__SetVideoAnalyticsConfigurationResponse, "trt:SetVideoAnalyticsConfigurationResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trt__SetMetadataConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__SetMetadataConfiguration *trt__SetMetadataConfiguration, struct _trt__SetMetadataConfigurationResponse *trt__SetMetadataConfigurationResponse)
+{	if (soap_send___trt__SetMetadataConfiguration(soap, soap_endpoint, soap_action, trt__SetMetadataConfiguration) || soap_recv___trt__SetMetadataConfiguration(soap, trt__SetMetadataConfigurationResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trt__SetMetadataConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__SetMetadataConfiguration *trt__SetMetadataConfiguration)
+{	struct __trt__SetMetadataConfiguration soap_tmp___trt__SetMetadataConfiguration;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/media/wsdl/SetMetadataConfiguration";
+	soap_tmp___trt__SetMetadataConfiguration.trt__SetMetadataConfiguration = trt__SetMetadataConfiguration;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trt__SetMetadataConfiguration(soap, &soap_tmp___trt__SetMetadataConfiguration);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trt__SetMetadataConfiguration(soap, &soap_tmp___trt__SetMetadataConfiguration, "-trt:SetMetadataConfiguration", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trt__SetMetadataConfiguration(soap, &soap_tmp___trt__SetMetadataConfiguration, "-trt:SetMetadataConfiguration", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trt__SetMetadataConfiguration(struct soap *soap, struct _trt__SetMetadataConfigurationResponse *trt__SetMetadataConfigurationResponse)
+{
+	if (!trt__SetMetadataConfigurationResponse)
+		return soap_closesock(soap);
+	soap_default__trt__SetMetadataConfigurationResponse(soap, trt__SetMetadataConfigurationResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trt__SetMetadataConfigurationResponse(soap, trt__SetMetadataConfigurationResponse, "trt:SetMetadataConfigurationResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trt__SetAudioOutputConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__SetAudioOutputConfiguration *trt__SetAudioOutputConfiguration, struct _trt__SetAudioOutputConfigurationResponse *trt__SetAudioOutputConfigurationResponse)
+{	if (soap_send___trt__SetAudioOutputConfiguration(soap, soap_endpoint, soap_action, trt__SetAudioOutputConfiguration) || soap_recv___trt__SetAudioOutputConfiguration(soap, trt__SetAudioOutputConfigurationResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trt__SetAudioOutputConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__SetAudioOutputConfiguration *trt__SetAudioOutputConfiguration)
+{	struct __trt__SetAudioOutputConfiguration soap_tmp___trt__SetAudioOutputConfiguration;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/media/wsdl/SetAudioOutputConfiguration";
+	soap_tmp___trt__SetAudioOutputConfiguration.trt__SetAudioOutputConfiguration = trt__SetAudioOutputConfiguration;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trt__SetAudioOutputConfiguration(soap, &soap_tmp___trt__SetAudioOutputConfiguration);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trt__SetAudioOutputConfiguration(soap, &soap_tmp___trt__SetAudioOutputConfiguration, "-trt:SetAudioOutputConfiguration", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trt__SetAudioOutputConfiguration(soap, &soap_tmp___trt__SetAudioOutputConfiguration, "-trt:SetAudioOutputConfiguration", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trt__SetAudioOutputConfiguration(struct soap *soap, struct _trt__SetAudioOutputConfigurationResponse *trt__SetAudioOutputConfigurationResponse)
+{
+	if (!trt__SetAudioOutputConfigurationResponse)
+		return soap_closesock(soap);
+	soap_default__trt__SetAudioOutputConfigurationResponse(soap, trt__SetAudioOutputConfigurationResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trt__SetAudioOutputConfigurationResponse(soap, trt__SetAudioOutputConfigurationResponse, "trt:SetAudioOutputConfigurationResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trt__SetAudioDecoderConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__SetAudioDecoderConfiguration *trt__SetAudioDecoderConfiguration, struct _trt__SetAudioDecoderConfigurationResponse *trt__SetAudioDecoderConfigurationResponse)
+{	if (soap_send___trt__SetAudioDecoderConfiguration(soap, soap_endpoint, soap_action, trt__SetAudioDecoderConfiguration) || soap_recv___trt__SetAudioDecoderConfiguration(soap, trt__SetAudioDecoderConfigurationResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trt__SetAudioDecoderConfiguration(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__SetAudioDecoderConfiguration *trt__SetAudioDecoderConfiguration)
+{	struct __trt__SetAudioDecoderConfiguration soap_tmp___trt__SetAudioDecoderConfiguration;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/media/wsdl/SetAudioDecoderConfiguration";
+	soap_tmp___trt__SetAudioDecoderConfiguration.trt__SetAudioDecoderConfiguration = trt__SetAudioDecoderConfiguration;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trt__SetAudioDecoderConfiguration(soap, &soap_tmp___trt__SetAudioDecoderConfiguration);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trt__SetAudioDecoderConfiguration(soap, &soap_tmp___trt__SetAudioDecoderConfiguration, "-trt:SetAudioDecoderConfiguration", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trt__SetAudioDecoderConfiguration(soap, &soap_tmp___trt__SetAudioDecoderConfiguration, "-trt:SetAudioDecoderConfiguration", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trt__SetAudioDecoderConfiguration(struct soap *soap, struct _trt__SetAudioDecoderConfigurationResponse *trt__SetAudioDecoderConfigurationResponse)
+{
+	if (!trt__SetAudioDecoderConfigurationResponse)
+		return soap_closesock(soap);
+	soap_default__trt__SetAudioDecoderConfigurationResponse(soap, trt__SetAudioDecoderConfigurationResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trt__SetAudioDecoderConfigurationResponse(soap, trt__SetAudioDecoderConfigurationResponse, "trt:SetAudioDecoderConfigurationResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trt__GetVideoSourceConfigurationOptions(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__GetVideoSourceConfigurationOptions *trt__GetVideoSourceConfigurationOptions, struct _trt__GetVideoSourceConfigurationOptionsResponse *trt__GetVideoSourceConfigurationOptionsResponse)
+{	if (soap_send___trt__GetVideoSourceConfigurationOptions(soap, soap_endpoint, soap_action, trt__GetVideoSourceConfigurationOptions) || soap_recv___trt__GetVideoSourceConfigurationOptions(soap, trt__GetVideoSourceConfigurationOptionsResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trt__GetVideoSourceConfigurationOptions(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__GetVideoSourceConfigurationOptions *trt__GetVideoSourceConfigurationOptions)
+{	struct __trt__GetVideoSourceConfigurationOptions soap_tmp___trt__GetVideoSourceConfigurationOptions;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/media/wsdlGetVideoSourceConfigurationOptions/";
+	soap_tmp___trt__GetVideoSourceConfigurationOptions.trt__GetVideoSourceConfigurationOptions = trt__GetVideoSourceConfigurationOptions;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trt__GetVideoSourceConfigurationOptions(soap, &soap_tmp___trt__GetVideoSourceConfigurationOptions);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trt__GetVideoSourceConfigurationOptions(soap, &soap_tmp___trt__GetVideoSourceConfigurationOptions, "-trt:GetVideoSourceConfigurationOptions", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trt__GetVideoSourceConfigurationOptions(soap, &soap_tmp___trt__GetVideoSourceConfigurationOptions, "-trt:GetVideoSourceConfigurationOptions", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trt__GetVideoSourceConfigurationOptions(struct soap *soap, struct _trt__GetVideoSourceConfigurationOptionsResponse *trt__GetVideoSourceConfigurationOptionsResponse)
+{
+	if (!trt__GetVideoSourceConfigurationOptionsResponse)
+		return soap_closesock(soap);
+	soap_default__trt__GetVideoSourceConfigurationOptionsResponse(soap, trt__GetVideoSourceConfigurationOptionsResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trt__GetVideoSourceConfigurationOptionsResponse(soap, trt__GetVideoSourceConfigurationOptionsResponse, "trt:GetVideoSourceConfigurationOptionsResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trt__GetVideoEncoderConfigurationOptions(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__GetVideoEncoderConfigurationOptions *trt__GetVideoEncoderConfigurationOptions, struct _trt__GetVideoEncoderConfigurationOptionsResponse *trt__GetVideoEncoderConfigurationOptionsResponse)
+{	if (soap_send___trt__GetVideoEncoderConfigurationOptions(soap, soap_endpoint, soap_action, trt__GetVideoEncoderConfigurationOptions) || soap_recv___trt__GetVideoEncoderConfigurationOptions(soap, trt__GetVideoEncoderConfigurationOptionsResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trt__GetVideoEncoderConfigurationOptions(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__GetVideoEncoderConfigurationOptions *trt__GetVideoEncoderConfigurationOptions)
+{	struct __trt__GetVideoEncoderConfigurationOptions soap_tmp___trt__GetVideoEncoderConfigurationOptions;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/media/wsdl/GetVideoEncoderConfigurationOptions";
+	soap_tmp___trt__GetVideoEncoderConfigurationOptions.trt__GetVideoEncoderConfigurationOptions = trt__GetVideoEncoderConfigurationOptions;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trt__GetVideoEncoderConfigurationOptions(soap, &soap_tmp___trt__GetVideoEncoderConfigurationOptions);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trt__GetVideoEncoderConfigurationOptions(soap, &soap_tmp___trt__GetVideoEncoderConfigurationOptions, "-trt:GetVideoEncoderConfigurationOptions", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trt__GetVideoEncoderConfigurationOptions(soap, &soap_tmp___trt__GetVideoEncoderConfigurationOptions, "-trt:GetVideoEncoderConfigurationOptions", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trt__GetVideoEncoderConfigurationOptions(struct soap *soap, struct _trt__GetVideoEncoderConfigurationOptionsResponse *trt__GetVideoEncoderConfigurationOptionsResponse)
+{
+	if (!trt__GetVideoEncoderConfigurationOptionsResponse)
+		return soap_closesock(soap);
+	soap_default__trt__GetVideoEncoderConfigurationOptionsResponse(soap, trt__GetVideoEncoderConfigurationOptionsResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trt__GetVideoEncoderConfigurationOptionsResponse(soap, trt__GetVideoEncoderConfigurationOptionsResponse, "trt:GetVideoEncoderConfigurationOptionsResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trt__GetAudioSourceConfigurationOptions(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__GetAudioSourceConfigurationOptions *trt__GetAudioSourceConfigurationOptions, struct _trt__GetAudioSourceConfigurationOptionsResponse *trt__GetAudioSourceConfigurationOptionsResponse)
+{	if (soap_send___trt__GetAudioSourceConfigurationOptions(soap, soap_endpoint, soap_action, trt__GetAudioSourceConfigurationOptions) || soap_recv___trt__GetAudioSourceConfigurationOptions(soap, trt__GetAudioSourceConfigurationOptionsResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trt__GetAudioSourceConfigurationOptions(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__GetAudioSourceConfigurationOptions *trt__GetAudioSourceConfigurationOptions)
+{	struct __trt__GetAudioSourceConfigurationOptions soap_tmp___trt__GetAudioSourceConfigurationOptions;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/media/wsdl/GetAudioSourceConfigurationOptions";
+	soap_tmp___trt__GetAudioSourceConfigurationOptions.trt__GetAudioSourceConfigurationOptions = trt__GetAudioSourceConfigurationOptions;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trt__GetAudioSourceConfigurationOptions(soap, &soap_tmp___trt__GetAudioSourceConfigurationOptions);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trt__GetAudioSourceConfigurationOptions(soap, &soap_tmp___trt__GetAudioSourceConfigurationOptions, "-trt:GetAudioSourceConfigurationOptions", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trt__GetAudioSourceConfigurationOptions(soap, &soap_tmp___trt__GetAudioSourceConfigurationOptions, "-trt:GetAudioSourceConfigurationOptions", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trt__GetAudioSourceConfigurationOptions(struct soap *soap, struct _trt__GetAudioSourceConfigurationOptionsResponse *trt__GetAudioSourceConfigurationOptionsResponse)
+{
+	if (!trt__GetAudioSourceConfigurationOptionsResponse)
+		return soap_closesock(soap);
+	soap_default__trt__GetAudioSourceConfigurationOptionsResponse(soap, trt__GetAudioSourceConfigurationOptionsResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trt__GetAudioSourceConfigurationOptionsResponse(soap, trt__GetAudioSourceConfigurationOptionsResponse, "trt:GetAudioSourceConfigurationOptionsResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trt__GetAudioEncoderConfigurationOptions(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__GetAudioEncoderConfigurationOptions *trt__GetAudioEncoderConfigurationOptions, struct _trt__GetAudioEncoderConfigurationOptionsResponse *trt__GetAudioEncoderConfigurationOptionsResponse)
+{	if (soap_send___trt__GetAudioEncoderConfigurationOptions(soap, soap_endpoint, soap_action, trt__GetAudioEncoderConfigurationOptions) || soap_recv___trt__GetAudioEncoderConfigurationOptions(soap, trt__GetAudioEncoderConfigurationOptionsResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trt__GetAudioEncoderConfigurationOptions(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__GetAudioEncoderConfigurationOptions *trt__GetAudioEncoderConfigurationOptions)
+{	struct __trt__GetAudioEncoderConfigurationOptions soap_tmp___trt__GetAudioEncoderConfigurationOptions;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/media/wsdl/GetAudioEncoderConfigurationOptions";
+	soap_tmp___trt__GetAudioEncoderConfigurationOptions.trt__GetAudioEncoderConfigurationOptions = trt__GetAudioEncoderConfigurationOptions;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trt__GetAudioEncoderConfigurationOptions(soap, &soap_tmp___trt__GetAudioEncoderConfigurationOptions);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trt__GetAudioEncoderConfigurationOptions(soap, &soap_tmp___trt__GetAudioEncoderConfigurationOptions, "-trt:GetAudioEncoderConfigurationOptions", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trt__GetAudioEncoderConfigurationOptions(soap, &soap_tmp___trt__GetAudioEncoderConfigurationOptions, "-trt:GetAudioEncoderConfigurationOptions", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trt__GetAudioEncoderConfigurationOptions(struct soap *soap, struct _trt__GetAudioEncoderConfigurationOptionsResponse *trt__GetAudioEncoderConfigurationOptionsResponse)
+{
+	if (!trt__GetAudioEncoderConfigurationOptionsResponse)
+		return soap_closesock(soap);
+	soap_default__trt__GetAudioEncoderConfigurationOptionsResponse(soap, trt__GetAudioEncoderConfigurationOptionsResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trt__GetAudioEncoderConfigurationOptionsResponse(soap, trt__GetAudioEncoderConfigurationOptionsResponse, "trt:GetAudioEncoderConfigurationOptionsResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trt__GetMetadataConfigurationOptions(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__GetMetadataConfigurationOptions *trt__GetMetadataConfigurationOptions, struct _trt__GetMetadataConfigurationOptionsResponse *trt__GetMetadataConfigurationOptionsResponse)
+{	if (soap_send___trt__GetMetadataConfigurationOptions(soap, soap_endpoint, soap_action, trt__GetMetadataConfigurationOptions) || soap_recv___trt__GetMetadataConfigurationOptions(soap, trt__GetMetadataConfigurationOptionsResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trt__GetMetadataConfigurationOptions(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__GetMetadataConfigurationOptions *trt__GetMetadataConfigurationOptions)
+{	struct __trt__GetMetadataConfigurationOptions soap_tmp___trt__GetMetadataConfigurationOptions;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/media/wsdl/GetMetadataConfigurationOptions";
+	soap_tmp___trt__GetMetadataConfigurationOptions.trt__GetMetadataConfigurationOptions = trt__GetMetadataConfigurationOptions;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trt__GetMetadataConfigurationOptions(soap, &soap_tmp___trt__GetMetadataConfigurationOptions);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trt__GetMetadataConfigurationOptions(soap, &soap_tmp___trt__GetMetadataConfigurationOptions, "-trt:GetMetadataConfigurationOptions", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trt__GetMetadataConfigurationOptions(soap, &soap_tmp___trt__GetMetadataConfigurationOptions, "-trt:GetMetadataConfigurationOptions", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trt__GetMetadataConfigurationOptions(struct soap *soap, struct _trt__GetMetadataConfigurationOptionsResponse *trt__GetMetadataConfigurationOptionsResponse)
+{
+	if (!trt__GetMetadataConfigurationOptionsResponse)
+		return soap_closesock(soap);
+	soap_default__trt__GetMetadataConfigurationOptionsResponse(soap, trt__GetMetadataConfigurationOptionsResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trt__GetMetadataConfigurationOptionsResponse(soap, trt__GetMetadataConfigurationOptionsResponse, "trt:GetMetadataConfigurationOptionsResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trt__GetAudioOutputConfigurationOptions(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__GetAudioOutputConfigurationOptions *trt__GetAudioOutputConfigurationOptions, struct _trt__GetAudioOutputConfigurationOptionsResponse *trt__GetAudioOutputConfigurationOptionsResponse)
+{	if (soap_send___trt__GetAudioOutputConfigurationOptions(soap, soap_endpoint, soap_action, trt__GetAudioOutputConfigurationOptions) || soap_recv___trt__GetAudioOutputConfigurationOptions(soap, trt__GetAudioOutputConfigurationOptionsResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trt__GetAudioOutputConfigurationOptions(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__GetAudioOutputConfigurationOptions *trt__GetAudioOutputConfigurationOptions)
+{	struct __trt__GetAudioOutputConfigurationOptions soap_tmp___trt__GetAudioOutputConfigurationOptions;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/media/wsdl/GetAudioOutputConfigurationOptions";
+	soap_tmp___trt__GetAudioOutputConfigurationOptions.trt__GetAudioOutputConfigurationOptions = trt__GetAudioOutputConfigurationOptions;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trt__GetAudioOutputConfigurationOptions(soap, &soap_tmp___trt__GetAudioOutputConfigurationOptions);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trt__GetAudioOutputConfigurationOptions(soap, &soap_tmp___trt__GetAudioOutputConfigurationOptions, "-trt:GetAudioOutputConfigurationOptions", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trt__GetAudioOutputConfigurationOptions(soap, &soap_tmp___trt__GetAudioOutputConfigurationOptions, "-trt:GetAudioOutputConfigurationOptions", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trt__GetAudioOutputConfigurationOptions(struct soap *soap, struct _trt__GetAudioOutputConfigurationOptionsResponse *trt__GetAudioOutputConfigurationOptionsResponse)
+{
+	if (!trt__GetAudioOutputConfigurationOptionsResponse)
+		return soap_closesock(soap);
+	soap_default__trt__GetAudioOutputConfigurationOptionsResponse(soap, trt__GetAudioOutputConfigurationOptionsResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trt__GetAudioOutputConfigurationOptionsResponse(soap, trt__GetAudioOutputConfigurationOptionsResponse, "trt:GetAudioOutputConfigurationOptionsResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trt__GetAudioDecoderConfigurationOptions(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__GetAudioDecoderConfigurationOptions *trt__GetAudioDecoderConfigurationOptions, struct _trt__GetAudioDecoderConfigurationOptionsResponse *trt__GetAudioDecoderConfigurationOptionsResponse)
+{	if (soap_send___trt__GetAudioDecoderConfigurationOptions(soap, soap_endpoint, soap_action, trt__GetAudioDecoderConfigurationOptions) || soap_recv___trt__GetAudioDecoderConfigurationOptions(soap, trt__GetAudioDecoderConfigurationOptionsResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trt__GetAudioDecoderConfigurationOptions(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__GetAudioDecoderConfigurationOptions *trt__GetAudioDecoderConfigurationOptions)
+{	struct __trt__GetAudioDecoderConfigurationOptions soap_tmp___trt__GetAudioDecoderConfigurationOptions;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/media/wsdl/GetAudioDecoderConfigurationOptions";
+	soap_tmp___trt__GetAudioDecoderConfigurationOptions.trt__GetAudioDecoderConfigurationOptions = trt__GetAudioDecoderConfigurationOptions;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trt__GetAudioDecoderConfigurationOptions(soap, &soap_tmp___trt__GetAudioDecoderConfigurationOptions);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trt__GetAudioDecoderConfigurationOptions(soap, &soap_tmp___trt__GetAudioDecoderConfigurationOptions, "-trt:GetAudioDecoderConfigurationOptions", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trt__GetAudioDecoderConfigurationOptions(soap, &soap_tmp___trt__GetAudioDecoderConfigurationOptions, "-trt:GetAudioDecoderConfigurationOptions", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trt__GetAudioDecoderConfigurationOptions(struct soap *soap, struct _trt__GetAudioDecoderConfigurationOptionsResponse *trt__GetAudioDecoderConfigurationOptionsResponse)
+{
+	if (!trt__GetAudioDecoderConfigurationOptionsResponse)
+		return soap_closesock(soap);
+	soap_default__trt__GetAudioDecoderConfigurationOptionsResponse(soap, trt__GetAudioDecoderConfigurationOptionsResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trt__GetAudioDecoderConfigurationOptionsResponse(soap, trt__GetAudioDecoderConfigurationOptionsResponse, "trt:GetAudioDecoderConfigurationOptionsResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trt__GetGuaranteedNumberOfVideoEncoderInstances(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__GetGuaranteedNumberOfVideoEncoderInstances *trt__GetGuaranteedNumberOfVideoEncoderInstances, struct _trt__GetGuaranteedNumberOfVideoEncoderInstancesResponse *trt__GetGuaranteedNumberOfVideoEncoderInstancesResponse)
+{	if (soap_send___trt__GetGuaranteedNumberOfVideoEncoderInstances(soap, soap_endpoint, soap_action, trt__GetGuaranteedNumberOfVideoEncoderInstances) || soap_recv___trt__GetGuaranteedNumberOfVideoEncoderInstances(soap, trt__GetGuaranteedNumberOfVideoEncoderInstancesResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trt__GetGuaranteedNumberOfVideoEncoderInstances(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__GetGuaranteedNumberOfVideoEncoderInstances *trt__GetGuaranteedNumberOfVideoEncoderInstances)
+{	struct __trt__GetGuaranteedNumberOfVideoEncoderInstances soap_tmp___trt__GetGuaranteedNumberOfVideoEncoderInstances;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/media/wsdl/GetGuaranteedNumberOfVideoEncoderInstances";
+	soap_tmp___trt__GetGuaranteedNumberOfVideoEncoderInstances.trt__GetGuaranteedNumberOfVideoEncoderInstances = trt__GetGuaranteedNumberOfVideoEncoderInstances;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trt__GetGuaranteedNumberOfVideoEncoderInstances(soap, &soap_tmp___trt__GetGuaranteedNumberOfVideoEncoderInstances);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trt__GetGuaranteedNumberOfVideoEncoderInstances(soap, &soap_tmp___trt__GetGuaranteedNumberOfVideoEncoderInstances, "-trt:GetGuaranteedNumberOfVideoEncoderInstances", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trt__GetGuaranteedNumberOfVideoEncoderInstances(soap, &soap_tmp___trt__GetGuaranteedNumberOfVideoEncoderInstances, "-trt:GetGuaranteedNumberOfVideoEncoderInstances", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trt__GetGuaranteedNumberOfVideoEncoderInstances(struct soap *soap, struct _trt__GetGuaranteedNumberOfVideoEncoderInstancesResponse *trt__GetGuaranteedNumberOfVideoEncoderInstancesResponse)
+{
+	if (!trt__GetGuaranteedNumberOfVideoEncoderInstancesResponse)
+		return soap_closesock(soap);
+	soap_default__trt__GetGuaranteedNumberOfVideoEncoderInstancesResponse(soap, trt__GetGuaranteedNumberOfVideoEncoderInstancesResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trt__GetGuaranteedNumberOfVideoEncoderInstancesResponse(soap, trt__GetGuaranteedNumberOfVideoEncoderInstancesResponse, "trt:GetGuaranteedNumberOfVideoEncoderInstancesResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trt__GetStreamUri(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__GetStreamUri *trt__GetStreamUri, struct _trt__GetStreamUriResponse *trt__GetStreamUriResponse)
+{	if (soap_send___trt__GetStreamUri(soap, soap_endpoint, soap_action, trt__GetStreamUri) || soap_recv___trt__GetStreamUri(soap, trt__GetStreamUriResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trt__GetStreamUri(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__GetStreamUri *trt__GetStreamUri)
+{	struct __trt__GetStreamUri soap_tmp___trt__GetStreamUri;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/media/wsdl/GetStreamUri";
+	soap_tmp___trt__GetStreamUri.trt__GetStreamUri = trt__GetStreamUri;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trt__GetStreamUri(soap, &soap_tmp___trt__GetStreamUri);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trt__GetStreamUri(soap, &soap_tmp___trt__GetStreamUri, "-trt:GetStreamUri", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trt__GetStreamUri(soap, &soap_tmp___trt__GetStreamUri, "-trt:GetStreamUri", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trt__GetStreamUri(struct soap *soap, struct _trt__GetStreamUriResponse *trt__GetStreamUriResponse)
+{
+	if (!trt__GetStreamUriResponse)
+		return soap_closesock(soap);
+	soap_default__trt__GetStreamUriResponse(soap, trt__GetStreamUriResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trt__GetStreamUriResponse(soap, trt__GetStreamUriResponse, "trt:GetStreamUriResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trt__StartMulticastStreaming(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__StartMulticastStreaming *trt__StartMulticastStreaming, struct _trt__StartMulticastStreamingResponse *trt__StartMulticastStreamingResponse)
+{	if (soap_send___trt__StartMulticastStreaming(soap, soap_endpoint, soap_action, trt__StartMulticastStreaming) || soap_recv___trt__StartMulticastStreaming(soap, trt__StartMulticastStreamingResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trt__StartMulticastStreaming(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__StartMulticastStreaming *trt__StartMulticastStreaming)
+{	struct __trt__StartMulticastStreaming soap_tmp___trt__StartMulticastStreaming;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/media/wsdl/StartMulticastStreaming";
+	soap_tmp___trt__StartMulticastStreaming.trt__StartMulticastStreaming = trt__StartMulticastStreaming;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trt__StartMulticastStreaming(soap, &soap_tmp___trt__StartMulticastStreaming);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trt__StartMulticastStreaming(soap, &soap_tmp___trt__StartMulticastStreaming, "-trt:StartMulticastStreaming", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trt__StartMulticastStreaming(soap, &soap_tmp___trt__StartMulticastStreaming, "-trt:StartMulticastStreaming", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trt__StartMulticastStreaming(struct soap *soap, struct _trt__StartMulticastStreamingResponse *trt__StartMulticastStreamingResponse)
+{
+	if (!trt__StartMulticastStreamingResponse)
+		return soap_closesock(soap);
+	soap_default__trt__StartMulticastStreamingResponse(soap, trt__StartMulticastStreamingResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trt__StartMulticastStreamingResponse(soap, trt__StartMulticastStreamingResponse, "trt:StartMulticastStreamingResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trt__StopMulticastStreaming(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__StopMulticastStreaming *trt__StopMulticastStreaming, struct _trt__StopMulticastStreamingResponse *trt__StopMulticastStreamingResponse)
+{	if (soap_send___trt__StopMulticastStreaming(soap, soap_endpoint, soap_action, trt__StopMulticastStreaming) || soap_recv___trt__StopMulticastStreaming(soap, trt__StopMulticastStreamingResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trt__StopMulticastStreaming(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__StopMulticastStreaming *trt__StopMulticastStreaming)
+{	struct __trt__StopMulticastStreaming soap_tmp___trt__StopMulticastStreaming;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/media/wsdl/StopMulticastStreaming";
+	soap_tmp___trt__StopMulticastStreaming.trt__StopMulticastStreaming = trt__StopMulticastStreaming;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trt__StopMulticastStreaming(soap, &soap_tmp___trt__StopMulticastStreaming);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trt__StopMulticastStreaming(soap, &soap_tmp___trt__StopMulticastStreaming, "-trt:StopMulticastStreaming", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trt__StopMulticastStreaming(soap, &soap_tmp___trt__StopMulticastStreaming, "-trt:StopMulticastStreaming", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trt__StopMulticastStreaming(struct soap *soap, struct _trt__StopMulticastStreamingResponse *trt__StopMulticastStreamingResponse)
+{
+	if (!trt__StopMulticastStreamingResponse)
+		return soap_closesock(soap);
+	soap_default__trt__StopMulticastStreamingResponse(soap, trt__StopMulticastStreamingResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trt__StopMulticastStreamingResponse(soap, trt__StopMulticastStreamingResponse, "trt:StopMulticastStreamingResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trt__SetSynchronizationPoint(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__SetSynchronizationPoint *trt__SetSynchronizationPoint, struct _trt__SetSynchronizationPointResponse *trt__SetSynchronizationPointResponse)
+{	if (soap_send___trt__SetSynchronizationPoint(soap, soap_endpoint, soap_action, trt__SetSynchronizationPoint) || soap_recv___trt__SetSynchronizationPoint(soap, trt__SetSynchronizationPointResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trt__SetSynchronizationPoint(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__SetSynchronizationPoint *trt__SetSynchronizationPoint)
+{	struct __trt__SetSynchronizationPoint soap_tmp___trt__SetSynchronizationPoint;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/media/wsdl/SetSynchronizationPoint";
+	soap_tmp___trt__SetSynchronizationPoint.trt__SetSynchronizationPoint = trt__SetSynchronizationPoint;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trt__SetSynchronizationPoint(soap, &soap_tmp___trt__SetSynchronizationPoint);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trt__SetSynchronizationPoint(soap, &soap_tmp___trt__SetSynchronizationPoint, "-trt:SetSynchronizationPoint", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trt__SetSynchronizationPoint(soap, &soap_tmp___trt__SetSynchronizationPoint, "-trt:SetSynchronizationPoint", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trt__SetSynchronizationPoint(struct soap *soap, struct _trt__SetSynchronizationPointResponse *trt__SetSynchronizationPointResponse)
+{
+	if (!trt__SetSynchronizationPointResponse)
+		return soap_closesock(soap);
+	soap_default__trt__SetSynchronizationPointResponse(soap, trt__SetSynchronizationPointResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trt__SetSynchronizationPointResponse(soap, trt__SetSynchronizationPointResponse, "trt:SetSynchronizationPointResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trt__GetSnapshotUri(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__GetSnapshotUri *trt__GetSnapshotUri, struct _trt__GetSnapshotUriResponse *trt__GetSnapshotUriResponse)
+{	if (soap_send___trt__GetSnapshotUri(soap, soap_endpoint, soap_action, trt__GetSnapshotUri) || soap_recv___trt__GetSnapshotUri(soap, trt__GetSnapshotUriResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trt__GetSnapshotUri(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__GetSnapshotUri *trt__GetSnapshotUri)
+{	struct __trt__GetSnapshotUri soap_tmp___trt__GetSnapshotUri;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/media/wsdl/GetSnapshotUri";
+	soap_tmp___trt__GetSnapshotUri.trt__GetSnapshotUri = trt__GetSnapshotUri;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trt__GetSnapshotUri(soap, &soap_tmp___trt__GetSnapshotUri);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trt__GetSnapshotUri(soap, &soap_tmp___trt__GetSnapshotUri, "-trt:GetSnapshotUri", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trt__GetSnapshotUri(soap, &soap_tmp___trt__GetSnapshotUri, "-trt:GetSnapshotUri", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trt__GetSnapshotUri(struct soap *soap, struct _trt__GetSnapshotUriResponse *trt__GetSnapshotUriResponse)
+{
+	if (!trt__GetSnapshotUriResponse)
+		return soap_closesock(soap);
+	soap_default__trt__GetSnapshotUriResponse(soap, trt__GetSnapshotUriResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trt__GetSnapshotUriResponse(soap, trt__GetSnapshotUriResponse, "trt:GetSnapshotUriResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trt__GetVideoSourceModes(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__GetVideoSourceModes *trt__GetVideoSourceModes, struct _trt__GetVideoSourceModesResponse *trt__GetVideoSourceModesResponse)
+{	if (soap_send___trt__GetVideoSourceModes(soap, soap_endpoint, soap_action, trt__GetVideoSourceModes) || soap_recv___trt__GetVideoSourceModes(soap, trt__GetVideoSourceModesResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trt__GetVideoSourceModes(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__GetVideoSourceModes *trt__GetVideoSourceModes)
+{	struct __trt__GetVideoSourceModes soap_tmp___trt__GetVideoSourceModes;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/media/wsdl/GetVideoSourceModes";
+	soap_tmp___trt__GetVideoSourceModes.trt__GetVideoSourceModes = trt__GetVideoSourceModes;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trt__GetVideoSourceModes(soap, &soap_tmp___trt__GetVideoSourceModes);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trt__GetVideoSourceModes(soap, &soap_tmp___trt__GetVideoSourceModes, "-trt:GetVideoSourceModes", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trt__GetVideoSourceModes(soap, &soap_tmp___trt__GetVideoSourceModes, "-trt:GetVideoSourceModes", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trt__GetVideoSourceModes(struct soap *soap, struct _trt__GetVideoSourceModesResponse *trt__GetVideoSourceModesResponse)
+{
+	if (!trt__GetVideoSourceModesResponse)
+		return soap_closesock(soap);
+	soap_default__trt__GetVideoSourceModesResponse(soap, trt__GetVideoSourceModesResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trt__GetVideoSourceModesResponse(soap, trt__GetVideoSourceModesResponse, "trt:GetVideoSourceModesResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trt__SetVideoSourceMode(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__SetVideoSourceMode *trt__SetVideoSourceMode, struct _trt__SetVideoSourceModeResponse *trt__SetVideoSourceModeResponse)
+{	if (soap_send___trt__SetVideoSourceMode(soap, soap_endpoint, soap_action, trt__SetVideoSourceMode) || soap_recv___trt__SetVideoSourceMode(soap, trt__SetVideoSourceModeResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trt__SetVideoSourceMode(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__SetVideoSourceMode *trt__SetVideoSourceMode)
+{	struct __trt__SetVideoSourceMode soap_tmp___trt__SetVideoSourceMode;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/media/wsdl/SetVideoSourceMode";
+	soap_tmp___trt__SetVideoSourceMode.trt__SetVideoSourceMode = trt__SetVideoSourceMode;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trt__SetVideoSourceMode(soap, &soap_tmp___trt__SetVideoSourceMode);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trt__SetVideoSourceMode(soap, &soap_tmp___trt__SetVideoSourceMode, "-trt:SetVideoSourceMode", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trt__SetVideoSourceMode(soap, &soap_tmp___trt__SetVideoSourceMode, "-trt:SetVideoSourceMode", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trt__SetVideoSourceMode(struct soap *soap, struct _trt__SetVideoSourceModeResponse *trt__SetVideoSourceModeResponse)
+{
+	if (!trt__SetVideoSourceModeResponse)
+		return soap_closesock(soap);
+	soap_default__trt__SetVideoSourceModeResponse(soap, trt__SetVideoSourceModeResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trt__SetVideoSourceModeResponse(soap, trt__SetVideoSourceModeResponse, "trt:SetVideoSourceModeResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trt__GetOSDs(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__GetOSDs *trt__GetOSDs, struct _trt__GetOSDsResponse *trt__GetOSDsResponse)
+{	if (soap_send___trt__GetOSDs(soap, soap_endpoint, soap_action, trt__GetOSDs) || soap_recv___trt__GetOSDs(soap, trt__GetOSDsResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trt__GetOSDs(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__GetOSDs *trt__GetOSDs)
+{	struct __trt__GetOSDs soap_tmp___trt__GetOSDs;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/media/wsdl/GetOSDs";
+	soap_tmp___trt__GetOSDs.trt__GetOSDs = trt__GetOSDs;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trt__GetOSDs(soap, &soap_tmp___trt__GetOSDs);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trt__GetOSDs(soap, &soap_tmp___trt__GetOSDs, "-trt:GetOSDs", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trt__GetOSDs(soap, &soap_tmp___trt__GetOSDs, "-trt:GetOSDs", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trt__GetOSDs(struct soap *soap, struct _trt__GetOSDsResponse *trt__GetOSDsResponse)
+{
+	if (!trt__GetOSDsResponse)
+		return soap_closesock(soap);
+	soap_default__trt__GetOSDsResponse(soap, trt__GetOSDsResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trt__GetOSDsResponse(soap, trt__GetOSDsResponse, "trt:GetOSDsResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trt__GetOSD(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__GetOSD *trt__GetOSD, struct _trt__GetOSDResponse *trt__GetOSDResponse)
+{	if (soap_send___trt__GetOSD(soap, soap_endpoint, soap_action, trt__GetOSD) || soap_recv___trt__GetOSD(soap, trt__GetOSDResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trt__GetOSD(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__GetOSD *trt__GetOSD)
+{	struct __trt__GetOSD soap_tmp___trt__GetOSD;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/media/wsdl/GetOSD";
+	soap_tmp___trt__GetOSD.trt__GetOSD = trt__GetOSD;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trt__GetOSD(soap, &soap_tmp___trt__GetOSD);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trt__GetOSD(soap, &soap_tmp___trt__GetOSD, "-trt:GetOSD", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trt__GetOSD(soap, &soap_tmp___trt__GetOSD, "-trt:GetOSD", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trt__GetOSD(struct soap *soap, struct _trt__GetOSDResponse *trt__GetOSDResponse)
+{
+	if (!trt__GetOSDResponse)
+		return soap_closesock(soap);
+	soap_default__trt__GetOSDResponse(soap, trt__GetOSDResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trt__GetOSDResponse(soap, trt__GetOSDResponse, "trt:GetOSDResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trt__GetOSDOptions(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__GetOSDOptions *trt__GetOSDOptions, struct _trt__GetOSDOptionsResponse *trt__GetOSDOptionsResponse)
+{	if (soap_send___trt__GetOSDOptions(soap, soap_endpoint, soap_action, trt__GetOSDOptions) || soap_recv___trt__GetOSDOptions(soap, trt__GetOSDOptionsResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trt__GetOSDOptions(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__GetOSDOptions *trt__GetOSDOptions)
+{	struct __trt__GetOSDOptions soap_tmp___trt__GetOSDOptions;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/media/wsdl/GetOSDOptions";
+	soap_tmp___trt__GetOSDOptions.trt__GetOSDOptions = trt__GetOSDOptions;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trt__GetOSDOptions(soap, &soap_tmp___trt__GetOSDOptions);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trt__GetOSDOptions(soap, &soap_tmp___trt__GetOSDOptions, "-trt:GetOSDOptions", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trt__GetOSDOptions(soap, &soap_tmp___trt__GetOSDOptions, "-trt:GetOSDOptions", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trt__GetOSDOptions(struct soap *soap, struct _trt__GetOSDOptionsResponse *trt__GetOSDOptionsResponse)
+{
+	if (!trt__GetOSDOptionsResponse)
+		return soap_closesock(soap);
+	soap_default__trt__GetOSDOptionsResponse(soap, trt__GetOSDOptionsResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trt__GetOSDOptionsResponse(soap, trt__GetOSDOptionsResponse, "trt:GetOSDOptionsResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trt__SetOSD(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__SetOSD *trt__SetOSD, struct _trt__SetOSDResponse *trt__SetOSDResponse)
+{	if (soap_send___trt__SetOSD(soap, soap_endpoint, soap_action, trt__SetOSD) || soap_recv___trt__SetOSD(soap, trt__SetOSDResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trt__SetOSD(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__SetOSD *trt__SetOSD)
+{	struct __trt__SetOSD soap_tmp___trt__SetOSD;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/media/wsdl/SetOSD";
+	soap_tmp___trt__SetOSD.trt__SetOSD = trt__SetOSD;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trt__SetOSD(soap, &soap_tmp___trt__SetOSD);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trt__SetOSD(soap, &soap_tmp___trt__SetOSD, "-trt:SetOSD", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trt__SetOSD(soap, &soap_tmp___trt__SetOSD, "-trt:SetOSD", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trt__SetOSD(struct soap *soap, struct _trt__SetOSDResponse *trt__SetOSDResponse)
+{
+	if (!trt__SetOSDResponse)
+		return soap_closesock(soap);
+	soap_default__trt__SetOSDResponse(soap, trt__SetOSDResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trt__SetOSDResponse(soap, trt__SetOSDResponse, "trt:SetOSDResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trt__CreateOSD(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__CreateOSD *trt__CreateOSD, struct _trt__CreateOSDResponse *trt__CreateOSDResponse)
+{	if (soap_send___trt__CreateOSD(soap, soap_endpoint, soap_action, trt__CreateOSD) || soap_recv___trt__CreateOSD(soap, trt__CreateOSDResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trt__CreateOSD(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__CreateOSD *trt__CreateOSD)
+{	struct __trt__CreateOSD soap_tmp___trt__CreateOSD;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/media/wsdl/CreateOSD";
+	soap_tmp___trt__CreateOSD.trt__CreateOSD = trt__CreateOSD;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trt__CreateOSD(soap, &soap_tmp___trt__CreateOSD);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trt__CreateOSD(soap, &soap_tmp___trt__CreateOSD, "-trt:CreateOSD", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trt__CreateOSD(soap, &soap_tmp___trt__CreateOSD, "-trt:CreateOSD", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trt__CreateOSD(struct soap *soap, struct _trt__CreateOSDResponse *trt__CreateOSDResponse)
+{
+	if (!trt__CreateOSDResponse)
+		return soap_closesock(soap);
+	soap_default__trt__CreateOSDResponse(soap, trt__CreateOSDResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trt__CreateOSDResponse(soap, trt__CreateOSDResponse, "trt:CreateOSDResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trt__DeleteOSD(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__DeleteOSD *trt__DeleteOSD, struct _trt__DeleteOSDResponse *trt__DeleteOSDResponse)
+{	if (soap_send___trt__DeleteOSD(soap, soap_endpoint, soap_action, trt__DeleteOSD) || soap_recv___trt__DeleteOSD(soap, trt__DeleteOSDResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trt__DeleteOSD(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trt__DeleteOSD *trt__DeleteOSD)
+{	struct __trt__DeleteOSD soap_tmp___trt__DeleteOSD;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/media/wsdl/DeleteOSD";
+	soap_tmp___trt__DeleteOSD.trt__DeleteOSD = trt__DeleteOSD;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trt__DeleteOSD(soap, &soap_tmp___trt__DeleteOSD);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trt__DeleteOSD(soap, &soap_tmp___trt__DeleteOSD, "-trt:DeleteOSD", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trt__DeleteOSD(soap, &soap_tmp___trt__DeleteOSD, "-trt:DeleteOSD", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trt__DeleteOSD(struct soap *soap, struct _trt__DeleteOSDResponse *trt__DeleteOSDResponse)
+{
+	if (!trt__DeleteOSDResponse)
+		return soap_closesock(soap);
+	soap_default__trt__DeleteOSDResponse(soap, trt__DeleteOSDResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trt__DeleteOSDResponse(soap, trt__DeleteOSDResponse, "trt:DeleteOSDResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trv__GetServiceCapabilities(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trv__GetServiceCapabilities *trv__GetServiceCapabilities, struct _trv__GetServiceCapabilitiesResponse *trv__GetServiceCapabilitiesResponse)
+{	if (soap_send___trv__GetServiceCapabilities(soap, soap_endpoint, soap_action, trv__GetServiceCapabilities) || soap_recv___trv__GetServiceCapabilities(soap, trv__GetServiceCapabilitiesResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trv__GetServiceCapabilities(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trv__GetServiceCapabilities *trv__GetServiceCapabilities)
+{	struct __trv__GetServiceCapabilities soap_tmp___trv__GetServiceCapabilities;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/receiver/wsdl/GetServiceCapabilities";
+	soap_tmp___trv__GetServiceCapabilities.trv__GetServiceCapabilities = trv__GetServiceCapabilities;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trv__GetServiceCapabilities(soap, &soap_tmp___trv__GetServiceCapabilities);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trv__GetServiceCapabilities(soap, &soap_tmp___trv__GetServiceCapabilities, "-trv:GetServiceCapabilities", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trv__GetServiceCapabilities(soap, &soap_tmp___trv__GetServiceCapabilities, "-trv:GetServiceCapabilities", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trv__GetServiceCapabilities(struct soap *soap, struct _trv__GetServiceCapabilitiesResponse *trv__GetServiceCapabilitiesResponse)
+{
+	if (!trv__GetServiceCapabilitiesResponse)
+		return soap_closesock(soap);
+	soap_default__trv__GetServiceCapabilitiesResponse(soap, trv__GetServiceCapabilitiesResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trv__GetServiceCapabilitiesResponse(soap, trv__GetServiceCapabilitiesResponse, "trv:GetServiceCapabilitiesResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trv__GetReceivers(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trv__GetReceivers *trv__GetReceivers, struct _trv__GetReceiversResponse *trv__GetReceiversResponse)
+{	if (soap_send___trv__GetReceivers(soap, soap_endpoint, soap_action, trv__GetReceivers) || soap_recv___trv__GetReceivers(soap, trv__GetReceiversResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trv__GetReceivers(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trv__GetReceivers *trv__GetReceivers)
+{	struct __trv__GetReceivers soap_tmp___trv__GetReceivers;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/receiver/wsdl/GetReceivers";
+	soap_tmp___trv__GetReceivers.trv__GetReceivers = trv__GetReceivers;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trv__GetReceivers(soap, &soap_tmp___trv__GetReceivers);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trv__GetReceivers(soap, &soap_tmp___trv__GetReceivers, "-trv:GetReceivers", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trv__GetReceivers(soap, &soap_tmp___trv__GetReceivers, "-trv:GetReceivers", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trv__GetReceivers(struct soap *soap, struct _trv__GetReceiversResponse *trv__GetReceiversResponse)
+{
+	if (!trv__GetReceiversResponse)
+		return soap_closesock(soap);
+	soap_default__trv__GetReceiversResponse(soap, trv__GetReceiversResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trv__GetReceiversResponse(soap, trv__GetReceiversResponse, "trv:GetReceiversResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trv__GetReceiver(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trv__GetReceiver *trv__GetReceiver, struct _trv__GetReceiverResponse *trv__GetReceiverResponse)
+{	if (soap_send___trv__GetReceiver(soap, soap_endpoint, soap_action, trv__GetReceiver) || soap_recv___trv__GetReceiver(soap, trv__GetReceiverResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trv__GetReceiver(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trv__GetReceiver *trv__GetReceiver)
+{	struct __trv__GetReceiver soap_tmp___trv__GetReceiver;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/receiver/wsdl/GetReceiver";
+	soap_tmp___trv__GetReceiver.trv__GetReceiver = trv__GetReceiver;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trv__GetReceiver(soap, &soap_tmp___trv__GetReceiver);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trv__GetReceiver(soap, &soap_tmp___trv__GetReceiver, "-trv:GetReceiver", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trv__GetReceiver(soap, &soap_tmp___trv__GetReceiver, "-trv:GetReceiver", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trv__GetReceiver(struct soap *soap, struct _trv__GetReceiverResponse *trv__GetReceiverResponse)
+{
+	if (!trv__GetReceiverResponse)
+		return soap_closesock(soap);
+	soap_default__trv__GetReceiverResponse(soap, trv__GetReceiverResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trv__GetReceiverResponse(soap, trv__GetReceiverResponse, "trv:GetReceiverResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trv__CreateReceiver(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trv__CreateReceiver *trv__CreateReceiver, struct _trv__CreateReceiverResponse *trv__CreateReceiverResponse)
+{	if (soap_send___trv__CreateReceiver(soap, soap_endpoint, soap_action, trv__CreateReceiver) || soap_recv___trv__CreateReceiver(soap, trv__CreateReceiverResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trv__CreateReceiver(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trv__CreateReceiver *trv__CreateReceiver)
+{	struct __trv__CreateReceiver soap_tmp___trv__CreateReceiver;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/receiver/wsdl/CreateReceiver";
+	soap_tmp___trv__CreateReceiver.trv__CreateReceiver = trv__CreateReceiver;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trv__CreateReceiver(soap, &soap_tmp___trv__CreateReceiver);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trv__CreateReceiver(soap, &soap_tmp___trv__CreateReceiver, "-trv:CreateReceiver", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trv__CreateReceiver(soap, &soap_tmp___trv__CreateReceiver, "-trv:CreateReceiver", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trv__CreateReceiver(struct soap *soap, struct _trv__CreateReceiverResponse *trv__CreateReceiverResponse)
+{
+	if (!trv__CreateReceiverResponse)
+		return soap_closesock(soap);
+	soap_default__trv__CreateReceiverResponse(soap, trv__CreateReceiverResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trv__CreateReceiverResponse(soap, trv__CreateReceiverResponse, "trv:CreateReceiverResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trv__DeleteReceiver(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trv__DeleteReceiver *trv__DeleteReceiver, struct _trv__DeleteReceiverResponse *trv__DeleteReceiverResponse)
+{	if (soap_send___trv__DeleteReceiver(soap, soap_endpoint, soap_action, trv__DeleteReceiver) || soap_recv___trv__DeleteReceiver(soap, trv__DeleteReceiverResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trv__DeleteReceiver(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trv__DeleteReceiver *trv__DeleteReceiver)
+{	struct __trv__DeleteReceiver soap_tmp___trv__DeleteReceiver;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/receiver/wsdl/DeleteReceiver";
+	soap_tmp___trv__DeleteReceiver.trv__DeleteReceiver = trv__DeleteReceiver;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trv__DeleteReceiver(soap, &soap_tmp___trv__DeleteReceiver);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trv__DeleteReceiver(soap, &soap_tmp___trv__DeleteReceiver, "-trv:DeleteReceiver", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trv__DeleteReceiver(soap, &soap_tmp___trv__DeleteReceiver, "-trv:DeleteReceiver", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trv__DeleteReceiver(struct soap *soap, struct _trv__DeleteReceiverResponse *trv__DeleteReceiverResponse)
+{
+	if (!trv__DeleteReceiverResponse)
+		return soap_closesock(soap);
+	soap_default__trv__DeleteReceiverResponse(soap, trv__DeleteReceiverResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trv__DeleteReceiverResponse(soap, trv__DeleteReceiverResponse, "trv:DeleteReceiverResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trv__ConfigureReceiver(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trv__ConfigureReceiver *trv__ConfigureReceiver, struct _trv__ConfigureReceiverResponse *trv__ConfigureReceiverResponse)
+{	if (soap_send___trv__ConfigureReceiver(soap, soap_endpoint, soap_action, trv__ConfigureReceiver) || soap_recv___trv__ConfigureReceiver(soap, trv__ConfigureReceiverResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trv__ConfigureReceiver(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trv__ConfigureReceiver *trv__ConfigureReceiver)
+{	struct __trv__ConfigureReceiver soap_tmp___trv__ConfigureReceiver;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/receiver/wsdl/ConfigureReceiver";
+	soap_tmp___trv__ConfigureReceiver.trv__ConfigureReceiver = trv__ConfigureReceiver;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trv__ConfigureReceiver(soap, &soap_tmp___trv__ConfigureReceiver);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trv__ConfigureReceiver(soap, &soap_tmp___trv__ConfigureReceiver, "-trv:ConfigureReceiver", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trv__ConfigureReceiver(soap, &soap_tmp___trv__ConfigureReceiver, "-trv:ConfigureReceiver", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trv__ConfigureReceiver(struct soap *soap, struct _trv__ConfigureReceiverResponse *trv__ConfigureReceiverResponse)
+{
+	if (!trv__ConfigureReceiverResponse)
+		return soap_closesock(soap);
+	soap_default__trv__ConfigureReceiverResponse(soap, trv__ConfigureReceiverResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trv__ConfigureReceiverResponse(soap, trv__ConfigureReceiverResponse, "trv:ConfigureReceiverResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trv__SetReceiverMode(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trv__SetReceiverMode *trv__SetReceiverMode, struct _trv__SetReceiverModeResponse *trv__SetReceiverModeResponse)
+{	if (soap_send___trv__SetReceiverMode(soap, soap_endpoint, soap_action, trv__SetReceiverMode) || soap_recv___trv__SetReceiverMode(soap, trv__SetReceiverModeResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trv__SetReceiverMode(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trv__SetReceiverMode *trv__SetReceiverMode)
+{	struct __trv__SetReceiverMode soap_tmp___trv__SetReceiverMode;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/receiver/wsdl/SetReceiverMode";
+	soap_tmp___trv__SetReceiverMode.trv__SetReceiverMode = trv__SetReceiverMode;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trv__SetReceiverMode(soap, &soap_tmp___trv__SetReceiverMode);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trv__SetReceiverMode(soap, &soap_tmp___trv__SetReceiverMode, "-trv:SetReceiverMode", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trv__SetReceiverMode(soap, &soap_tmp___trv__SetReceiverMode, "-trv:SetReceiverMode", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trv__SetReceiverMode(struct soap *soap, struct _trv__SetReceiverModeResponse *trv__SetReceiverModeResponse)
+{
+	if (!trv__SetReceiverModeResponse)
+		return soap_closesock(soap);
+	soap_default__trv__SetReceiverModeResponse(soap, trv__SetReceiverModeResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trv__SetReceiverModeResponse(soap, trv__SetReceiverModeResponse, "trv:SetReceiverModeResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___trv__GetReceiverState(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trv__GetReceiverState *trv__GetReceiverState, struct _trv__GetReceiverStateResponse *trv__GetReceiverStateResponse)
+{	if (soap_send___trv__GetReceiverState(soap, soap_endpoint, soap_action, trv__GetReceiverState) || soap_recv___trv__GetReceiverState(soap, trv__GetReceiverStateResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___trv__GetReceiverState(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _trv__GetReceiverState *trv__GetReceiverState)
+{	struct __trv__GetReceiverState soap_tmp___trv__GetReceiverState;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/receiver/wsdl/GetReceiverState";
+	soap_tmp___trv__GetReceiverState.trv__GetReceiverState = trv__GetReceiverState;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___trv__GetReceiverState(soap, &soap_tmp___trv__GetReceiverState);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___trv__GetReceiverState(soap, &soap_tmp___trv__GetReceiverState, "-trv:GetReceiverState", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___trv__GetReceiverState(soap, &soap_tmp___trv__GetReceiverState, "-trv:GetReceiverState", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___trv__GetReceiverState(struct soap *soap, struct _trv__GetReceiverStateResponse *trv__GetReceiverStateResponse)
+{
+	if (!trv__GetReceiverStateResponse)
+		return soap_closesock(soap);
+	soap_default__trv__GetReceiverStateResponse(soap, trv__GetReceiverStateResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__trv__GetReceiverStateResponse(soap, trv__GetReceiverStateResponse, "trv:GetReceiverStateResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___tse__GetServiceCapabilities(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tse__GetServiceCapabilities *tse__GetServiceCapabilities, struct _tse__GetServiceCapabilitiesResponse *tse__GetServiceCapabilitiesResponse)
+{	if (soap_send___tse__GetServiceCapabilities(soap, soap_endpoint, soap_action, tse__GetServiceCapabilities) || soap_recv___tse__GetServiceCapabilities(soap, tse__GetServiceCapabilitiesResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___tse__GetServiceCapabilities(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tse__GetServiceCapabilities *tse__GetServiceCapabilities)
+{	struct __tse__GetServiceCapabilities soap_tmp___tse__GetServiceCapabilities;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/search/wsdl/GetServiceCapabilities";
+	soap_tmp___tse__GetServiceCapabilities.tse__GetServiceCapabilities = tse__GetServiceCapabilities;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___tse__GetServiceCapabilities(soap, &soap_tmp___tse__GetServiceCapabilities);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___tse__GetServiceCapabilities(soap, &soap_tmp___tse__GetServiceCapabilities, "-tse:GetServiceCapabilities", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___tse__GetServiceCapabilities(soap, &soap_tmp___tse__GetServiceCapabilities, "-tse:GetServiceCapabilities", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___tse__GetServiceCapabilities(struct soap *soap, struct _tse__GetServiceCapabilitiesResponse *tse__GetServiceCapabilitiesResponse)
+{
+	if (!tse__GetServiceCapabilitiesResponse)
+		return soap_closesock(soap);
+	soap_default__tse__GetServiceCapabilitiesResponse(soap, tse__GetServiceCapabilitiesResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__tse__GetServiceCapabilitiesResponse(soap, tse__GetServiceCapabilitiesResponse, "tse:GetServiceCapabilitiesResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___tse__GetRecordingSummary(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tse__GetRecordingSummary *tse__GetRecordingSummary, struct _tse__GetRecordingSummaryResponse *tse__GetRecordingSummaryResponse)
+{	if (soap_send___tse__GetRecordingSummary(soap, soap_endpoint, soap_action, tse__GetRecordingSummary) || soap_recv___tse__GetRecordingSummary(soap, tse__GetRecordingSummaryResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___tse__GetRecordingSummary(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tse__GetRecordingSummary *tse__GetRecordingSummary)
+{	struct __tse__GetRecordingSummary soap_tmp___tse__GetRecordingSummary;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/search/wsdl/GetRecordingSummary";
+	soap_tmp___tse__GetRecordingSummary.tse__GetRecordingSummary = tse__GetRecordingSummary;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___tse__GetRecordingSummary(soap, &soap_tmp___tse__GetRecordingSummary);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___tse__GetRecordingSummary(soap, &soap_tmp___tse__GetRecordingSummary, "-tse:GetRecordingSummary", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___tse__GetRecordingSummary(soap, &soap_tmp___tse__GetRecordingSummary, "-tse:GetRecordingSummary", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___tse__GetRecordingSummary(struct soap *soap, struct _tse__GetRecordingSummaryResponse *tse__GetRecordingSummaryResponse)
+{
+	if (!tse__GetRecordingSummaryResponse)
+		return soap_closesock(soap);
+	soap_default__tse__GetRecordingSummaryResponse(soap, tse__GetRecordingSummaryResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__tse__GetRecordingSummaryResponse(soap, tse__GetRecordingSummaryResponse, "tse:GetRecordingSummaryResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___tse__GetRecordingInformation(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tse__GetRecordingInformation *tse__GetRecordingInformation, struct _tse__GetRecordingInformationResponse *tse__GetRecordingInformationResponse)
+{	if (soap_send___tse__GetRecordingInformation(soap, soap_endpoint, soap_action, tse__GetRecordingInformation) || soap_recv___tse__GetRecordingInformation(soap, tse__GetRecordingInformationResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___tse__GetRecordingInformation(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tse__GetRecordingInformation *tse__GetRecordingInformation)
+{	struct __tse__GetRecordingInformation soap_tmp___tse__GetRecordingInformation;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/search/wsdl/GetRecordingInformation";
+	soap_tmp___tse__GetRecordingInformation.tse__GetRecordingInformation = tse__GetRecordingInformation;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___tse__GetRecordingInformation(soap, &soap_tmp___tse__GetRecordingInformation);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___tse__GetRecordingInformation(soap, &soap_tmp___tse__GetRecordingInformation, "-tse:GetRecordingInformation", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___tse__GetRecordingInformation(soap, &soap_tmp___tse__GetRecordingInformation, "-tse:GetRecordingInformation", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___tse__GetRecordingInformation(struct soap *soap, struct _tse__GetRecordingInformationResponse *tse__GetRecordingInformationResponse)
+{
+	if (!tse__GetRecordingInformationResponse)
+		return soap_closesock(soap);
+	soap_default__tse__GetRecordingInformationResponse(soap, tse__GetRecordingInformationResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__tse__GetRecordingInformationResponse(soap, tse__GetRecordingInformationResponse, "tse:GetRecordingInformationResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___tse__GetMediaAttributes(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tse__GetMediaAttributes *tse__GetMediaAttributes, struct _tse__GetMediaAttributesResponse *tse__GetMediaAttributesResponse)
+{	if (soap_send___tse__GetMediaAttributes(soap, soap_endpoint, soap_action, tse__GetMediaAttributes) || soap_recv___tse__GetMediaAttributes(soap, tse__GetMediaAttributesResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___tse__GetMediaAttributes(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tse__GetMediaAttributes *tse__GetMediaAttributes)
+{	struct __tse__GetMediaAttributes soap_tmp___tse__GetMediaAttributes;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/search/wsdl/GetMediaAttributes";
+	soap_tmp___tse__GetMediaAttributes.tse__GetMediaAttributes = tse__GetMediaAttributes;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___tse__GetMediaAttributes(soap, &soap_tmp___tse__GetMediaAttributes);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___tse__GetMediaAttributes(soap, &soap_tmp___tse__GetMediaAttributes, "-tse:GetMediaAttributes", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___tse__GetMediaAttributes(soap, &soap_tmp___tse__GetMediaAttributes, "-tse:GetMediaAttributes", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___tse__GetMediaAttributes(struct soap *soap, struct _tse__GetMediaAttributesResponse *tse__GetMediaAttributesResponse)
+{
+	if (!tse__GetMediaAttributesResponse)
+		return soap_closesock(soap);
+	soap_default__tse__GetMediaAttributesResponse(soap, tse__GetMediaAttributesResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__tse__GetMediaAttributesResponse(soap, tse__GetMediaAttributesResponse, "tse:GetMediaAttributesResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___tse__FindRecordings(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tse__FindRecordings *tse__FindRecordings, struct _tse__FindRecordingsResponse *tse__FindRecordingsResponse)
+{	if (soap_send___tse__FindRecordings(soap, soap_endpoint, soap_action, tse__FindRecordings) || soap_recv___tse__FindRecordings(soap, tse__FindRecordingsResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___tse__FindRecordings(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tse__FindRecordings *tse__FindRecordings)
+{	struct __tse__FindRecordings soap_tmp___tse__FindRecordings;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/search/wsdl/FindRecordings";
+	soap_tmp___tse__FindRecordings.tse__FindRecordings = tse__FindRecordings;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___tse__FindRecordings(soap, &soap_tmp___tse__FindRecordings);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___tse__FindRecordings(soap, &soap_tmp___tse__FindRecordings, "-tse:FindRecordings", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___tse__FindRecordings(soap, &soap_tmp___tse__FindRecordings, "-tse:FindRecordings", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___tse__FindRecordings(struct soap *soap, struct _tse__FindRecordingsResponse *tse__FindRecordingsResponse)
+{
+	if (!tse__FindRecordingsResponse)
+		return soap_closesock(soap);
+	soap_default__tse__FindRecordingsResponse(soap, tse__FindRecordingsResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__tse__FindRecordingsResponse(soap, tse__FindRecordingsResponse, "tse:FindRecordingsResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___tse__GetRecordingSearchResults(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tse__GetRecordingSearchResults *tse__GetRecordingSearchResults, struct _tse__GetRecordingSearchResultsResponse *tse__GetRecordingSearchResultsResponse)
+{	if (soap_send___tse__GetRecordingSearchResults(soap, soap_endpoint, soap_action, tse__GetRecordingSearchResults) || soap_recv___tse__GetRecordingSearchResults(soap, tse__GetRecordingSearchResultsResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___tse__GetRecordingSearchResults(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tse__GetRecordingSearchResults *tse__GetRecordingSearchResults)
+{	struct __tse__GetRecordingSearchResults soap_tmp___tse__GetRecordingSearchResults;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/search/wsdl/GetRecordingSearchResults";
+	soap_tmp___tse__GetRecordingSearchResults.tse__GetRecordingSearchResults = tse__GetRecordingSearchResults;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___tse__GetRecordingSearchResults(soap, &soap_tmp___tse__GetRecordingSearchResults);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___tse__GetRecordingSearchResults(soap, &soap_tmp___tse__GetRecordingSearchResults, "-tse:GetRecordingSearchResults", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___tse__GetRecordingSearchResults(soap, &soap_tmp___tse__GetRecordingSearchResults, "-tse:GetRecordingSearchResults", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___tse__GetRecordingSearchResults(struct soap *soap, struct _tse__GetRecordingSearchResultsResponse *tse__GetRecordingSearchResultsResponse)
+{
+	if (!tse__GetRecordingSearchResultsResponse)
+		return soap_closesock(soap);
+	soap_default__tse__GetRecordingSearchResultsResponse(soap, tse__GetRecordingSearchResultsResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__tse__GetRecordingSearchResultsResponse(soap, tse__GetRecordingSearchResultsResponse, "tse:GetRecordingSearchResultsResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___tse__FindEvents(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tse__FindEvents *tse__FindEvents, struct _tse__FindEventsResponse *tse__FindEventsResponse)
+{	if (soap_send___tse__FindEvents(soap, soap_endpoint, soap_action, tse__FindEvents) || soap_recv___tse__FindEvents(soap, tse__FindEventsResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___tse__FindEvents(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tse__FindEvents *tse__FindEvents)
+{	struct __tse__FindEvents soap_tmp___tse__FindEvents;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/search/wsdl/FindEvents";
+	soap_tmp___tse__FindEvents.tse__FindEvents = tse__FindEvents;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___tse__FindEvents(soap, &soap_tmp___tse__FindEvents);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___tse__FindEvents(soap, &soap_tmp___tse__FindEvents, "-tse:FindEvents", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___tse__FindEvents(soap, &soap_tmp___tse__FindEvents, "-tse:FindEvents", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___tse__FindEvents(struct soap *soap, struct _tse__FindEventsResponse *tse__FindEventsResponse)
+{
+	if (!tse__FindEventsResponse)
+		return soap_closesock(soap);
+	soap_default__tse__FindEventsResponse(soap, tse__FindEventsResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__tse__FindEventsResponse(soap, tse__FindEventsResponse, "tse:FindEventsResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___tse__GetEventSearchResults(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tse__GetEventSearchResults *tse__GetEventSearchResults, struct _tse__GetEventSearchResultsResponse *tse__GetEventSearchResultsResponse)
+{	if (soap_send___tse__GetEventSearchResults(soap, soap_endpoint, soap_action, tse__GetEventSearchResults) || soap_recv___tse__GetEventSearchResults(soap, tse__GetEventSearchResultsResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___tse__GetEventSearchResults(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tse__GetEventSearchResults *tse__GetEventSearchResults)
+{	struct __tse__GetEventSearchResults soap_tmp___tse__GetEventSearchResults;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/search/wsdl/GetEventSearchResults";
+	soap_tmp___tse__GetEventSearchResults.tse__GetEventSearchResults = tse__GetEventSearchResults;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___tse__GetEventSearchResults(soap, &soap_tmp___tse__GetEventSearchResults);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___tse__GetEventSearchResults(soap, &soap_tmp___tse__GetEventSearchResults, "-tse:GetEventSearchResults", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___tse__GetEventSearchResults(soap, &soap_tmp___tse__GetEventSearchResults, "-tse:GetEventSearchResults", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___tse__GetEventSearchResults(struct soap *soap, struct _tse__GetEventSearchResultsResponse *tse__GetEventSearchResultsResponse)
+{
+	if (!tse__GetEventSearchResultsResponse)
+		return soap_closesock(soap);
+	soap_default__tse__GetEventSearchResultsResponse(soap, tse__GetEventSearchResultsResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__tse__GetEventSearchResultsResponse(soap, tse__GetEventSearchResultsResponse, "tse:GetEventSearchResultsResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___tse__FindPTZPosition(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tse__FindPTZPosition *tse__FindPTZPosition, struct _tse__FindPTZPositionResponse *tse__FindPTZPositionResponse)
+{	if (soap_send___tse__FindPTZPosition(soap, soap_endpoint, soap_action, tse__FindPTZPosition) || soap_recv___tse__FindPTZPosition(soap, tse__FindPTZPositionResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___tse__FindPTZPosition(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tse__FindPTZPosition *tse__FindPTZPosition)
+{	struct __tse__FindPTZPosition soap_tmp___tse__FindPTZPosition;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/search/wsdl/FindPTZPosition";
+	soap_tmp___tse__FindPTZPosition.tse__FindPTZPosition = tse__FindPTZPosition;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___tse__FindPTZPosition(soap, &soap_tmp___tse__FindPTZPosition);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___tse__FindPTZPosition(soap, &soap_tmp___tse__FindPTZPosition, "-tse:FindPTZPosition", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___tse__FindPTZPosition(soap, &soap_tmp___tse__FindPTZPosition, "-tse:FindPTZPosition", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___tse__FindPTZPosition(struct soap *soap, struct _tse__FindPTZPositionResponse *tse__FindPTZPositionResponse)
+{
+	if (!tse__FindPTZPositionResponse)
+		return soap_closesock(soap);
+	soap_default__tse__FindPTZPositionResponse(soap, tse__FindPTZPositionResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__tse__FindPTZPositionResponse(soap, tse__FindPTZPositionResponse, "tse:FindPTZPositionResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___tse__GetPTZPositionSearchResults(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tse__GetPTZPositionSearchResults *tse__GetPTZPositionSearchResults, struct _tse__GetPTZPositionSearchResultsResponse *tse__GetPTZPositionSearchResultsResponse)
+{	if (soap_send___tse__GetPTZPositionSearchResults(soap, soap_endpoint, soap_action, tse__GetPTZPositionSearchResults) || soap_recv___tse__GetPTZPositionSearchResults(soap, tse__GetPTZPositionSearchResultsResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___tse__GetPTZPositionSearchResults(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tse__GetPTZPositionSearchResults *tse__GetPTZPositionSearchResults)
+{	struct __tse__GetPTZPositionSearchResults soap_tmp___tse__GetPTZPositionSearchResults;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/search/wsdl/GetPTZPositionSearchResults";
+	soap_tmp___tse__GetPTZPositionSearchResults.tse__GetPTZPositionSearchResults = tse__GetPTZPositionSearchResults;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___tse__GetPTZPositionSearchResults(soap, &soap_tmp___tse__GetPTZPositionSearchResults);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___tse__GetPTZPositionSearchResults(soap, &soap_tmp___tse__GetPTZPositionSearchResults, "-tse:GetPTZPositionSearchResults", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___tse__GetPTZPositionSearchResults(soap, &soap_tmp___tse__GetPTZPositionSearchResults, "-tse:GetPTZPositionSearchResults", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___tse__GetPTZPositionSearchResults(struct soap *soap, struct _tse__GetPTZPositionSearchResultsResponse *tse__GetPTZPositionSearchResultsResponse)
+{
+	if (!tse__GetPTZPositionSearchResultsResponse)
+		return soap_closesock(soap);
+	soap_default__tse__GetPTZPositionSearchResultsResponse(soap, tse__GetPTZPositionSearchResultsResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__tse__GetPTZPositionSearchResultsResponse(soap, tse__GetPTZPositionSearchResultsResponse, "tse:GetPTZPositionSearchResultsResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___tse__GetSearchState(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tse__GetSearchState *tse__GetSearchState, struct _tse__GetSearchStateResponse *tse__GetSearchStateResponse)
+{	if (soap_send___tse__GetSearchState(soap, soap_endpoint, soap_action, tse__GetSearchState) || soap_recv___tse__GetSearchState(soap, tse__GetSearchStateResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___tse__GetSearchState(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tse__GetSearchState *tse__GetSearchState)
+{	struct __tse__GetSearchState soap_tmp___tse__GetSearchState;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/search/wsdl/GetSearchState";
+	soap_tmp___tse__GetSearchState.tse__GetSearchState = tse__GetSearchState;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___tse__GetSearchState(soap, &soap_tmp___tse__GetSearchState);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___tse__GetSearchState(soap, &soap_tmp___tse__GetSearchState, "-tse:GetSearchState", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___tse__GetSearchState(soap, &soap_tmp___tse__GetSearchState, "-tse:GetSearchState", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___tse__GetSearchState(struct soap *soap, struct _tse__GetSearchStateResponse *tse__GetSearchStateResponse)
+{
+	if (!tse__GetSearchStateResponse)
+		return soap_closesock(soap);
+	soap_default__tse__GetSearchStateResponse(soap, tse__GetSearchStateResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__tse__GetSearchStateResponse(soap, tse__GetSearchStateResponse, "tse:GetSearchStateResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___tse__EndSearch(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tse__EndSearch *tse__EndSearch, struct _tse__EndSearchResponse *tse__EndSearchResponse)
+{	if (soap_send___tse__EndSearch(soap, soap_endpoint, soap_action, tse__EndSearch) || soap_recv___tse__EndSearch(soap, tse__EndSearchResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___tse__EndSearch(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tse__EndSearch *tse__EndSearch)
+{	struct __tse__EndSearch soap_tmp___tse__EndSearch;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/search/wsdl/EndSearch";
+	soap_tmp___tse__EndSearch.tse__EndSearch = tse__EndSearch;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___tse__EndSearch(soap, &soap_tmp___tse__EndSearch);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___tse__EndSearch(soap, &soap_tmp___tse__EndSearch, "-tse:EndSearch", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___tse__EndSearch(soap, &soap_tmp___tse__EndSearch, "-tse:EndSearch", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___tse__EndSearch(struct soap *soap, struct _tse__EndSearchResponse *tse__EndSearchResponse)
+{
+	if (!tse__EndSearchResponse)
+		return soap_closesock(soap);
+	soap_default__tse__EndSearchResponse(soap, tse__EndSearchResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__tse__EndSearchResponse(soap, tse__EndSearchResponse, "tse:EndSearchResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___tse__FindMetadata(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tse__FindMetadata *tse__FindMetadata, struct _tse__FindMetadataResponse *tse__FindMetadataResponse)
+{	if (soap_send___tse__FindMetadata(soap, soap_endpoint, soap_action, tse__FindMetadata) || soap_recv___tse__FindMetadata(soap, tse__FindMetadataResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___tse__FindMetadata(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tse__FindMetadata *tse__FindMetadata)
+{	struct __tse__FindMetadata soap_tmp___tse__FindMetadata;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/search/wsdl/FindMetadata";
+	soap_tmp___tse__FindMetadata.tse__FindMetadata = tse__FindMetadata;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___tse__FindMetadata(soap, &soap_tmp___tse__FindMetadata);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___tse__FindMetadata(soap, &soap_tmp___tse__FindMetadata, "-tse:FindMetadata", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___tse__FindMetadata(soap, &soap_tmp___tse__FindMetadata, "-tse:FindMetadata", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___tse__FindMetadata(struct soap *soap, struct _tse__FindMetadataResponse *tse__FindMetadataResponse)
+{
+	if (!tse__FindMetadataResponse)
+		return soap_closesock(soap);
+	soap_default__tse__FindMetadataResponse(soap, tse__FindMetadataResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__tse__FindMetadataResponse(soap, tse__FindMetadataResponse, "tse:FindMetadataResponse", NULL);
+	if (soap->error)
+		return soap_recv_fault(soap, 0);
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap_closesock(soap);
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_call___tse__GetMetadataSearchResults(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tse__GetMetadataSearchResults *tse__GetMetadataSearchResults, struct _tse__GetMetadataSearchResultsResponse *tse__GetMetadataSearchResultsResponse)
+{	if (soap_send___tse__GetMetadataSearchResults(soap, soap_endpoint, soap_action, tse__GetMetadataSearchResults) || soap_recv___tse__GetMetadataSearchResults(soap, tse__GetMetadataSearchResultsResponse))
+		return soap->error;
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_send___tse__GetMetadataSearchResults(struct soap *soap, const char *soap_endpoint, const char *soap_action, struct _tse__GetMetadataSearchResults *tse__GetMetadataSearchResults)
+{	struct __tse__GetMetadataSearchResults soap_tmp___tse__GetMetadataSearchResults;
+	if (soap_action == NULL)
+		soap_action = "http://www.onvif.org/ver10/search/wsdl/GetMetadataSearchResults";
+	soap_tmp___tse__GetMetadataSearchResults.tse__GetMetadataSearchResults = tse__GetMetadataSearchResults;
+	soap_begin(soap);
+	soap_set_version(soap, 2); /* use SOAP1.2 */
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize___tse__GetMetadataSearchResults(soap, &soap_tmp___tse__GetMetadataSearchResults);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put___tse__GetMetadataSearchResults(soap, &soap_tmp___tse__GetMetadataSearchResults, "-tse:GetMetadataSearchResults", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	}
+	if (soap_end_count(soap))
+		return soap->error;
+	if (soap_connect(soap, soap_endpoint, soap_action)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put___tse__GetMetadataSearchResults(soap, &soap_tmp___tse__GetMetadataSearchResults, "-tse:GetMetadataSearchResults", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap_closesock(soap);
+	return SOAP_OK;
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_recv___tse__GetMetadataSearchResults(struct soap *soap, struct _tse__GetMetadataSearchResultsResponse *tse__GetMetadataSearchResultsResponse)
+{
+	if (!tse__GetMetadataSearchResultsResponse)
+		return soap_closesock(soap);
+	soap_default__tse__GetMetadataSearchResultsResponse(soap, tse__GetMetadataSearchResultsResponse);
+	if (soap_begin_recv(soap)
+	 || soap_envelope_begin_in(soap)
+	 || soap_recv_header(soap)
+	 || soap_body_begin_in(soap))
+		return soap_closesock(soap);
+	soap_get__tse__GetMetadataSearchResultsResponse(soap, tse__GetMetadataSearchResultsResponse, "tse:GetMetadataSearchResultsResponse", NULL);
 	if (soap->error)
 		return soap_recv_fault(soap, 0);
 	if (soap_body_end_in(soap)

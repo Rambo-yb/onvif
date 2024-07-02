@@ -99,7 +99,7 @@ int OnvifInit(char* addr, OnvifDevInfo dev_info) {
 
     OnvifOperDeviceInfo oper_dev_info;
     oper_dev_info.web_server_port = WEB_SERVER_PORT;
-    snprintf(oper_dev_info.wen_server_addr, sizeof(oper_dev_info.wen_server_addr), "%s", addr);
+    snprintf(oper_dev_info.web_server_addr, sizeof(oper_dev_info.web_server_addr), "%s", addr);
     snprintf(oper_dev_info.menu_facturer, sizeof(oper_dev_info.menu_facturer), "%s", dev_info.menu_facturer);
     snprintf(oper_dev_info.module, sizeof(oper_dev_info.module), "%s", dev_info.module);
     snprintf(oper_dev_info.serial_num, sizeof(oper_dev_info.serial_num), "%s", dev_info.serial_num);

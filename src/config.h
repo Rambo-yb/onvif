@@ -16,6 +16,18 @@ typedef struct {
     OnvifConfigUserInfo* user_info;
 }OnvifConfigUsersInfo;
 
+typedef struct {
+    char* token;
+    float frame_rate;
+    int width;
+    int height;
+}OnvifConfigVideoInfo;
+
+typedef struct {
+    int num;
+    OnvifConfigVideoInfo* video_info;
+}OnvifConfigVideosInfo;
+
 int OnvifConfigInit();
 
 void* OnvifConfigGet(const char* type);

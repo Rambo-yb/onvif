@@ -47,7 +47,7 @@ SOAP_FMAC5 int SOAP_FMAC6 __wsdd__Probe(struct soap* soap, struct wsdd__ProbeTyp
     OnvifOperGetDevInfo(&oper_dev_info);
 
     char buff[256] = {0};
-    snprintf(buff, sizeof(buff), "http://%s:%d/onvif/device_service", oper_dev_info.wen_server_addr, oper_dev_info.web_server_port);
+    snprintf(buff, sizeof(buff), "http://%s:%d/onvif/device_service", oper_dev_info.web_server_addr, oper_dev_info.web_server_port);
     probe_match_type->XAddrs = soap_strdup(soap, buff);
     if( wsdd__Probe->Types && strlen(wsdd__Probe->Types) )
         probe_match_type->Types  = soap_strdup(soap, wsdd__Probe->Types);

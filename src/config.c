@@ -9,6 +9,7 @@
 typedef struct {
     cJSON* all_config;
     OnvifConfigUsersInfo users_info;
+    OnvifConfigVideosInfo videos_info;
 }OnvifConfigMng;
 static OnvifConfigMng kOnvifConfigMng;
 
@@ -25,6 +26,7 @@ typedef struct {
 }OnvifConfigInfo;
 static OnvifConfigInfo kOnvifConfigInfo[] = {
     {.type = "users_info", .config = &kOnvifConfigMng.users_info, .modify_cb = OnvifConfigModifyUsersInfo},
+    {.type = "videos_info", .config = &kOnvifConfigMng.videos_info, .modify_cb = OnvifConfigModifyUsersInfo},
 };
 
 static cJSON* OnvifConfigLoadFile(char* path) {
@@ -84,8 +86,47 @@ end_default:
     snprintf(kOnvifConfigMng.users_info.user_info[0].password, sizeof(kOnvifConfigMng.users_info.user_info[0].password), "123456");
     return 0;
 end_err:
+    kOnvifConfigMng.users_info.num = 0;
     if (kOnvifConfigMng.users_info.user_info != NULL) {
         free(kOnvifConfigMng.users_info.user_info);
+    }
+    return -1;
+}
+
+static int OnvifConfigVideosInfoInit(cJSON* config) {
+    CHECK_POINTER_GO(config, end_default);
+
+    cJSON* root = cJSON_GetObjectItemCaseSensitive(config, "videos_info");
+    CHECK_POINTER_GO(root, end_default);
+    CHECK_BOOL_GO(cJSON_IsArray(root), end_err);
+
+    kOnvifConfigMng.videos_info.num = cJSON_GetArraySize(root);
+    kOnvifConfigMng.videos_info.video_info = (OnvifConfigVideoInfo*)malloc(sizeof(OnvifConfigVideoInfo)*kOnvifConfigMng.videos_info.num);
+    CHECK_POINTER_GO(kOnvifConfigMng.videos_info.video_info, end_err);
+    for (int i = 0; i < kOnvifConfigMng.videos_info.num; i++) {
+        cJSON* item = cJSON_GetArrayItem(root, i);
+        CHECK_POINTER_GO(root, end_err);
+
+        kOnvifConfigMng.videos_info.video_info[i].token = "video_info";
+        CJSON_GET_NUMBER(item, "frame_rate", kOnvifConfigMng.videos_info.video_info[i].frame_rate, sizeof(kOnvifConfigMng.videos_info.video_info[i].frame_rate), end_err);
+        CJSON_GET_NUMBER(item, "width", kOnvifConfigMng.videos_info.video_info[i].width, sizeof(kOnvifConfigMng.videos_info.video_info[i].width), end_err);
+        CJSON_GET_NUMBER(item, "height", kOnvifConfigMng.videos_info.video_info[i].height, sizeof(kOnvifConfigMng.videos_info.video_info[i].height), end_err);
+    }
+
+    return 0;
+end_default:
+    LOG_INFO("not find videos info, use memory videos info!");
+    kOnvifConfigMng.videos_info.num = 1;
+    kOnvifConfigMng.videos_info.video_info = (OnvifConfigVideoInfo*)malloc(sizeof(OnvifConfigVideoInfo));
+    kOnvifConfigMng.videos_info.video_info[0].token = "video_source_0_t";
+    kOnvifConfigMng.videos_info.video_info[0].frame_rate = 25;
+    kOnvifConfigMng.videos_info.video_info[0].width = 640;
+    kOnvifConfigMng.videos_info.video_info[0].height = 512;
+    return 0;
+end_err:
+    kOnvifConfigMng.videos_info.num = 0;
+    if (kOnvifConfigMng.videos_info.video_info != NULL) {
+        free(kOnvifConfigMng.videos_info.video_info);
     }
     return -1;
 }
@@ -94,6 +135,7 @@ int OnvifConfigInit() {
     kOnvifConfigMng.all_config = OnvifConfigLoadFile("/data/onvif.json");
 
     OnvifConfigUsersInfoInit(kOnvifConfigMng.all_config);
+    OnvifConfigVideosInfoInit(kOnvifConfigMng.all_config);
     return 0;
 }
 
