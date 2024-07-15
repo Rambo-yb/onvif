@@ -6,33 +6,23 @@ extern "C" {
 #endif
 
 typedef struct {
-    char username[32];
-    char password[64];
-    int level;
-}OnvifConfigUserInfo;
+    int web_server_port;
+    char web_server_addr[16];
 
-typedef struct {
-    int num;
-    OnvifConfigUserInfo* user_info;
-}OnvifConfigUsersInfo;
-
-typedef struct {
-    char* token;
-    float frame_rate;
-    int width;
-    int height;
-}OnvifConfigVideoInfo;
-
-typedef struct {
-    int num;
-    OnvifConfigVideoInfo* video_info;
-}OnvifConfigVideosInfo;
+    char menu_facturer[64];
+    char module[64];
+    char serial_num[64];
+    char firmware_ver[64];
+    char hardware_ver[64];
+}OnvifConfigDeviceInfo;
 
 int OnvifConfigInit();
 
-void* OnvifConfigGet(const char* type);
+void* OnvifGetConfig(const char* type);
 
-int OnvifConfigSet(const char* type, void* conf);
+void OnvifConfigGetDevInfo(OnvifConfigDeviceInfo* dev_info);
+
+void OnvifConfigSetDevInfo(OnvifConfigDeviceInfo* dev_info);
 
 #ifdef __cplusplus
 }

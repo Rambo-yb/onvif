@@ -5,7 +5,6 @@
 #include "soapH.h"
 #include "wsseapi.h"
 #include "wsdd.nsmap"
-#include "onvif_oper.h"
 #include "onvif.h"
 #include "config.h"
 #include "log.h"
@@ -97,15 +96,15 @@ int OnvifInit(char* addr, OnvifDevInfo dev_info) {
 
     OnvifConfigInit();
 
-    OnvifOperDeviceInfo oper_dev_info;
-    oper_dev_info.web_server_port = WEB_SERVER_PORT;
-    snprintf(oper_dev_info.web_server_addr, sizeof(oper_dev_info.web_server_addr), "%s", addr);
-    snprintf(oper_dev_info.menu_facturer, sizeof(oper_dev_info.menu_facturer), "%s", dev_info.menu_facturer);
-    snprintf(oper_dev_info.module, sizeof(oper_dev_info.module), "%s", dev_info.module);
-    snprintf(oper_dev_info.serial_num, sizeof(oper_dev_info.serial_num), "%s", dev_info.serial_num);
-    snprintf(oper_dev_info.firmware_ver, sizeof(oper_dev_info.firmware_ver), "%s", dev_info.firmware_ver);
-    snprintf(oper_dev_info.hardware_ver, sizeof(oper_dev_info.hardware_ver), "%s", dev_info.hardware_ver);
-    OnvifOperSetDevInfo(&oper_dev_info);
+    OnvifConfigDeviceInfo conf_dev_info;
+    conf_dev_info.web_server_port = WEB_SERVER_PORT;
+    snprintf(conf_dev_info.web_server_addr, sizeof(conf_dev_info.web_server_addr), "%s", addr);
+    snprintf(conf_dev_info.menu_facturer, sizeof(conf_dev_info.menu_facturer), "%s", dev_info.menu_facturer);
+    snprintf(conf_dev_info.module, sizeof(conf_dev_info.module), "%s", dev_info.module);
+    snprintf(conf_dev_info.serial_num, sizeof(conf_dev_info.serial_num), "%s", dev_info.serial_num);
+    snprintf(conf_dev_info.firmware_ver, sizeof(conf_dev_info.firmware_ver), "%s", dev_info.firmware_ver);
+    snprintf(conf_dev_info.hardware_ver, sizeof(conf_dev_info.hardware_ver), "%s", dev_info.hardware_ver);
+    OnvifConfigSetDevInfo(&conf_dev_info);
 
 	pthread_create(&kOnvifMng.discorvery_id, NULL, OnvifDiscorveryProc, NULL);
 	pthread_create(&kOnvifMng.web_server_id, NULL, OnvifWebServerProc, NULL);

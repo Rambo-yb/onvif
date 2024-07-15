@@ -3,63 +3,36 @@
 
 #include "log.h"
 
-#define CHECK_POINTER(x, ret)   \
+#define ERR_OPT_NULL
+
+#define CHECK_POINTER(x, err_opt)   \
     if (x == NULL) {    \
         LOG_ERR("%s is NULL", #x); \
-        return ret; \
-    }   
+        err_opt; \
+    }    
     
-#define CHECK_POINTER_GO(x, e)   \
-    if (x == NULL) {    \
-        LOG_ERR("%s is NULL", #x); \
-        goto e; \
-    }   
-    
-#define CHECK_BOOL(x, ret)   \
+#define CHECK_BOOL(x, err_opt)   \
     if (!x) {    \
         LOG_ERR("%s is false", #x); \
-        return ret; \
+        err_opt; \
     }
 
-#define CHECK_BOOL_GO(x, e)   \
-    if (!x) {    \
-        LOG_ERR("%s is false", #x); \
-        goto e; \
-    }
-
-#define CHECK_LT(x, y, ret)   \
+#define CHECK_LT(x, y, err_opt)   \
     if (x < y) {    \
         LOG_ERR("%s:%d < %s:%d", #x, x, #y, y);   \
-        return ret; \
+        err_opt; \
     }
 
-#define CHECK_LT_GO(x, y, e)   \
-    if (x < y) {    \
-        LOG_ERR("%s:%d < %s:%d", #x, x, #y, y);   \
-        goto e; \
-    }
-
-#define CHECK_GE(x, y, ret)   \
+#define CHECK_GE(x, y, err_opt)   \
     if (x >= y) {    \
         LOG_ERR("%s:%d >= %s:%d", #x, x, #y, y);   \
-        return ret; \
+        err_opt; \
     }
 
-#define CHECK_GE_GO(x, y, e)   \
-    if (x >= y) {    \
-        LOG_ERR("%s:%d >= %s:%d", #x, x, #y, y);   \
-        goto e; \
-    }
-#define CHECK_EQ(x, y, ret)   \
+#define CHECK_EQ(x, y, err_opt)   \
     if (x != y) {    \
         LOG_ERR("%s:%d != %s:%d", #x, x, #y, y);   \
-        return ret; \
-    }
-
-#define CHECK_EQ_GO(x, y, e)   \
-    if (x != y) {    \
-        LOG_ERR("%s:%d != %s:%d", #x, x, #y, y);   \
-        goto e; \
+        err_opt; \
     }
 
 #endif

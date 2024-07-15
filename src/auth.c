@@ -6,6 +6,8 @@
 #include "soapH.h"
 #include "config.h"
 #include "log.h"
+#include "cjson_common.h"
+#include "check_common.h"
 
 static int AuthCompareUsername(char* username, const char* key) {
     return strcmp(username, key);
@@ -18,16 +20,19 @@ int AuthUser(struct soap *soap) {
         return -1;
     }
 
-    OnvifConfigUsersInfo* info = OnvifConfigGet("users_info");
-    if (info == NULL) {
-        LOG_ERR("device users info abnormal");
-        return -1;
-    }
+    cJSON* users_json = OnvifGetConfig("users");
+    CHECK_POINTER(users_json, return -1);
+    CHECK_BOOL(cJSON_IsArray(users_json), return -1);
 
     int result = 0;
-    for (int i = 0; i < info->num; i++) {
-        if (!AuthCompareUsername(info->user_info[i].username, username) 
-            && !soap_wsse_verify_Password(soap, info->user_info[i].password)) {
+    for(int i = 0; i < cJSON_GetArraySize(users_json); i++) {
+        cJSON* item = cJSON_GetArrayItem(users_json, i);
+        if (item == NULL || !cJSON_IsObject(item)) {
+            continue;
+        }
+
+        if (!AuthCompareUsername(cJSON_GetStringValue(cJSON_GetObjectItem(item, "username")), username) 
+            && !soap_wsse_verify_Password(soap, cJSON_GetStringValue(cJSON_GetObjectItem(item, "password")))) {
             result = 1;
             break;
         }
