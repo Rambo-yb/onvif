@@ -41,7 +41,7 @@ end:
 }
 
 int OnvifConfigInit() {
-    kOnvifConfigMng.all_config = OnvifConfigLoadFile("/data/onvif.json");
+    kOnvifConfigMng.all_config = OnvifConfigLoadFile("/root/onvif.json");
     return 0;
 }
 

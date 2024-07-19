@@ -1,9 +1,17 @@
 #!/bin/bash
 
-export PATH="/home/smb/RV1126_RV1109_LINUX_SDK_V2.2.5.1_20230530/buildroot/output/rockchip_rv1126_rv1109/host/bin/:$PATH"
-
 CUR_DIR=`pwd`
-HOST=arm-linux-gnueabihf
+
+if [ "$1" == "gk7205v200" ]; then
+    export PATH="/home/smb/GK7205V200/Software/GKIPCLinuxV100R001C00SPC020/tools/toolchains/arm-gcc6.3-linux-uclibceabi/bin/:$PATH"
+    HOST=arm-gcc6.3-linux-uclibceabi
+elif [ "$1" == "rv1126" ]; then
+    export PATH="/home/smb/RV1126_RV1109_LINUX_SDK_V2.2.5.1_20230530/buildroot/output/rockchip_rv1126_rv1109/host/bin/:$PATH"
+    HOST=arm-linux-gnueabihf
+else
+    echo "$1 not support, only support gk7205v200, rv1126"
+    exit 0
+fi
 
 GSOAP_TOOL_FILE=$CUR_DIR/gsoap_tool
 GSOAP_TOOL_DIR=$CUR_DIR/third_lib/gsoap-2.8
@@ -12,10 +20,6 @@ INSTALL_DIR=$CUR_DIR/_install
 
 build_gsoap_arm()
 {
-    if [ $1 != rebuild ]; then
-        exit
-    fi
-
     cd $CUR_DIR/third_lib
     [ -d $GSOAP_TOOL_INSTALL_DIR ] && rm -r $GSOAP_TOOL_INSTALL_DIR
     [ -d $GSOAP_TOOL_DIR ] && rm -r $GSOAP_TOOL_DIR
@@ -24,7 +28,7 @@ build_gsoap_arm()
     cp $CUR_DIR/wsa5_bck.h $GSOAP_TOOL_DIR/gsoap/import/wsa5.h -raf #解决SOAP_ENV__Fault重定义问题
 
     cd $GSOAP_TOOL_DIR
-    ./configure --prefix=$GSOAP_TOOL_INSTALL_DIR --host=$HOST
+    ./configure --prefix=$GSOAP_TOOL_INSTALL_DIR --host=$HOST --disable-c-locale
     make
 
     #编译过程中，linux需要运行soapcpp2，将x86的可执行程序拷入，执行完之后恢复
@@ -40,10 +44,6 @@ build_gsoap_arm()
 
 build_gsoap_tools()
 {
-    if [ $1 != rebuild ]; then
-        exit
-    fi
-
     cd $CUR_DIR/third_lib
     [ -d $GSOAP_TOOL_INSTALL_DIR ] && rm -r $GSOAP_TOOL_INSTALL_DIR
     [ -d $GSOAP_TOOL_DIR ] && rm -r $GSOAP_TOOL_DIR
@@ -52,7 +52,8 @@ build_gsoap_tools()
     cp $CUR_DIR/wsa5_bck.h $GSOAP_TOOL_DIR/gsoap/import/wsa5.h -raf #解决SOAP_ENV__Fault重定义问题
 
     cd $GSOAP_TOOL_DIR
-    ./configure --prefix=$GSOAP_TOOL_INSTALL_DIR
+    ./configure --prefix=$GSOAP_TOOL_INSTALL_DIR --disable-c-locale
+    sed -i 's/#define HAVE_LOCALE_H 1/#define HAVE_LOCALE_H 0/' config.h
     make && make install
 
     if [ ! -d $GSOAP_TOOL_FILE ]; then
@@ -66,10 +67,6 @@ build_gsoap_tools()
 
 build_openssl()
 {
-    if [ $1 != rebuild ]; then
-        exit
-    fi
-
     cd $CUR_DIR/third_lib
     [ -d $INSTALL_DIR/openssl ] && rm -r $$INSTALL_DIR/openssl
     [ -d "openssl-1.1.1h" ] && rm -r openssl-1.1.1h
@@ -82,10 +79,6 @@ build_openssl()
 
 build_gsoap_code()
 {
-    if [ $1 != rebuild ]; then
-        exit
-    fi
-
     WSDL2H=$GSOAP_TOOL_FILE/wsdl2h
     SOAPCPP2=$GSOAP_TOOL_FILE/soapcpp2
     TYPEMAP=$GSOAP_TOOL_FILE/typemap.dat
@@ -139,7 +132,7 @@ build_main()
 
     mkdir build
     cd $CUR_DIR/build
-    cmake .. -DCMAKE_C_COMPILER=${HOST}-gcc -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR}/onvif
+    cmake .. -DCMAKE_C_COMPILER=${HOST}-gcc -DCMAKE_CXX_COMPILER=${HOST}-g++ -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR}/onvif
     make
     make install
 }
@@ -149,14 +142,15 @@ build_lib()
     cd $CUR_DIR/_install/openssl
     cp -raf ./lib/*.a $INSTALL_DIR/onvif/lib/
     cp -raf ./lib/*.so* $INSTALL_DIR/onvif/lib/
+    exit 1
 }
 
-[ "$1" == "arm" ] && build_gsoap_arm rebuild && exit
-[ "$1" == "gsoap" ] && build_gsoap_tools rebuild && exit
-[ "$1" == "openssl" ] && build_openssl rebuild && exit
-[ "$1" == "code" ] && build_gsoap_code rebuild && exit
-[ "$1" == "main" ] && build_main && exit
-[ "$1" == "lib" ] && build_lib && exit
+[ "$2" == "arm" ] && build_gsoap_arm && exit
+[ "$2" == "gsoap" ] && build_gsoap_tools && exit
+[ "$2" == "openssl" ] && build_openssl && exit
+[ "$2" == "code" ] && build_gsoap_code && exit
+[ "$2" == "main" ] && build_main && exit
+[ "$2" == "lib" ] && build_lib && exit
 
 build_gsoap_tools
 build_openssl

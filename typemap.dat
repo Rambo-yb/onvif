@@ -664,3 +664,10 @@ mpt     = "http://s.mappoint.net/mappoint-30/"
 xliff = "urn:oasis:names:tc:xliff:document:2.0"
 
 xliff__priorityValue = typedef int xliff__priorityValue 1:10;
+
+_wsnt__NotificationMessageHolderType_Message = $ struct _tt__Message* tt__Message;
+
+#wsnt__FilterType = $ struct wsnt__TopicExpressionType* TopicExpression;
+
+#wstop__TopicSetType = $ struct tt__MessageDescription* MessageDescription;
+

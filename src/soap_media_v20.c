@@ -229,3 +229,13 @@ SOAP_FMAC5 int SOAP_FMAC6 __ns1__DeleteMask(struct soap* soap, struct _ns1__Dele
     printf("%s:%d\n", __func__, __LINE__);
     return 0;
 }
+/** Web service operation '__ns1__GetWebRTCConfigurations' implementation, should return SOAP_OK or error code */
+SOAP_FMAC5 int SOAP_FMAC6 __ns1__GetWebRTCConfigurations(struct soap* soap, struct _ns1__GetWebRTCConfigurations *ns1__GetWebRTCConfigurations, struct _ns1__GetWebRTCConfigurationsResponse *ns1__GetWebRTCConfigurationsResponse) {
+    printf("%s:%d\n", __func__, __LINE__);
+    return 0;
+}
+/** Web service operation '__ns1__SetWebRTCConfigurations' implementation, should return SOAP_OK or error code */
+SOAP_FMAC5 int SOAP_FMAC6 __ns1__SetWebRTCConfigurations(struct soap* soap, struct _ns1__SetWebRTCConfigurations *ns1__SetWebRTCConfigurations, struct _ns1__SetWebRTCConfigurationsResponse *ns1__SetWebRTCConfigurationsResponse) {
+    printf("%s:%d\n", __func__, __LINE__);
+    return 0;
+}

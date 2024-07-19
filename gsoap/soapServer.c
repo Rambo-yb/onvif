@@ -17,7 +17,7 @@ A commercial use license is available from Genivia Inc., contact@genivia.com
 #endif
 #include "soapH.h"
 
-SOAP_SOURCE_STAMP("@(#) soapServer.c ver 2.8.134 2024-07-01 09:09:10 GMT")
+SOAP_SOURCE_STAMP("@(#) soapServer.c ver 2.8.134 2024-07-19 08:39:09 GMT")
 SOAP_FMAC5 int SOAP_FMAC6 soap_serve(struct soap *soap)
 {
 #ifndef WITH_FASTCGI
@@ -164,6 +164,10 @@ SOAP_FMAC5 int SOAP_FMAC6 soap_serve_request(struct soap *soap)
 		return soap_serve___ns1__CreateMask(soap);
 	if (!soap_match_tag(soap, soap->tag, "ns1:DeleteMask"))
 		return soap_serve___ns1__DeleteMask(soap);
+	if (!soap_match_tag(soap, soap->tag, "ns1:GetWebRTCConfigurations"))
+		return soap_serve___ns1__GetWebRTCConfigurations(soap);
+	if (!soap_match_tag(soap, soap->tag, "ns1:SetWebRTCConfigurations"))
+		return soap_serve___ns1__SetWebRTCConfigurations(soap);
 	if (!soap_match_tag(soap, soap->tag, "tdn:Hello"))
 		return soap_serve___tdn__Hello(soap);
 	if (!soap_match_tag(soap, soap->tag, "tdn:Bye"))
@@ -2827,6 +2831,88 @@ SOAP_FMAC5 int SOAP_FMAC6 soap_serve___ns1__DeleteMask(struct soap *soap)
 	 || soap_putheader(soap)
 	 || soap_body_begin_out(soap)
 	 || soap_put_ns1__SetConfigurationResponse(soap, &ns1__DeleteMaskResponse, "ns1:DeleteMaskResponse", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap->error;
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_serve___ns1__GetWebRTCConfigurations(struct soap *soap)
+{	struct __ns1__GetWebRTCConfigurations soap_tmp___ns1__GetWebRTCConfigurations;
+	struct _ns1__GetWebRTCConfigurationsResponse ns1__GetWebRTCConfigurationsResponse;
+	soap_default__ns1__GetWebRTCConfigurationsResponse(soap, &ns1__GetWebRTCConfigurationsResponse);
+	soap_default___ns1__GetWebRTCConfigurations(soap, &soap_tmp___ns1__GetWebRTCConfigurations);
+	if (!soap_get___ns1__GetWebRTCConfigurations(soap, &soap_tmp___ns1__GetWebRTCConfigurations, "-ns1:GetWebRTCConfigurations", NULL))
+		return soap->error;
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap->error;
+	soap->error = __ns1__GetWebRTCConfigurations(soap, soap_tmp___ns1__GetWebRTCConfigurations.ns1__GetWebRTCConfigurations, &ns1__GetWebRTCConfigurationsResponse);
+	if (soap->error)
+		return soap->error;
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize__ns1__GetWebRTCConfigurationsResponse(soap, &ns1__GetWebRTCConfigurationsResponse);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put__ns1__GetWebRTCConfigurationsResponse(soap, &ns1__GetWebRTCConfigurationsResponse, "ns1:GetWebRTCConfigurationsResponse", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	};
+	if (soap_end_count(soap)
+	 || soap_response(soap, SOAP_OK)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put__ns1__GetWebRTCConfigurationsResponse(soap, &ns1__GetWebRTCConfigurationsResponse, "ns1:GetWebRTCConfigurationsResponse", "")
+	 || soap_body_end_out(soap)
+	 || soap_envelope_end_out(soap)
+	 || soap_end_send(soap))
+		return soap->error;
+	return soap_closesock(soap);
+}
+
+SOAP_FMAC5 int SOAP_FMAC6 soap_serve___ns1__SetWebRTCConfigurations(struct soap *soap)
+{	struct __ns1__SetWebRTCConfigurations soap_tmp___ns1__SetWebRTCConfigurations;
+	struct _ns1__SetWebRTCConfigurationsResponse ns1__SetWebRTCConfigurationsResponse;
+	soap_default__ns1__SetWebRTCConfigurationsResponse(soap, &ns1__SetWebRTCConfigurationsResponse);
+	soap_default___ns1__SetWebRTCConfigurations(soap, &soap_tmp___ns1__SetWebRTCConfigurations);
+	if (!soap_get___ns1__SetWebRTCConfigurations(soap, &soap_tmp___ns1__SetWebRTCConfigurations, "-ns1:SetWebRTCConfigurations", NULL))
+		return soap->error;
+	if (soap_body_end_in(soap)
+	 || soap_envelope_end_in(soap)
+	 || soap_end_recv(soap))
+		return soap->error;
+	soap->error = __ns1__SetWebRTCConfigurations(soap, soap_tmp___ns1__SetWebRTCConfigurations.ns1__SetWebRTCConfigurations, &ns1__SetWebRTCConfigurationsResponse);
+	if (soap->error)
+		return soap->error;
+	soap->encodingStyle = NULL; /* use SOAP literal style */
+	soap_serializeheader(soap);
+	soap_serialize__ns1__SetWebRTCConfigurationsResponse(soap, &ns1__SetWebRTCConfigurationsResponse);
+	if (soap_begin_count(soap))
+		return soap->error;
+	if ((soap->mode & SOAP_IO_LENGTH))
+	{	if (soap_envelope_begin_out(soap)
+		 || soap_putheader(soap)
+		 || soap_body_begin_out(soap)
+		 || soap_put__ns1__SetWebRTCConfigurationsResponse(soap, &ns1__SetWebRTCConfigurationsResponse, "ns1:SetWebRTCConfigurationsResponse", "")
+		 || soap_body_end_out(soap)
+		 || soap_envelope_end_out(soap))
+			 return soap->error;
+	};
+	if (soap_end_count(soap)
+	 || soap_response(soap, SOAP_OK)
+	 || soap_envelope_begin_out(soap)
+	 || soap_putheader(soap)
+	 || soap_body_begin_out(soap)
+	 || soap_put__ns1__SetWebRTCConfigurationsResponse(soap, &ns1__SetWebRTCConfigurationsResponse, "ns1:SetWebRTCConfigurationsResponse", "")
 	 || soap_body_end_out(soap)
 	 || soap_envelope_end_out(soap)
 	 || soap_end_send(soap))

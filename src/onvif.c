@@ -12,12 +12,14 @@
 #define MULTICAST_ADDR ("239.255.255.250")
 #define MULTICAST_PORT (3702)
 #define WEB_SERVER_PORT (3333)
+#define EVENT_MESSAGE_PORT (3334)
 
 typedef struct {
     int web_port;
     char web_addr[16];
     pthread_t discorvery_id;
     pthread_t web_server_id;
+    pthread_t event_msg_id;
 }OnvifMng;
 static OnvifMng kOnvifMng;
 
@@ -90,6 +92,38 @@ static void* OnvifWebServerProc(void* arg) {
     return NULL;
 }
 
+static void* OnvifEventMessageProc(void* arg) {
+    struct soap ser_soap;
+    soap_init2(&ser_soap, SOAP_ENC_MTOM | SOAP_ENC_MIME, 0);
+    ser_soap.port = EVENT_MESSAGE_PORT;
+    ser_soap.bind_flags = SO_REUSEADDR;
+    soap_set_namespaces(&ser_soap, namespaces);
+    
+    soap_register_plugin(&ser_soap, soap_wsse);
+
+    if(!soap_valid_socket(soap_bind(&ser_soap, kOnvifMng.web_addr, EVENT_MESSAGE_PORT, 10))) {
+        soap_print_fault(&ser_soap, stderr);
+        return NULL;
+    }
+
+    while(1) {
+        if (!soap_valid_socket(soap_accept(&ser_soap))) {
+			soap_print_fault(&ser_soap, stderr);
+            break;
+        }
+        
+        if( soap_serve(&ser_soap) != SOAP_OK) {
+            soap_print_fault(&ser_soap, stderr);
+        }
+
+        soap_destroy(&ser_soap);
+        soap_end(&ser_soap);
+    }
+
+    soap_done(&ser_soap);
+    return NULL;
+}
+
 int OnvifInit(char* addr, OnvifDevInfo dev_info) {
     log_init("/tmp/onvif.log", 512*1024, 3);
     snprintf(kOnvifMng.web_addr, sizeof(kOnvifMng.web_addr), "%s", addr);
@@ -108,6 +142,7 @@ int OnvifInit(char* addr, OnvifDevInfo dev_info) {
 
 	pthread_create(&kOnvifMng.discorvery_id, NULL, OnvifDiscorveryProc, NULL);
 	pthread_create(&kOnvifMng.web_server_id, NULL, OnvifWebServerProc, NULL);
+	pthread_create(&kOnvifMng.event_msg_id, NULL, OnvifEventMessageProc, NULL);
 
     return 0;
 }
