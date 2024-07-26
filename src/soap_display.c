@@ -1,4 +1,5 @@
 #include "soapStub.h"
+#if 0
 /** Web service operation '__tls__GetServiceCapabilities' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __tls__GetServiceCapabilities(struct soap* soap, struct _tls__GetServiceCapabilities *tls__GetServiceCapabilities, struct _tls__GetServiceCapabilitiesResponse *tls__GetServiceCapabilitiesResponse) {
     printf("%s:%d\n", __func__, __LINE__);
@@ -49,3 +50,4 @@ SOAP_FMAC5 int SOAP_FMAC6 __tls__DeletePaneConfiguration(struct soap* soap, stru
     printf("%s:%d\n", __func__, __LINE__);
     return 0;
 }
+#endif

@@ -6,7 +6,7 @@
 #include "wsseapi.h"
 #include "wsdd.nsmap"
 #include "onvif.h"
-#include "config.h"
+#include "onvif_operation.h"
 #include "log.h"
 
 #define MULTICAST_ADDR ("239.255.255.250")
@@ -124,21 +124,17 @@ static void* OnvifEventMessageProc(void* arg) {
     return NULL;
 }
 
-int OnvifInit(char* addr, OnvifDevInfo dev_info) {
+int OnvifInit(char* addr, OnvifDevInfo dev_info, OnvifOperCb func) {
     log_init("/tmp/onvif.log", 512*1024, 3);
     snprintf(kOnvifMng.web_addr, sizeof(kOnvifMng.web_addr), "%s", addr);
 
-    OnvifConfigInit();
-
-    OnvifConfigDeviceInfo conf_dev_info;
+    OnvifOperationDeviceInfo conf_dev_info;
     conf_dev_info.web_server_port = WEB_SERVER_PORT;
-    snprintf(conf_dev_info.web_server_addr, sizeof(conf_dev_info.web_server_addr), "%s", addr);
-    snprintf(conf_dev_info.menu_facturer, sizeof(conf_dev_info.menu_facturer), "%s", dev_info.menu_facturer);
-    snprintf(conf_dev_info.module, sizeof(conf_dev_info.module), "%s", dev_info.module);
-    snprintf(conf_dev_info.serial_num, sizeof(conf_dev_info.serial_num), "%s", dev_info.serial_num);
-    snprintf(conf_dev_info.firmware_ver, sizeof(conf_dev_info.firmware_ver), "%s", dev_info.firmware_ver);
-    snprintf(conf_dev_info.hardware_ver, sizeof(conf_dev_info.hardware_ver), "%s", dev_info.hardware_ver);
-    OnvifConfigSetDevInfo(&conf_dev_info);
+    conf_dev_info.event_message_port = EVENT_MESSAGE_PORT;
+    snprintf(conf_dev_info.device_addr, sizeof(conf_dev_info.device_addr), "%s", addr);
+    memcpy(&conf_dev_info.dev_info, &dev_info, sizeof(OnvifDevInfo));
+    OnvifOperationInit(conf_dev_info, func);
+
 
 	pthread_create(&kOnvifMng.discorvery_id, NULL, OnvifDiscorveryProc, NULL);
 	pthread_create(&kOnvifMng.web_server_id, NULL, OnvifWebServerProc, NULL);
@@ -156,3 +152,7 @@ int OnvifUnInit() {
 
     return 0;
 }
+
+void OnvifEventUplaod(OnvifEventInfo* info) {
+    OnvifOperationEventUpload(info);
+} 

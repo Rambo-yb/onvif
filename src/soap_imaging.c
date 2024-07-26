@@ -1,5 +1,5 @@
 #include "soapStub.h"
-#include "config.h"
+#include "onvif_operation.h"
 #include "check_common.h"
 #include "soap_common.h"
 #include "auth.h"

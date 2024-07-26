@@ -2,7 +2,7 @@
 #include "soapH.h"
 #include "wsaapi.h"
 #include "wsddapi.h"
-#include "config.h"
+#include "onvif_operation.h"
 
 /** Web service one-way operation 'SOAP_ENV__Fault' implementation, should return value of soap_send_empty_response() to send HTTP Accept acknowledgment, or return an error code, or return SOAP_OK to immediately return without sending an HTTP response message */
 SOAP_FMAC5 int SOAP_FMAC6 SOAP_ENV__Fault(struct soap* soap, char *faultcode, char *faultstring, char *faultactor, struct SOAP_ENV__Detail *detail, struct SOAP_ENV__Code *SOAP_ENV__Code, struct SOAP_ENV__Reason *SOAP_ENV__Reason, char *SOAP_ENV__Node, char *SOAP_ENV__Role, struct SOAP_ENV__Detail *SOAP_ENV__Detail) {
@@ -43,11 +43,11 @@ SOAP_FMAC5 int SOAP_FMAC6 __wsdd__Probe(struct soap* soap, struct wsdd__ProbeTyp
     soap_default_wsdd__ProbeMatchType(soap, probe_match_type);
 
 
-    OnvifConfigDeviceInfo dev_info;
-    OnvifConfigGetDevInfo(&dev_info);
+    OnvifOperationDeviceInfo dev_info;
+    OnvifOperationGetDevInfo(&dev_info);
 
     char buff[256] = {0};
-    snprintf(buff, sizeof(buff), "http://%s:%d/onvif/device_service", dev_info.web_server_addr, dev_info.web_server_port);
+    snprintf(buff, sizeof(buff), "http://%s:%d/onvif/device_service", dev_info.device_addr, dev_info.web_server_port);
     probe_match_type->XAddrs = soap_strdup(soap, buff);
     if( wsdd__Probe->Types && strlen(wsdd__Probe->Types) )
         probe_match_type->Types  = soap_strdup(soap, wsdd__Probe->Types);

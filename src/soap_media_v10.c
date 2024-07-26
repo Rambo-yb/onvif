@@ -1,5 +1,5 @@
 #include "soapStub.h"
-#include "config.h"
+#include "onvif_operation.h"
 #include "check_common.h"
 #include "soap_common.h"
 #include "auth.h"
@@ -197,7 +197,7 @@ SOAP_FMAC5 int SOAP_FMAC6 __trt__GetServiceCapabilities(struct soap* soap, struc
 SOAP_FMAC5 int SOAP_FMAC6 __trt__GetVideoSources(struct soap* soap, struct _trt__GetVideoSources *trt__GetVideoSources, struct _trt__GetVideoSourcesResponse *trt__GetVideoSourcesResponse) {
     CHECK_LT(AuthUser(soap), 0, return 401);
 
-    cJSON* profiles_json = OnvifGetConfig("profiles");
+    cJSON* profiles_json = OnvifOperationGetConfig("profiles");
     CHECK_POINTER(profiles_json, return 500);
     CHECK_BOOL(cJSON_IsArray(profiles_json), return 500);
 
@@ -249,7 +249,7 @@ SOAP_FMAC5 int SOAP_FMAC6 __trt__GetVideoSources(struct soap* soap, struct _trt_
 SOAP_FMAC5 int SOAP_FMAC6 __trt__GetAudioSources(struct soap* soap, struct _trt__GetAudioSources *trt__GetAudioSources, struct _trt__GetAudioSourcesResponse *trt__GetAudioSourcesResponse) {
     CHECK_LT(AuthUser(soap), 0, return 401);
 
-    cJSON* profiles_json = OnvifGetConfig("profiles");
+    cJSON* profiles_json = OnvifOperationGetConfig("profiles");
     CHECK_POINTER(profiles_json, return 500);
     CHECK_BOOL(cJSON_IsArray(profiles_json), return 500);
 
@@ -281,7 +281,7 @@ SOAP_FMAC5 int SOAP_FMAC6 __trt__CreateProfile(struct soap* soap, struct _trt__C
 SOAP_FMAC5 int SOAP_FMAC6 __trt__GetProfile(struct soap* soap, struct _trt__GetProfile *trt__GetProfile, struct _trt__GetProfileResponse *trt__GetProfileResponse) {
     CHECK_LT(AuthUser(soap), 0, return 401);
 
-    cJSON* profiles_json = OnvifGetConfig("profiles");
+    cJSON* profiles_json = OnvifOperationGetConfig("profiles");
     CHECK_POINTER(profiles_json, return 500);
     CHECK_BOOL(cJSON_IsArray(profiles_json), return 500);
 
@@ -305,7 +305,7 @@ SOAP_FMAC5 int SOAP_FMAC6 __trt__GetProfile(struct soap* soap, struct _trt__GetP
 SOAP_FMAC5 int SOAP_FMAC6 __trt__GetProfiles(struct soap* soap, struct _trt__GetProfiles *trt__GetProfiles, struct _trt__GetProfilesResponse *trt__GetProfilesResponse) {
     CHECK_LT(AuthUser(soap), 0, return 401);
 
-    cJSON* profiles_json = OnvifGetConfig("profiles");
+    cJSON* profiles_json = OnvifOperationGetConfig("profiles");
     CHECK_POINTER(profiles_json, return 500);
     CHECK_BOOL(cJSON_IsArray(profiles_json), return 500);
 
@@ -421,7 +421,7 @@ SOAP_FMAC5 int SOAP_FMAC6 __trt__DeleteProfile(struct soap* soap, struct _trt__D
 SOAP_FMAC5 int SOAP_FMAC6 __trt__GetVideoSourceConfigurations(struct soap* soap, struct _trt__GetVideoSourceConfigurations *trt__GetVideoSourceConfigurations, struct _trt__GetVideoSourceConfigurationsResponse *trt__GetVideoSourceConfigurationsResponse) {
     CHECK_LT(AuthUser(soap), 0, return 401);
 
-    cJSON* profiles_json = OnvifGetConfig("profiles");
+    cJSON* profiles_json = OnvifOperationGetConfig("profiles");
     CHECK_POINTER(profiles_json, return 500);
     CHECK_BOOL(cJSON_IsArray(profiles_json), return 500);
 
@@ -449,7 +449,7 @@ SOAP_FMAC5 int SOAP_FMAC6 __trt__GetVideoEncoderConfigurations(struct soap* soap
 SOAP_FMAC5 int SOAP_FMAC6 __trt__GetAudioSourceConfigurations(struct soap* soap, struct _trt__GetAudioSourceConfigurations *trt__GetAudioSourceConfigurations, struct _trt__GetAudioSourceConfigurationsResponse *trt__GetAudioSourceConfigurationsResponse) {
     CHECK_LT(AuthUser(soap), 0, return 401);
 
-    cJSON* profiles_json = OnvifGetConfig("profiles");
+    cJSON* profiles_json = OnvifOperationGetConfig("profiles");
     CHECK_POINTER(profiles_json, return 500);
     CHECK_BOOL(cJSON_IsArray(profiles_json), return 500);
 
@@ -496,7 +496,7 @@ SOAP_FMAC5 int SOAP_FMAC6 __trt__GetAudioDecoderConfigurations(struct soap* soap
 SOAP_FMAC5 int SOAP_FMAC6 __trt__GetVideoSourceConfiguration(struct soap* soap, struct _trt__GetVideoSourceConfiguration *trt__GetVideoSourceConfiguration, struct _trt__GetVideoSourceConfigurationResponse *trt__GetVideoSourceConfigurationResponse) {
     CHECK_LT(AuthUser(soap), 0, return 401);
     
-    cJSON* profiles_json = OnvifGetConfig("profiles");
+    cJSON* profiles_json = OnvifOperationGetConfig("profiles");
     CHECK_POINTER(profiles_json, return 500);
     CHECK_BOOL(cJSON_IsArray(profiles_json), return 500);
 
@@ -555,7 +555,7 @@ SOAP_FMAC5 int SOAP_FMAC6 __trt__GetAudioDecoderConfiguration(struct soap* soap,
 SOAP_FMAC5 int SOAP_FMAC6 __trt__GetCompatibleVideoEncoderConfigurations(struct soap* soap, struct _trt__GetCompatibleVideoEncoderConfigurations *trt__GetCompatibleVideoEncoderConfigurations, struct _trt__GetCompatibleVideoEncoderConfigurationsResponse *trt__GetCompatibleVideoEncoderConfigurationsResponse) {
     CHECK_LT(AuthUser(soap), 0, return 401);
 
-    cJSON* profiles_json = OnvifGetConfig("profiles");
+    cJSON* profiles_json = OnvifOperationGetConfig("profiles");
     CHECK_POINTER(profiles_json, return 500);
     CHECK_BOOL(cJSON_IsArray(profiles_json), return 500);
 
@@ -633,7 +633,7 @@ SOAP_FMAC5 int SOAP_FMAC6 __trt__SetVideoEncoderConfiguration(struct soap* soap,
 
     CHECK_POINTER(trt__SetVideoEncoderConfiguration->Configuration, return 500);
     
-    cJSON* profiles_json = OnvifGetConfig("profiles");
+    cJSON* profiles_json = OnvifOperationGetConfig("profiles");
     CHECK_POINTER(profiles_json, return 500);
     CHECK_BOOL(cJSON_IsArray(profiles_json), return 500);
 
@@ -817,17 +817,29 @@ SOAP_FMAC5 int SOAP_FMAC6 __trt__GetGuaranteedNumberOfVideoEncoderInstances(stru
 /** Web service operation '__trt__GetStreamUri' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __trt__GetStreamUri(struct soap* soap, struct _trt__GetStreamUri *trt__GetStreamUri, struct _trt__GetStreamUriResponse *trt__GetStreamUriResponse) {
     CHECK_LT(AuthUser(soap), 0, return 401);
-    
-    // todo token查找校验
-    LOG_INFO("%s", trt__GetStreamUri->ProfileToken);
-    
-    trt__GetStreamUriResponse->MediaUri = (struct tt__MediaUri*)soap_malloc(soap, sizeof(struct tt__MediaUri));
-    memset(trt__GetStreamUriResponse->MediaUri, 0, sizeof(struct tt__MediaUri));
-    trt__GetStreamUriResponse->MediaUri->Uri = soap_strdup(soap, "rtsp://192.168.110.223/live/main_stream");
-    trt__GetStreamUriResponse->MediaUri->InvalidAfterConnect = xsd__boolean__true_;
-    trt__GetStreamUriResponse->MediaUri->InvalidAfterReboot  = xsd__boolean__true_;
-    trt__GetStreamUriResponse->MediaUri->Timeout = 0;
 
+    cJSON* profiles_json = OnvifOperationGetConfig("profiles");
+    CHECK_POINTER(profiles_json, return 500);
+    CHECK_BOOL(cJSON_IsArray(profiles_json), return 500);
+
+    for(int i = 0; i < cJSON_GetArraySize(profiles_json); i++) {
+        cJSON* profile_json = cJSON_GetArrayItem(profiles_json, i);
+        if (profile_json == NULL || !cJSON_IsObject(profile_json)) {
+            continue;
+        }
+
+        if (strcmp(trt__GetStreamUri->ProfileToken, cJSON_GetStringValue(cJSON_GetObjectItemCaseSensitive(profile_json, "token"))) == 0) {
+
+            trt__GetStreamUriResponse->MediaUri = (struct tt__MediaUri*)soap_malloc(soap, sizeof(struct tt__MediaUri));
+            memset(trt__GetStreamUriResponse->MediaUri, 0, sizeof(struct tt__MediaUri));
+            SOAP_CJSON_GET_STRING(profile_json, soap, "rtsp_url", trt__GetStreamUriResponse->MediaUri->Uri);
+            trt__GetStreamUriResponse->MediaUri->InvalidAfterConnect = xsd__boolean__true_;
+            trt__GetStreamUriResponse->MediaUri->InvalidAfterReboot  = xsd__boolean__true_;
+            trt__GetStreamUriResponse->MediaUri->Timeout = 0;
+
+            break;
+        }
+    }
     return 0;
 }
 /** Web service operation '__trt__StartMulticastStreaming' implementation, should return SOAP_OK or error code */
@@ -849,15 +861,28 @@ SOAP_FMAC5 int SOAP_FMAC6 __trt__SetSynchronizationPoint(struct soap* soap, stru
 SOAP_FMAC5 int SOAP_FMAC6 __trt__GetSnapshotUri(struct soap* soap, struct _trt__GetSnapshotUri *trt__GetSnapshotUri, struct _trt__GetSnapshotUriResponse *trt__GetSnapshotUriResponse) {
     CHECK_LT(AuthUser(soap), 0, return 401);
 
-    // todo token查找校验
-    LOG_INFO("%s", trt__GetSnapshotUri->ProfileToken);
+    cJSON* profiles_json = OnvifOperationGetConfig("profiles");
+    CHECK_POINTER(profiles_json, return 500);
+    CHECK_BOOL(cJSON_IsArray(profiles_json), return 500);
 
-    trt__GetSnapshotUriResponse->MediaUri = (struct tt__MediaUri*)soap_malloc(soap, sizeof(struct tt__MediaUri));
-    trt__GetSnapshotUriResponse->MediaUri->Uri = soap_strdup(soap, "http://192.168.110.223:8080/dev_api/get_snap");
-    trt__GetSnapshotUriResponse->MediaUri->InvalidAfterConnect = xsd__boolean__false_;
-    trt__GetSnapshotUriResponse->MediaUri->InvalidAfterReboot = xsd__boolean__false_;
-    trt__GetSnapshotUriResponse->MediaUri->Timeout = 0;
+    for(int i = 0; i < cJSON_GetArraySize(profiles_json); i++) {
+        cJSON* profile_json = cJSON_GetArrayItem(profiles_json, i);
+        if (profile_json == NULL || !cJSON_IsObject(profile_json)) {
+            continue;
+        }
 
+        if (strcmp(trt__GetSnapshotUri->ProfileToken, cJSON_GetStringValue(cJSON_GetObjectItemCaseSensitive(profile_json, "token"))) == 0) {
+
+            trt__GetSnapshotUriResponse->MediaUri = (struct tt__MediaUri*)soap_malloc(soap, sizeof(struct tt__MediaUri));
+            memset(trt__GetSnapshotUriResponse->MediaUri, 0, sizeof(struct tt__MediaUri));
+            SOAP_CJSON_GET_STRING(profile_json, soap, "snap_url", trt__GetSnapshotUriResponse->MediaUri->Uri);
+            trt__GetSnapshotUriResponse->MediaUri->InvalidAfterConnect = xsd__boolean__false_;
+            trt__GetSnapshotUriResponse->MediaUri->InvalidAfterReboot = xsd__boolean__false_;
+            trt__GetSnapshotUriResponse->MediaUri->Timeout = 0;
+
+            break;
+        }
+    }
     return 0;
 }
 /** Web service operation '__trt__GetVideoSourceModes' implementation, should return SOAP_OK or error code */

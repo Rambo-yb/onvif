@@ -1,4 +1,5 @@
 #include "soapStub.h"
+#if 0
 /** Web service operation '__trp__GetServiceCapabilities' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __trp__GetServiceCapabilities(struct soap* soap, struct _trp__GetServiceCapabilities *trp__GetServiceCapabilities, struct _trp__GetServiceCapabilitiesResponse *trp__GetServiceCapabilitiesResponse) {
     printf("%s:%d\n", __func__, __LINE__);
@@ -19,3 +20,4 @@ SOAP_FMAC5 int SOAP_FMAC6 __trp__SetReplayConfiguration(struct soap* soap, struc
     printf("%s:%d\n", __func__, __LINE__);
     return 0;
 }
+#endif

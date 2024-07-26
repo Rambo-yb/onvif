@@ -1,6 +1,7 @@
 #include "soapStub.h"
-#include "config.h"
+#include "onvif_operation.h"
 #include "check_common.h"
+#include "cjson_common.h"
 #include "soap_common.h"
 #include "auth.h"
 /** Web service operation '__tptz__GetServiceCapabilities' implementation, should return SOAP_OK or error code */
@@ -17,35 +18,71 @@ SOAP_FMAC5 int SOAP_FMAC6 __tptz__GetConfigurations(struct soap* soap, struct _t
 SOAP_FMAC5 int SOAP_FMAC6 __tptz__GetPresets(struct soap* soap, struct _tptz__GetPresets *tptz__GetPresets, struct _tptz__GetPresetsResponse *tptz__GetPresetsResponse) {
     CHECK_LT(AuthUser(soap), 0, return 401);
 
-    // todo token查找校验
-    LOG_INFO("%s", tptz__GetPresets->ProfileToken);
+    cJSON* profiles_json = OnvifOperationGetConfig("profiles");
+    CHECK_POINTER(profiles_json, return 500);
+    CHECK_BOOL(cJSON_IsArray(profiles_json), return 500);
 
-    tptz__GetPresetsResponse->__sizePreset = 2;
-    tptz__GetPresetsResponse->Preset = (struct tt__PTZPreset*)soap_malloc(soap, sizeof(struct tt__PTZPreset)*tptz__GetPresetsResponse->__sizePreset);
-    memset(tptz__GetPresetsResponse->Preset, 0, sizeof(struct tt__PTZPreset)*tptz__GetPresetsResponse->__sizePreset);
-    for (int i = 0; i < tptz__GetPresetsResponse->__sizePreset; i++) {
-        char buff[64] = {0};
-        snprintf(buff, sizeof(buff), "ptz_preset_%d_n", i);
-        tptz__GetPresetsResponse->Preset[i].Name = soap_strdup(soap, buff);
-        snprintf(buff, sizeof(buff), "ptz_preset_%d_t", i);
-        tptz__GetPresetsResponse->Preset[i].token = soap_strdup(soap, buff);
+    for(int i = 0; i < cJSON_GetArraySize(profiles_json); i++) {
+        cJSON* profile_json = cJSON_GetArrayItem(profiles_json, i);
+        if (profile_json == NULL || !cJSON_IsObject(profile_json)) {
+            continue;
+        }
+
+        if (strcmp(tptz__GetPresets->ProfileToken, cJSON_GetStringValue(cJSON_GetObjectItemCaseSensitive(profile_json, "token"))) == 0) {
+            cJSON* presets = cJSON_GetObjectItemCaseSensitive(profile_json, "presets");
+            if (profile_json == NULL || !cJSON_IsArray(presets)) {
+                break;
+            }
+
+            tptz__GetPresetsResponse->__sizePreset = cJSON_GetArraySize(presets);
+            tptz__GetPresetsResponse->Preset = (struct tt__PTZPreset*)soap_malloc(soap, sizeof(struct tt__PTZPreset)*tptz__GetPresetsResponse->__sizePreset);
+            memset(tptz__GetPresetsResponse->Preset, 0, sizeof(struct tt__PTZPreset)*tptz__GetPresetsResponse->__sizePreset);
+            for(int j = 0; j < tptz__GetPresetsResponse->__sizePreset; j++) {
+                cJSON* item = cJSON_GetArrayItem(presets, j);
+                if (item == NULL || !cJSON_IsObject(item)) {
+                    continue;
+                }
+
+                SOAP_CJSON_GET_STRING(item, soap, "token", tptz__GetPresetsResponse->Preset[j].token);
+                SOAP_CJSON_GET_STRING(item, soap, "name", tptz__GetPresetsResponse->Preset[j].Name);
+            }
+
+            break;
+        }
     }
 
     return 0;
 }
 /** Web service operation '__tptz__SetPreset' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __tptz__SetPreset(struct soap* soap, struct _tptz__SetPreset *tptz__SetPreset, struct _tptz__SetPresetResponse *tptz__SetPresetResponse) {
-    printf("%s:%d\n", __func__, __LINE__);
+    CHECK_LT(AuthUser(soap), 0, return 401);
+
+    OnvifPresets presets;
+    memset(&presets, 0, sizeof(OnvifPresets));
+    presets.type = ONVIF_PRESET_CTRL_ADD;
+    presets.preset_num = 1;
+    snprintf(presets.preset[0], sizeof(presets.preset[0]), "%s", tptz__SetPreset->PresetName);
+    OnvifOperationSetConfig("presets", &presets);
+
     return 0;
 }
 /** Web service operation '__tptz__RemovePreset' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __tptz__RemovePreset(struct soap* soap, struct _tptz__RemovePreset *tptz__RemovePreset, struct _tptz__RemovePresetResponse *tptz__RemovePresetResponse) {
-    printf("%s:%d\n", __func__, __LINE__);
+    CHECK_LT(AuthUser(soap), 0, return 401);
+
+    OnvifPresets presets;
+    memset(&presets, 0, sizeof(OnvifPresets));
+    presets.type = ONVIF_PRESET_CTRL_DEL;
+    presets.preset_num = 1;
+    snprintf(presets.preset[0], sizeof(presets.preset[0]), "%s", tptz__RemovePreset->PresetToken);
+    OnvifOperationSetConfig("presets", &presets);
     return 0;
 }
 /** Web service operation '__tptz__GotoPreset' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __tptz__GotoPreset(struct soap* soap, struct _tptz__GotoPreset *tptz__GotoPreset, struct _tptz__GotoPresetResponse *tptz__GotoPresetResponse) {
-    printf("%s:%d\n", __func__, __LINE__);
+    CHECK_LT(AuthUser(soap), 0, return 401);
+    
+    OnvifOperationPtzCtrl(ONVIF_PTZ_CTRL_PRESET, tptz__GotoPreset->PresetToken);
     return 0;
 }
 /** Web service operation '__tptz__GetStatus' implementation, should return SOAP_OK or error code */
@@ -79,7 +116,7 @@ SOAP_FMAC5 int SOAP_FMAC6 __tptz__GetConfiguration(struct soap* soap, struct _tp
 }
 static void GetNode(struct soap* soap, struct tt__PTZNode* ptz_node) {
     ptz_node->token = soap_strdup(soap, "default_ptz_node_token");
-    ptz_node->Name = soap_strdup(soap, "ptz_node_0_m");
+    ptz_node->Name = soap_strdup(soap, "ptz_node");
     SOAP_SET_NUMBER(soap, ptz_node->FixedHomePosition, sizeof(enum xsd__boolean), xsd__boolean__false_);
     SOAP_SET_NUMBER(soap, ptz_node->GeoMove, sizeof(enum xsd__boolean), xsd__boolean__false_);
     ptz_node->MaximumNumberOfPresets = 1;
@@ -89,24 +126,24 @@ static void GetNode(struct soap* soap, struct tt__PTZNode* ptz_node) {
     ptz_node->SupportedPTZSpaces->__sizeAbsolutePanTiltPositionSpace = 1;
     ptz_node->SupportedPTZSpaces->AbsolutePanTiltPositionSpace = (struct tt__Space2DDescription*)soap_malloc(soap, sizeof(struct tt__Space2DDescription)*ptz_node->SupportedPTZSpaces->__sizeAbsolutePanTiltPositionSpace);
     ptz_node->SupportedPTZSpaces->AbsolutePanTiltPositionSpace[0].URI = soap_strdup(soap, "http://www.onvif.org/ver10/tptz/PanTiltSpaces/PositionGenericSpace");
-    SOAP_SET_RANGE(soap, ptz_node->SupportedPTZSpaces->AbsolutePanTiltPositionSpace[0].XRange, sizeof(struct tt__FloatRange), -400, 400);
+    SOAP_SET_RANGE(soap, ptz_node->SupportedPTZSpaces->AbsolutePanTiltPositionSpace[0].XRange, sizeof(struct tt__FloatRange), -100, 100);
     SOAP_SET_RANGE(soap, ptz_node->SupportedPTZSpaces->AbsolutePanTiltPositionSpace[0].YRange, sizeof(struct tt__FloatRange), -100, 100);
 
     ptz_node->SupportedPTZSpaces->__sizeAbsoluteZoomPositionSpace = 1;
     ptz_node->SupportedPTZSpaces->AbsoluteZoomPositionSpace = (struct tt__Space1DDescription*)soap_malloc(soap, sizeof(struct tt__Space1DDescription)*ptz_node->SupportedPTZSpaces->__sizeAbsoluteZoomPositionSpace);
     ptz_node->SupportedPTZSpaces->AbsoluteZoomPositionSpace[0].URI = soap_strdup(soap, "http://www.onvif.org/ver10/tptz/ZoomSpaces/PositionGenericSpace");
-    SOAP_SET_RANGE(soap, ptz_node->SupportedPTZSpaces->AbsoluteZoomPositionSpace[0].XRange, sizeof(struct tt__FloatRange), -200, 200);
+    SOAP_SET_RANGE(soap, ptz_node->SupportedPTZSpaces->AbsoluteZoomPositionSpace[0].XRange, sizeof(struct tt__FloatRange), -100, 100);
 
     ptz_node->SupportedPTZSpaces->__sizeRelativePanTiltTranslationSpace = 1;
     ptz_node->SupportedPTZSpaces->RelativePanTiltTranslationSpace = (struct tt__Space2DDescription*)soap_malloc(soap, sizeof(struct tt__Space2DDescription)*ptz_node->SupportedPTZSpaces->__sizeRelativePanTiltTranslationSpace);
     ptz_node->SupportedPTZSpaces->RelativePanTiltTranslationSpace[0].URI = soap_strdup(soap, "http://www.onvif.org/ver10/tptz/PanTiltSpaces/TranslationGenericSpace");
-    SOAP_SET_RANGE(soap, ptz_node->SupportedPTZSpaces->RelativePanTiltTranslationSpace[0].XRange, sizeof(struct tt__FloatRange), -300, 300);
-    SOAP_SET_RANGE(soap, ptz_node->SupportedPTZSpaces->RelativePanTiltTranslationSpace[0].YRange, sizeof(struct tt__FloatRange), -50, 50);
+    SOAP_SET_RANGE(soap, ptz_node->SupportedPTZSpaces->RelativePanTiltTranslationSpace[0].XRange, sizeof(struct tt__FloatRange), -100, 100);
+    SOAP_SET_RANGE(soap, ptz_node->SupportedPTZSpaces->RelativePanTiltTranslationSpace[0].YRange, sizeof(struct tt__FloatRange), -100, 100);
 
     ptz_node->SupportedPTZSpaces->__sizeRelativeZoomTranslationSpace = 1;
     ptz_node->SupportedPTZSpaces->RelativeZoomTranslationSpace = (struct tt__Space1DDescription*)soap_malloc(soap, sizeof(struct tt__Space1DDescription)*ptz_node->SupportedPTZSpaces->__sizeAbsoluteZoomPositionSpace);
     ptz_node->SupportedPTZSpaces->RelativeZoomTranslationSpace[0].URI = soap_strdup(soap, "http://www.onvif.org/ver10/tptz/ZoomSpaces/TranslationGenericSpace");
-    SOAP_SET_RANGE(soap, ptz_node->SupportedPTZSpaces->RelativeZoomTranslationSpace[0].XRange, sizeof(struct tt__FloatRange), -300, 300);
+    SOAP_SET_RANGE(soap, ptz_node->SupportedPTZSpaces->RelativeZoomTranslationSpace[0].XRange, sizeof(struct tt__FloatRange), -100, 100);
 
 }
 /** Web service operation '__tptz__GetNodes' implementation, should return SOAP_OK or error code */
@@ -145,12 +182,20 @@ SOAP_FMAC5 int SOAP_FMAC6 __tptz__GetConfigurationOptions(struct soap* soap, str
 }
 /** Web service operation '__tptz__GotoHomePosition' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __tptz__GotoHomePosition(struct soap* soap, struct _tptz__GotoHomePosition *tptz__GotoHomePosition, struct _tptz__GotoHomePositionResponse *tptz__GotoHomePositionResponse) {
-    printf("%s:%d\n", __func__, __LINE__);
+    CHECK_LT(AuthUser(soap), 0, return 401);
+    
+    OnvifOperationPtzCtrl(ONVIF_PTZ_CTRL_HOME, NULL);
     return 0;
 }
 /** Web service operation '__tptz__SetHomePosition' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __tptz__SetHomePosition(struct soap* soap, struct _tptz__SetHomePosition *tptz__SetHomePosition, struct _tptz__SetHomePositionResponse *tptz__SetHomePositionResponse) {
-    printf("%s:%d\n", __func__, __LINE__);
+    CHECK_LT(AuthUser(soap), 0, return 401);
+
+    OnvifPresets presets;
+    memset(&presets, 0, sizeof(OnvifPresets));
+    presets.type = ONVIF_PRESET_CTRL_SET_HOME;
+    presets.preset_num = 0;
+    OnvifOperationSetConfig("presets", &presets);
     return 0;
 }
 /** Web service operation '__tptz__ContinuousMove' implementation, should return SOAP_OK or error code */
@@ -160,10 +205,20 @@ SOAP_FMAC5 int SOAP_FMAC6 __tptz__ContinuousMove(struct soap* soap, struct _tptz
 }
 /** Web service operation '__tptz__RelativeMove' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __tptz__RelativeMove(struct soap* soap, struct _tptz__RelativeMove *tptz__RelativeMove, struct _tptz__RelativeMoveResponse *tptz__RelativeMoveResponse) {
-    printf("%s:%d\n", __func__, __LINE__);
-    LOG_INFO("%s", tptz__RelativeMove->ProfileToken);
+    CHECK_LT(AuthUser(soap), 0, return 401);
+
     if (tptz__RelativeMove->Translation != NULL && tptz__RelativeMove->Translation->PanTilt != NULL) {
-        LOG_INFO("%s, %f, %f", tptz__RelativeMove->Translation->PanTilt->space, tptz__RelativeMove->Translation->PanTilt->x, tptz__RelativeMove->Translation->PanTilt->y);
+        // LOG_INFO("%s, %f, %f", tptz__RelativeMove->Translation->PanTilt->space, tptz__RelativeMove->Translation->PanTilt->x, tptz__RelativeMove->Translation->PanTilt->y);
+        if (tptz__RelativeMove->Translation->PanTilt->x < 0) {
+            OnvifOperationPtzCtrl(ONVIF_PTZ_CTRL_LEFT, NULL);
+        } else if (tptz__RelativeMove->Translation->PanTilt->x > 0) {
+            OnvifOperationPtzCtrl(ONVIF_PTZ_CTRL_RIGHT, NULL);
+        }
+        if (tptz__RelativeMove->Translation->PanTilt->y < 0) {
+            OnvifOperationPtzCtrl(ONVIF_PTZ_CTRL_DOWN, NULL);
+        } else if (tptz__RelativeMove->Translation->PanTilt->y > 0) {
+            OnvifOperationPtzCtrl(ONVIF_PTZ_CTRL_UP, NULL);
+        }
     }
     if (tptz__RelativeMove->Translation != NULL && tptz__RelativeMove->Translation->Zoom != NULL) {
         LOG_INFO("%s, %f", tptz__RelativeMove->Translation->Zoom->space, tptz__RelativeMove->Translation->Zoom->x);

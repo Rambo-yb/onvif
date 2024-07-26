@@ -1,4 +1,5 @@
 #include "soapStub.h"
+#if 0
 /** Web service operation '__ns1__GetServiceCapabilities' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __ns1__GetServiceCapabilities(struct soap* soap, struct _ns1__GetServiceCapabilities *ns1__GetServiceCapabilities, struct _ns1__GetServiceCapabilitiesResponse *ns1__GetServiceCapabilitiesResponse) {
     printf("%s:%d\n", __func__, __LINE__);
@@ -239,3 +240,4 @@ SOAP_FMAC5 int SOAP_FMAC6 __ns1__SetWebRTCConfigurations(struct soap* soap, stru
     printf("%s:%d\n", __func__, __LINE__);
     return 0;
 }
+#endif

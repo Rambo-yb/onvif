@@ -1,6 +1,8 @@
 #include "soapStub.h"
+#include "soapH.h"
 #include "log.h"
 #include "check_common.h"
+#include "cJSON.h"
 #include "soap_common.h"
 #include "auth.h"
 
@@ -14,36 +16,50 @@ SOAP_FMAC5 int SOAP_FMAC6 __tev__PullMessages(struct soap* soap, struct _tev__Pu
 
     tev__PullMessagesResponse->CurrentTime = time(NULL);
     tev__PullMessagesResponse->TerminationTime = kTerminationTime;
-    sleep(5);
 
-    tev__PullMessagesResponse->__sizeNotificationMessage = 1;
+    cJSON* json = NULL;
+    if (OnvifOperationGetEventInfo(&json, tev__PullMessages->Timeout) < 0 || json == NULL) {
+        return 0;
+    }
+
+    tev__PullMessagesResponse->__sizeNotificationMessage = cJSON_GetArraySize(json);
     tev__PullMessagesResponse->wsnt__NotificationMessage = soap_malloc(soap, sizeof(struct wsnt__NotificationMessageHolderType)*tev__PullMessagesResponse->__sizeNotificationMessage);
     memset(tev__PullMessagesResponse->wsnt__NotificationMessage, 0, sizeof(struct wsnt__NotificationMessageHolderType)*tev__PullMessagesResponse->__sizeNotificationMessage);
-    tev__PullMessagesResponse->wsnt__NotificationMessage[0].Topic = soap_malloc(soap, sizeof(struct wsnt__TopicExpressionType));
-    tev__PullMessagesResponse->wsnt__NotificationMessage[0].Topic->Dialect = soap_strdup(soap, "http://www.onvif.org/ver10/tev/topicExpression/ConcreteSet");
-    tev__PullMessagesResponse->wsnt__NotificationMessage[0].Topic->__mixed = soap_strdup(soap, "tns1:RuleEngine/LineDetector/Crossed");
-    tev__PullMessagesResponse->wsnt__NotificationMessage[0].Message.tt__Message = soap_malloc(soap, sizeof(struct _tt__Message));
-    memset(tev__PullMessagesResponse->wsnt__NotificationMessage[0].Message.tt__Message, 0, sizeof(struct _tt__Message));
-    tev__PullMessagesResponse->wsnt__NotificationMessage[0].Message.tt__Message->UtcTime = time(NULL);
-    tev__PullMessagesResponse->wsnt__NotificationMessage[0].Message.tt__Message->Source = soap_malloc(soap, sizeof(struct tt__ItemList));
-    memset(tev__PullMessagesResponse->wsnt__NotificationMessage[0].Message.tt__Message->Source, 0, sizeof(struct tt__ItemList));
-    tev__PullMessagesResponse->wsnt__NotificationMessage[0].Message.tt__Message->Source->__sizeSimpleItem = 3;
-    tev__PullMessagesResponse->wsnt__NotificationMessage[0].Message.tt__Message->Source->SimpleItem = soap_malloc(soap, sizeof(struct _tt__ItemList_SimpleItem)*3);
-    memset(tev__PullMessagesResponse->wsnt__NotificationMessage[0].Message.tt__Message->Source->SimpleItem, 0, sizeof(struct _tt__ItemList_SimpleItem)*3);
-    tev__PullMessagesResponse->wsnt__NotificationMessage[0].Message.tt__Message->Source->SimpleItem[0].Name = soap_strdup(soap, "VideoSource");
-    tev__PullMessagesResponse->wsnt__NotificationMessage[0].Message.tt__Message->Source->SimpleItem[0].Value = soap_strdup(soap, "1");
-    tev__PullMessagesResponse->wsnt__NotificationMessage[0].Message.tt__Message->Source->SimpleItem[1].Name = soap_strdup(soap, "AnalyticsConfiguration");
-    tev__PullMessagesResponse->wsnt__NotificationMessage[0].Message.tt__Message->Source->SimpleItem[1].Value = soap_strdup(soap, "2");
-    tev__PullMessagesResponse->wsnt__NotificationMessage[0].Message.tt__Message->Source->SimpleItem[2].Name = soap_strdup(soap, "Rule");
-    tev__PullMessagesResponse->wsnt__NotificationMessage[0].Message.tt__Message->Source->SimpleItem[2].Value = soap_strdup(soap, "MyImportantFencel");
-    tev__PullMessagesResponse->wsnt__NotificationMessage[0].Message.tt__Message->Data = soap_malloc(soap, sizeof(struct tt__ItemList));
-    memset(tev__PullMessagesResponse->wsnt__NotificationMessage[0].Message.tt__Message->Data, 0, sizeof(struct tt__ItemList));
-    tev__PullMessagesResponse->wsnt__NotificationMessage[0].Message.tt__Message->Data->__sizeSimpleItem = 1;
-    tev__PullMessagesResponse->wsnt__NotificationMessage[0].Message.tt__Message->Data->SimpleItem = soap_malloc(soap, sizeof(struct _tt__ItemList_SimpleItem));
-    memset(tev__PullMessagesResponse->wsnt__NotificationMessage[0].Message.tt__Message->Data->SimpleItem, 0, sizeof(struct _tt__ItemList_SimpleItem));
-    tev__PullMessagesResponse->wsnt__NotificationMessage[0].Message.tt__Message->Data->SimpleItem[0].Name = soap_strdup(soap, "ObjectId");
-    tev__PullMessagesResponse->wsnt__NotificationMessage[0].Message.tt__Message->Data->SimpleItem[0].Value = soap_strdup(soap, "15");
+    for (int i = 0; i < tev__PullMessagesResponse->__sizeNotificationMessage; i++) {
+        cJSON* item = cJSON_GetArrayItem(json, i);
+        CHECK_POINTER(item, continue);
 
+        tev__PullMessagesResponse->wsnt__NotificationMessage[i].Topic = soap_malloc(soap, sizeof(struct wsnt__TopicExpressionType));
+        tev__PullMessagesResponse->wsnt__NotificationMessage[i].Topic->Dialect = soap_strdup(soap, "http://www.onvif.org/ver10/tev/topicExpression/ConcreteSet");
+        SOAP_CJSON_GET_STRING(item, soap, "type", tev__PullMessagesResponse->wsnt__NotificationMessage[i].Topic->__mixed);
+
+        tev__PullMessagesResponse->wsnt__NotificationMessage[i].Message.tt__Message = soap_malloc(soap, sizeof(struct _tt__Message));
+        memset(tev__PullMessagesResponse->wsnt__NotificationMessage[i].Message.tt__Message, 0, sizeof(struct _tt__Message));
+        tev__PullMessagesResponse->wsnt__NotificationMessage[i].Message.tt__Message->UtcTime = time(NULL);
+
+        tev__PullMessagesResponse->wsnt__NotificationMessage[i].Message.tt__Message->Source = soap_malloc(soap, sizeof(struct tt__ItemList));
+        memset(tev__PullMessagesResponse->wsnt__NotificationMessage[i].Message.tt__Message->Source, 0, sizeof(struct tt__ItemList));
+        tev__PullMessagesResponse->wsnt__NotificationMessage[i].Message.tt__Message->Source->__sizeSimpleItem = 1;
+        tev__PullMessagesResponse->wsnt__NotificationMessage[i].Message.tt__Message->Source->SimpleItem = soap_malloc(soap, sizeof(struct _tt__ItemList_SimpleItem));
+        memset(tev__PullMessagesResponse->wsnt__NotificationMessage[i].Message.tt__Message->Source->SimpleItem, 0, sizeof(struct _tt__ItemList_SimpleItem));
+        SOAP_CJSON_GET_STRING(item, soap, "type", tev__PullMessagesResponse->wsnt__NotificationMessage[i].Message.tt__Message->Source->SimpleItem[0].Name);
+
+        char* buff = cJSON_PrintUnformatted(item);
+        if (buff != NULL) {
+            tev__PullMessagesResponse->wsnt__NotificationMessage[i].Message.tt__Message->Source->SimpleItem[0].Value = soap_strdup(soap, buff);
+            free(buff);
+        }
+        
+        // tev__PullMessagesResponse->wsnt__NotificationMessage[i].Message.tt__Message->Data = soap_malloc(soap, sizeof(struct tt__ItemList));
+        // memset(tev__PullMessagesResponse->wsnt__NotificationMessage[i].Message.tt__Message->Data, 0, sizeof(struct tt__ItemList));
+        // tev__PullMessagesResponse->wsnt__NotificationMessage[i].Message.tt__Message->Data->__sizeSimpleItem = 1;
+        // tev__PullMessagesResponse->wsnt__NotificationMessage[i].Message.tt__Message->Data->SimpleItem = soap_malloc(soap, sizeof(struct _tt__ItemList_SimpleItem));
+        // memset(tev__PullMessagesResponse->wsnt__NotificationMessage[i].Message.tt__Message->Data->SimpleItem, 0, sizeof(struct _tt__ItemList_SimpleItem));
+        // tev__PullMessagesResponse->wsnt__NotificationMessage[i].Message.tt__Message->Data->SimpleItem[0].Name = soap_strdup(soap, "ObjectId");
+        // tev__PullMessagesResponse->wsnt__NotificationMessage[i].Message.tt__Message->Data->SimpleItem[0].Value = soap_strdup(soap, "15");
+    }
+
+    cJSON_free(json);
     return 0;
 }
 /** Web service operation '__tev__Seek' implementation, should return SOAP_OK or error code */
@@ -72,14 +88,15 @@ SOAP_FMAC5 int SOAP_FMAC6 __tev__GetServiceCapabilities(struct soap* soap, struc
 SOAP_FMAC5 int SOAP_FMAC6 __tev__CreatePullPointSubscription(struct soap* soap, struct _tev__CreatePullPointSubscription *tev__CreatePullPointSubscription, struct _tev__CreatePullPointSubscriptionResponse *tev__CreatePullPointSubscriptionResponse) {
     CHECK_LT(AuthUser(soap), 0, return 401);
     
-    LOG_INFO("InitialTerminationTime:%s", tev__CreatePullPointSubscription->InitialTerminationTime);
+    LONG64 termination_time_ms = 0;
+    soap_s2xsd__duration(soap, tev__CreatePullPointSubscription->InitialTerminationTime, &termination_time_ms);
 
     soap->header->wsa__Action = soap_strdup(soap, "http://www.onvif.org/ver10/events/wsdl/EventPortType/CreatePullPointSubscriptionResponse");
 
     memset(tev__CreatePullPointSubscriptionResponse, 0, sizeof(struct wsa5__EndpointReferenceType));
     tev__CreatePullPointSubscriptionResponse->SubscriptionReference.Address = soap_strdup(soap, "http://192.168.110.223:3334/Subscription?Idx=0");
     tev__CreatePullPointSubscriptionResponse->wsnt__CurrentTime = time(NULL);
-    kTerminationTime = time(NULL) + 600;
+    kTerminationTime = time(NULL) + termination_time_ms/1000;
     tev__CreatePullPointSubscriptionResponse->wsnt__TerminationTime = kTerminationTime;
 
     return 0;
@@ -145,7 +162,10 @@ SOAP_FMAC5 int SOAP_FMAC6 __tev__GetEventBrokers(struct soap* soap, struct _tev_
 SOAP_FMAC5 int SOAP_FMAC6 __tev__Renew(struct soap* soap, struct _wsnt__Renew *wsnt__Renew, struct _wsnt__RenewResponse *wsnt__RenewResponse) {
     CHECK_LT(AuthUser(soap), 0, return 401);
     
-    kTerminationTime = time(NULL)+60;
+    LONG64 termination_time_ms = 0;
+    soap_s2xsd__duration(soap, wsnt__Renew->TerminationTime, &termination_time_ms);
+
+    kTerminationTime = time(NULL) + termination_time_ms / 1000;
     wsnt__RenewResponse->TerminationTime = kTerminationTime;
     SOAP_SET_NUMBER(soap, wsnt__RenewResponse->CurrentTime, sizeof(time_t), time(NULL));
     return 0;

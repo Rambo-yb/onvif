@@ -4,7 +4,7 @@
 #include "wsseapi.h"
 #include "auth.h"
 #include "soapH.h"
-#include "config.h"
+#include "onvif_operation.h"
 #include "log.h"
 #include "cjson_common.h"
 #include "check_common.h"
@@ -20,7 +20,7 @@ int AuthUser(struct soap *soap) {
         return -1;
     }
 
-    cJSON* users_json = OnvifGetConfig("users");
+    cJSON* users_json = OnvifOperationGetConfig("users");
     CHECK_POINTER(users_json, return -1);
     CHECK_BOOL(cJSON_IsArray(users_json), return -1);
 
