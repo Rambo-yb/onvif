@@ -71,6 +71,9 @@ void OnvifOperationGetDevInfo(OnvifOperationDeviceInfo* device_info){
 }
 
 static int OnvifOperationGetProfiles(cJSON** json) {
+    CHECK_POINTER(json, return -1);
+    CHECK_POINTER(kOnvifOperationMng.oper_cb, return -1);
+
     cJSON* new_json = NULL;
     cJSON* new_json_ = NULL;
     cJSON* new_arr_json = NULL;
@@ -184,19 +187,25 @@ void* OnvifOperationGetConfig(const char* type) {
 }
 
 static int OnvifOperationSetProfiles(cJSON* json) {
+    // todo
     return 0;
 }
 
 void OnvifOperationSetConfig(const char* type, void* arg) {
-    if (kOnvifOperationMng.oper_cb != NULL) {
+    CHECK_POINTER(kOnvifOperationMng.oper_cb, return );
+
+    if (strcmp(type, "profiles") == 0) {
+        OnvifOperationSetProfiles(arg);
+    } else {
         kOnvifOperationMng.oper_cb(ONVIF_OPER_SET_CONFIG, (void*)type, arg);
     }
+
 }
 
 void OnvifOperationPtzCtrl(OnvifPtzCtrlType type, char* arg) {
-    if (kOnvifOperationMng.oper_cb != NULL) {
-        kOnvifOperationMng.oper_cb(ONVIF_OPER_PTZ_CTRL, &type, arg);
-    }
+    CHECK_POINTER(kOnvifOperationMng.oper_cb, return );
+
+    kOnvifOperationMng.oper_cb(ONVIF_OPER_PTZ_CTRL, &type, arg);
 }
 
 void OnvifOperationEventUpload(OnvifEventInfo* info) {
