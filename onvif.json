@@ -5,14 +5,16 @@
 		"level":0
 	}],
 	"profiles":[{
-		"token":"default_profile_token",
-		"name":"default_profile_name",
+		"rtsp_url":"rtsp://192.168.110.223:554/live/main_stream",
+		"snap_url":"http://192.168.110.223:8080/get_snap",
+		"token":"profile_token",
+		"name":"profile_name",
 		"fixed":1,
 		"video_source":{
-			"token":"default_video_source_token",
-			"name":"default_video_source_name",
+			"token":"video_source_token",
+			"name":"video_source_name",
 			"use_count":1,
-			"source_token":"default_video_token",
+			"source_token":"video_token",
 			"bounds":{
 				"x":0,
 				"y":0,
@@ -21,16 +23,16 @@
 			}
 		},
 		"audio_source":{
-			"token":"default_audio_source_token",
-			"name":"default_audio_source_name",
+			"token":"audio_source_token",
+			"name":"audio_source_name",
 			"use_count":1,
-			"source_token":"default_audio_token",
+			"source_token":"audio_token",
 			"channels":1
 		},
 		"use_video_encoder_index":0,
 		"compatible_video_encoder":[{
-			"token":"default_video_encoder_token",
-			"name":"default_video_encoder_name",
+			"token":"video_encoder_token",
+			"name":"video_encoder_name",
 			"use_count":1,
 			"encoding":2,
 			"guaranteed_frame_rate":0,
@@ -52,8 +54,8 @@
 		}],
 		"use_audio_encoder_index":0,
 		"compatible_audio_encoder":[{
-			"token":"default_audio_encoder_token",
-			"name":"default_audio_encoder_name",
+			"token":"audio_encoder_token",
+			"name":"audio_encoder_name",
 			"use_count":1,
 			"encoding":2,
 			"bitrate":2048,
@@ -62,18 +64,11 @@
 		}],
 		"use_ptz_index":0,
 		"compatible_ptz":[{
-			"token":"default_ptz_token",
-			"name":"default_ptz_name",
+			"token":"ptz_token",
+			"name":"ptz_name",
 			"use_count":1,
-			"node_token":"default_ptz_node_token",
+			"node_token":"ptz_node_token",
 			"ptz_timeout":10000
-		}],
-		"presets":[{
-			"name":"default_ptz_presets_name_0",
-			"token":"default_ptz_presets_token_0"
-		},{
-			"name":"default_ptz_presets_name_1",
-			"token":"default_ptz_presets_token_1"
 		}]
 	}],
 	"network":{

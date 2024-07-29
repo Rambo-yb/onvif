@@ -47,11 +47,136 @@ end:
     return NULL;
 }
 
+static cJSON* OnvifOperationDefaultConfigUsers() {
+    cJSON* users_json = cJSON_CreateArray();
+    CHECK_POINTER(users_json, return NULL);
+
+    cJSON* user_json = cJSON_CreateObject();
+    CHECK_POINTER(users_json, goto end);
+
+    CJSON_SET_STRING(user_json, "username", "admin", goto end);
+    CJSON_SET_STRING(user_json, "password", "123456", goto end);
+    CJSON_SET_NUMBER(user_json, "level", 0, goto end);
+    CHECK_BOOL(cJSON_AddItemToArray(users_json, user_json), goto end);
+
+    return users_json;
+end:
+    if (user_json) {
+        cJSON_free(user_json);
+    }
+    if (users_json) {
+        cJSON_free(users_json);
+    }
+    return NULL;
+}
+
+static cJSON* OnvifOperationDefaultConfigProfile() {
+    cJSON* new_json = NULL;
+    cJSON* new_json_ = NULL;
+    cJSON* new_arr_json = NULL;
+    cJSON* profile_json = NULL;
+    cJSON* profiles_json = cJSON_CreateArray();
+    CHECK_POINTER(profiles_json, return NULL);
+
+    profile_json = cJSON_CreateObject();
+    CHECK_POINTER(profile_json, goto end);
+
+    CJSON_SET_STRING(profile_json, "rtsp_url", "rtsp://192.168.110.223:554/live/main_stream", goto end);
+    CJSON_SET_STRING(profile_json, "snap_url", "", goto end);
+
+    CJSON_SET_STRING(profile_json, "token", "media_token", goto end);
+    CJSON_SET_STRING(profile_json, "name", "media_name", goto end);
+    CJSON_SET_NUMBER(profile_json, "fixed", 1, goto end);
+
+    OnvifVideoEncoder video_enc = {.encoding = ONVIF_VIDEO_ENCODING_H264, .resolution_width = 640, .resolution_height = 512, .gov_length = 25, .profile = ONVIF_H264_MAIN};
+    CHECK_LT(StructToCjsonVideoEncoder(&video_enc, &new_json, &new_json_), 0, goto end);
+
+    CJSON_SET_NUMBER(profile_json, "use_video_encoder_index", 0, goto end);
+    CHECK_BOOL(cJSON_AddItemToObject(profile_json, "video_source", new_json_), goto end);
+    new_arr_json = cJSON_CreateArray();
+    CHECK_POINTER(new_arr_json, goto end);
+    CHECK_BOOL(cJSON_AddItemToArray(new_arr_json, new_json), goto end);
+    CHECK_BOOL(cJSON_AddItemToObject(profile_json, "compatible_video_encoder", new_arr_json), goto end);
+    new_arr_json = NULL;
+    new_json_ = NULL;
+    new_json = NULL;
+
+    OnvifAudioEncoder audio_enc = {.channels = 1, .encoding = ONVIF_AUDIO_ENCODING_G711, .sample_rate = 16000, .bitrate = 1024};
+    CHECK_LT(StructToCjsonAudioEncoder(&audio_enc, &new_json, &new_json_), 0, goto end);
+
+    CJSON_SET_NUMBER(profile_json, "use_audio_encoder_index", 0, goto end);
+    CHECK_BOOL(cJSON_AddItemToObject(profile_json, "audio_source", new_json_), goto end);
+    new_arr_json = cJSON_CreateArray();
+    CHECK_POINTER(new_arr_json, goto end);
+    CHECK_BOOL(cJSON_AddItemToArray(new_arr_json, new_json), goto end);
+    CHECK_BOOL(cJSON_AddItemToObject(profile_json, "compatible_audio_encoder", new_arr_json), goto end);
+    new_arr_json = NULL;
+    new_json_ = NULL;
+    new_json = NULL;
+
+    // ptz
+    new_arr_json = cJSON_CreateArray();
+    CHECK_POINTER(new_arr_json, goto end);
+    for(int j = 0; j < 1; j++) {
+        new_json = cJSON_CreateObject();
+        CHECK_POINTER(new_json, goto end);
+
+        CJSON_SET_STRING(new_json, "token", "ptz_token", goto end);
+        CJSON_SET_STRING(new_json, "name", "ptz_name", goto end);
+        CJSON_SET_STRING(new_json, "node_token", "ptz_node", goto end);
+
+        CJSON_SET_NUMBER(new_json, "use_count", 1, goto end);          
+        CJSON_SET_NUMBER(new_json, "ptz_timeout", 10*1000, goto end);
+
+        CHECK_BOOL(cJSON_AddItemToArray(new_arr_json, new_json), goto end);
+        new_json = NULL;
+    }
+    CJSON_SET_NUMBER(profile_json, "use_ptz_index", 0, goto end);
+    CHECK_BOOL(cJSON_AddItemToObject(profile_json, "compatible_ptz", new_arr_json), goto end);
+    new_arr_json = NULL;
+
+    CHECK_BOOL(cJSON_AddItemToArray(profiles_json, profile_json), goto end);
+
+    return profiles_json;
+end:
+    if (new_json_ != NULL) {
+        cJSON_free(new_json_);
+    }
+    if (new_json != NULL) {
+        cJSON_free(new_json);
+    }
+    if (new_arr_json != NULL) {
+        cJSON_free(new_arr_json);
+    }
+    if (profile_json != NULL) {
+        cJSON_free(profile_json);
+    }
+    if (profiles_json != NULL) {
+        cJSON_free(profiles_json);
+    }
+    return NULL;
+}
+
+static int OnvifOperationDefaultConfig() {
+    kOnvifOperationMng.all_config = cJSON_CreateObject();
+    CHECK_POINTER(kOnvifOperationMng.all_config, return -1);
+
+    CHECK_BOOL(cJSON_AddItemToObject(kOnvifOperationMng.all_config, "users", OnvifOperationDefaultConfigUsers()), );
+    CHECK_BOOL(cJSON_AddItemToObject(kOnvifOperationMng.all_config, "profiles", OnvifOperationDefaultConfigProfile()), );
+
+    return 0;
+}
+
 int OnvifOperationInit(OnvifOperationDeviceInfo device_info, OnvifOperCb cb) {
     kOnvifOperationMng.event_list = ListCreate();
     CHECK_POINTER(kOnvifOperationMng.event_list, return -1;)
 
     kOnvifOperationMng.all_config = OnvifOperationLoadFile("/root/onvif.json");
+    if (kOnvifOperationMng.all_config == NULL) {
+        LOG_WRN("load onvif.json fail, use memory config !");
+        OnvifOperationDefaultConfig();
+    }
+
     kOnvifOperationMng.oper_cb = cb;
     memcpy(&kOnvifOperationMng.device_info, &device_info, sizeof(OnvifOperationDeviceInfo));
 

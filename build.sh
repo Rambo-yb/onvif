@@ -133,12 +133,15 @@ build_main()
     mkdir build
     cd $CUR_DIR/build
     cmake .. -DCMAKE_C_COMPILER=${HOST}-gcc -DCMAKE_CXX_COMPILER=${HOST}-g++ -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR}/onvif
-    make
-    make install
+    make && make install
+    exit 1
 }
 
 build_lib()
 {
+    cd $CUR_DIR
+    mkdir -p $INSTALL_DIR/onvif/conf
+    cp -raf onvif.json $INSTALL_DIR/onvif/conf
     cd $CUR_DIR/_install/openssl
     cp -raf ./lib/*.a $INSTALL_DIR/onvif/lib/
     cp -raf ./lib/*.so* $INSTALL_DIR/onvif/lib/
