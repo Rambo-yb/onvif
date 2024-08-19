@@ -110,7 +110,7 @@ int main(int argc, char** argv) {
     snprintf(dev_info.serial_num, sizeof(dev_info.serial_num), "1234567891234560");
     snprintf(dev_info.firmware_ver, sizeof(dev_info.firmware_ver), "v1.0.9");
     snprintf(dev_info.hardware_ver, sizeof(dev_info.hardware_ver), "1.0");
-    snprintf(dev_info.rtsp_url, sizeof(dev_info.rtsp_url), "rtsp://192.168.110.223:554/mainstream");
+    snprintf(dev_info.rtsp_url, sizeof(dev_info.rtsp_url), "rtsp://192.168.110.223:554/live/main_stream");
     snprintf(dev_info.snap_url, sizeof(dev_info.snap_url), "http://192.168.110.223:8080/dev_api/get_snap");
     OnvifInit(addr, dev_info, Cb);
 

@@ -9,6 +9,7 @@
 #include "onvif_operation.h"
 #include "log.h"
 
+#define ONVIF_LIB_VERSION ("V1.0.0")
 #define MULTICAST_ADDR ("239.255.255.250")
 #define MULTICAST_PORT (3702)
 #define WEB_SERVER_PORT (3333)
@@ -140,6 +141,7 @@ int OnvifInit(char* addr, OnvifDevInfo dev_info, OnvifOperCb func) {
 	pthread_create(&kOnvifMng.web_server_id, NULL, OnvifWebServerProc, NULL);
 	pthread_create(&kOnvifMng.event_msg_id, NULL, OnvifEventMessageProc, NULL);
 
+    LOG_INFO("onvif init success! ver:%s", ONVIF_LIB_VERSION);
     return 0;
 }
 

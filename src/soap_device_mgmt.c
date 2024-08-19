@@ -229,7 +229,7 @@ SOAP_FMAC5 int SOAP_FMAC6 __tds__GetScopes(struct soap* soap, struct _tds__GetSc
         {.def = tt__ScopeDefinition__Configurable, .scope = "onvif://www.onvif.org/Profile/Streaming"},
         // {.def = tt__ScopeDefinition__Configurable, .scope = "onvif://www.onvif.org/Profile/Q/Operational"},
         // {.def = tt__ScopeDefinition__Configurable, .scope = "onvif://www.onvif.org/hardware/HD720P"},
-        {.def = tt__ScopeDefinition__Fixed, .scope = "onvif://www.onvif.org/name/yuanbo_device"},
+        {.def = tt__ScopeDefinition__Fixed, .scope = "onvif://www.onvif.org/name/hwqj_device"},
         {.def = tt__ScopeDefinition__Configurable, .scope = "onvif://www.onvif.org/location/city/ChengDu"},
         {.def = tt__ScopeDefinition__Configurable, .scope = "onvif://www.onvif.org/location/country/China"},
     };
