@@ -141,7 +141,7 @@ int OnvifInit(char* addr, OnvifDevInfo dev_info, OnvifOperCb func) {
 	pthread_create(&kOnvifMng.web_server_id, NULL, OnvifWebServerProc, NULL);
 	pthread_create(&kOnvifMng.event_msg_id, NULL, OnvifEventMessageProc, NULL);
 
-    LOG_INFO("onvif init success! ver:%s", ONVIF_LIB_VERSION);
+    LOG_INFO("onvif init success! compile time:%s %s, ver:%s", __DATE__, __TIME__, ONVIF_LIB_VERSION);
     return 0;
 }
 
