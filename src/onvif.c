@@ -126,7 +126,7 @@ static void* OnvifEventMessageProc(void* arg) {
 }
 
 int OnvifInit(char* addr, OnvifDevInfo dev_info, OnvifOperCb func) {
-    log_init("/tmp/onvif.log", 512*1024, 3);
+    log_init("/oem/logs/onvif.log", 512*1024, 3);
     snprintf(kOnvifMng.web_addr, sizeof(kOnvifMng.web_addr), "%s", addr);
 
     OnvifOperationDeviceInfo conf_dev_info;

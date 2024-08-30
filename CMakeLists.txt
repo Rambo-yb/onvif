@@ -20,7 +20,14 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/_install/gsoap/share/gsoap/impor
 
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/example MAIN_SRC)
 
-aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/gsoap SRC)
+#aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/gsoap SRC)
+set(SRC
+    ${CMAKE_CURRENT_SOURCE_DIR}/gsoap/dom.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/gsoap/soapC.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/gsoap/soapClient.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/gsoap/soapServer.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/gsoap/stdsoap2.c
+)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/gsoap)
 
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/src SRC)
@@ -43,8 +50,8 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/_install/openssl/include)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/_install/openssl/include/openssl)
 link_directories(${CMAKE_CURRENT_SOURCE_DIR}/_install/openssl/lib)
 
-add_library(onvif ${GSOAP_SHARE_SRC} ${SRC})
-#add_library(network SHARED ${SRC})
+#add_library(onvif ${GSOAP_SHARE_SRC} ${SRC})
+add_library(onvif SHARED ${GSOAP_SHARE_SRC} ${SRC})
 
 add_executable(onvif_test ${MAIN_SRC})
 target_link_libraries(onvif_test onvif pthread ssl crypto dl m rt)
