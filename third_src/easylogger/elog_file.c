@@ -63,7 +63,7 @@ __exit:
  */
 static bool elog_file_rotate(void)
 {
-#define SUFFIX_LEN                     10
+#define SUFFIX_LEN                     12
     /* mv xxx.log.n-1 => xxx.log.n, and xxx.log => xxx.log.0 */
     int n, err = 0;
     char oldpath[256]= {0}, newpath[256] = {0};

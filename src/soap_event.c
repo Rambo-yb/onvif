@@ -5,6 +5,7 @@
 #include "cJSON.h"
 #include "soap_common.h"
 #include "auth.h"
+#include "onvif_operation.h"
 
 time_t kTerminationTime = 0;
 
@@ -18,7 +19,7 @@ SOAP_FMAC5 int SOAP_FMAC6 __tev__PullMessages(struct soap* soap, struct _tev__Pu
     tev__PullMessagesResponse->TerminationTime = kTerminationTime;
 
     cJSON* json = NULL;
-    if (OnvifOperationGetEventInfo(&json, tev__PullMessages->Timeout) < 0 || json == NULL) {
+    if (OnvifOperationGetEventInfo((void**)&json, tev__PullMessages->Timeout) < 0 || json == NULL) {
         return 0;
     }
 

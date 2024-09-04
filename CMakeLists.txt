@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 2.8)
 project(onvif)
 
 add_definitions(-Wall -DWITH_NONAMESPACES -Os -DWITH_DOM -DWITH_OPENSSL -DUSE_EASYLOGGER -DWITH_NO_C_LOCALE)
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 set(GSOAP_SHARE_SRC
     ${CMAKE_CURRENT_SOURCE_DIR}/_install/gsoap/share/gsoap/custom/duration.c
