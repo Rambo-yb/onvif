@@ -10,6 +10,14 @@
 #include "cjson_to_struct.h"
 #include "list.h"
 
+#define ONVIF_CONFIG_FILE "./onvif.json"
+
+typedef struct {
+    OnvifOperGetConfigCb get_config_cb;
+    OnvifOperSetConfigCb set_config_cb;
+    OnvifOperPtzCtrlCb ptz_ctrl_cb;
+}OnvifOperCb;
+
 typedef struct {
     cJSON* all_config;
     OnvifOperationDeviceInfo device_info;
@@ -44,6 +52,28 @@ end:
         free(file_data);
     }
     fclose(fp);
+    return NULL;
+}
+
+static cJSON* OnvifOperationDefaultConfigScopes() {
+    cJSON* scopes_json = cJSON_CreateArray();
+    CHECK_POINTER(scopes_json, return NULL);
+
+    cJSON* scope_json = cJSON_CreateObject();
+    CHECK_POINTER(scope_json, goto end);
+
+    CJSON_SET_STRING(scope_json, "item", "onvif://www.onvif.org/Profile/Streaming", goto end);
+    CJSON_SET_NUMBER(scope_json, "def", 1, goto end);
+    CHECK_BOOL(cJSON_AddItemToArray(scopes_json, scope_json), goto end);
+
+    return scopes_json;
+end:
+    if (scope_json) {
+        cJSON_free(scope_json);
+    }
+    if (scopes_json) {
+        cJSON_free(scopes_json);
+    }
     return NULL;
 }
 
@@ -157,28 +187,94 @@ end:
     return NULL;
 }
 
+static cJSON* OnvifOperationDefaultConfigNetwork() {
+    cJSON* new_json = NULL;
+    cJSON* new_arr_json = NULL;
+    cJSON* network_json = cJSON_CreateObject();
+    CHECK_POINTER(network_json, goto end);
+
+    new_json = cJSON_CreateObject();
+    CHECK_POINTER(new_json, goto end);
+
+    CJSON_SET_NUMBER(new_json, "ipv4_enable", 1, goto end);
+    CJSON_SET_NUMBER(new_json, "ipv4_dhcp_enable", 0, goto end);
+    CJSON_SET_STRING(new_json, "ipv4_addr", kOnvifOperationMng.device_info.device_addr, goto end);
+    CJSON_SET_STRING(new_json, "ipv4_mask", "255.255.255.0", goto end);
+    int num[4] = {0};
+    sscanf(kOnvifOperationMng.device_info.device_addr, "%d.%d.%d.%d", &num[0], &num[1], &num[2], &num[3]);
+    char gateway[16] = {0};
+    snprintf(gateway, sizeof(gateway), "%d.%d.%d.1", num[0], num[1], num[2]);
+    CJSON_SET_STRING(new_json, "ipv4_gateway", gateway, goto end);
+    CJSON_SET_NUMBER(new_json, "ipv6_enable", 0, goto end);
+    CJSON_SET_NUMBER(new_json, "ipv6_dhcp_enable", 0, goto end);
+    CJSON_SET_STRING(new_json, "ipv6_addr", "", goto end);
+    CJSON_SET_STRING(new_json, "ipv6_mask", "", goto end);
+    CJSON_SET_STRING(new_json, "ipv6_gateway", "", goto end);
+    CJSON_SET_STRING(new_json, "dns", "8.8.8.8", goto end);
+    CHECK_BOOL(cJSON_AddItemToObject(network_json, "network_addr", new_json), goto end);
+    new_json = NULL;
+
+    new_arr_json = cJSON_CreateArray();
+    CHECK_POINTER(new_arr_json, goto end);
+
+    new_json = cJSON_CreateObject();
+    CHECK_POINTER(new_json, goto end);
+
+    CJSON_SET_NUMBER(new_json, "enable", 1, goto end);
+    CJSON_SET_NUMBER(new_json, "name", 0, goto end);
+    int port[1] = {8080};
+    CJSON_SET_NUMBER_LIST(new_json, "port", port, 1, goto end);
+    CHECK_BOOL(cJSON_AddItemToArray(new_arr_json, new_json), goto end);
+    new_json = NULL;
+
+    new_json = cJSON_CreateObject();
+    CHECK_POINTER(new_json, goto end);
+
+    CJSON_SET_NUMBER(new_json, "enable", 1, goto end);
+    CJSON_SET_NUMBER(new_json, "name", 2, goto end);
+    port[1] = 554;
+    CJSON_SET_NUMBER_LIST(new_json, "port", port, 1, goto end);
+    CHECK_BOOL(cJSON_AddItemToArray(new_arr_json, new_json), goto end);
+    CHECK_BOOL(cJSON_AddItemToObject(network_json, "network_protocols", new_arr_json), goto end);
+
+
+    return network_json;
+end:
+    if (new_json != NULL) {
+        cJSON_free(new_json);
+    }
+    if (new_arr_json != NULL) {
+        cJSON_free(new_arr_json);
+    }
+    if (network_json) {
+        cJSON_free(network_json);
+    }
+    return NULL;
+}
+
 static int OnvifOperationDefaultConfig() {
     kOnvifOperationMng.all_config = cJSON_CreateObject();
     CHECK_POINTER(kOnvifOperationMng.all_config, return -1);
 
-    CHECK_BOOL(cJSON_AddItemToObject(kOnvifOperationMng.all_config, "users", OnvifOperationDefaultConfigUsers()), );
-    CHECK_BOOL(cJSON_AddItemToObject(kOnvifOperationMng.all_config, "profiles", OnvifOperationDefaultConfigProfile()), );
+    CHECK_BOOL(cJSON_AddItemToObject(kOnvifOperationMng.all_config, "scopes", OnvifOperationDefaultConfigScopes()), ERR_OPT_NULL);
+    CHECK_BOOL(cJSON_AddItemToObject(kOnvifOperationMng.all_config, "users", OnvifOperationDefaultConfigUsers()), ERR_OPT_NULL);
+    CHECK_BOOL(cJSON_AddItemToObject(kOnvifOperationMng.all_config, "profiles", OnvifOperationDefaultConfigProfile()), ERR_OPT_NULL);
+    CHECK_BOOL(cJSON_AddItemToObject(kOnvifOperationMng.all_config, "network", OnvifOperationDefaultConfigNetwork()), ERR_OPT_NULL);
 
     return 0;
 }
 
-int OnvifOperationInit(OnvifOperationDeviceInfo device_info, OnvifOperCb cb) {
+int OnvifOperationInit(OnvifOperationDeviceInfo device_info) {
+    memcpy(&kOnvifOperationMng.device_info, &device_info, sizeof(OnvifOperationDeviceInfo));
+
     kOnvifOperationMng.event_list = ListCreate();
     CHECK_POINTER(kOnvifOperationMng.event_list, return -1;)
 
-    kOnvifOperationMng.all_config = OnvifOperationLoadFile("/root/onvif.json");
+    kOnvifOperationMng.all_config = OnvifOperationLoadFile(ONVIF_CONFIG_FILE);
     if (kOnvifOperationMng.all_config == NULL) {
         LOG_WRN("load onvif.json fail, use memory config !");
         OnvifOperationDefaultConfig();
     }
-
-    kOnvifOperationMng.oper_cb = cb;
-    memcpy(&kOnvifOperationMng.device_info, &device_info, sizeof(OnvifOperationDeviceInfo));
 
     return 0;
 }
@@ -191,13 +287,30 @@ void OnvifOperationUnInit() {
     ListDestory(kOnvifOperationMng.event_list);
 }
 
+void OnvifOperationRegister(OnvifOperationType type, void* cb) {
+    switch(type) {
+    case ONVIF_OPERATION_GET_CONFIG:
+        kOnvifOperationMng.oper_cb.get_config_cb = (OnvifOperGetConfigCb)cb;
+        break;
+    case ONVIF_OPERATION_SET_CONFIG:
+        kOnvifOperationMng.oper_cb.set_config_cb = (OnvifOperSetConfigCb)cb;
+        break;
+    case ONVIF_OPERATION_PTZ_CTRL:
+        kOnvifOperationMng.oper_cb.ptz_ctrl_cb = (OnvifOperPtzCtrlCb)cb;
+        break;
+    default:
+        LOG_ERR("unknown type:%d", type);
+        break;
+    }
+}
+
 void OnvifOperationGetDevInfo(OnvifOperationDeviceInfo* device_info){
     memcpy(device_info, &kOnvifOperationMng.device_info, sizeof(OnvifOperationDeviceInfo));
 }
 
 static int OnvifOperationGetProfiles(cJSON** json) {
     CHECK_POINTER(json, return -1);
-    CHECK_POINTER(kOnvifOperationMng.oper_cb, return -1);
+    CHECK_POINTER(kOnvifOperationMng.oper_cb.get_config_cb, return -1);
 
     cJSON* new_json = NULL;
     cJSON* new_json_ = NULL;
@@ -219,7 +332,7 @@ static int OnvifOperationGetProfiles(cJSON** json) {
 
         OnvifVideoEncoder video_enc;
         memset(&video_enc, 0, sizeof(OnvifVideoEncoder));
-        CHECK_LT(kOnvifOperationMng.oper_cb(ONVIF_OPER_GET_CONFIG, "video_encoder", &video_enc), 0, goto end);
+        CHECK_LT(kOnvifOperationMng.oper_cb.get_config_cb(ONVIF_CONFIG_VIDEO_ENCODER, &video_enc, sizeof(OnvifVideoEncoder)), 0, goto end);
         CHECK_LT(StructToCjsonVideoEncoder(&video_enc, &new_json, &new_json_), 0, goto end);
 
         CJSON_SET_NUMBER(profile_json, "use_video_encoder_index", 0, goto end);
@@ -234,7 +347,7 @@ static int OnvifOperationGetProfiles(cJSON** json) {
 
         OnvifAudioEncoder audio_enc;
         memset(&audio_enc, 0, sizeof(OnvifAudioEncoder));
-        CHECK_LT(kOnvifOperationMng.oper_cb(ONVIF_OPER_GET_CONFIG, "audio_encoder", &audio_enc), 0, goto end);
+        CHECK_LT(kOnvifOperationMng.oper_cb.get_config_cb(ONVIF_CONFIG_AUDIO_ENCODER, &audio_enc, sizeof(OnvifAudioEncoder)), 0, goto end);
         CHECK_LT(StructToCjsonAudioEncoder(&audio_enc, &new_json, &new_json_), 0, goto end);
 
         CJSON_SET_NUMBER(profile_json, "use_audio_encoder_index", 0, goto end);
@@ -271,7 +384,7 @@ static int OnvifOperationGetProfiles(cJSON** json) {
         // presets
         OnvifPresets presets;
         memset(&presets, 0, sizeof(OnvifPresets));
-        CHECK_LT(kOnvifOperationMng.oper_cb(ONVIF_OPER_GET_CONFIG, "presets", &presets), 0, goto end);
+        CHECK_LT(kOnvifOperationMng.oper_cb.get_config_cb(ONVIF_CONFIG_PRESETS, &presets, sizeof(OnvifPresets)), 0, goto end);
         CHECK_LT(StructToCjsonPresets(&presets, &new_json), 0, goto end);
         CHECK_BOOL(cJSON_AddItemToObject(profile_json, "presets", new_json), goto end);
         new_json = NULL;
@@ -317,20 +430,33 @@ static int OnvifOperationSetProfiles(cJSON* json) {
 }
 
 void OnvifOperationSetConfig(const char* type, void* arg) {
-    CHECK_POINTER(kOnvifOperationMng.oper_cb, return );
+    CHECK_POINTER(kOnvifOperationMng.oper_cb.set_config_cb, return );
 
     if (strcmp(type, "profiles") == 0) {
         OnvifOperationSetProfiles(arg);
-    } else {
-        kOnvifOperationMng.oper_cb(ONVIF_OPER_SET_CONFIG, (void*)type, arg);
-    }
+    } else if (strcmp(type, "users") == 0 || strcmp(type, "scopes") == 0) {
+        FILE* fp = fopen(ONVIF_CONFIG_FILE, "w+");
+        CHECK_POINTER(fp, return);
 
+        char* buff = cJSON_Print(kOnvifOperationMng.all_config);
+        CHECK_POINTER(buff, fclose(fp);return);
+
+        fwrite(buff, 1, strlen(buff), fp);
+
+        free(buff);
+        fflush(fp);
+        fclose(fp);
+    } else {
+        if (strcmp(type, "presets") == 0) {
+            kOnvifOperationMng.oper_cb.set_config_cb(ONVIF_CONFIG_PRESETS, arg, sizeof(OnvifPresets));
+        }
+    }
 }
 
 void OnvifOperationPtzCtrl(OnvifPtzCtrlType type, char* arg) {
-    CHECK_POINTER(kOnvifOperationMng.oper_cb, return );
+    CHECK_POINTER(kOnvifOperationMng.oper_cb.ptz_ctrl_cb, return );
 
-    kOnvifOperationMng.oper_cb(ONVIF_OPER_PTZ_CTRL, &type, arg);
+    kOnvifOperationMng.oper_cb.ptz_ctrl_cb(type, arg);
 }
 
 void OnvifOperationEventUpload(OnvifEventInfo* info) {

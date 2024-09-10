@@ -41,20 +41,20 @@ int GetLocalAddr(const char* ethname, char* addr, int size) {
     return 0;
 }
 
-int Cb(OnvifOperType type, void* name, void* arg) {
-    if (type == ONVIF_OPER_GET_CONFIG) {
-        if (strcmp(name, "video_encoder") == 0) {
-            memcpy(arg, &kMng.video_encoder, sizeof(OnvifVideoEncoder));
-        } else if (strcmp(name, "audio_encoder") == 0) {
-            memcpy(arg, &kMng.audio_encoder, sizeof(OnvifAudioEncoder));
-        } else if (strcmp(name, "presets") == 0) {
-            memcpy(arg, &kMng.presets, sizeof(OnvifPresets));
-        }
-    } else if (type == ONVIF_OPER_PTZ_CTRL) {
-        LOG_INFO("ptz ctrl :%d - %s", *(OnvifPtzCtrlType*)name, arg);
-    } else if (type == ONVIF_OPER_SET_CONFIG) {
-        if (strcmp(name, "presets") == 0) {
-            OnvifPresets* presets = arg;
+int GetConfigCb(OnvifConfigType type, void* st, int size) {
+    if (type == ONVIF_CONFIG_VIDEO_ENCODER) {
+        memcpy(st, &kMng.video_encoder, sizeof(OnvifVideoEncoder));
+    } else if (type == ONVIF_CONFIG_AUDIO_ENCODER) {
+        memcpy(st, &kMng.audio_encoder, sizeof(OnvifAudioEncoder));
+    } else if (type == ONVIF_CONFIG_PRESETS) {
+        memcpy(st, &kMng.presets, sizeof(OnvifPresets));
+    }
+    return 0;
+}
+
+int SetConfigCb(OnvifConfigType type, void* st, int size) {
+    if (type == ONVIF_CONFIG_PRESETS) {
+            OnvifPresets* presets = st;
             if (presets->type == ONVIF_PRESET_CTRL_ADD) {
                 kMng.presets.preset_num += 1;
                 snprintf(kMng.presets.preset[kMng.presets.preset_num - 1], 64, "%s", presets->preset[0]);
@@ -72,11 +72,11 @@ int Cb(OnvifOperType type, void* name, void* arg) {
             } else if (presets->type == ONVIF_PRESET_CTRL_SET_HOME) {
 
             }
-        } else {
-
         }
-    }
-
+    return 0;
+}
+int PtzCtrlCb(OnvifPtzCtrlType type, void* arg) {
+    LOG_INFO("ptz ctrl :%d - %s", type, arg);
     return 0;
 }
 
@@ -112,7 +112,11 @@ int main(int argc, char** argv) {
     snprintf(dev_info.hardware_ver, sizeof(dev_info.hardware_ver), "1.0");
     snprintf(dev_info.rtsp_url, sizeof(dev_info.rtsp_url), "rtsp://192.168.110.223:554/live/main_stream");
     snprintf(dev_info.snap_url, sizeof(dev_info.snap_url), "http://192.168.110.223:8080/dev_api/get_snap");
-    OnvifInit(addr, dev_info, Cb);
+
+    OnvifInit(addr, dev_info);
+    OnvifRegister(ONVIF_OPERATION_GET_CONFIG, GetConfigCb);
+    OnvifRegister(ONVIF_OPERATION_SET_CONFIG, SetConfigCb);
+    OnvifRegister(ONVIF_OPERATION_PTZ_CTRL, PtzCtrlCb);
 
     int flag = 0;
     int cnt = 0;

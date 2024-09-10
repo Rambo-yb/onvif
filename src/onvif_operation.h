@@ -15,9 +15,11 @@ typedef struct {
     OnvifDevInfo dev_info;
 }OnvifOperationDeviceInfo;
 
-int OnvifOperationInit(OnvifOperationDeviceInfo device_info, OnvifOperCb cb);
+int OnvifOperationInit(OnvifOperationDeviceInfo device_info);
 
 void OnvifOperationUnInit();
+
+void OnvifOperationRegister(OnvifOperationType type, void* cb);
 
 void OnvifOperationGetDevInfo(OnvifOperationDeviceInfo* device_info);
 

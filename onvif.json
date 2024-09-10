@@ -1,4 +1,11 @@
 {
+	"scopes":[{
+		"def":1,
+		"item":"onvif://www.onvif.org/type/Network_Video_Transmitter"
+	},{
+		"def":1,
+		"item":"onvif://www.onvif.org/Profile/Streaming"
+	}],
 	"users":[{
 		"username":"admin",
 		"password":"123456",
@@ -72,6 +79,18 @@
 		}]
 	}],
 	"network":{
+		"network_addr":{
+			"dhcp_enable":0,
+			"ipv4_enable":1,
+			"ipv4_addr":"192.168.110.223",
+			"ipv4_mask":"255.255.255.0",
+			"ipv4_gateway":"192.168.110.1",
+			"ipv6_enable":0,
+			"ipv6_addr":"",
+			"ipv6_mask":"",
+			"ipv6_gateway":"",
+			"dns":"8.8.8.8"
+		},
 		"network_protocols":[{
 			"enable":1,
 			"name":0,

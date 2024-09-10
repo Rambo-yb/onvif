@@ -7,6 +7,9 @@
 #include "cjson_common.h"
 #include "soap_common.h"
 
+#define LOG_DIR_PATH "/oem/logs.tar.gz"
+#define UPGRADE_FILE_PATH "/data/fota/upgrade.bin"
+
 /** Web service one-way operation 'SOAP_ENV__Fault_ex' implementation, should return value of soap_send_empty_response() to send HTTP Accept acknowledgment, or return an error code, or return SOAP_OK to immediately return without sending an HTTP response message */
 SOAP_FMAC5 int SOAP_FMAC6 SOAP_ENV__Fault_ex(struct soap* soap, char *faultcode, char *faultstring, char *faultactor, struct SOAP_ENV__Detail *detail, struct SOAP_ENV__Code *SOAP_ENV__Code, struct SOAP_ENV__Reason *SOAP_ENV__Reason, char *SOAP_ENV__Node, char *SOAP_ENV__Role, struct SOAP_ENV__Detail *SOAP_ENV__Detail) {
     printf("%s:%d\n", __func__, __LINE__);
@@ -188,12 +191,26 @@ SOAP_FMAC5 int SOAP_FMAC6 __tds__SetSystemFactoryDefault(struct soap* soap, stru
 }
 /** Web service operation '__tds__UpgradeSystemFirmware' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __tds__UpgradeSystemFirmware(struct soap* soap, struct _tds__UpgradeSystemFirmware *tds__UpgradeSystemFirmware, struct _tds__UpgradeSystemFirmwareResponse *tds__UpgradeSystemFirmwareResponse) {
-    printf("%s:%d\n", __func__, __LINE__);
+    CHECK_LT(AuthUser(soap), 0, return 401);
+
+    if (tds__UpgradeSystemFirmware->Firmware != NULL 
+        && tds__UpgradeSystemFirmware->Firmware->xop__Include.__ptr != NULL 
+        && tds__UpgradeSystemFirmware->Firmware->xop__Include.__size > 0) {
+        FILE* fp = fopen(UPGRADE_FILE_PATH, "w+");
+        CHECK_POINTER(fp, return 500);
+
+        int ret = fwrite(tds__UpgradeSystemFirmware->Firmware->xop__Include.__ptr, 1, tds__UpgradeSystemFirmware->Firmware->xop__Include.__size, fp);
+        CHECK_EQ(ret, tds__UpgradeSystemFirmware->Firmware->xop__Include.__size, fclose(fp);return 500);
+
+        fclose(fp);
+    }
     return 0;
 }
 /** Web service operation '__tds__SystemReboot' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __tds__SystemReboot(struct soap* soap, struct _tds__SystemReboot *tds__SystemReboot, struct _tds__SystemRebootResponse *tds__SystemRebootResponse) {
-    printf("%s:%d\n", __func__, __LINE__);
+    CHECK_LT(AuthUser(soap), 0, return 401);
+    
+    system("reboot");
     return 0;
 }
 /** Web service operation '__tds__RestoreSystem' implementation, should return SOAP_OK or error code */
@@ -208,7 +225,29 @@ SOAP_FMAC5 int SOAP_FMAC6 __tds__GetSystemBackup(struct soap* soap, struct _tds_
 }
 /** Web service operation '__tds__GetSystemLog' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __tds__GetSystemLog(struct soap* soap, struct _tds__GetSystemLog *tds__GetSystemLog, struct _tds__GetSystemLogResponse *tds__GetSystemLogResponse) {
-    printf("%s:%d\n", __func__, __LINE__);
+    CHECK_LT(AuthUser(soap), 0, return 401);
+    CHECK_EQ(access(LOG_DIR_PATH, F_OK), 0, return 0);
+    
+    FILE* fp = fopen(LOG_DIR_PATH, "rb");
+    CHECK_POINTER(fp, return 500);
+
+    fseek(fp, 0, SEEK_END);
+    int file_size = ftell(fp);
+
+    tds__GetSystemLogResponse->SystemLog = (struct tt__SystemLog *)soap_malloc(soap, sizeof(struct tt__SystemLog));
+    memset(tds__GetSystemLogResponse->SystemLog, 0, sizeof(struct tt__SystemLog));
+
+    tds__GetSystemLogResponse->SystemLog->Binary = (struct tt__AttachmentData *)soap_malloc(soap, sizeof(struct tt__AttachmentData));
+    memset(tds__GetSystemLogResponse->SystemLog->Binary, 0, sizeof(struct tt__AttachmentData));
+
+    tds__GetSystemLogResponse->SystemLog->Binary->xop__Include.__ptr = soap_malloc(soap, file_size);
+    tds__GetSystemLogResponse->SystemLog->Binary->xop__Include.__size = file_size;
+
+    fseek(fp, 0, SEEK_SET);
+    int ret = fwrite(tds__GetSystemLogResponse->SystemLog->Binary->xop__Include.__ptr, 1, file_size, fp);
+    CHECK_EQ(ret, file_size, fclose(fp);return 500);
+
+    fclose(fp);
     return 0;
 }
 /** Web service operation '__tds__GetSystemSupportInformation' implementation, should return SOAP_OK or error code */
@@ -218,34 +257,50 @@ SOAP_FMAC5 int SOAP_FMAC6 __tds__GetSystemSupportInformation(struct soap* soap, 
 }
 /** Web service operation '__tds__GetScopes' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __tds__GetScopes(struct soap* soap, struct _tds__GetScopes *tds__GetScopes, struct _tds__GetScopesResponse *tds__GetScopesResponse) {
-    // CHECK_LT(AuthUser(soap), 0, return 401);
+    CHECK_LT(AuthUser(soap), 0, return 401);
 
-    struct Scopes {
-        int def;
-        char* scope;
-    };
-    struct Scopes scopes[] = {
-        {.def = tt__ScopeDefinition__Fixed, .scope = "onvif://www.onvif.org/type/Network_Video_Transmitter"},
-        {.def = tt__ScopeDefinition__Configurable, .scope = "onvif://www.onvif.org/Profile/Streaming"},
-        // {.def = tt__ScopeDefinition__Configurable, .scope = "onvif://www.onvif.org/Profile/Q/Operational"},
-        // {.def = tt__ScopeDefinition__Configurable, .scope = "onvif://www.onvif.org/hardware/HD720P"},
-        {.def = tt__ScopeDefinition__Fixed, .scope = "onvif://www.onvif.org/name/hwqj_device"},
-        {.def = tt__ScopeDefinition__Configurable, .scope = "onvif://www.onvif.org/location/city/ChengDu"},
-        {.def = tt__ScopeDefinition__Configurable, .scope = "onvif://www.onvif.org/location/country/China"},
-    };
+    cJSON* scopes_json = OnvifOperationGetConfig("scopes");
+    CHECK_POINTER(scopes_json, return 500);
+    CHECK_BOOL(cJSON_IsArray(scopes_json), return 500);
 
-    tds__GetScopesResponse->__sizeScopes = sizeof(scopes) / sizeof(struct Scopes);
+    tds__GetScopesResponse->__sizeScopes = cJSON_GetArraySize(scopes_json);
     tds__GetScopesResponse->Scopes = (struct tt__Scope *)soap_malloc(soap, sizeof(struct tt__Scope) * tds__GetScopesResponse->__sizeScopes);
+    memset(tds__GetScopesResponse->Scopes, 0, sizeof(struct tt__Scope) * tds__GetScopesResponse->__sizeScopes);
     for(int i = 0; i < tds__GetScopesResponse->__sizeScopes; i++) {
-        tds__GetScopesResponse->Scopes[i].ScopeDef = scopes[i].def;
-        tds__GetScopesResponse->Scopes[i].ScopeItem = soap_strdup(soap, scopes[i].scope);
+        cJSON* item = cJSON_GetArrayItem(scopes_json, i);
+        if (item == NULL || !cJSON_IsObject(item)) {
+            continue;
+        }
+
+        SOAP_CJSON_GET_STRING(item, soap, "item", tds__GetScopesResponse->Scopes[i].ScopeItem);
+        SOAP_CJSON_GET_NUMBER(item, soap, "def", tds__GetScopesResponse->Scopes[i].ScopeDef);
     }
 
     return 0;
 }
 /** Web service operation '__tds__SetScopes' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __tds__SetScopes(struct soap* soap, struct _tds__SetScopes *tds__SetScopes, struct _tds__SetScopesResponse *tds__SetScopesResponse) {
-    printf("%s:%d\n", __func__, __LINE__);
+    CHECK_LT(AuthUser(soap), 0, return 401);
+
+    cJSON* scopes_json = OnvifOperationGetConfig("scopes");
+    CHECK_POINTER(scopes_json, return 500);
+    CHECK_BOOL(cJSON_IsArray(scopes_json), return 500);
+
+    while(cJSON_GetArraySize(scopes_json) > 0) {
+        cJSON_DeleteItemFromArray(scopes_json, 0);
+    }
+
+    for(int i = 0; i < tds__SetScopes->__sizeScopes; i++) {
+        cJSON* new_json = cJSON_CreateObject();
+        CHECK_POINTER(new_json, continue);
+
+        CJSON_SET_STRING(new_json, "item", tds__SetScopes->Scopes[i], cJSON_free(new_json);continue);
+        CJSON_SET_NUMBER(new_json, "def", 1, cJSON_free(new_json);continue);
+
+        CHECK_BOOL(cJSON_AddItemToArray(scopes_json, new_json), cJSON_free(new_json);continue);
+    }
+
+    OnvifOperationSetConfig("scopes", NULL);
     return 0;
 }
 /** Web service operation '__tds__AddScopes' implementation, should return SOAP_OK or error code */
@@ -349,7 +404,7 @@ end:
         break;
     }
 
-    // todo
+    OnvifOperationSetConfig("users", NULL);
 
     return ret;
 }
@@ -377,7 +432,7 @@ SOAP_FMAC5 int SOAP_FMAC6 __tds__DeleteUsers(struct soap* soap, struct _tds__Del
         }
     }
 
-    // todo
+    OnvifOperationSetConfig("users", NULL);
 
     return 0;
 }
@@ -415,7 +470,7 @@ end:
         }
     }
 
-    // todo
+    OnvifOperationSetConfig("users", NULL);
 
     return ret;
 }
@@ -658,12 +713,51 @@ SOAP_FMAC5 int SOAP_FMAC6 __tds__SetHostnameFromDHCP(struct soap* soap, struct _
 }
 /** Web service operation '__tds__GetDNS' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __tds__GetDNS(struct soap* soap, struct _tds__GetDNS *tds__GetDNS, struct _tds__GetDNSResponse *tds__GetDNSResponse) {
-    printf("%s:%d\n", __func__, __LINE__);
+    CHECK_LT(AuthUser(soap), 0, return 401);
+
+    cJSON* network_json = OnvifOperationGetConfig("network");
+    CHECK_POINTER(network_json, return 500);
+
+    cJSON* addr_json = cJSON_GetObjectItemCaseSensitive(network_json, "network_addr");
+    CHECK_POINTER(addr_json, return 0);
+    CHECK_BOOL(cJSON_IsObject(addr_json), return 0);
+
+    tds__GetDNSResponse->DNSInformation = (struct tt__DNSInformation*)soap_malloc(soap, sizeof(struct tt__DNSInformation));
+    memset(tds__GetDNSResponse->DNSInformation, 0, sizeof(struct tt__DNSInformation));
+    // CJSON_GET_NUMBER(addr_json, "dhcp_enable", tds__GetDNSResponse->DNSInformation->FromDHCP, sizeof(tds__GetDNSResponse->DNSInformation->FromDHCP), ERR_OPT_NULL);
+    // if(tds__GetDNSResponse->DNSInformation->FromDHCP) {
+    //     tds__GetDNSResponse->DNSInformation->__sizeDNSFromDHCP = 1;
+    //     tds__GetDNSResponse->DNSInformation->DNSFromDHCP = (struct tt__IPAddress*)soap_malloc(soap, sizeof(struct tt__IPAddress)*tds__GetDNSResponse->DNSInformation->__sizeDNSFromDHCP);
+    //     memset(tds__GetDNSResponse->DNSInformation->DNSFromDHCP, 0, sizeof(struct tt__IPAddress)*tds__GetDNSResponse->DNSInformation->__sizeDNSFromDHCP);
+
+    //     tds__GetDNSResponse->DNSInformation->DNSFromDHCP[0].Type = tt__IPType__IPv4;
+    //     SOAP_CJSON_GET_STRING(addr_json, soap, "dns", tds__GetDNSResponse->DNSInformation->DNSFromDHCP[0].IPv4Address);
+    // } else {
+        tds__GetDNSResponse->DNSInformation->__sizeDNSManual = 1;
+        tds__GetDNSResponse->DNSInformation->DNSManual = (struct tt__IPAddress*)soap_malloc(soap, sizeof(struct tt__IPAddress)*tds__GetDNSResponse->DNSInformation->__sizeDNSManual);
+        memset(tds__GetDNSResponse->DNSInformation->DNSManual, 0, sizeof(struct tt__IPAddress)*tds__GetDNSResponse->DNSInformation->__sizeDNSManual);
+
+        tds__GetDNSResponse->DNSInformation->DNSManual[0].Type = tt__IPType__IPv4;
+        SOAP_CJSON_GET_STRING(addr_json, soap, "dns", tds__GetDNSResponse->DNSInformation->DNSManual[0].IPv4Address);        
+    // }
     return 0;
 }
 /** Web service operation '__tds__SetDNS' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __tds__SetDNS(struct soap* soap, struct _tds__SetDNS *tds__SetDNS, struct _tds__SetDNSResponse *tds__SetDNSResponse) {
-    printf("%s:%d\n", __func__, __LINE__);
+    CHECK_LT(AuthUser(soap), 0, return 401);
+
+    cJSON* network_json = OnvifOperationGetConfig("network");
+    CHECK_POINTER(network_json, return 500);
+
+    cJSON* addr_json = cJSON_GetObjectItemCaseSensitive(network_json, "network_addr");
+    CHECK_POINTER(addr_json, return 0);
+    CHECK_BOOL(cJSON_IsObject(addr_json), return 0);
+
+    if (tds__SetDNS->__sizeDNSManual > 0 && tds__SetDNS->DNSManual != NULL) {
+        if (tds__SetDNS->DNSManual[0].Type == tt__IPType__IPv4 && tds__SetDNS->DNSManual[0].IPv4Address != NULL) {
+            CJSON_REPLACE_STRING(addr_json, "dns", tds__SetDNS->DNSManual[0].IPv4Address, ERR_OPT_NULL);
+        } 
+    }
     return 0;
 }
 /** Web service operation '__tds__GetNTP' implementation, should return SOAP_OK or error code */
@@ -686,20 +780,145 @@ SOAP_FMAC5 int SOAP_FMAC6 __tds__SetDynamicDNS(struct soap* soap, struct _tds__S
     printf("%s:%d\n", __func__, __LINE__);
     return 0;
 }
+static int MaskToNetworkByte(char* mask) {
+    int mask_num[4] = {0};
+    sscanf(mask, "%d.%d.%d.%d", &mask_num[0], &mask_num[1], &mask_num[2], &mask_num[3]);
+    int net_byte = 0;
+    for(int i = 0; i < 4; i++) {
+        if (mask_num[i] == 0xff) {
+            net_byte += 8;
+        } else {
+            for(int j = 0; j < 8; j++) {
+                if (mask_num[i] & (1 << j)) {
+                    net_byte += (8 - j);
+                    break;
+                }
+            }
+            break;
+        }
+    }
+    return net_byte;
+}
 /** Web service operation '__tds__GetNetworkInterfaces' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __tds__GetNetworkInterfaces(struct soap* soap, struct _tds__GetNetworkInterfaces *tds__GetNetworkInterfaces, struct _tds__GetNetworkInterfacesResponse *tds__GetNetworkInterfacesResponse) {
+    CHECK_LT(AuthUser(soap), 0, return 401);
+
+    cJSON* network_json = OnvifOperationGetConfig("network");
+    CHECK_POINTER(network_json, return 500);
+
+    cJSON* addr_json = cJSON_GetObjectItemCaseSensitive(network_json, "network_addr");
+    CHECK_POINTER(addr_json, return 0);
+    CHECK_BOOL(cJSON_IsObject(addr_json), return 0);
+
     tds__GetNetworkInterfacesResponse->__sizeNetworkInterfaces = 1;
     tds__GetNetworkInterfacesResponse->NetworkInterfaces = (struct tt__NetworkInterface*)soap_malloc(soap, sizeof(struct tt__NetworkInterface)*tds__GetNetworkInterfacesResponse->__sizeNetworkInterfaces);
     memset(tds__GetNetworkInterfacesResponse->NetworkInterfaces, 0, sizeof(struct tt__NetworkInterface)*tds__GetNetworkInterfacesResponse->__sizeNetworkInterfaces);
     for(int i = 0; i < tds__GetNetworkInterfacesResponse->__sizeNetworkInterfaces; i++) {
         tds__GetNetworkInterfacesResponse->NetworkInterfaces[i].token = soap_strdup(soap, "network_interfaces_t");
-        tds__GetNetworkInterfacesResponse->NetworkInterfaces[i].Enabled = xsd__boolean__false_;
+        tds__GetNetworkInterfacesResponse->NetworkInterfaces[i].Enabled = xsd__boolean__true_;
+
+        tds__GetNetworkInterfacesResponse->NetworkInterfaces[i].Info = (struct tt__NetworkInterfaceInfo*)soap_malloc(soap, sizeof(struct tt__NetworkInterfaceInfo));
+        memset(tds__GetNetworkInterfacesResponse->NetworkInterfaces[i].Info, 0, sizeof(struct tt__NetworkInterfaceInfo));
+        tds__GetNetworkInterfacesResponse->NetworkInterfaces[i].Info->Name = soap_strdup(soap, "eth0");
+        tds__GetNetworkInterfacesResponse->NetworkInterfaces[i].Info->HwAddress = soap_strdup(soap, "ff:ff:ff:ff:ff:ff");
+
+        tds__GetNetworkInterfacesResponse->NetworkInterfaces[i].IPv4 = (struct tt__IPv4NetworkInterface*)soap_malloc(soap, sizeof(struct tt__IPv4NetworkInterface));
+        memset(tds__GetNetworkInterfacesResponse->NetworkInterfaces[i].IPv4, 0, sizeof(struct tt__IPv4NetworkInterface));
+        CJSON_GET_NUMBER(addr_json, "ipv4_enable", tds__GetNetworkInterfacesResponse->NetworkInterfaces[i].IPv4->Enabled, sizeof(tds__GetNetworkInterfacesResponse->NetworkInterfaces[i].IPv4->Enabled), ERR_OPT_NULL);
+        tds__GetNetworkInterfacesResponse->NetworkInterfaces[i].IPv4->Config = (struct tt__IPv4Configuration*)soap_malloc(soap, sizeof(struct tt__IPv4Configuration));
+        memset(tds__GetNetworkInterfacesResponse->NetworkInterfaces[i].IPv4->Config, 0, sizeof(struct tt__IPv4Configuration));
+        if (tds__GetNetworkInterfacesResponse->NetworkInterfaces[i].IPv4->Enabled) {
+            CJSON_GET_NUMBER(addr_json, "ipv4_dhcp_enable", tds__GetNetworkInterfacesResponse->NetworkInterfaces[i].IPv4->Config->DHCP, sizeof(tds__GetNetworkInterfacesResponse->NetworkInterfaces[i].IPv4->Config->DHCP), ERR_OPT_NULL);
+            // if(dhcp_enable) {
+                tds__GetNetworkInterfacesResponse->NetworkInterfaces[i].IPv4->Config->FromDHCP = (struct tt__PrefixedIPv4Address*)soap_malloc(soap, sizeof(struct tt__PrefixedIPv4Address));
+                memset(tds__GetNetworkInterfacesResponse->NetworkInterfaces[i].IPv4->Config->FromDHCP, 0, sizeof(struct tt__PrefixedIPv4Address));
+                SOAP_CJSON_GET_STRING(addr_json, soap, "ipv4_addr", tds__GetNetworkInterfacesResponse->NetworkInterfaces[i].IPv4->Config->FromDHCP->Address);
+                char mask[16] = {0};
+                CJSON_GET_STRING(addr_json, "ipv4_mask", mask, sizeof(mask), ERR_OPT_NULL);
+                tds__GetNetworkInterfacesResponse->NetworkInterfaces[i].IPv4->Config->FromDHCP->PrefixLength = MaskToNetworkByte(mask);
+            // } else {
+            //     tds__GetNetworkInterfacesResponse->NetworkInterfaces[i].IPv4->Config->Manual = (struct tt__PrefixedIPv4Address*)soap_malloc(soap, sizeof(struct tt__PrefixedIPv4Address));
+            //     memset(tds__GetNetworkInterfacesResponse->NetworkInterfaces[i].IPv4->Config->Manual, 0, sizeof(struct tt__PrefixedIPv4Address));
+            //     SOAP_CJSON_GET_STRING(addr_json, soap, "ipv4_addr", tds__GetNetworkInterfacesResponse->NetworkInterfaces[i].IPv4->Config->Manual->Address);
+            //     tds__GetNetworkInterfacesResponse->NetworkInterfaces[i].IPv4->Config->Manual->PrefixLength = 24;
+            // }
+        }
+
+        tds__GetNetworkInterfacesResponse->NetworkInterfaces[i].IPv6 = (struct tt__IPv6NetworkInterface*)soap_malloc(soap, sizeof(struct tt__IPv6NetworkInterface));
+        memset(tds__GetNetworkInterfacesResponse->NetworkInterfaces[i].IPv6, 0, sizeof(struct tt__IPv6NetworkInterface));
+        CJSON_GET_NUMBER(addr_json, "ipv6_enable", tds__GetNetworkInterfacesResponse->NetworkInterfaces[i].IPv6->Enabled, sizeof(tds__GetNetworkInterfacesResponse->NetworkInterfaces[i].IPv6->Enabled), ERR_OPT_NULL);
+        tds__GetNetworkInterfacesResponse->NetworkInterfaces[i].IPv6->Config = (struct tt__IPv6Configuration*)soap_malloc(soap, sizeof(struct tt__IPv6Configuration));
+        memset(tds__GetNetworkInterfacesResponse->NetworkInterfaces[i].IPv6->Config, 0, sizeof(struct tt__IPv6Configuration));
+        if (tds__GetNetworkInterfacesResponse->NetworkInterfaces[i].IPv6->Enabled) {
+            CJSON_GET_NUMBER(addr_json, "ipv6_dhcp_enable", tds__GetNetworkInterfacesResponse->NetworkInterfaces[i].IPv6->Config->DHCP, sizeof(tds__GetNetworkInterfacesResponse->NetworkInterfaces[i].IPv6->Config->DHCP), ERR_OPT_NULL);
+            // if(dhcp_enable) {
+                tds__GetNetworkInterfacesResponse->NetworkInterfaces[i].IPv6->Config->__sizeFromDHCP = 1;
+                tds__GetNetworkInterfacesResponse->NetworkInterfaces[i].IPv6->Config->FromDHCP = (struct tt__PrefixedIPv6Address*)soap_malloc(soap, sizeof(struct tt__PrefixedIPv6Address));
+                memset(tds__GetNetworkInterfacesResponse->NetworkInterfaces[i].IPv6->Config->FromDHCP, 0, sizeof(struct tt__PrefixedIPv6Address));
+                SOAP_CJSON_GET_STRING(addr_json, soap, "ipv6_addr", tds__GetNetworkInterfacesResponse->NetworkInterfaces[i].IPv6->Config->FromDHCP->Address);
+            // } else {
+            //     tds__GetNetworkInterfacesResponse->NetworkInterfaces[i].IPv6->Config->__sizeManual = 1;
+            //     tds__GetNetworkInterfacesResponse->NetworkInterfaces[i].IPv6->Config->Manual = (struct tt__PrefixedIPv6Address*)soap_malloc(soap, sizeof(struct tt__PrefixedIPv6Address));
+            //     memset(tds__GetNetworkInterfacesResponse->NetworkInterfaces[i].IPv6->Config->Manual, 0, sizeof(struct tt__PrefixedIPv6Address));
+            //     SOAP_CJSON_GET_STRING(addr_json, soap, "ipv6_addr", tds__GetNetworkInterfacesResponse->NetworkInterfaces[i].IPv6->Config->Manual->Address);
+            // }
+        }
     }
     return 0;
 }
+static void NetworkByteToMask(int net_byte, char* mask, int mask_size) {
+    int num = 0;
+    for(int i = 0; i < 32; i++) {
+        num = (i < net_byte) ? (num << 1) | 1 : num << 1;
+    }
+
+    char mask_num[4] = {0};
+    memcpy(mask_num, &num, 4);
+    snprintf(mask, mask_size, "%d.%d.%d.%d", mask_num[3], mask_num[2], mask_num[1], mask_num[0]);
+}
 /** Web service operation '__tds__SetNetworkInterfaces' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __tds__SetNetworkInterfaces(struct soap* soap, struct _tds__SetNetworkInterfaces *tds__SetNetworkInterfaces, struct _tds__SetNetworkInterfacesResponse *tds__SetNetworkInterfacesResponse) {
-    printf("%s:%d\n", __func__, __LINE__);
+    CHECK_LT(AuthUser(soap), 0, return 401);
+
+    cJSON* network_json = OnvifOperationGetConfig("network");
+    CHECK_POINTER(network_json, return 500);
+
+    cJSON* addr_json = cJSON_GetObjectItemCaseSensitive(network_json, "network_addr");
+    CHECK_POINTER(addr_json, return 0);
+    CHECK_BOOL(cJSON_IsObject(addr_json), return 0);
+
+    if(tds__SetNetworkInterfaces->NetworkInterface != NULL && tds__SetNetworkInterfaces->NetworkInterface->IPv4 != NULL) {
+        if (tds__SetNetworkInterfaces->NetworkInterface->IPv4->Enabled != NULL) {
+            CJSON_REPLACE_NUMBER(addr_json, "ipv4_enable", *(tds__SetNetworkInterfaces->NetworkInterface->IPv4->Enabled), ERR_OPT_NULL);
+        }
+
+        if (tds__SetNetworkInterfaces->NetworkInterface->IPv4->DHCP != NULL) {
+            CJSON_REPLACE_NUMBER(addr_json, "ipv4_dhcp_enable", *(tds__SetNetworkInterfaces->NetworkInterface->IPv4->DHCP), ERR_OPT_NULL);
+        }
+
+        if (tds__SetNetworkInterfaces->NetworkInterface->IPv4->__sizeManual > 0 && tds__SetNetworkInterfaces->NetworkInterface->IPv4->Manual != NULL) {
+            CJSON_REPLACE_STRING(addr_json, "ipv4_addr", tds__SetNetworkInterfaces->NetworkInterface->IPv4->Manual[0].Address, ERR_OPT_NULL);
+
+            char mask[16] = {0};
+            NetworkByteToMask(tds__SetNetworkInterfaces->NetworkInterface->IPv4->Manual[0].PrefixLength, mask, sizeof(mask));
+            CJSON_REPLACE_STRING(addr_json, "ipv4_mask", mask, ERR_OPT_NULL);
+        }
+    }
+    
+    if(tds__SetNetworkInterfaces->NetworkInterface != NULL && tds__SetNetworkInterfaces->NetworkInterface->IPv6 != NULL) {
+        if (tds__SetNetworkInterfaces->NetworkInterface->IPv6->Enabled != NULL) {
+            CJSON_REPLACE_NUMBER(addr_json, "ipv6_enable", *(tds__SetNetworkInterfaces->NetworkInterface->IPv6->Enabled), ERR_OPT_NULL);
+        }
+
+        if (tds__SetNetworkInterfaces->NetworkInterface->IPv6->DHCP != NULL) {
+            CJSON_REPLACE_NUMBER(addr_json, "ipv6_dhcp_enable", *(tds__SetNetworkInterfaces->NetworkInterface->IPv6->DHCP), ERR_OPT_NULL);
+        }
+
+        if (tds__SetNetworkInterfaces->NetworkInterface->IPv6->__sizeManual > 0 && tds__SetNetworkInterfaces->NetworkInterface->IPv6->Manual != NULL) {
+            CJSON_REPLACE_STRING(addr_json, "ipv6_addr", tds__SetNetworkInterfaces->NetworkInterface->IPv6->Manual[0].Address, ERR_OPT_NULL);
+        }
+    }
+
     return 0;
 }
 /** Web service operation '__tds__GetNetworkProtocols' implementation, should return SOAP_OK or error code */
@@ -763,12 +982,53 @@ err_end:
 }
 /** Web service operation '__tds__GetNetworkDefaultGateway' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __tds__GetNetworkDefaultGateway(struct soap* soap, struct _tds__GetNetworkDefaultGateway *tds__GetNetworkDefaultGateway, struct _tds__GetNetworkDefaultGatewayResponse *tds__GetNetworkDefaultGatewayResponse) {
-    printf("%s:%d\n", __func__, __LINE__);
+    CHECK_LT(AuthUser(soap), 0, return 401);
+
+    cJSON* network_json = OnvifOperationGetConfig("network");
+    CHECK_POINTER(network_json, return 500);
+
+    cJSON* addr_json = cJSON_GetObjectItemCaseSensitive(network_json, "network_addr");
+    CHECK_POINTER(addr_json, return 0);
+    CHECK_BOOL(cJSON_IsObject(addr_json), return 0);
+
+    tds__GetNetworkDefaultGatewayResponse->NetworkGateway = (struct tt__NetworkGateway*)soap_malloc(soap, sizeof(struct tt__NetworkGateway));
+    memset(tds__GetNetworkDefaultGatewayResponse->NetworkGateway, 0, sizeof(struct tt__NetworkGateway));
+    int enable = 0;
+    CJSON_GET_NUMBER(addr_json, "ipv4_enable", enable, sizeof(enable), ERR_OPT_NULL);
+    if (enable) {
+        tds__GetNetworkDefaultGatewayResponse->NetworkGateway->__sizeIPv4Address = 1;
+        tds__GetNetworkDefaultGatewayResponse->NetworkGateway->IPv4Address = (char**)soap_malloc(soap, sizeof(char*));
+        SOAP_CJSON_GET_STRING(addr_json, soap, "ipv4_gateway", tds__GetNetworkDefaultGatewayResponse->NetworkGateway->IPv4Address[0]);
+    }
+    enable = 0;
+    CJSON_GET_NUMBER(addr_json, "ipv6_enable", enable, sizeof(enable), ERR_OPT_NULL);
+    if (enable) {
+        tds__GetNetworkDefaultGatewayResponse->NetworkGateway->__sizeIPv6Address = 1;
+        tds__GetNetworkDefaultGatewayResponse->NetworkGateway->IPv6Address = (char**)soap_malloc(soap, sizeof(char*));
+        SOAP_CJSON_GET_STRING(addr_json, soap, "ipv6_gateway", tds__GetNetworkDefaultGatewayResponse->NetworkGateway->IPv6Address[0]);
+    }
+
     return 0;
 }
 /** Web service operation '__tds__SetNetworkDefaultGateway' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __tds__SetNetworkDefaultGateway(struct soap* soap, struct _tds__SetNetworkDefaultGateway *tds__SetNetworkDefaultGateway, struct _tds__SetNetworkDefaultGatewayResponse *tds__SetNetworkDefaultGatewayResponse) {
-    printf("%s:%d\n", __func__, __LINE__);
+    CHECK_LT(AuthUser(soap), 0, return 401);
+
+    cJSON* network_json = OnvifOperationGetConfig("network");
+    CHECK_POINTER(network_json, return 500);
+
+    cJSON* addr_json = cJSON_GetObjectItemCaseSensitive(network_json, "network_addr");
+    CHECK_POINTER(addr_json, return 0);
+    CHECK_BOOL(cJSON_IsObject(addr_json), return 0);
+
+    if (tds__SetNetworkDefaultGateway->__sizeIPv4Address > 0 && tds__SetNetworkDefaultGateway->IPv4Address != NULL) {
+        CJSON_REPLACE_STRING(addr_json, "ipv4_gateway", tds__SetNetworkDefaultGateway->IPv4Address[0], ERR_OPT_NULL);
+    }
+    
+    if (tds__SetNetworkDefaultGateway->__sizeIPv6Address > 0 && tds__SetNetworkDefaultGateway->IPv6Address != NULL) {
+        CJSON_REPLACE_STRING(addr_json, "ipv6_gateway", tds__SetNetworkDefaultGateway->IPv6Address[0], ERR_OPT_NULL);
+    }
+
     return 0;
 }
 /** Web service operation '__tds__GetZeroConfiguration' implementation, should return SOAP_OK or error code */

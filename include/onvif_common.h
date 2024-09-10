@@ -64,13 +64,15 @@ typedef struct OnvifPresets {
     char preset[8][64];
 }OnvifPresets;
 
-/*********** 设备控制 ***********/
-typedef enum OnvifOperType{
-    ONVIF_OPER_GET_CONFIG,
-    ONVIF_OPER_SET_CONFIG,
-    ONVIF_OPER_PTZ_CTRL,
-}OnvifOperType;
+typedef enum {
+    ONVIF_CONFIG_VIDEO_ENCODER,
+    ONVIF_CONFIG_AUDIO_ENCODER,
+    ONVIF_CONFIG_PRESETS,
+}OnvifConfigType;
+typedef int (*OnvifOperGetConfigCb)(OnvifConfigType, void*, int );
+typedef int (*OnvifOperSetConfigCb)(OnvifConfigType, void*, int );
 
+/*********** 云台控制 ***********/
 typedef enum OnvifPtzCtrlType {
     ONVIF_PTZ_CTRL_UP,
     ONVIF_PTZ_CTRL_DOWN,
@@ -79,13 +81,7 @@ typedef enum OnvifPtzCtrlType {
     ONVIF_PTZ_CTRL_HOME,
     ONVIF_PTZ_CTRL_PRESET, // 转到预置点，回调携带PRESET_NAME
 }OnvifPtzCtrlType;
-
-/* 参数格式
- * ONVIF_OPER_GET_CONFIG, string CONFIG_NAME, CONFIG_STRUCT_OUT
- * ONVIF_OPER_SET_CONFIG, string CONFIG_NAME, CONFIG_STRUCT_IN
- * ONVIF_OPER_PTZ_CTRL, enum OnvifPtzCtrlType, NULL/PRESET_NAME
- */
-typedef int (*OnvifOperCb)(OnvifOperType, void*, void*);
+typedef int (*OnvifOperPtzCtrlCb)(OnvifPtzCtrlType, void*);
 
 /*********** 事件上报 ***********/
 typedef enum OnvifEventState {
@@ -99,4 +95,11 @@ typedef struct OnvifEventInfo {
     OnvifEventState state;
 }OnvifEventInfo;
 
+/*********** 回调枚举 ***********/
+typedef enum {
+    ONVIF_OPERATION_GET_CONFIG, // OnvifOperGetConfigCb
+    ONVIF_OPERATION_SET_CONFIG, // OnvifOperSetConfigCb
+    ONVIF_OPERATION_PTZ_CTRL,   // OnvifOperPtzCtrlCb
+    ONVIF_OPERATION_UPGRADE,
+}OnvifOperationType;
 #endif

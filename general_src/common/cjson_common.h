@@ -66,4 +66,18 @@
         } \
     } while(0);
 
+#define CJSON_REPLACE_STRING(json, key, val, err_opt)   \
+    do {    \
+        cJSON* root = cJSON_CreateString(val);  \
+        CHECK_POINTER(root, err_opt); \
+        CHECK_BOOL(cJSON_ReplaceItemInObjectCaseSensitive(json, key, root), cJSON_free(root);err_opt);   \
+    } while(0);
+
+#define CJSON_REPLACE_NUMBER(json, key, val, err_opt)   \
+    do {    \
+        cJSON* root = cJSON_CreateNumber(val);  \
+        CHECK_POINTER(root, err_opt); \
+        CHECK_BOOL(cJSON_ReplaceItemInObjectCaseSensitive(json, key, root), cJSON_free(root);err_opt);   \
+    } while(0);
+
 #endif

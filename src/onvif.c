@@ -125,8 +125,8 @@ static void* OnvifEventMessageProc(void* arg) {
     return NULL;
 }
 
-int OnvifInit(char* addr, OnvifDevInfo dev_info, OnvifOperCb func) {
-    log_init("/oem/logs/onvif.log", 512*1024, 3);
+int OnvifInit(char* addr, OnvifDevInfo dev_info) {
+    log_init("/oem/logs/onvif.log", 512*1024, 3, 3);
     snprintf(kOnvifMng.web_addr, sizeof(kOnvifMng.web_addr), "%s", addr);
 
     OnvifOperationDeviceInfo conf_dev_info;
@@ -134,7 +134,7 @@ int OnvifInit(char* addr, OnvifDevInfo dev_info, OnvifOperCb func) {
     conf_dev_info.event_message_port = EVENT_MESSAGE_PORT;
     snprintf(conf_dev_info.device_addr, sizeof(conf_dev_info.device_addr), "%s", addr);
     memcpy(&conf_dev_info.dev_info, &dev_info, sizeof(OnvifDevInfo));
-    OnvifOperationInit(conf_dev_info, func);
+    OnvifOperationInit(conf_dev_info);
 
 
 	pthread_create(&kOnvifMng.discorvery_id, NULL, OnvifDiscorveryProc, NULL);
@@ -153,6 +153,10 @@ int OnvifUnInit() {
     pthread_join(kOnvifMng.discorvery_id, NULL);
 
     return 0;
+}
+
+void OnvifRegister(OnvifOperationType type, void* cb) {
+    OnvifOperationRegister(type, cb);
 }
 
 void OnvifEventUplaod(OnvifEventInfo* info) {

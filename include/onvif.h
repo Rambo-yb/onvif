@@ -7,9 +7,11 @@ extern "C" {
 
 #include "onvif_common.h"
 
-int OnvifInit(char* addr, OnvifDevInfo dev_info, OnvifOperCb func);
+int OnvifInit(char* addr, OnvifDevInfo dev_info);
 
 int OnvifUnInit();
+
+void OnvifRegister(OnvifOperationType type, void* cb);
 
 void OnvifEventUplaod(OnvifEventInfo* info);
 
