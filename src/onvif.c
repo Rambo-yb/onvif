@@ -22,7 +22,7 @@ typedef struct {
     pthread_t web_server_id;
     pthread_t event_msg_id;
 }OnvifMng;
-static OnvifMng kOnvifMng;
+static OnvifMng kOnvifMng = {};
 
 static void* OnvifDiscorveryProc(void* arg) {
     struct soap probe_soap;
@@ -39,7 +39,7 @@ static void* OnvifDiscorveryProc(void* arg) {
     mcast.imr_multiaddr.s_addr = inet_addr(MULTICAST_ADDR);
     mcast.imr_interface.s_addr = htonl(INADDR_ANY);
     if(setsockopt(probe_soap.master, IPPROTO_IP, IP_ADD_MEMBERSHIP, (char*)&mcast, sizeof(mcast)) < 0) {
-        printf("setsockopt error! error code = %d,err string = %s\n",errno,strerror(errno));
+        LOG_ERR("setsockopt error! error code = %d,err string = %s",errno,strerror(errno));
         return NULL;
     }
 
@@ -141,6 +141,7 @@ int OnvifInit(char* addr, OnvifDevInfo dev_info) {
 	pthread_create(&kOnvifMng.web_server_id, NULL, OnvifWebServerProc, NULL);
 	pthread_create(&kOnvifMng.event_msg_id, NULL, OnvifEventMessageProc, NULL);
 
+    usleep(2*1000*1000);
     LOG_INFO("onvif init success! compile time:%s %s, ver:%s", __DATE__, __TIME__, ONVIF_LIB_VERSION);
     return 0;
 }
