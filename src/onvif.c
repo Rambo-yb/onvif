@@ -2,6 +2,8 @@
 #include <pthread.h>
 #include <string.h>
 #include <errno.h>
+#include <sys/stat.h>
+#include <sys/types.h>
 #include "soapH.h"
 #include "wsseapi.h"
 #include "wsdd.nsmap"
@@ -14,6 +16,7 @@
 #define MULTICAST_PORT (3702)
 #define WEB_SERVER_PORT (3333)
 #define EVENT_MESSAGE_PORT (3334)
+#define ONVIF_LOGS_PATH "/oem/app/logs"
 
 typedef struct {
     int web_port;
@@ -126,7 +129,10 @@ static void* OnvifEventMessageProc(void* arg) {
 }
 
 int OnvifInit(char* addr, OnvifDevInfo dev_info) {
-    log_init("/oem/logs/onvif.log", 512*1024, 3, 3);
+    if (access(ONVIF_LOGS_PATH, F_OK)) {
+        mkdir(ONVIF_LOGS_PATH, 0777);
+    }
+    log_init(ONVIF_LOGS_PATH"/onvif.log", 512*1024, 3, 3);
     snprintf(kOnvifMng.web_addr, sizeof(kOnvifMng.web_addr), "%s", addr);
 
     OnvifOperationDeviceInfo conf_dev_info;
