@@ -7,108 +7,174 @@
 #include "cjson_common.h"
 
 static void GetVideoSourceConfigurationFromJson(struct soap* soap, cJSON* json, struct tt__VideoSourceConfiguration* conf_video_source) {
-    SOAP_CJSON_GET_STRING(json, soap, "token", conf_video_source->token);
-    SOAP_CJSON_GET_STRING(json, soap, "name", conf_video_source->Name);
-    SOAP_CJSON_GET_NUMBER(json, soap, "use_count", conf_video_source->UseCount);
-    SOAP_CJSON_GET_STRING(json, soap, "source_token", conf_video_source->SourceToken);
-    SOAP_CJSON_GET_STRING(json, soap, "view_mode", conf_video_source->ViewMode);
+	conf_video_source->token = soap_strdup(soap, "ONFVideoSourceToken_1");
+	conf_video_source->Name = soap_strdup(soap, "ONFVideoSourceConfig_1");
+	conf_video_source->UseCount = 3;
+	conf_video_source->SourceToken = soap_strdup(soap, "ONFVideoSource_1");
 
-    conf_video_source->Bounds = (struct tt__IntRectangle*)soap_malloc(soap, sizeof(struct tt__IntRectangle));
+	conf_video_source->Bounds = (struct tt__IntRectangle*)soap_malloc(soap, sizeof(struct tt__IntRectangle));
     conf_video_source->Bounds->x = 0;
     conf_video_source->Bounds->y = 0;
-    conf_video_source->Bounds->width = 640;
-    conf_video_source->Bounds->height = 512;
-    cJSON* bounds_json = cJSON_GetObjectItemCaseSensitive(json, "bounds");
-    if (bounds_json != NULL && cJSON_IsObject(bounds_json)) {
-        SOAP_CJSON_GET_NUMBER(bounds_json, soap, "width", conf_video_source->Bounds->width);
-        SOAP_CJSON_GET_NUMBER(bounds_json, soap, "height", conf_video_source->Bounds->height);
-    }
+    conf_video_source->Bounds->width = 1024;
+    conf_video_source->Bounds->height = 768;
 
-    cJSON* extension_json = cJSON_GetObjectItemCaseSensitive(json, "extension");
-    if (extension_json != NULL && cJSON_IsObject(extension_json)) {
-        // todo
-        LOG_WRN("extension not support!");
-    }
+	conf_video_source->Extension = (struct tt__VideoSourceConfigurationExtension*)soap_malloc(soap, sizeof(struct tt__VideoSourceConfigurationExtension));
+	memset(conf_video_source->Extension, 0, sizeof(struct tt__VideoSourceConfigurationExtension));
+
+	conf_video_source->Extension->Rotate = (struct tt__Rotate*)soap_malloc(soap, sizeof(struct tt__Rotate));
+	memset(conf_video_source->Extension->Rotate, 0, sizeof(struct tt__Rotate));
+	conf_video_source->Extension->Rotate->Mode = tt__RotateMode__OFF;
+
+    // SOAP_CJSON_GET_STRING(json, soap, "token", conf_video_source->token);
+    // SOAP_CJSON_GET_STRING(json, soap, "name", conf_video_source->Name);
+    // SOAP_CJSON_GET_NUMBER(json, soap, "use_count", conf_video_source->UseCount);
+    // SOAP_CJSON_GET_STRING(json, soap, "source_token", conf_video_source->SourceToken);
+    // SOAP_CJSON_GET_STRING(json, soap, "view_mode", conf_video_source->ViewMode);
+
+    // conf_video_source->Bounds = (struct tt__IntRectangle*)soap_malloc(soap, sizeof(struct tt__IntRectangle));
+    // conf_video_source->Bounds->x = 0;
+    // conf_video_source->Bounds->y = 0;
+    // conf_video_source->Bounds->width = 640;
+    // conf_video_source->Bounds->height = 512;
+    // cJSON* bounds_json = cJSON_GetObjectItemCaseSensitive(json, "bounds");
+    // if (bounds_json != NULL && cJSON_IsObject(bounds_json)) {
+    //     SOAP_CJSON_GET_NUMBER(bounds_json, soap, "width", conf_video_source->Bounds->width);
+    //     SOAP_CJSON_GET_NUMBER(bounds_json, soap, "height", conf_video_source->Bounds->height);
+    // }
+
+    // cJSON* extension_json = cJSON_GetObjectItemCaseSensitive(json, "extension");
+    // if (extension_json != NULL && cJSON_IsObject(extension_json)) {
+    //     // todo
+    //     LOG_WRN("extension not support!");
+    // }
 }
 
 static void GetAudioSourceConfigurationFromJson(struct soap* soap, cJSON* json, struct tt__AudioSourceConfiguration* conf_audio_source) {
-    SOAP_CJSON_GET_STRING(json, soap, "token", conf_audio_source->token);
-    SOAP_CJSON_GET_STRING(json, soap, "name", conf_audio_source->Name);
-    SOAP_CJSON_GET_NUMBER(json, soap, "use_count", conf_audio_source->UseCount);
-    SOAP_CJSON_GET_STRING(json, soap, "source_token", conf_audio_source->SourceToken);
+	conf_audio_source->token = soap_strdup(soap, "AudioSourceConfigToken_1");
+	conf_audio_source->Name = soap_strdup(soap, "AudioSourceConfig_1");
+	conf_audio_source->UseCount = 3;
+	conf_audio_source->SourceToken = soap_strdup(soap, "AudioSourceChannel_1");
+
+    // SOAP_CJSON_GET_STRING(json, soap, "token", conf_audio_source->token);
+    // SOAP_CJSON_GET_STRING(json, soap, "name", conf_audio_source->Name);
+    // SOAP_CJSON_GET_NUMBER(json, soap, "use_count", conf_audio_source->UseCount);
+    // SOAP_CJSON_GET_STRING(json, soap, "source_token", conf_audio_source->SourceToken);
 }
 
 static void GetVideoEncoderConfigurationFromJson(struct soap* soap, cJSON* json, struct tt__VideoEncoderConfiguration* conf_video_encoder) {
-    SOAP_CJSON_GET_STRING(json, soap, "token", conf_video_encoder->token);
-    SOAP_CJSON_GET_STRING(json, soap, "name", conf_video_encoder->Name);
-    SOAP_CJSON_GET_NUMBER(json, soap, "use_count", conf_video_encoder->UseCount);
-    conf_video_encoder->GuaranteedFrameRate = soap_malloc(soap, sizeof(enum xsd__boolean));
-    SOAP_CJSON_GET_NUMBER(json, soap, "guaranteed_frame_rate", *(conf_video_encoder->GuaranteedFrameRate));
-    SOAP_CJSON_GET_NUMBER(json, soap, "encoding", conf_video_encoder->Encoding);
-    SOAP_CJSON_GET_NUMBER(json, soap, "quality", conf_video_encoder->Quality);
-    SOAP_CJSON_GET_NUMBER(json, soap, "session_timeout", conf_video_encoder->SessionTimeout);
+	conf_video_encoder->token = soap_strdup(soap, "ONFVideoEncoderToken_101");
+	conf_video_encoder->Name = soap_strdup(soap, "ONFVideoEncoder_101");
+	conf_video_encoder->UseCount = 1;
+
+	conf_video_encoder->GuaranteedFrameRate = soap_malloc(soap, sizeof(enum xsd__boolean));
+	*(conf_video_encoder->GuaranteedFrameRate) = xsd__boolean__false_;
+
+	conf_video_encoder->Encoding = tt__VideoEncoding__H264;
 
     conf_video_encoder->Resolution = (struct tt__VideoResolution*)soap_malloc(soap, sizeof(struct tt__VideoResolution));
-    conf_video_encoder->Resolution->Width = 640;
-    conf_video_encoder->Resolution->Height = 512;
-    cJSON* resolution_json = cJSON_GetObjectItemCaseSensitive(json, "resolution");
-    if (resolution_json != NULL && cJSON_IsObject(resolution_json)) {
-        SOAP_CJSON_GET_NUMBER(resolution_json, soap, "width", conf_video_encoder->Resolution->Width);
-        SOAP_CJSON_GET_NUMBER(resolution_json, soap, "height", conf_video_encoder->Resolution->Height);
-    }
+	memset(conf_video_encoder->Resolution, 0, sizeof(struct tt__VideoResolution));
+    conf_video_encoder->Resolution->Width = 1024;
+    conf_video_encoder->Resolution->Height = 768;
 
-    cJSON* rate_control_json = cJSON_GetObjectItemCaseSensitive(json, "rate_control");
-    if (rate_control_json != NULL && cJSON_IsObject(rate_control_json)) {
-        conf_video_encoder->RateControl = (struct tt__VideoRateControl*)soap_malloc(soap, sizeof(struct tt__VideoRateControl));
-        SOAP_CJSON_GET_NUMBER(rate_control_json, soap, "frame_rate_limit", conf_video_encoder->RateControl->FrameRateLimit);
-        SOAP_CJSON_GET_NUMBER(rate_control_json, soap, "encoding_interval", conf_video_encoder->RateControl->EncodingInterval);
-        SOAP_CJSON_GET_NUMBER(rate_control_json, soap, "bitrate_limit", conf_video_encoder->RateControl->BitrateLimit);
-    }
+	conf_video_encoder->Quality = 3;
 
-    cJSON* mpeg4_json = cJSON_GetObjectItemCaseSensitive(json, "mpeg4");
-    if (mpeg4_json != NULL && cJSON_IsObject(mpeg4_json)) {
-        conf_video_encoder->MPEG4 = (struct tt__Mpeg4Configuration*)soap_malloc(soap, sizeof(struct tt__Mpeg4Configuration));
-        SOAP_CJSON_GET_NUMBER(mpeg4_json, soap, "gov_length", conf_video_encoder->MPEG4->GovLength);
-        SOAP_CJSON_GET_NUMBER(mpeg4_json, soap, "mpeg4_profile", conf_video_encoder->MPEG4->Mpeg4Profile);
-    }
+	conf_video_encoder->RateControl = (struct tt__VideoRateControl*)soap_malloc(soap, sizeof(struct tt__VideoRateControl));
+	memset(conf_video_encoder->RateControl, 0, sizeof(struct tt__VideoRateControl));
+	conf_video_encoder->RateControl->FrameRateLimit = 30;
+	conf_video_encoder->RateControl->EncodingInterval = 1;
+	conf_video_encoder->RateControl->BitrateLimit = 4096;
 
-    cJSON* h264_json = cJSON_GetObjectItemCaseSensitive(json, "h264");
-    if (h264_json != NULL && cJSON_IsObject(h264_json)) {
-        conf_video_encoder->H264 = (struct tt__H264Configuration*)soap_malloc(soap, sizeof(struct tt__H264Configuration));
-        SOAP_CJSON_GET_NUMBER(h264_json, soap, "gov_length", conf_video_encoder->H264->GovLength);
-        SOAP_CJSON_GET_NUMBER(h264_json, soap, "h264_profile", conf_video_encoder->H264->H264Profile);
-    }
+	conf_video_encoder->H264 = (struct tt__H264Configuration*)soap_malloc(soap, sizeof(struct tt__H264Configuration));
+	memset(conf_video_encoder->H264, 0, sizeof(struct tt__H264Configuration));
+	conf_video_encoder->H264->GovLength = 30;
+	conf_video_encoder->H264->H264Profile = tt__H264Profile__Main;
 
-    cJSON* multicast_json = cJSON_GetObjectItemCaseSensitive(json, "multicast");
-    if (multicast_json != NULL && cJSON_IsObject(multicast_json)) {
-        // todo
-        LOG_WRN("multicast not support!");
-    }
+	conf_video_encoder->SessionTimeout = 5;
+
+    // SOAP_CJSON_GET_STRING(json, soap, "token", conf_video_encoder->token);
+    // SOAP_CJSON_GET_STRING(json, soap, "name", conf_video_encoder->Name);
+    // SOAP_CJSON_GET_NUMBER(json, soap, "use_count", conf_video_encoder->UseCount);
+    // conf_video_encoder->GuaranteedFrameRate = soap_malloc(soap, sizeof(enum xsd__boolean));
+    // SOAP_CJSON_GET_NUMBER(json, soap, "guaranteed_frame_rate", *(conf_video_encoder->GuaranteedFrameRate));
+    // SOAP_CJSON_GET_NUMBER(json, soap, "encoding", conf_video_encoder->Encoding);
+    // SOAP_CJSON_GET_NUMBER(json, soap, "quality", conf_video_encoder->Quality);
+    // SOAP_CJSON_GET_NUMBER(json, soap, "session_timeout", conf_video_encoder->SessionTimeout);
+
+    // conf_video_encoder->Resolution = (struct tt__VideoResolution*)soap_malloc(soap, sizeof(struct tt__VideoResolution));
+    // conf_video_encoder->Resolution->Width = 640;
+    // conf_video_encoder->Resolution->Height = 512;
+    // cJSON* resolution_json = cJSON_GetObjectItemCaseSensitive(json, "resolution");
+    // if (resolution_json != NULL && cJSON_IsObject(resolution_json)) {
+    //     SOAP_CJSON_GET_NUMBER(resolution_json, soap, "width", conf_video_encoder->Resolution->Width);
+    //     SOAP_CJSON_GET_NUMBER(resolution_json, soap, "height", conf_video_encoder->Resolution->Height);
+    // }
+
+    // cJSON* rate_control_json = cJSON_GetObjectItemCaseSensitive(json, "rate_control");
+    // if (rate_control_json != NULL && cJSON_IsObject(rate_control_json)) {
+    //     conf_video_encoder->RateControl = (struct tt__VideoRateControl*)soap_malloc(soap, sizeof(struct tt__VideoRateControl));
+    //     SOAP_CJSON_GET_NUMBER(rate_control_json, soap, "frame_rate_limit", conf_video_encoder->RateControl->FrameRateLimit);
+    //     SOAP_CJSON_GET_NUMBER(rate_control_json, soap, "encoding_interval", conf_video_encoder->RateControl->EncodingInterval);
+    //     SOAP_CJSON_GET_NUMBER(rate_control_json, soap, "bitrate_limit", conf_video_encoder->RateControl->BitrateLimit);
+    // }
+
+    // cJSON* mpeg4_json = cJSON_GetObjectItemCaseSensitive(json, "mpeg4");
+    // if (mpeg4_json != NULL && cJSON_IsObject(mpeg4_json)) {
+    //     conf_video_encoder->MPEG4 = (struct tt__Mpeg4Configuration*)soap_malloc(soap, sizeof(struct tt__Mpeg4Configuration));
+    //     SOAP_CJSON_GET_NUMBER(mpeg4_json, soap, "gov_length", conf_video_encoder->MPEG4->GovLength);
+    //     SOAP_CJSON_GET_NUMBER(mpeg4_json, soap, "mpeg4_profile", conf_video_encoder->MPEG4->Mpeg4Profile);
+    // }
+
+    // cJSON* h264_json = cJSON_GetObjectItemCaseSensitive(json, "h264");
+    // if (h264_json != NULL && cJSON_IsObject(h264_json)) {
+    //     conf_video_encoder->H264 = (struct tt__H264Configuration*)soap_malloc(soap, sizeof(struct tt__H264Configuration));
+    //     SOAP_CJSON_GET_NUMBER(h264_json, soap, "gov_length", conf_video_encoder->H264->GovLength);
+    //     SOAP_CJSON_GET_NUMBER(h264_json, soap, "h264_profile", conf_video_encoder->H264->H264Profile);
+    // }
+
+    // cJSON* multicast_json = cJSON_GetObjectItemCaseSensitive(json, "multicast");
+    // if (multicast_json != NULL && cJSON_IsObject(multicast_json)) {
+    //     // todo
+    //     LOG_WRN("multicast not support!");
+    // }
 }
 
 static void GetAudioEncoderConfigurationFromJson(struct soap* soap, cJSON* json, struct tt__AudioEncoderConfiguration* conf_audio_encoder) {
-    SOAP_CJSON_GET_STRING(json, soap, "token", conf_audio_encoder->token);
-    SOAP_CJSON_GET_STRING(json, soap, "name", conf_audio_encoder->Name);
-    SOAP_CJSON_GET_NUMBER(json, soap, "use_count", conf_audio_encoder->UseCount);
-    SOAP_CJSON_GET_NUMBER(json, soap, "encoding", conf_audio_encoder->Encoding);
-    SOAP_CJSON_GET_NUMBER(json, soap, "bitrate", conf_audio_encoder->Bitrate);
-    SOAP_CJSON_GET_NUMBER(json, soap, "sample_rate", conf_audio_encoder->SampleRate);
-    SOAP_CJSON_GET_NUMBER(json, soap, "session_timeout", conf_audio_encoder->SessionTimeout);
+	conf_audio_encoder->token = soap_strdup(soap, "MainAudioEncoderToken_1");
+	conf_audio_encoder->Name = soap_strdup(soap, "AudioEncoderConfig_1");
+	conf_audio_encoder->UseCount = 1;
+	conf_audio_encoder->Encoding = tt__AudioEncoding__AAC;
+	conf_audio_encoder->Bitrate = 32;
+	conf_audio_encoder->SampleRate = 16000;
+	conf_audio_encoder->SessionTimeout = 5000;
 
-    cJSON* multicast_json = cJSON_GetObjectItemCaseSensitive(json, "multicast");
-    if (multicast_json != NULL && cJSON_IsObject(multicast_json)) {
-        // todo
-        LOG_WRN("multicast not support!");
-    }
+    // SOAP_CJSON_GET_STRING(json, soap, "token", conf_audio_encoder->token);
+    // SOAP_CJSON_GET_STRING(json, soap, "name", conf_audio_encoder->Name);
+    // SOAP_CJSON_GET_NUMBER(json, soap, "use_count", conf_audio_encoder->UseCount);
+    // SOAP_CJSON_GET_NUMBER(json, soap, "encoding", conf_audio_encoder->Encoding);
+    // SOAP_CJSON_GET_NUMBER(json, soap, "bitrate", conf_audio_encoder->Bitrate);
+    // SOAP_CJSON_GET_NUMBER(json, soap, "sample_rate", conf_audio_encoder->SampleRate);
+    // SOAP_CJSON_GET_NUMBER(json, soap, "session_timeout", conf_audio_encoder->SessionTimeout);
+
+    // cJSON* multicast_json = cJSON_GetObjectItemCaseSensitive(json, "multicast");
+    // if (multicast_json != NULL && cJSON_IsObject(multicast_json)) {
+    //     // todo
+    //     LOG_WRN("multicast not support!");
+    // }
 }
 
 static void GetPtzConfigurationFromJson(struct soap* soap, cJSON* json, struct tt__PTZConfiguration* conf_ptz) {
-    SOAP_CJSON_GET_STRING(json, soap, "token", conf_ptz->token);
-    SOAP_CJSON_GET_STRING(json, soap, "name", conf_ptz->Name);
-    SOAP_CJSON_GET_NUMBER(json, soap, "use_count", conf_ptz->UseCount);
-    SOAP_CJSON_GET_STRING(json, soap, "node_token", conf_ptz->NodeToken);
-    conf_ptz->DefaultPTZTimeout = soap_malloc(soap, sizeof(LONG64));
-    SOAP_CJSON_GET_NUMBER(json, soap, "ptz_timeout", *(conf_ptz->DefaultPTZTimeout));
+	conf_ptz->Name = soap_strdup(soap, "PTZ");
+	conf_ptz->token = soap_strdup(soap, "PTZToken");
+	conf_ptz->UseCount = 3;
+	conf_ptz->NodeToken = soap_strdup(soap, "PTZNODETOKEN");
+
+
+    // SOAP_CJSON_GET_STRING(json, soap, "token", conf_ptz->token);
+    // SOAP_CJSON_GET_STRING(json, soap, "name", conf_ptz->Name);
+    // SOAP_CJSON_GET_NUMBER(json, soap, "use_count", conf_ptz->UseCount);
+    // SOAP_CJSON_GET_STRING(json, soap, "node_token", conf_ptz->NodeToken);
+    // conf_ptz->DefaultPTZTimeout = soap_malloc(soap, sizeof(LONG64));
+    // SOAP_CJSON_GET_NUMBER(json, soap, "ptz_timeout", *(conf_ptz->DefaultPTZTimeout));
 
     conf_ptz->DefaultAbsolutePantTiltPositionSpace = soap_strdup(soap, "http://www.onvif.org/ver10/tptz/PanTiltSpaces/PositionGenericSpace");
     conf_ptz->DefaultAbsoluteZoomPositionSpace = soap_strdup(soap, "http://www.onvif.org/ver10/tptz/ZoomSpaces/PositionGenericSpace");
@@ -117,75 +183,100 @@ static void GetPtzConfigurationFromJson(struct soap* soap, cJSON* json, struct t
     conf_ptz->DefaultContinuousPanTiltVelocitySpace = soap_strdup(soap, "http://www.onvif.org/ver10/tptz/PanTiltSpaces/VelocityGenericSpace");
     conf_ptz->DefaultContinuousZoomVelocitySpace = soap_strdup(soap, "http://www.onvif.org/ver10/tptz/ZoomSpaces/VelocityGenericSpace");
 
-    cJSON* ptz_speed_json = cJSON_GetObjectItemCaseSensitive(json, "default_ptz_speed");
-    if (ptz_speed_json != NULL && cJSON_IsObject(ptz_speed_json)) {
-        // todo
-        // http://www.onvif.org/ver10/tptz/PanTiltSpaces/GenericSpeedSpace
-        // http://www.onvif.org/ver10/tptz/ZoomSpaces/ZoomGenericSpeedSpace
-        LOG_WRN("default ptz speed not support!");
-    }
+    // cJSON* ptz_speed_json = cJSON_GetObjectItemCaseSensitive(json, "default_ptz_speed");
+    // if (ptz_speed_json != NULL && cJSON_IsObject(ptz_speed_json)) {
+    //     // todo
+    //     // http://www.onvif.org/ver10/tptz/PanTiltSpaces/GenericSpeedSpace
+    //     // http://www.onvif.org/ver10/tptz/ZoomSpaces/ZoomGenericSpeedSpace
+    //     LOG_WRN("default ptz speed not support!");
+    // }
     
-    cJSON* pan_tilt_limits_json = cJSON_GetObjectItemCaseSensitive(json, "pan_tilt_limits");
-    if (pan_tilt_limits_json != NULL && cJSON_IsObject(pan_tilt_limits_json)) {
-        // todo
-        // http://www.onvif.org/ver10/tptz/PanTiltSpaces/PositionGenericSpace
-        LOG_WRN("pan tilt limits not support!");
-    }
+    // cJSON* pan_tilt_limits_json = cJSON_GetObjectItemCaseSensitive(json, "pan_tilt_limits");
+    // if (pan_tilt_limits_json != NULL && cJSON_IsObject(pan_tilt_limits_json)) {
+    //     // todo
+    //     // http://www.onvif.org/ver10/tptz/PanTiltSpaces/PositionGenericSpace
+    //     LOG_WRN("pan tilt limits not support!");
+    // }
 
-    cJSON* zoom_limits_json = cJSON_GetObjectItemCaseSensitive(json, "zoom_limits");
-    if (zoom_limits_json != NULL && cJSON_IsObject(zoom_limits_json)) {
-        // todo
-        // http://www.onvif.org/ver10/tptz/ZoomSpaces/PositionGenericSpace
-        LOG_WRN("zoom limits not support!");
-    }
+    // cJSON* zoom_limits_json = cJSON_GetObjectItemCaseSensitive(json, "zoom_limits");
+    // if (zoom_limits_json != NULL && cJSON_IsObject(zoom_limits_json)) {
+    //     // todo
+    //     // http://www.onvif.org/ver10/tptz/ZoomSpaces/PositionGenericSpace
+    //     LOG_WRN("zoom limits not support!");
+    // }
 }
 
 static void GetProfile(struct soap* soap, cJSON* json, struct tt__Profile* profile) {
-    SOAP_CJSON_GET_STRING(json, soap, "token", profile->token);
-    SOAP_CJSON_GET_STRING(json, soap, "name", profile->Name);
+	profile->token = soap_strdup(soap, "ONFProfileToken_101");
+	profile->Name = soap_strdup(soap, "ONFProfileName_101");
     profile->fixed = soap_malloc(soap, sizeof(enum xsd__boolean));
-    SOAP_CJSON_GET_NUMBER(json, soap, "fixed", *(profile->fixed));
+	*(profile->fixed) = xsd__boolean__true_;
 
-    cJSON* video_source_json = cJSON_GetObjectItemCaseSensitive(json, "video_source");
-    if (video_source_json != NULL && cJSON_IsObject(video_source_json)) {
-        profile->VideoSourceConfiguration = (struct tt__VideoSourceConfiguration*)soap_malloc(soap, sizeof(struct tt__VideoSourceConfiguration));
-        memset(profile->VideoSourceConfiguration, 0, sizeof(struct tt__VideoSourceConfiguration));
-        GetVideoSourceConfigurationFromJson(soap, video_source_json, profile->VideoSourceConfiguration);
-    }
+	profile->VideoSourceConfiguration = (struct tt__VideoSourceConfiguration*)soap_malloc(soap, sizeof(struct tt__VideoSourceConfiguration));
+	memset(profile->VideoSourceConfiguration, 0, sizeof(struct tt__VideoSourceConfiguration));
+	GetVideoSourceConfigurationFromJson(soap, NULL, profile->VideoSourceConfiguration);
 
-    cJSON* audio_source_json = cJSON_GetObjectItemCaseSensitive(json, "audio_source");
-    if (audio_source_json != NULL && cJSON_IsObject(audio_source_json)) {
-        profile->AudioSourceConfiguration = (struct tt__AudioSourceConfiguration*)soap_malloc(soap, sizeof(struct tt__AudioSourceConfiguration));
-        memset(profile->AudioSourceConfiguration, 0, sizeof(struct tt__AudioSourceConfiguration));
-        GetAudioSourceConfigurationFromJson(soap, audio_source_json, profile->AudioSourceConfiguration);
-    }
+	profile->VideoSourceConfiguration = (struct tt__VideoSourceConfiguration*)soap_malloc(soap, sizeof(struct tt__VideoSourceConfiguration));
+	memset(profile->VideoSourceConfiguration, 0, sizeof(struct tt__VideoSourceConfiguration));
+	GetVideoSourceConfigurationFromJson(soap, NULL, profile->VideoSourceConfiguration);
 
-    int video_encoder_index = 0;
-    SOAP_CJSON_GET_NUMBER(json, soap, "use_video_encoder_index", video_encoder_index);
-    cJSON* video_encoder_json = cJSON_GetArrayItem(cJSON_GetObjectItemCaseSensitive(json, "compatible_video_encoder"), video_encoder_index);
-    if (video_encoder_json != NULL && cJSON_IsObject(video_encoder_json)) {
-        profile->VideoEncoderConfiguration = (struct tt__VideoEncoderConfiguration*)soap_malloc(soap, sizeof(struct tt__VideoEncoderConfiguration));
-        memset(profile->VideoEncoderConfiguration, 0, sizeof(struct tt__VideoEncoderConfiguration));
-        GetVideoEncoderConfigurationFromJson(soap, video_encoder_json, profile->VideoEncoderConfiguration);
-    }
+	profile->VideoEncoderConfiguration = (struct tt__VideoEncoderConfiguration*)soap_malloc(soap, sizeof(struct tt__VideoEncoderConfiguration));
+	memset(profile->VideoEncoderConfiguration, 0, sizeof(struct tt__VideoEncoderConfiguration));
+	GetVideoEncoderConfigurationFromJson(soap, NULL, profile->VideoEncoderConfiguration);
 
-    int audio_encoder_index = 0;
-    SOAP_CJSON_GET_NUMBER(json, soap, "use_audio_encoder_index", audio_encoder_index);
-    cJSON* audio_encoder_json = cJSON_GetArrayItem(cJSON_GetObjectItemCaseSensitive(json, "compatible_audio_encoder"), audio_encoder_index);
-    if (audio_encoder_json != NULL && cJSON_IsObject(audio_encoder_json)) {
-        profile->AudioEncoderConfiguration = (struct tt__AudioEncoderConfiguration*)soap_malloc(soap, sizeof(struct tt__AudioEncoderConfiguration));
-        memset(profile->AudioEncoderConfiguration, 0, sizeof(struct tt__AudioEncoderConfiguration));
-        GetAudioEncoderConfigurationFromJson(soap, audio_encoder_json, profile->AudioEncoderConfiguration);
-    }
+	profile->AudioEncoderConfiguration = (struct tt__AudioEncoderConfiguration*)soap_malloc(soap, sizeof(struct tt__AudioEncoderConfiguration));
+	memset(profile->AudioEncoderConfiguration, 0, sizeof(struct tt__AudioEncoderConfiguration));
+	GetAudioEncoderConfigurationFromJson(soap, NULL, profile->AudioEncoderConfiguration);
 
-    int ptz_index = 0;
-    SOAP_CJSON_GET_NUMBER(json, soap, "use_ptz_index", ptz_index);
-    cJSON* ptz_json = cJSON_GetArrayItem(cJSON_GetObjectItemCaseSensitive(json, "compatible_ptz"), ptz_index);
-    if (ptz_json != NULL && cJSON_IsObject(ptz_json)) {
-        profile->PTZConfiguration = (struct tt__PTZConfiguration*)soap_malloc(soap, sizeof(struct tt__PTZConfiguration));
-        memset(profile->PTZConfiguration, 0, sizeof(struct tt__PTZConfiguration));
-        GetPtzConfigurationFromJson(soap, ptz_json, profile->PTZConfiguration);
-    }
+	profile->PTZConfiguration = (struct tt__PTZConfiguration*)soap_malloc(soap, sizeof(struct tt__PTZConfiguration));
+	memset(profile->PTZConfiguration, 0, sizeof(struct tt__PTZConfiguration));
+	GetPtzConfigurationFromJson(soap, NULL, profile->PTZConfiguration);
+
+    // SOAP_CJSON_GET_STRING(json, soap, "token", profile->token);
+    // SOAP_CJSON_GET_STRING(json, soap, "name", profile->Name);
+    // profile->fixed = soap_malloc(soap, sizeof(enum xsd__boolean));
+    // SOAP_CJSON_GET_NUMBER(json, soap, "fixed", *(profile->fixed));
+
+    // cJSON* video_source_json = cJSON_GetObjectItemCaseSensitive(json, "video_source");
+    // if (video_source_json != NULL && cJSON_IsObject(video_source_json)) {
+    //     profile->VideoSourceConfiguration = (struct tt__VideoSourceConfiguration*)soap_malloc(soap, sizeof(struct tt__VideoSourceConfiguration));
+    //     memset(profile->VideoSourceConfiguration, 0, sizeof(struct tt__VideoSourceConfiguration));
+    //     GetVideoSourceConfigurationFromJson(soap, video_source_json, profile->VideoSourceConfiguration);
+    // }
+
+    // cJSON* audio_source_json = cJSON_GetObjectItemCaseSensitive(json, "audio_source");
+    // if (audio_source_json != NULL && cJSON_IsObject(audio_source_json)) {
+    //     profile->AudioSourceConfiguration = (struct tt__AudioSourceConfiguration*)soap_malloc(soap, sizeof(struct tt__AudioSourceConfiguration));
+    //     memset(profile->AudioSourceConfiguration, 0, sizeof(struct tt__AudioSourceConfiguration));
+    //     GetAudioSourceConfigurationFromJson(soap, audio_source_json, profile->AudioSourceConfiguration);
+    // }
+
+    // int video_encoder_index = 0;
+    // SOAP_CJSON_GET_NUMBER(json, soap, "use_video_encoder_index", video_encoder_index);
+    // cJSON* video_encoder_json = cJSON_GetArrayItem(cJSON_GetObjectItemCaseSensitive(json, "compatible_video_encoder"), video_encoder_index);
+    // if (video_encoder_json != NULL && cJSON_IsObject(video_encoder_json)) {
+    //     profile->VideoEncoderConfiguration = (struct tt__VideoEncoderConfiguration*)soap_malloc(soap, sizeof(struct tt__VideoEncoderConfiguration));
+    //     memset(profile->VideoEncoderConfiguration, 0, sizeof(struct tt__VideoEncoderConfiguration));
+    //     GetVideoEncoderConfigurationFromJson(soap, video_encoder_json, profile->VideoEncoderConfiguration);
+    // }
+
+    // int audio_encoder_index = 0;
+    // SOAP_CJSON_GET_NUMBER(json, soap, "use_audio_encoder_index", audio_encoder_index);
+    // cJSON* audio_encoder_json = cJSON_GetArrayItem(cJSON_GetObjectItemCaseSensitive(json, "compatible_audio_encoder"), audio_encoder_index);
+    // if (audio_encoder_json != NULL && cJSON_IsObject(audio_encoder_json)) {
+    //     profile->AudioEncoderConfiguration = (struct tt__AudioEncoderConfiguration*)soap_malloc(soap, sizeof(struct tt__AudioEncoderConfiguration));
+    //     memset(profile->AudioEncoderConfiguration, 0, sizeof(struct tt__AudioEncoderConfiguration));
+    //     GetAudioEncoderConfigurationFromJson(soap, audio_encoder_json, profile->AudioEncoderConfiguration);
+    // }
+
+    // int ptz_index = 0;
+    // SOAP_CJSON_GET_NUMBER(json, soap, "use_ptz_index", ptz_index);
+    // cJSON* ptz_json = cJSON_GetArrayItem(cJSON_GetObjectItemCaseSensitive(json, "compatible_ptz"), ptz_index);
+    // if (ptz_json != NULL && cJSON_IsObject(ptz_json)) {
+    //     profile->PTZConfiguration = (struct tt__PTZConfiguration*)soap_malloc(soap, sizeof(struct tt__PTZConfiguration));
+    //     memset(profile->PTZConfiguration, 0, sizeof(struct tt__PTZConfiguration));
+    //     GetPtzConfigurationFromJson(soap, ptz_json, profile->PTZConfiguration);
+    // }
 }
 
 /** Web service operation '__trt__GetServiceCapabilities' implementation, should return SOAP_OK or error code */
@@ -197,51 +288,62 @@ SOAP_FMAC5 int SOAP_FMAC6 __trt__GetServiceCapabilities(struct soap* soap, struc
 SOAP_FMAC5 int SOAP_FMAC6 __trt__GetVideoSources(struct soap* soap, struct _trt__GetVideoSources *trt__GetVideoSources, struct _trt__GetVideoSourcesResponse *trt__GetVideoSourcesResponse) {
     CHECK_LT(AuthUser(soap), 0, return 401);
 
-    cJSON* profiles_json = OnvifOperationGetConfig("profiles");
-    CHECK_POINTER(profiles_json, return 500);
-    CHECK_BOOL(cJSON_IsArray(profiles_json), return 500);
+	LOG_INFO("");
 
-    trt__GetVideoSourcesResponse->__sizeVideoSources = cJSON_GetArraySize(profiles_json);
-    trt__GetVideoSourcesResponse->VideoSources = (struct tt__VideoSource*)soap_malloc(soap, sizeof(struct tt__VideoSource)*trt__GetVideoSourcesResponse->__sizeVideoSources);
+	trt__GetVideoSourcesResponse->__sizeVideoSources = 1;
+	trt__GetVideoSourcesResponse->VideoSources = (struct tt__VideoSource*)soap_malloc(soap, sizeof(struct tt__VideoSource)*trt__GetVideoSourcesResponse->__sizeVideoSources);
     memset(trt__GetVideoSourcesResponse->VideoSources, 0, sizeof(struct tt__VideoSource)*trt__GetVideoSourcesResponse->__sizeVideoSources);
-    for(int i = 0; i < trt__GetVideoSourcesResponse->__sizeVideoSources; i++) {
-        cJSON* profile_json = cJSON_GetArrayItem(profiles_json, i);
-        if (profile_json == NULL || !cJSON_IsObject(profile_json)) {
-            continue;
-        }
+	trt__GetVideoSourcesResponse->VideoSources[0].token = soap_strdup(soap, "ONFVideoSource_1");
+	trt__GetVideoSourcesResponse->VideoSources[0].Framerate = 30;
+	trt__GetVideoSourcesResponse->VideoSources[0].Resolution = (struct tt__VideoResolution*)soap_malloc(soap, sizeof(struct tt__VideoResolution));
+	trt__GetVideoSourcesResponse->VideoSources[0].Resolution->Width = 1024;
+	trt__GetVideoSourcesResponse->VideoSources[0].Resolution->Height = 768;
 
-        cJSON* video_source_json = cJSON_GetObjectItemCaseSensitive(profile_json, "video_source");
-        if (video_source_json == NULL || !cJSON_IsObject(video_source_json)) {
-            continue;
-        }
+    // cJSON* profiles_json = OnvifOperationGetConfig("profiles");
+    // CHECK_POINTER(profiles_json, return 500);
+    // CHECK_BOOL(cJSON_IsArray(profiles_json), return 500);
 
-        SOAP_CJSON_GET_STRING(video_source_json, soap, "source_token", trt__GetVideoSourcesResponse->VideoSources[i].token);
+    // trt__GetVideoSourcesResponse->__sizeVideoSources = cJSON_GetArraySize(profiles_json);
+    // trt__GetVideoSourcesResponse->VideoSources = (struct tt__VideoSource*)soap_malloc(soap, sizeof(struct tt__VideoSource)*trt__GetVideoSourcesResponse->__sizeVideoSources);
+    // memset(trt__GetVideoSourcesResponse->VideoSources, 0, sizeof(struct tt__VideoSource)*trt__GetVideoSourcesResponse->__sizeVideoSources);
+    // for(int i = 0; i < trt__GetVideoSourcesResponse->__sizeVideoSources; i++) {
+    //     cJSON* profile_json = cJSON_GetArrayItem(profiles_json, i);
+    //     if (profile_json == NULL || !cJSON_IsObject(profile_json)) {
+    //         continue;
+    //     }
 
-        int video_encoder_index = 0;
-        SOAP_CJSON_GET_NUMBER(profile_json, soap, "use_video_encoder_index", video_encoder_index);
-        cJSON* video_encoder_json = cJSON_GetArrayItem(cJSON_GetObjectItemCaseSensitive(profile_json, "compatible_video_encoder"), video_encoder_index);
-        if (video_encoder_json == NULL || !cJSON_IsObject(video_encoder_json)) {
-            continue;
-        }
+    //     cJSON* video_source_json = cJSON_GetObjectItemCaseSensitive(profile_json, "video_source");
+    //     if (video_source_json == NULL || !cJSON_IsObject(video_source_json)) {
+    //         continue;
+    //     }
 
-        trt__GetVideoSourcesResponse->VideoSources[i].Framerate = 30;
-        cJSON* mpeg4_json = cJSON_GetObjectItemCaseSensitive(video_encoder_json, "mpeg4");
-        cJSON* h264_json = cJSON_GetObjectItemCaseSensitive(video_encoder_json, "h264");
-        if (mpeg4_json != NULL && cJSON_IsObject(mpeg4_json)) {
-            SOAP_CJSON_GET_NUMBER(mpeg4_json, soap, "gov_length", trt__GetVideoSourcesResponse->VideoSources[i].Framerate);
-        } else if (h264_json != NULL && cJSON_IsObject(h264_json)) {
-            SOAP_CJSON_GET_NUMBER(h264_json, soap, "gov_length", trt__GetVideoSourcesResponse->VideoSources[i].Framerate);
-        }
+    //     SOAP_CJSON_GET_STRING(video_source_json, soap, "source_token", trt__GetVideoSourcesResponse->VideoSources[i].token);
 
-        trt__GetVideoSourcesResponse->VideoSources[i].Resolution = (struct tt__VideoResolution*)soap_malloc(soap, sizeof(struct tt__VideoResolution));
-        trt__GetVideoSourcesResponse->VideoSources[i].Resolution->Width = 640;
-        trt__GetVideoSourcesResponse->VideoSources[i].Resolution->Height = 512;
-        cJSON* resolution_json = cJSON_GetObjectItemCaseSensitive(video_encoder_json, "resolution");
-        if (resolution_json != NULL && cJSON_IsObject(resolution_json)) {
-            SOAP_CJSON_GET_NUMBER(resolution_json, soap, "width", trt__GetVideoSourcesResponse->VideoSources[i].Resolution->Width);
-            SOAP_CJSON_GET_NUMBER(resolution_json, soap, "height", trt__GetVideoSourcesResponse->VideoSources[i].Resolution->Height);
-        }
-    }
+    //     int video_encoder_index = 0;
+    //     SOAP_CJSON_GET_NUMBER(profile_json, soap, "use_video_encoder_index", video_encoder_index);
+    //     cJSON* video_encoder_json = cJSON_GetArrayItem(cJSON_GetObjectItemCaseSensitive(profile_json, "compatible_video_encoder"), video_encoder_index);
+    //     if (video_encoder_json == NULL || !cJSON_IsObject(video_encoder_json)) {
+    //         continue;
+    //     }
+
+    //     trt__GetVideoSourcesResponse->VideoSources[i].Framerate = 30;
+    //     cJSON* mpeg4_json = cJSON_GetObjectItemCaseSensitive(video_encoder_json, "mpeg4");
+    //     cJSON* h264_json = cJSON_GetObjectItemCaseSensitive(video_encoder_json, "h264");
+    //     if (mpeg4_json != NULL && cJSON_IsObject(mpeg4_json)) {
+    //         SOAP_CJSON_GET_NUMBER(mpeg4_json, soap, "gov_length", trt__GetVideoSourcesResponse->VideoSources[i].Framerate);
+    //     } else if (h264_json != NULL && cJSON_IsObject(h264_json)) {
+    //         SOAP_CJSON_GET_NUMBER(h264_json, soap, "gov_length", trt__GetVideoSourcesResponse->VideoSources[i].Framerate);
+    //     }
+
+    //     trt__GetVideoSourcesResponse->VideoSources[i].Resolution = (struct tt__VideoResolution*)soap_malloc(soap, sizeof(struct tt__VideoResolution));
+    //     trt__GetVideoSourcesResponse->VideoSources[i].Resolution->Width = 640;
+    //     trt__GetVideoSourcesResponse->VideoSources[i].Resolution->Height = 512;
+    //     cJSON* resolution_json = cJSON_GetObjectItemCaseSensitive(video_encoder_json, "resolution");
+    //     if (resolution_json != NULL && cJSON_IsObject(resolution_json)) {
+    //         SOAP_CJSON_GET_NUMBER(resolution_json, soap, "width", trt__GetVideoSourcesResponse->VideoSources[i].Resolution->Width);
+    //         SOAP_CJSON_GET_NUMBER(resolution_json, soap, "height", trt__GetVideoSourcesResponse->VideoSources[i].Resolution->Height);
+    //     }
+    // }
 
     return 0;
 }
@@ -249,21 +351,30 @@ SOAP_FMAC5 int SOAP_FMAC6 __trt__GetVideoSources(struct soap* soap, struct _trt_
 SOAP_FMAC5 int SOAP_FMAC6 __trt__GetAudioSources(struct soap* soap, struct _trt__GetAudioSources *trt__GetAudioSources, struct _trt__GetAudioSourcesResponse *trt__GetAudioSourcesResponse) {
     CHECK_LT(AuthUser(soap), 0, return 401);
 
-    cJSON* profiles_json = OnvifOperationGetConfig("profiles");
-    CHECK_POINTER(profiles_json, return 500);
-    CHECK_BOOL(cJSON_IsArray(profiles_json), return 500);
+	LOG_INFO("");
 
-    trt__GetAudioSourcesResponse->__sizeAudioSources = cJSON_GetArraySize(profiles_json);;
-    trt__GetAudioSourcesResponse->AudioSources = (struct tt__AudioSource*)soap_malloc(soap, sizeof(struct tt__AudioSource)*trt__GetAudioSourcesResponse->__sizeAudioSources);
-    for(int i = 0; i < trt__GetAudioSourcesResponse->__sizeAudioSources; i++) {
-        cJSON* audio_source_json = cJSON_GetObjectItemCaseSensitive(cJSON_GetArrayItem(profiles_json, i), "video_source");
-        if (audio_source_json == NULL || !cJSON_IsObject(audio_source_json)) {
-            continue;
-        }
+	trt__GetAudioSourcesResponse->__sizeAudioSources = 1;
+	trt__GetAudioSourcesResponse->AudioSources = (struct tt__AudioSource*)soap_malloc(soap, sizeof(struct tt__AudioSource)*trt__GetAudioSourcesResponse->__sizeAudioSources);
+	memset(trt__GetAudioSourcesResponse->AudioSources, 0, sizeof(struct tt__AudioSource)*trt__GetAudioSourcesResponse->__sizeAudioSources);
 
-        SOAP_CJSON_GET_STRING(audio_source_json, soap, "source_token", trt__GetAudioSourcesResponse->AudioSources[i].token);
-        SOAP_CJSON_GET_NUMBER(audio_source_json, soap, "channels", trt__GetAudioSourcesResponse->AudioSources[i].Channels);
-    }
+	trt__GetAudioSourcesResponse->AudioSources[0].token = soap_strdup(soap, "AudioSourceConfig_1");
+	trt__GetAudioSourcesResponse->AudioSources[0].Channels = 1;
+
+    // cJSON* profiles_json = OnvifOperationGetConfig("profiles");
+    // CHECK_POINTER(profiles_json, return 500);
+    // CHECK_BOOL(cJSON_IsArray(profiles_json), return 500);
+
+    // trt__GetAudioSourcesResponse->__sizeAudioSources = cJSON_GetArraySize(profiles_json);
+    // trt__GetAudioSourcesResponse->AudioSources = (struct tt__AudioSource*)soap_malloc(soap, sizeof(struct tt__AudioSource)*trt__GetAudioSourcesResponse->__sizeAudioSources);
+    // for(int i = 0; i < trt__GetAudioSourcesResponse->__sizeAudioSources; i++) {
+    //     cJSON* audio_source_json = cJSON_GetObjectItemCaseSensitive(cJSON_GetArrayItem(profiles_json, i), "video_source");
+    //     if (audio_source_json == NULL || !cJSON_IsObject(audio_source_json)) {
+    //         continue;
+    //     }
+
+    //     SOAP_CJSON_GET_STRING(audio_source_json, soap, "source_token", trt__GetAudioSourcesResponse->AudioSources[i].token);
+    //     SOAP_CJSON_GET_NUMBER(audio_source_json, soap, "channels", trt__GetAudioSourcesResponse->AudioSources[i].Channels);
+    // }
 
     return 0;
 }
@@ -281,23 +392,29 @@ SOAP_FMAC5 int SOAP_FMAC6 __trt__CreateProfile(struct soap* soap, struct _trt__C
 SOAP_FMAC5 int SOAP_FMAC6 __trt__GetProfile(struct soap* soap, struct _trt__GetProfile *trt__GetProfile, struct _trt__GetProfileResponse *trt__GetProfileResponse) {
     CHECK_LT(AuthUser(soap), 0, return 401);
 
-    cJSON* profiles_json = OnvifOperationGetConfig("profiles");
-    CHECK_POINTER(profiles_json, return 500);
-    CHECK_BOOL(cJSON_IsArray(profiles_json), return 500);
+	LOG_INFO("");
 
-    for(int i = 0; i < cJSON_GetArraySize(profiles_json); i++) {
-        cJSON* profile_json = cJSON_GetArrayItem(profiles_json, i);
-        if (profile_json == NULL || !cJSON_IsObject(profile_json)) {
-            continue;
-        }
+	trt__GetProfileResponse->Profile = (struct tt__Profile*)soap_malloc(soap, sizeof(struct tt__Profile));
+	memset(trt__GetProfileResponse->Profile, 0, sizeof(struct tt__Profile));
+	GetProfile(soap, NULL, trt__GetProfileResponse->Profile); 
 
-        if (strcmp(trt__GetProfile->ProfileToken, cJSON_GetStringValue(cJSON_GetObjectItemCaseSensitive(profile_json, "token"))) == 0) {
-            trt__GetProfileResponse->Profile = (struct tt__Profile*)soap_malloc(soap, sizeof(struct tt__Profile));
-            memset(trt__GetProfileResponse->Profile, 0, sizeof(struct tt__Profile));
-            GetProfile(soap, profile_json, trt__GetProfileResponse->Profile); 
-            break;
-        }
-    }
+    // cJSON* profiles_json = OnvifOperationGetConfig("profiles");
+    // CHECK_POINTER(profiles_json, return 500);
+    // CHECK_BOOL(cJSON_IsArray(profiles_json), return 500);
+
+    // for(int i = 0; i < cJSON_GetArraySize(profiles_json); i++) {
+    //     cJSON* profile_json = cJSON_GetArrayItem(profiles_json, i);
+    //     if (profile_json == NULL || !cJSON_IsObject(profile_json)) {
+    //         continue;
+    //     }
+
+    //     if (strcmp(trt__GetProfile->ProfileToken, cJSON_GetStringValue(cJSON_GetObjectItemCaseSensitive(profile_json, "token"))) == 0) {
+    //         trt__GetProfileResponse->Profile = (struct tt__Profile*)soap_malloc(soap, sizeof(struct tt__Profile));
+    //         memset(trt__GetProfileResponse->Profile, 0, sizeof(struct tt__Profile));
+    //         GetProfile(soap, profile_json, trt__GetProfileResponse->Profile); 
+    //         break;
+    //     }
+    // }
 
     return 0;
 }
@@ -305,19 +422,26 @@ SOAP_FMAC5 int SOAP_FMAC6 __trt__GetProfile(struct soap* soap, struct _trt__GetP
 SOAP_FMAC5 int SOAP_FMAC6 __trt__GetProfiles(struct soap* soap, struct _trt__GetProfiles *trt__GetProfiles, struct _trt__GetProfilesResponse *trt__GetProfilesResponse) {
     CHECK_LT(AuthUser(soap), 0, return 401);
 
-    cJSON* profiles_json = OnvifOperationGetConfig("profiles");
-    CHECK_POINTER(profiles_json, return 500);
-    CHECK_BOOL(cJSON_IsArray(profiles_json), return 500);
+	LOG_WRN("");
 
-    trt__GetProfilesResponse->__sizeProfiles = cJSON_GetArraySize(profiles_json);
-    trt__GetProfilesResponse->Profiles = (struct tt__Profile*)soap_malloc(soap, sizeof(struct tt__Profile)*trt__GetProfilesResponse->__sizeProfiles);
+	trt__GetProfilesResponse->__sizeProfiles = 1;
+	trt__GetProfilesResponse->Profiles = (struct tt__Profile*)soap_malloc(soap, sizeof(struct tt__Profile)*trt__GetProfilesResponse->__sizeProfiles);
     memset(trt__GetProfilesResponse->Profiles, 0, sizeof(struct tt__Profile)*trt__GetProfilesResponse->__sizeProfiles);
-    for(int i = 0; i < trt__GetProfilesResponse->__sizeProfiles; i++) {
-        cJSON* profile_json = cJSON_GetArrayItem(profiles_json, i);
-        CHECK_POINTER(profile_json, return 500);
+	GetProfile(soap, NULL, &trt__GetProfilesResponse->Profiles[0]);
 
-        GetProfile(soap, profile_json, &trt__GetProfilesResponse->Profiles[i]);
-    }
+    // cJSON* profiles_json = OnvifOperationGetConfig("profiles");
+    // CHECK_POINTER(profiles_json, return 500);
+    // CHECK_BOOL(cJSON_IsArray(profiles_json), return 500);
+
+    // trt__GetProfilesResponse->__sizeProfiles = cJSON_GetArraySize(profiles_json);
+    // trt__GetProfilesResponse->Profiles = (struct tt__Profile*)soap_malloc(soap, sizeof(struct tt__Profile)*trt__GetProfilesResponse->__sizeProfiles);
+    // memset(trt__GetProfilesResponse->Profiles, 0, sizeof(struct tt__Profile)*trt__GetProfilesResponse->__sizeProfiles);
+    // for(int i = 0; i < trt__GetProfilesResponse->__sizeProfiles; i++) {
+    //     cJSON* profile_json = cJSON_GetArrayItem(profiles_json, i);
+    //     CHECK_POINTER(profile_json, return 500);
+
+    //     GetProfile(soap, profile_json, &trt__GetProfilesResponse->Profiles[i]);
+    // }
 
     return 0;
 }
@@ -421,22 +545,24 @@ SOAP_FMAC5 int SOAP_FMAC6 __trt__DeleteProfile(struct soap* soap, struct _trt__D
 SOAP_FMAC5 int SOAP_FMAC6 __trt__GetVideoSourceConfigurations(struct soap* soap, struct _trt__GetVideoSourceConfigurations *trt__GetVideoSourceConfigurations, struct _trt__GetVideoSourceConfigurationsResponse *trt__GetVideoSourceConfigurationsResponse) {
     CHECK_LT(AuthUser(soap), 0, return 401);
 
-    cJSON* profiles_json = OnvifOperationGetConfig("profiles");
-    CHECK_POINTER(profiles_json, return 500);
-    CHECK_BOOL(cJSON_IsArray(profiles_json), return 500);
+	LOG_INFO("");
 
-    trt__GetVideoSourceConfigurationsResponse->__sizeConfigurations = cJSON_GetArraySize(profiles_json);
-    trt__GetVideoSourceConfigurationsResponse->Configurations = (struct tt__VideoSourceConfiguration*)soap_malloc(soap, sizeof(struct tt__VideoSourceConfiguration)*trt__GetVideoSourceConfigurationsResponse->__sizeConfigurations);
-    memset(trt__GetVideoSourceConfigurationsResponse->Configurations, 0, sizeof(struct tt__VideoSourceConfiguration)*trt__GetVideoSourceConfigurationsResponse->__sizeConfigurations);
-    for(int i = 0; i < trt__GetVideoSourceConfigurationsResponse->__sizeConfigurations; i++) {
-        cJSON* profile_json = cJSON_GetArrayItem(profiles_json, i);
-        CHECK_POINTER(profile_json, return 500);
+    // cJSON* profiles_json = OnvifOperationGetConfig("profiles");
+    // CHECK_POINTER(profiles_json, return 500);
+    // CHECK_BOOL(cJSON_IsArray(profiles_json), return 500);
 
-        cJSON* video_source_json = cJSON_GetObjectItemCaseSensitive(profile_json, "video_source");
-        if (video_source_json != NULL && cJSON_IsObject(video_source_json)) {
-            GetVideoSourceConfigurationFromJson(soap, video_source_json, &trt__GetVideoSourceConfigurationsResponse->Configurations[i]);
-        }
-    }
+    // trt__GetVideoSourceConfigurationsResponse->__sizeConfigurations = cJSON_GetArraySize(profiles_json);
+    // trt__GetVideoSourceConfigurationsResponse->Configurations = (struct tt__VideoSourceConfiguration*)soap_malloc(soap, sizeof(struct tt__VideoSourceConfiguration)*trt__GetVideoSourceConfigurationsResponse->__sizeConfigurations);
+    // memset(trt__GetVideoSourceConfigurationsResponse->Configurations, 0, sizeof(struct tt__VideoSourceConfiguration)*trt__GetVideoSourceConfigurationsResponse->__sizeConfigurations);
+    // for(int i = 0; i < trt__GetVideoSourceConfigurationsResponse->__sizeConfigurations; i++) {
+    //     cJSON* profile_json = cJSON_GetArrayItem(profiles_json, i);
+    //     CHECK_POINTER(profile_json, return 500);
+
+    //     cJSON* video_source_json = cJSON_GetObjectItemCaseSensitive(profile_json, "video_source");
+    //     if (video_source_json != NULL && cJSON_IsObject(video_source_json)) {
+    //         GetVideoSourceConfigurationFromJson(soap, video_source_json, &trt__GetVideoSourceConfigurationsResponse->Configurations[i]);
+    //     }
+    // }
 
     return 0;
 }
@@ -449,22 +575,24 @@ SOAP_FMAC5 int SOAP_FMAC6 __trt__GetVideoEncoderConfigurations(struct soap* soap
 SOAP_FMAC5 int SOAP_FMAC6 __trt__GetAudioSourceConfigurations(struct soap* soap, struct _trt__GetAudioSourceConfigurations *trt__GetAudioSourceConfigurations, struct _trt__GetAudioSourceConfigurationsResponse *trt__GetAudioSourceConfigurationsResponse) {
     CHECK_LT(AuthUser(soap), 0, return 401);
 
-    cJSON* profiles_json = OnvifOperationGetConfig("profiles");
-    CHECK_POINTER(profiles_json, return 500);
-    CHECK_BOOL(cJSON_IsArray(profiles_json), return 500);
+	LOG_INFO("");
 
-    trt__GetAudioSourceConfigurationsResponse->__sizeConfigurations = cJSON_GetArraySize(profiles_json);
-    trt__GetAudioSourceConfigurationsResponse->Configurations = (struct tt__AudioSourceConfiguration*)soap_malloc(soap, sizeof(struct tt__AudioSourceConfiguration)*trt__GetAudioSourceConfigurationsResponse->__sizeConfigurations);
-    memset(trt__GetAudioSourceConfigurationsResponse->Configurations, 0, sizeof(struct tt__AudioSourceConfiguration)*trt__GetAudioSourceConfigurationsResponse->__sizeConfigurations);
-    for(int i = 0; i < trt__GetAudioSourceConfigurationsResponse->__sizeConfigurations; i++) {
-        cJSON* profile_json = cJSON_GetArrayItem(profiles_json, i);
-        CHECK_POINTER(profile_json, return 500);
+    // cJSON* profiles_json = OnvifOperationGetConfig("profiles");
+    // CHECK_POINTER(profiles_json, return 500);
+    // CHECK_BOOL(cJSON_IsArray(profiles_json), return 500);
 
-        cJSON* audio_source_json = cJSON_GetObjectItemCaseSensitive(profile_json, "audio_source");
-        if (audio_source_json != NULL && cJSON_IsObject(audio_source_json)) {
-            GetAudioSourceConfigurationFromJson(soap, audio_source_json, &trt__GetAudioSourceConfigurationsResponse->Configurations[i]);
-        }
-    }
+    // trt__GetAudioSourceConfigurationsResponse->__sizeConfigurations = cJSON_GetArraySize(profiles_json);
+    // trt__GetAudioSourceConfigurationsResponse->Configurations = (struct tt__AudioSourceConfiguration*)soap_malloc(soap, sizeof(struct tt__AudioSourceConfiguration)*trt__GetAudioSourceConfigurationsResponse->__sizeConfigurations);
+    // memset(trt__GetAudioSourceConfigurationsResponse->Configurations, 0, sizeof(struct tt__AudioSourceConfiguration)*trt__GetAudioSourceConfigurationsResponse->__sizeConfigurations);
+    // for(int i = 0; i < trt__GetAudioSourceConfigurationsResponse->__sizeConfigurations; i++) {
+    //     cJSON* profile_json = cJSON_GetArrayItem(profiles_json, i);
+    //     CHECK_POINTER(profile_json, return 500);
+
+    //     cJSON* audio_source_json = cJSON_GetObjectItemCaseSensitive(profile_json, "audio_source");
+    //     if (audio_source_json != NULL && cJSON_IsObject(audio_source_json)) {
+    //         GetAudioSourceConfigurationFromJson(soap, audio_source_json, &trt__GetAudioSourceConfigurationsResponse->Configurations[i]);
+    //     }
+    // }
     return 0;
 }
 /** Web service operation '__trt__GetAudioEncoderConfigurations' implementation, should return SOAP_OK or error code */
@@ -495,30 +623,39 @@ SOAP_FMAC5 int SOAP_FMAC6 __trt__GetAudioDecoderConfigurations(struct soap* soap
 /** Web service operation '__trt__GetVideoSourceConfiguration' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __trt__GetVideoSourceConfiguration(struct soap* soap, struct _trt__GetVideoSourceConfiguration *trt__GetVideoSourceConfiguration, struct _trt__GetVideoSourceConfigurationResponse *trt__GetVideoSourceConfigurationResponse) {
     CHECK_LT(AuthUser(soap), 0, return 401);
+
+	LOG_INFO("");
     
-    cJSON* profiles_json = OnvifOperationGetConfig("profiles");
-    CHECK_POINTER(profiles_json, return 500);
-    CHECK_BOOL(cJSON_IsArray(profiles_json), return 500);
+    // cJSON* profiles_json = OnvifOperationGetConfig("profiles");
+    // CHECK_POINTER(profiles_json, return 500);
+    // CHECK_BOOL(cJSON_IsArray(profiles_json), return 500);
 
-    for(int i = 0; i < cJSON_GetArraySize(profiles_json); i++) {
-        cJSON* video_source_json = cJSON_GetObjectItemCaseSensitive(cJSON_GetArrayItem(profiles_json, i), "video_source");
-        if (video_source_json == NULL || !cJSON_IsObject(video_source_json)) {
-            continue;
-        }
+    // for(int i = 0; i < cJSON_GetArraySize(profiles_json); i++) {
+    //     cJSON* video_source_json = cJSON_GetObjectItemCaseSensitive(cJSON_GetArrayItem(profiles_json, i), "video_source");
+    //     if (video_source_json == NULL || !cJSON_IsObject(video_source_json)) {
+    //         continue;
+    //     }
 
-        if (strcmp(trt__GetVideoSourceConfiguration->ConfigurationToken, cJSON_GetStringValue(cJSON_GetObjectItemCaseSensitive(video_source_json, "token"))) == 0) {
-            trt__GetVideoSourceConfigurationResponse->Configuration = (struct tt__VideoSourceConfiguration*)soap_malloc(soap, sizeof(struct tt__VideoSourceConfiguration));
-            memset(trt__GetVideoSourceConfigurationResponse->Configuration, 0, sizeof(struct tt__VideoSourceConfiguration));
-            GetVideoSourceConfigurationFromJson(soap, video_source_json, trt__GetVideoSourceConfigurationResponse->Configuration);
-            break;
-        }
-    }
+    //     if (strcmp(trt__GetVideoSourceConfiguration->ConfigurationToken, cJSON_GetStringValue(cJSON_GetObjectItemCaseSensitive(video_source_json, "token"))) == 0) {
+    //         trt__GetVideoSourceConfigurationResponse->Configuration = (struct tt__VideoSourceConfiguration*)soap_malloc(soap, sizeof(struct tt__VideoSourceConfiguration));
+    //         memset(trt__GetVideoSourceConfigurationResponse->Configuration, 0, sizeof(struct tt__VideoSourceConfiguration));
+    //         GetVideoSourceConfigurationFromJson(soap, video_source_json, trt__GetVideoSourceConfigurationResponse->Configuration);
+    //         break;
+    //     }
+    // }
 
     return 0;
 }
 /** Web service operation '__trt__GetVideoEncoderConfiguration' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __trt__GetVideoEncoderConfiguration(struct soap* soap, struct _trt__GetVideoEncoderConfiguration *trt__GetVideoEncoderConfiguration, struct _trt__GetVideoEncoderConfigurationResponse *trt__GetVideoEncoderConfigurationResponse) {
-    printf("%s:%d\n", __func__, __LINE__);
+	CHECK_LT(AuthUser(soap), 0, return 401);
+
+	LOG_INFO("token:%s", trt__GetVideoEncoderConfiguration->ConfigurationToken);
+
+	trt__GetVideoEncoderConfigurationResponse->Configuration = (struct tt__VideoEncoderConfiguration*)soap_malloc(soap, sizeof(struct tt__VideoEncoderConfiguration));
+	memset(trt__GetVideoEncoderConfigurationResponse->Configuration, 0, sizeof(struct tt__VideoEncoderConfiguration));
+	GetVideoEncoderConfigurationFromJson(soap, NULL, trt__GetVideoEncoderConfigurationResponse->Configuration);
+
     return 0;
 }
 /** Web service operation '__trt__GetAudioSourceConfiguration' implementation, should return SOAP_OK or error code */
@@ -555,35 +692,37 @@ SOAP_FMAC5 int SOAP_FMAC6 __trt__GetAudioDecoderConfiguration(struct soap* soap,
 SOAP_FMAC5 int SOAP_FMAC6 __trt__GetCompatibleVideoEncoderConfigurations(struct soap* soap, struct _trt__GetCompatibleVideoEncoderConfigurations *trt__GetCompatibleVideoEncoderConfigurations, struct _trt__GetCompatibleVideoEncoderConfigurationsResponse *trt__GetCompatibleVideoEncoderConfigurationsResponse) {
     CHECK_LT(AuthUser(soap), 0, return 401);
 
-    cJSON* profiles_json = OnvifOperationGetConfig("profiles");
-    CHECK_POINTER(profiles_json, return 500);
-    CHECK_BOOL(cJSON_IsArray(profiles_json), return 500);
+	LOG_WRN("");
 
-    for(int i = 0; i < cJSON_GetArraySize(profiles_json); i++) {
-        cJSON* profile_json = cJSON_GetArrayItem(profiles_json, i);
-        if (profile_json == NULL || !cJSON_IsObject(profile_json)) {
-            continue;
-        }
+    // cJSON* profiles_json = OnvifOperationGetConfig("profiles");
+    // CHECK_POINTER(profiles_json, return 500);
+    // CHECK_BOOL(cJSON_IsArray(profiles_json), return 500);
 
-        if (strcmp(trt__GetCompatibleVideoEncoderConfigurations->ProfileToken, cJSON_GetStringValue(cJSON_GetObjectItemCaseSensitive(profile_json, "token"))) == 0) {
-            cJSON* video_encoder_arr_json = cJSON_GetObjectItemCaseSensitive(profile_json, "compatible_video_encoder");
-            CHECK_POINTER(video_encoder_arr_json, return 500);
-            CHECK_BOOL(cJSON_IsArray(video_encoder_arr_json), return 500);
+    // for(int i = 0; i < cJSON_GetArraySize(profiles_json); i++) {
+    //     cJSON* profile_json = cJSON_GetArrayItem(profiles_json, i);
+    //     if (profile_json == NULL || !cJSON_IsObject(profile_json)) {
+    //         continue;
+    //     }
 
-            trt__GetCompatibleVideoEncoderConfigurationsResponse->__sizeConfigurations = cJSON_GetArraySize(video_encoder_arr_json);
-            trt__GetCompatibleVideoEncoderConfigurationsResponse->Configurations = (struct tt__VideoEncoderConfiguration*)soap_malloc(soap, sizeof(struct tt__VideoEncoderConfiguration)*trt__GetCompatibleVideoEncoderConfigurationsResponse->__sizeConfigurations);
-            memset(trt__GetCompatibleVideoEncoderConfigurationsResponse->Configurations, 0, sizeof(struct tt__VideoEncoderConfiguration)*trt__GetCompatibleVideoEncoderConfigurationsResponse->__sizeConfigurations);
-            for(int j = 0; j < trt__GetCompatibleVideoEncoderConfigurationsResponse->__sizeConfigurations; j++) {
-                cJSON* video_encoder_json = cJSON_GetArrayItem(video_encoder_arr_json, j);
-                if (video_encoder_json == NULL || !cJSON_IsObject(video_encoder_json)) {
-                    continue;
-                }
+    //     if (strcmp(trt__GetCompatibleVideoEncoderConfigurations->ProfileToken, cJSON_GetStringValue(cJSON_GetObjectItemCaseSensitive(profile_json, "token"))) == 0) {
+    //         cJSON* video_encoder_arr_json = cJSON_GetObjectItemCaseSensitive(profile_json, "compatible_video_encoder");
+    //         CHECK_POINTER(video_encoder_arr_json, return 500);
+    //         CHECK_BOOL(cJSON_IsArray(video_encoder_arr_json), return 500);
 
-                GetVideoEncoderConfigurationFromJson(soap, video_encoder_json, &trt__GetCompatibleVideoEncoderConfigurationsResponse->Configurations[j]);
-            }
-            break;
-        }
-    }
+    //         trt__GetCompatibleVideoEncoderConfigurationsResponse->__sizeConfigurations = cJSON_GetArraySize(video_encoder_arr_json);
+    //         trt__GetCompatibleVideoEncoderConfigurationsResponse->Configurations = (struct tt__VideoEncoderConfiguration*)soap_malloc(soap, sizeof(struct tt__VideoEncoderConfiguration)*trt__GetCompatibleVideoEncoderConfigurationsResponse->__sizeConfigurations);
+    //         memset(trt__GetCompatibleVideoEncoderConfigurationsResponse->Configurations, 0, sizeof(struct tt__VideoEncoderConfiguration)*trt__GetCompatibleVideoEncoderConfigurationsResponse->__sizeConfigurations);
+    //         for(int j = 0; j < trt__GetCompatibleVideoEncoderConfigurationsResponse->__sizeConfigurations; j++) {
+    //             cJSON* video_encoder_json = cJSON_GetArrayItem(video_encoder_arr_json, j);
+    //             if (video_encoder_json == NULL || !cJSON_IsObject(video_encoder_json)) {
+    //                 continue;
+    //             }
+
+    //             GetVideoEncoderConfigurationFromJson(soap, video_encoder_json, &trt__GetCompatibleVideoEncoderConfigurationsResponse->Configurations[j]);
+    //         }
+    //         break;
+    //     }
+    // }
 
     return 0;
 }
@@ -718,8 +857,6 @@ end:
         break;
     }
 
-    // todo save config to file
-
     return ret;
 }
 /** Web service operation '__trt__SetAudioSourceConfiguration' implementation, should return SOAP_OK or error code */
@@ -770,8 +907,8 @@ SOAP_FMAC5 int SOAP_FMAC6 __trt__GetVideoEncoderConfigurationOptions(struct soap
     Options->H264 = (struct tt__H264Options*)soap_malloc(soap, sizeof(struct tt__H264Options));
     Options->H264->__sizeResolutionsAvailable = 1;
     Options->H264->ResolutionsAvailable = (struct tt__VideoResolution*)soap_malloc(soap, sizeof(struct tt__VideoResolution)*Options->H264->__sizeResolutionsAvailable);
-    Options->H264->ResolutionsAvailable[0].Width = 640;
-    Options->H264->ResolutionsAvailable[0].Height = 512;
+    Options->H264->ResolutionsAvailable[0].Width = 1024;
+    Options->H264->ResolutionsAvailable[0].Height = 768;
     SOAP_SET_RANGE(soap, Options->H264->GovLengthRange, sizeof(struct tt__IntRange), 1, 60);
     SOAP_SET_RANGE(soap, Options->H264->FrameRateRange, sizeof(struct tt__IntRange), 15, 30);
     SOAP_SET_RANGE(soap, Options->H264->EncodingIntervalRange, sizeof(struct tt__IntRange), 15, 30);
@@ -818,28 +955,35 @@ SOAP_FMAC5 int SOAP_FMAC6 __trt__GetGuaranteedNumberOfVideoEncoderInstances(stru
 SOAP_FMAC5 int SOAP_FMAC6 __trt__GetStreamUri(struct soap* soap, struct _trt__GetStreamUri *trt__GetStreamUri, struct _trt__GetStreamUriResponse *trt__GetStreamUriResponse) {
     CHECK_LT(AuthUser(soap), 0, return 401);
 
-    cJSON* profiles_json = OnvifOperationGetConfig("profiles");
-    CHECK_POINTER(profiles_json, return 500);
-    CHECK_BOOL(cJSON_IsArray(profiles_json), return 500);
+	trt__GetStreamUriResponse->MediaUri = (struct tt__MediaUri*)soap_malloc(soap, sizeof(struct tt__MediaUri));
+	memset(trt__GetStreamUriResponse->MediaUri, 0, sizeof(struct tt__MediaUri));
+	trt__GetStreamUriResponse->MediaUri->Uri = soap_strdup(soap, "rtsp://192.168.110.223:554/streaming/101?auth=admin:123456");
+	trt__GetStreamUriResponse->MediaUri->InvalidAfterConnect = xsd__boolean__true_;
+	trt__GetStreamUriResponse->MediaUri->InvalidAfterReboot  = xsd__boolean__true_;
+	trt__GetStreamUriResponse->MediaUri->Timeout = 0;
 
-    for(int i = 0; i < cJSON_GetArraySize(profiles_json); i++) {
-        cJSON* profile_json = cJSON_GetArrayItem(profiles_json, i);
-        if (profile_json == NULL || !cJSON_IsObject(profile_json)) {
-            continue;
-        }
+    // cJSON* profiles_json = OnvifOperationGetConfig("profiles");
+    // CHECK_POINTER(profiles_json, return 500);
+    // CHECK_BOOL(cJSON_IsArray(profiles_json), return 500);
 
-        if (strcmp(trt__GetStreamUri->ProfileToken, cJSON_GetStringValue(cJSON_GetObjectItemCaseSensitive(profile_json, "token"))) == 0) {
+    // for(int i = 0; i < cJSON_GetArraySize(profiles_json); i++) {
+    //     cJSON* profile_json = cJSON_GetArrayItem(profiles_json, i);
+    //     if (profile_json == NULL || !cJSON_IsObject(profile_json)) {
+    //         continue;
+    //     }
 
-            trt__GetStreamUriResponse->MediaUri = (struct tt__MediaUri*)soap_malloc(soap, sizeof(struct tt__MediaUri));
-            memset(trt__GetStreamUriResponse->MediaUri, 0, sizeof(struct tt__MediaUri));
-            SOAP_CJSON_GET_STRING(profile_json, soap, "rtsp_url", trt__GetStreamUriResponse->MediaUri->Uri);
-            trt__GetStreamUriResponse->MediaUri->InvalidAfterConnect = xsd__boolean__true_;
-            trt__GetStreamUriResponse->MediaUri->InvalidAfterReboot  = xsd__boolean__true_;
-            trt__GetStreamUriResponse->MediaUri->Timeout = 0;
+    //     if (strcmp(trt__GetStreamUri->ProfileToken, cJSON_GetStringValue(cJSON_GetObjectItemCaseSensitive(profile_json, "token"))) == 0) {
 
-            break;
-        }
-    }
+    //         trt__GetStreamUriResponse->MediaUri = (struct tt__MediaUri*)soap_malloc(soap, sizeof(struct tt__MediaUri));
+    //         memset(trt__GetStreamUriResponse->MediaUri, 0, sizeof(struct tt__MediaUri));
+    //         SOAP_CJSON_GET_STRING(profile_json, soap, "rtsp_url", trt__GetStreamUriResponse->MediaUri->Uri);
+    //         trt__GetStreamUriResponse->MediaUri->InvalidAfterConnect = xsd__boolean__true_;
+    //         trt__GetStreamUriResponse->MediaUri->InvalidAfterReboot  = xsd__boolean__true_;
+    //         trt__GetStreamUriResponse->MediaUri->Timeout = 0;
+
+    //         break;
+    //     }
+    // }
     return 0;
 }
 /** Web service operation '__trt__StartMulticastStreaming' implementation, should return SOAP_OK or error code */
@@ -861,28 +1005,30 @@ SOAP_FMAC5 int SOAP_FMAC6 __trt__SetSynchronizationPoint(struct soap* soap, stru
 SOAP_FMAC5 int SOAP_FMAC6 __trt__GetSnapshotUri(struct soap* soap, struct _trt__GetSnapshotUri *trt__GetSnapshotUri, struct _trt__GetSnapshotUriResponse *trt__GetSnapshotUriResponse) {
     CHECK_LT(AuthUser(soap), 0, return 401);
 
-    cJSON* profiles_json = OnvifOperationGetConfig("profiles");
-    CHECK_POINTER(profiles_json, return 500);
-    CHECK_BOOL(cJSON_IsArray(profiles_json), return 500);
+	LOG_WRN("");
 
-    for(int i = 0; i < cJSON_GetArraySize(profiles_json); i++) {
-        cJSON* profile_json = cJSON_GetArrayItem(profiles_json, i);
-        if (profile_json == NULL || !cJSON_IsObject(profile_json)) {
-            continue;
-        }
+    // cJSON* profiles_json = OnvifOperationGetConfig("profiles");
+    // CHECK_POINTER(profiles_json, return 500);
+    // CHECK_BOOL(cJSON_IsArray(profiles_json), return 500);
 
-        if (strcmp(trt__GetSnapshotUri->ProfileToken, cJSON_GetStringValue(cJSON_GetObjectItemCaseSensitive(profile_json, "token"))) == 0) {
+    // for(int i = 0; i < cJSON_GetArraySize(profiles_json); i++) {
+    //     cJSON* profile_json = cJSON_GetArrayItem(profiles_json, i);
+    //     if (profile_json == NULL || !cJSON_IsObject(profile_json)) {
+    //         continue;
+    //     }
 
-            trt__GetSnapshotUriResponse->MediaUri = (struct tt__MediaUri*)soap_malloc(soap, sizeof(struct tt__MediaUri));
-            memset(trt__GetSnapshotUriResponse->MediaUri, 0, sizeof(struct tt__MediaUri));
-            SOAP_CJSON_GET_STRING(profile_json, soap, "snap_url", trt__GetSnapshotUriResponse->MediaUri->Uri);
-            trt__GetSnapshotUriResponse->MediaUri->InvalidAfterConnect = xsd__boolean__false_;
-            trt__GetSnapshotUriResponse->MediaUri->InvalidAfterReboot = xsd__boolean__false_;
-            trt__GetSnapshotUriResponse->MediaUri->Timeout = 0;
+    //     if (strcmp(trt__GetSnapshotUri->ProfileToken, cJSON_GetStringValue(cJSON_GetObjectItemCaseSensitive(profile_json, "token"))) == 0) {
 
-            break;
-        }
-    }
+    //         trt__GetSnapshotUriResponse->MediaUri = (struct tt__MediaUri*)soap_malloc(soap, sizeof(struct tt__MediaUri));
+    //         memset(trt__GetSnapshotUriResponse->MediaUri, 0, sizeof(struct tt__MediaUri));
+    //         SOAP_CJSON_GET_STRING(profile_json, soap, "snap_url", trt__GetSnapshotUriResponse->MediaUri->Uri);
+    //         trt__GetSnapshotUriResponse->MediaUri->InvalidAfterConnect = xsd__boolean__false_;
+    //         trt__GetSnapshotUriResponse->MediaUri->InvalidAfterReboot = xsd__boolean__false_;
+    //         trt__GetSnapshotUriResponse->MediaUri->Timeout = 0;
+
+    //         break;
+    //     }
+    // }
     return 0;
 }
 /** Web service operation '__trt__GetVideoSourceModes' implementation, should return SOAP_OK or error code */
