@@ -7,32 +7,15 @@ extern "C" {
 
 #include "onvif_common.h"
 
-typedef struct {
-    char device_addr[16];
-    int web_server_port;
-    int event_message_port;
+void OnvifOperationRegisterCb(OnvifOperationType type, void* cb);
 
-    OnvifDevInfo dev_info;
-}OnvifOperationDeviceInfo;
+int OnvifOperationSystemRequest(OnvifSystem* sys);
 
-int OnvifOperationInit(OnvifOperationDeviceInfo device_info);
+int OnvifOperationGetConfig(int type, void* st, int size);
 
-void OnvifOperationUnInit();
+int OnvifOperationSetConfig(int type, void* st, int size);
 
-void OnvifOperationRegister(OnvifOperationType type, void* cb);
-
-void OnvifOperationGetDevInfo(OnvifOperationDeviceInfo* device_info);
-
-void* OnvifOperationGetConfig(const char* type);
-
-void OnvifOperationSetConfig(const char* type, void* arg);
-
-void OnvifOperationPtzCtrl(OnvifPtzCtrlType type, char* arg);
-
-void OnvifOperationEventUpload(OnvifEventInfo* info);
-
-int OnvifOperationGetEventInfo(void** json, long long timeout);
-
+int OnvifOperationContorlRequest(int type, int chn, void* st, int size);
 
 #ifdef __cplusplus
 }

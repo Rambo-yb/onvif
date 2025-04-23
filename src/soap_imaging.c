@@ -2,14 +2,23 @@
 #include "onvif_operation.h"
 #include "check_common.h"
 #include "soap_common.h"
-#include "auth.h"
+#include "onvif_auth.h"
+
+void GetImagingServiceCapabilities(struct soap* soap, struct timg__Capabilities* capabilities) {
+	SOAP_SET_NUMBER(soap, capabilities->ImageStabilization, sizeof(enum xsd__boolean), xsd__boolean__false_);
+}
+
 SOAP_FMAC5 int SOAP_FMAC6 __timg__GetServiceCapabilities(struct soap* soap, struct _timg__GetServiceCapabilities *timg__GetServiceCapabilities, struct _timg__GetServiceCapabilitiesResponse *timg__GetServiceCapabilitiesResponse) {
-    printf("%s:%d\n", __func__, __LINE__);
+	CHECK_LT(OnvifAuthUser(soap), 0, return 401);
+
+	timg__GetServiceCapabilitiesResponse->Capabilities = (struct timg__Capabilities*)soap_malloc(soap, sizeof(struct timg__Capabilities));
+	memset(timg__GetServiceCapabilitiesResponse->Capabilities, 0, sizeof(struct timg__Capabilities));
+	GetImagingServiceCapabilities(soap, timg__GetServiceCapabilitiesResponse->Capabilities);
     return 0;
 }
 /** Web service operation '__timg__GetImagingSettings' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __timg__GetImagingSettings(struct soap* soap, struct _timg__GetImagingSettings *timg__GetImagingSettings, struct _timg__GetImagingSettingsResponse *timg__GetImagingSettingsResponse) {
-    CHECK_LT(AuthUser(soap), 0, return 401);
+    CHECK_LT(OnvifAuthUser(soap), 0, return 401);
 
     // todo token查找校验
     LOG_INFO("%s", timg__GetImagingSettings->VideoSourceToken);
@@ -33,7 +42,7 @@ SOAP_FMAC5 int SOAP_FMAC6 __timg__SetImagingSettings(struct soap* soap, struct _
 }
 /** Web service operation '__timg__GetOptions' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __timg__GetOptions(struct soap* soap, struct _timg__GetOptions *timg__GetOptions, struct _timg__GetOptionsResponse *timg__GetOptionsResponse) {
-    CHECK_LT(AuthUser(soap), 0, return 401);
+    CHECK_LT(OnvifAuthUser(soap), 0, return 401);
 
     // todo token查找校验
     LOG_INFO("%s", timg__GetOptions->VideoSourceToken);
@@ -70,7 +79,7 @@ SOAP_FMAC5 int SOAP_FMAC6 __timg__GetStatus(struct soap* soap, struct _timg__Get
 }
 /** Web service operation '__timg__GetMoveOptions' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __timg__GetMoveOptions(struct soap* soap, struct _timg__GetMoveOptions *timg__GetMoveOptions, struct _timg__GetMoveOptionsResponse *timg__GetMoveOptionsResponse) {
-    CHECK_LT(AuthUser(soap), 0, return 401);
+    CHECK_LT(OnvifAuthUser(soap), 0, return 401);
 
     // todo token查找校验
     LOG_INFO("%s", timg__GetMoveOptions->VideoSourceToken);

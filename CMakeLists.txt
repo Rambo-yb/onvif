@@ -51,8 +51,8 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/_install/openssl/include)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/_install/openssl/include/openssl)
 link_directories(${CMAKE_CURRENT_SOURCE_DIR}/_install/openssl/lib)
 
-#add_library(onvif ${GSOAP_SHARE_SRC} ${SRC})
-add_library(onvif SHARED ${GSOAP_SHARE_SRC} ${SRC})
+add_library(onvif ${GSOAP_SHARE_SRC} ${SRC})
+# add_library(onvif SHARED ${GSOAP_SHARE_SRC} ${SRC})
 
 add_executable(onvif_test ${MAIN_SRC})
 target_link_libraries(onvif_test onvif pthread ssl crypto dl m rt)

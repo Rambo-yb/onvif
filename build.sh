@@ -6,7 +6,7 @@ if [ "$1" == "gk7205v200" ]; then
     export PATH="/home/smb/GK7205V200/Software/GKIPCLinuxV100R001C00SPC020/tools/toolchains/arm-gcc6.3-linux-uclibceabi/bin/:$PATH"
     HOST=arm-gcc6.3-linux-uclibceabi
 elif [ "$1" == "rv1126" ]; then
-    export PATH="/home/smb/RV1126_RV1109_LINUX_SDK_V2.2.5.1_20230530/buildroot/output/rockchip_rv1126_rv1109/host/bin/:$PATH"
+    export PATH="/home/smb/RV1126_RV1109_LINUX_SDK_V2.2.5.1_20230530/prebuilts/gcc/linux-x86/arm/gcc-arm-8.3-2019.03-x86_64-arm-linux-gnueabihf/bin/:$PATH"
     HOST=arm-linux-gnueabihf
 else
     echo "$1 not support, only support gk7205v200, rv1126"

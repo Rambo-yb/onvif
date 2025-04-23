@@ -3,7 +3,7 @@
 #include "elog.h"
 #endif
 
-int log_init(char* file, int size, int cnt, int lvl) {
+int LogInit(char* file, int size, int cnt, int lvl) {
 #if defined(USE_EASYLOGGER)
     if (elog_init(file, size, cnt) == ELOG_ALREADY_INIT) {
         return 0;

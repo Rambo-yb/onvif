@@ -47,6 +47,6 @@
     }while(0);
 #endif
 
-int log_init(char* file, int size, int cnt, int lvl);
+int LogInit(char* file, int size, int cnt, int lvl);
 
 #endif
