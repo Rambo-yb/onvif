@@ -58,6 +58,7 @@
 #define SOAP_ERROR_REPLAY(soap, resp, code) \
     do { \
         soap_sender_fault(soap, resp, NULL); \
+		LOG_ERR("%s", resp); \
         return code; \
     } while (0)
     

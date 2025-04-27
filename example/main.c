@@ -16,6 +16,8 @@
 typedef struct {
     OnvifConfigCameraVideoEncodeInfos video_encode_infos;  
     OnvifConfigCameraAudioEncodeInfo audio_encode_info;  
+	OnvifConfigCameraImageInfos image_infos;
+	OnvifConfigCameraOsdInfos osd_infos;
 	OnvifConfigPtzPresets ptz_presets;
 }Mng;
 static Mng kMng = {
@@ -48,6 +50,48 @@ static Mng kMng = {
 		.encode_type = ONVIF_CONFIG_CAMERA_AUDIO_ENCODE_G711, 
 		.bitrate = 8, 
 		.sample_rate = 16000
+	},
+	.image_infos = {
+		.num = 2,
+		.image_info[0] = {
+			.brightness = 50.0,
+			.contrast = 70.0,
+			.saturation = 50.0,
+			.sharpness = 60.0
+		},
+		.image_info[1] = {
+			.brightness = 80.0,
+			.contrast = 50.0,
+			.saturation = 50.0,
+			.sharpness = 30.0
+		}
+	},
+	.osd_infos = {
+		.num = 2,
+		.osd_info[0] = {
+			.camera_name = "camera_0",
+			.camera_name_pos = {.x = 0, .y = 0},
+			.show_camera_name = true,
+
+			.show_date = true,
+			.date_pos = {.x = -1, .y = 0},
+
+			.string_overlay[0] = {
+				.show = true, .pos = {.x = 0, .y = -0.7}, .value = "1122"
+			}
+		},
+		.osd_info[1] = {
+			.camera_name = "camera_1",
+			.camera_name_pos = {.x = 0, .y = 0},
+			.show_camera_name = true,
+
+			.show_date = true,
+			.date_pos = {.x = -1, .y = 0.7},
+
+			.string_overlay[0] = {
+				.show = true, .pos = {.x = -0.9, .y = -0.8}, .value = "11223"
+			}
+		}
 	},
 	.ptz_presets = {
 		.preset_num = 2,
@@ -136,6 +180,24 @@ int GetConfig(int type, void* st, int size) {
 		OnvifConfigCameraAudioEncodeInfo* audio_encode_info = (OnvifConfigCameraAudioEncodeInfo*)st;
 		memcpy(audio_encode_info, &kMng.audio_encode_info, sizeof(OnvifConfigCameraAudioEncodeInfo));
 
+	} else if (type == ONVIF_CONFIG_CAMERA_IMAGE_INFO) {
+		OnvifConfigCameraImageInfos* image_infos = (OnvifConfigCameraImageInfos*)st;
+		if (image_infos->deal_cam != -1) {
+			image_infos->num = 1;
+			memcpy(&image_infos->image_info[0], &kMng.image_infos.image_info[image_infos->deal_cam], sizeof(OnvifConfigCameraImageInfo));
+		} else {
+			image_infos->num = kMng.image_infos.num;
+			memcpy(image_infos->image_info, kMng.image_infos.image_info, sizeof(kMng.image_infos.image_info));
+		}	
+	} else if (type == ONVIF_CONFIG_CAMERA_OSD_INFO) {
+		OnvifConfigCameraOsdInfos* osd_infos = (OnvifConfigCameraOsdInfos*)st;
+		if (osd_infos->deal_num != -1) {
+			osd_infos->num = 1;
+			memcpy(&osd_infos->osd_info[0], &kMng.osd_infos.osd_info[osd_infos->deal_num], sizeof(OnvifConfigCameraOsdInfo));
+		} else {
+			osd_infos->num = kMng.osd_infos.num;
+			memcpy(osd_infos->osd_info, kMng.osd_infos.osd_info, sizeof(kMng.osd_infos.osd_info));
+		}	
 	} else if (type == ONVIF_CONFIG_PTZ_PRESET) {
 		OnvifConfigPtzPresets* presets = (OnvifConfigPtzPresets*)st;
 		memcpy(presets, &kMng.ptz_presets, sizeof(OnvifConfigPtzPresets));
@@ -182,6 +244,20 @@ int SetConfig(int type, void* st, int size) {
 	} else if (type == ONVIF_CONFIG_CAMERA_VIDEO_ENCODE_INFO) {
 		OnvifConfigCameraVideoEncodeInfos* encode_infos = (OnvifConfigCameraVideoEncodeInfos*)st;
 		memcpy(&kMng.video_encode_infos.encode_info[encode_infos->deal_cam][encode_infos->deal_stream], &encode_infos->encode_info[0][0], sizeof(OnvifConfigCameraVideoEncodeInfo));
+	} else if (type == ONVIF_CONFIG_CAMERA_OSD_INFO) {
+		OnvifConfigCameraOsdInfos* osd_infos = (OnvifConfigCameraOsdInfos*)st;
+		if (osd_infos->deal_num != -1) {
+			memcpy(&kMng.osd_infos.osd_info[osd_infos->deal_num], &osd_infos->osd_info[0], sizeof(OnvifConfigCameraOsdInfo));		
+		} else {
+			memcpy(&kMng.osd_infos, osd_infos, sizeof(OnvifConfigCameraOsdInfos));
+		}
+	} else if (type == ONVIF_CONFIG_CAMERA_IMAGE_INFO) {
+		OnvifConfigCameraImageInfos* image_infos = (OnvifConfigCameraImageInfos*)st;
+		if (image_infos->deal_cam != -1) {
+			memcpy(&kMng.image_infos.image_info[image_infos->deal_cam], &image_infos->image_info[0], sizeof(OnvifConfigCameraImageInfo));		
+		} else {
+			memcpy(&kMng.image_infos, image_infos, sizeof(OnvifConfigCameraOsdInfos));
+		}
 	}
 	
     return 0;

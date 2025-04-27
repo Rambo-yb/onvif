@@ -147,12 +147,29 @@ static void OnvifConfigEncoderOptionsDefault(cJSON* json) {
 	CHECK_BOOL(cJSON_AddItemToObject(json, "video_encoder_options", option_chn), free(option_chn); return );
 }
 
+static void OnvifConfigImagingOptionsDefault(cJSON* json) {
+	cJSON* imaging = cJSON_CreateObject();
+	CHECK_POINTER(imaging, return );
+
+	CJSON_SET_RANGE(imaging, "brightness", 0, 100, free(imaging); return );
+	CJSON_SET_RANGE(imaging, "saturation", 0, 100, free(imaging); return );
+	CJSON_SET_RANGE(imaging, "contrast", 0, 100, free(imaging); return );
+	CJSON_SET_RANGE(imaging, "sharpness", 0, 100, free(imaging); return );
+
+	cJSON* imagings = cJSON_CreateArray();
+	CHECK_POINTER(imagings, free(imaging); return );
+	CHECK_BOOL(cJSON_AddItemToArray(imagings, imaging), cJSON_free(imaging); cJSON_free(imagings); return );
+
+	CHECK_BOOL(cJSON_AddItemToObject(json, "imaging_options", imagings), cJSON_free(imagings); return );
+}
+
 static void OnvifConfDefaultOnvif() {
 	cJSON* json = cJSON_CreateObject();
 	CHECK_POINTER(json, return );
 
 	OnvifConfigScopesDefault(json);
 	OnvifConfigEncoderOptionsDefault(json);
+	OnvifConfigImagingOptionsDefault(json);
 
 	pthread_mutex_lock(&kOnvifConfMng.mutex);
 	kOnvifConfMng.onvif_conf = json;

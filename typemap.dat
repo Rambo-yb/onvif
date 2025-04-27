@@ -676,3 +676,5 @@ _tds__Service_Capabilities = $ struct tds__DeviceServiceCapabilities* tds__Capab
 _tds__Service_Capabilities = $ struct trt__Capabilities* trt__Capabilities;
 _tds__Service_Capabilities = $ struct tptz__Capabilities* tptz__Capabilities;
 _tds__Service_Capabilities = $ struct timg__Capabilities* timg__Capabilities;
+
+tt__OSDTextConfigurationExtension = $ enum xsd__boolean ChannelName;

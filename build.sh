@@ -2,14 +2,33 @@
 
 CUR_DIR=`pwd`
 
+help()
+{
+	echo "./build.sh [chip] [oper]"
+	echo "support chip: gk7205v200, rv1126, rk3588"
+	echo "support oper:"
+	echo "	 all	: Perform all operations"
+	echo "	gsoap	: Compile the gsoap tool"
+	echo "	openssl	: Compile the third-party library openssl"
+	echo "	code	: Generate onvif code"
+	echo "	main	: Compile onvif code"
+	echo "	pack	: Package the onvif library"
+
+	exit 0
+}
+
 if [ "$1" == "gk7205v200" ]; then
-    export PATH="/home/smb/GK7205V200/Software/GKIPCLinuxV100R001C00SPC020/tools/toolchains/arm-gcc6.3-linux-uclibceabi/bin/:$PATH"
+    # export PATH="/home/smb/GK7205V200/Software/GKIPCLinuxV100R001C00SPC020/tools/toolchains/arm-gcc6.3-linux-uclibceabi/bin/:$PATH"
     HOST=arm-gcc6.3-linux-uclibceabi
 elif [ "$1" == "rv1126" ]; then
-    export PATH="/home/smb/RV1126_RV1109_LINUX_SDK_V2.2.5.1_20230530/prebuilts/gcc/linux-x86/arm/gcc-arm-8.3-2019.03-x86_64-arm-linux-gnueabihf/bin/:$PATH"
+    # export PATH="/home/smb/RV1126_RV1109_LINUX_SDK_V2.2.5.1_20230530/buildroot/output/rockchip_rv1126_rv1109/host/bin/:$PATH"
     HOST=arm-linux-gnueabihf
+elif [ "$1" == "rk3588" ]; then
+    # export PATH="/home/smb/compiler/rk3588_host/bin/:$PATH"
+    # export PERL5LIB="/home/smb/compiler/rk3588_host/lib/perl5/5.32.1:$PERL5LIB"
+    HOST="aarch64-buildroot-linux-gnu"
 else
-    echo "$1 not support, only support gk7205v200, rv1126"
+    help
     exit 0
 fi
 
@@ -73,7 +92,7 @@ build_openssl()
 
     tar -xvzf openssl-1.1.1h.tar.gz
     cd openssl-1.1.1h
-    ./Configure no-asm no-shared no-async linux-generic32 --prefix=$INSTALL_DIR/openssl --cross-compile-prefix=$HOST-
+    ./Configure no-asm no-async linux-generic32 --prefix=$INSTALL_DIR/openssl --cross-compile-prefix=$HOST-
     make && make install
 }
 
@@ -137,28 +156,37 @@ build_main()
     exit 1
 }
 
-build_lib()
+build_pack()
 {
+	CUR_DATE=$(date +"%Y%m%d")
+    PACK_DIR=onvif_$1_$CUR_DATE
+    [ -d $PACK_DIR ] && rm -r $PACK_DIR
+    [ -f $PACK_DIR.tar.gz ] && rm -r $PACK_DIR.tar.gz
+    
     cd $CUR_DIR
-    mkdir -p $INSTALL_DIR/onvif/conf
-    cp -raf onvif.json $INSTALL_DIR/onvif/conf
-    cd $CUR_DIR/_install/openssl
-    cp -raf ./lib/*.a $INSTALL_DIR/onvif/lib/
-    cp -raf ./lib/*.so* $INSTALL_DIR/onvif/lib/
-    exit 1
+    mkdir $PACK_DIR
+    cd $PACK_DIR
+    cp $INSTALL_DIR/onvif/* ./ -raf
+    cp $INSTALL_DIR/openssl/lib/lib*.so* ./lib -raf
+
+    cd $CUR_DIR
+    tar -cvzf $PACK_DIR.tar.gz $PACK_DIR
+    rm $PACK_DIR -r
 }
 
-[ "$2" == "arm" ] && build_gsoap_arm && exit
+[ -z "$2" ] && help
+
+[ "$2" == "help" ] && help && exit
+[ "$2" == "gsoap_arm" ] && build_gsoap_arm && exit
 [ "$2" == "gsoap" ] && build_gsoap_tools && exit
 [ "$2" == "openssl" ] && build_openssl && exit
 [ "$2" == "code" ] && build_gsoap_code && exit
 [ "$2" == "main" ] && build_main && exit
-[ "$2" == "lib" ] && build_lib && exit
+[ "$2" == "pack" ] && build_pack $1 && exit
 
 build_gsoap_tools
 build_openssl
 build_gsoap_code
 build_main
-build_lib
-#build_gsoap_arm
+build_pack $1
 

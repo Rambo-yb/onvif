@@ -89,10 +89,23 @@ typedef struct {
 	int channel;
 }OnvifConfigCameraAudioEncodeInfo;
 
+typedef struct {
+	float brightness;
+	float saturation;
+	float contrast;
+	float sharpness;
+}OnvifConfigCameraImageInfo;
+
+typedef struct {
+	int deal_cam;
+	int num;
+	OnvifConfigCameraImageInfo image_info[ONVIF_CONFIG_CAMERA_MAX_NUM];
+}OnvifConfigCameraImageInfos;
+
 #define ONVIF_CONFIG_OSD_INFO_STRING_OVERLAY_MAX (8)	// 字符叠加最大个数
 typedef struct {
-	int x;
-	int y;
+	float x;
+	float y;
 }OnvifConfigPoint;
 
 typedef struct {
@@ -202,7 +215,7 @@ typedef struct OnvifEventInfo {
 
 /*********** 系统请求回调 ***********/
 typedef enum {
-	ONVIF_SYSTEM_REBOOT = 0x20000,
+	ONVIF_SYSTEM_REBOOT = 0x21000,
 	ONVIF_SYSTEM_RESET,
 	ONVIF_SYSTEM_FORMAT,
 	ONVIF_SYSTEM_DEVICE_INFO,
@@ -228,10 +241,11 @@ typedef int (*OnvifOperationSystemCb)(OnvifSystem*);
 
 /*********** 配置获取/设置回调 ***********/
 typedef enum {
-	ONVIF_CONFIG_SYSTEM_TIME_INFO,
+	ONVIF_CONFIG_SYSTEM_TIME_INFO = 0x22000,
 
 	ONVIF_CONFIG_CAMERA_VIDEO_ENCODE_INFO,
 	ONVIF_CONFIG_CAMERA_AUDEO_ENCODE_INFO,
+	ONVIF_CONFIG_CAMERA_IMAGE_INFO,
 	ONVIF_CONFIG_CAMERA_OSD_INFO,
 	
 	ONVIF_CONFIG_NETWORK_TCP_IP,
@@ -244,16 +258,16 @@ typedef int (*OnvifOperationSetConfigCb)(int , void* , int );
 
 /*********** 控制请求回调 ***********/
 typedef enum {
-	ONVIF_CONTORL_PTZ,
+	ONVIF_CONTORL_PTZ = 0x23000,
 }OnvifContorlType;
 typedef int (*OnvifOperationControlCb)(int, int, void*, int);
 
 /*********** 回调枚举 ***********/
 typedef enum {
-    ONVIF_OPERATION_SYSTEM_REQUEST,		// OnvifOperationSystemCb
-    ONVIF_OPERATION_GET_CONFIG,			// OnvifOperationGetConfigCb
-    ONVIF_OPERATION_SET_CONFIG, 		// OnvifOperationSetConfigCb
-    ONVIF_OPERATION_CONTORL_REQUEST,	// OnvifOperationControlCb
+    ONVIF_OPERATION_SYSTEM_REQUEST = 0x21000,	// OnvifOperationSystemCb
+    ONVIF_OPERATION_GET_CONFIG,					// OnvifOperationGetConfigCb
+    ONVIF_OPERATION_SET_CONFIG, 				// OnvifOperationSetConfigCb
+    ONVIF_OPERATION_CONTORL_REQUEST,			// OnvifOperationControlCb
 }OnvifOperationType;
 
 #endif

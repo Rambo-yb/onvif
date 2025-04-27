@@ -232,7 +232,7 @@ SOAP_FMAC5 int SOAP_FMAC6 __trt__GetProfile(struct soap* soap, struct _trt__GetP
 	if (trt__GetProfile->ProfileToken) {
 		sscanf(trt__GetProfile->ProfileToken, "%*[^_]_%d\n", &code);
 	} else {
-		return 404;
+		SOAP_ERROR_REPLAY(soap, "invalid token", 400);
 	}
 
 	OnvifConfigCameraVideoEncodeInfos encode_infos;
@@ -522,7 +522,7 @@ SOAP_FMAC5 int SOAP_FMAC6 __trt__GetVideoSourceConfiguration(struct soap* soap, 
 	if (trt__GetVideoSourceConfiguration->ConfigurationToken) {
 		sscanf(trt__GetVideoSourceConfiguration->ConfigurationToken, "%*[^_]_%d\n", &code);
 	} else {
-		return 404;
+		SOAP_ERROR_REPLAY(soap, "invalid token", 400);
 	}
 
 	OnvifConfigCameraVideoEncodeInfos encode_infos;
@@ -546,7 +546,7 @@ SOAP_FMAC5 int SOAP_FMAC6 __trt__GetVideoEncoderConfiguration(struct soap* soap,
 	if (trt__GetVideoEncoderConfiguration->ConfigurationToken) {
 		sscanf(trt__GetVideoEncoderConfiguration->ConfigurationToken, "%*[^_]_%d\n", &code);
 	} else {
-		return 404;
+		SOAP_ERROR_REPLAY(soap, "invalid token", 400);
 	}
 
 	OnvifConfigCameraVideoEncodeInfos encode_infos;
@@ -673,7 +673,7 @@ SOAP_FMAC5 int SOAP_FMAC6 __trt__SetVideoSourceConfiguration(struct soap* soap, 
 SOAP_FMAC5 int SOAP_FMAC6 __trt__SetVideoEncoderConfiguration(struct soap* soap, struct _trt__SetVideoEncoderConfiguration *trt__SetVideoEncoderConfiguration, struct _trt__SetVideoEncoderConfigurationResponse *trt__SetVideoEncoderConfigurationResponse) {
 	CHECK_LT(OnvifAuthUser(soap), 0, return 401);
 
-    CHECK_POINTER(trt__SetVideoEncoderConfiguration->Configuration, return 500);
+	CHECK_POINTER(trt__SetVideoEncoderConfiguration->Configuration, return 500);
 	
 	int code = 0;
 	sscanf(trt__SetVideoEncoderConfiguration->Configuration->token, "%*[^_]_%d\n", &code);
@@ -813,7 +813,7 @@ SOAP_FMAC5 int SOAP_FMAC6 __trt__GetVideoEncoderConfigurationOptions(struct soap
 	} else if (trt__GetVideoEncoderConfigurationOptions->ConfigurationToken) {
 		sscanf(trt__GetVideoEncoderConfigurationOptions->ConfigurationToken, "%*[^_]_%d\n", &code);
 	} else {
-		return 404;
+		SOAP_ERROR_REPLAY(soap, "invalid token", 400);
 	}
 
 	cJSON* json = (cJSON*)OnvifConfGetConfig("video_encoder_options");
@@ -883,7 +883,7 @@ SOAP_FMAC5 int SOAP_FMAC6 __trt__GetStreamUri(struct soap* soap, struct _trt__Ge
 	if (trt__GetStreamUri->ProfileToken) {
 		sscanf(trt__GetStreamUri->ProfileToken, "%*[^_]_%d\n", &code);
 	} else {
-		return 404;
+		SOAP_ERROR_REPLAY(soap, "invalid token", 400);
 	}
 
 	OnvifSystem system_request;
@@ -945,15 +945,53 @@ SOAP_FMAC5 int SOAP_FMAC6 __trt__SetVideoSourceMode(struct soap* soap, struct _t
 	printf("%s:%d\n", __func__, __LINE__);
 	return 0;
 }
+
+static void GetOsdInfo(struct soap* soap, char* conf_token, int flag, float x, float y, char* value, struct tt__OSDConfiguration* osd) {
+	int code = 0;
+	sscanf(conf_token, "%*[^_]_%d\n", &code);
+
+	char token[32] = {0};
+	snprintf(token, sizeof(token), "ONFOsdToken_%d%02d", code/100, flag);
+	osd->token = soap_strdup(soap, token);
+
+	osd->VideoSourceConfigurationToken = (struct tt__OSDReference*)soap_malloc(soap, sizeof(struct tt__OSDReference));
+	memset(osd->VideoSourceConfigurationToken, 0, sizeof(struct tt__OSDReference));
+	osd->VideoSourceConfigurationToken->__item = soap_strdup(soap, conf_token);
+	osd->Type = tt__OSDType__Text;
+
+	osd->Position = (struct tt__OSDPosConfiguration*)soap_malloc(soap, sizeof(struct tt__OSDPosConfiguration));
+	memset(osd->Position, 0, sizeof(struct tt__OSDPosConfiguration));
+	osd->Position->Type = soap_strdup(soap, "Custom");
+	osd->Position->Pos = (struct tt__Vector*)soap_malloc(soap, sizeof(struct tt__Vector));
+	memset(osd->Position->Pos, 0, sizeof(struct tt__Vector));
+	SOAP_SET_NUMBER(soap, osd->Position->Pos->x, sizeof(float), x);
+	SOAP_SET_NUMBER(soap, osd->Position->Pos->y, sizeof(float), y);
+
+	osd->TextString = (struct tt__OSDTextConfiguration*)soap_malloc(soap, sizeof(struct tt__OSDTextConfiguration));
+	memset(osd->TextString, 0, sizeof(struct tt__OSDTextConfiguration));
+	if (flag == 1) {
+		osd->TextString->Type = soap_strdup(soap, "DateAndTime");
+		osd->TextString->DateFormat = soap_strdup(soap, "yyyy-MM-dd");
+		osd->TextString->TimeFormat = soap_strdup(soap, "HH:mm:ss");
+	} else {
+		osd->TextString->Type = soap_strdup(soap, "Plain");
+		osd->TextString->PlainText = soap_strdup(soap, value);
+	}
+	SOAP_SET_NUMBER(soap, osd->TextString->FontSize, sizeof(int), 64);
+
+	osd->TextString->Extension = (struct tt__OSDTextConfigurationExtension*)soap_malloc(soap, sizeof(struct tt__OSDTextConfigurationExtension));
+	memset(osd->TextString->Extension, 0, sizeof(struct tt__OSDTextConfigurationExtension));
+	osd->TextString->Extension->ChannelName = flag == 0 ? xsd__boolean__true_ : xsd__boolean__false_;
+}
 /** Web service operation '__trt__GetOSDs' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __trt__GetOSDs(struct soap* soap, struct _trt__GetOSDs *trt__GetOSDs, struct _trt__GetOSDsResponse *trt__GetOSDsResponse) {
 	CHECK_LT(OnvifAuthUser(soap), 0, return 401);
 
 	int code = 0;
-	if (trt__GetStreamUri->ConfigurationToken) {
-		sscanf(trt__GetStreamUri->ConfigurationToken, "%*[^_]_%d\n", &code);
+	if (trt__GetOSDs->ConfigurationToken) {
+		sscanf(trt__GetOSDs->ConfigurationToken, "%*[^_]_%d\n", &code);
 	} else {
-		return 404;
+		SOAP_ERROR_REPLAY(soap, "invalid token", 400);
 	}
 
 	OnvifConfigCameraOsdInfos osd_infos;
@@ -980,54 +1018,15 @@ SOAP_FMAC5 int SOAP_FMAC6 __trt__GetOSDs(struct soap* soap, struct _trt__GetOSDs
 	trt__GetOSDsResponse->OSDs = (struct tt__OSDConfiguration*)soap_malloc(soap, sizeof(struct tt__OSDConfiguration)*trt__GetOSDsResponse->__sizeOSDs);
 	memset(trt__GetOSDsResponse->OSDs, 0, sizeof(struct tt__OSDConfiguration)*trt__GetOSDsResponse->__sizeOSDs);
 	
+	int num = 0;
 	if (osd_infos.osd_info[0].show_camera_name) {
-		trt__GetOSDsResponse->OSDs[0].token = soap_strdup(soap, "ONFOsdToken_100");
-
-		trt__GetOSDsResponse->OSDs[0].VideoSourceConfigurationToken = (struct tt__OSDReference*)soap_malloc(soap, sizeof(struct tt__OSDReference));
-		memset(trt__GetOSDsResponse->OSDs[0].VideoSourceConfigurationToken, 0, sizeof(struct tt__OSDReference));
-		trt__GetOSDsResponse->OSDs[0].VideoSourceConfigurationToken->__item = soap_strdup(soap, "trt__GetStreamUri->ConfigurationToken");
-		trt__GetOSDsResponse->OSDs[0].Type = tt__OSDType__Text;
-
-		trt__GetOSDsResponse->OSDs[0].Position = (struct tt__OSDPosConfiguration*)soap_malloc(soap, sizeof(struct tt__OSDPosConfiguration));
-		memset(trt__GetOSDsResponse->OSDs[0].Position, 0, sizeof(struct tt__OSDPosConfiguration));
-		trt__GetOSDsResponse->OSDs[0].Position->Type = soap_strdup(soap, "Custom");
-		trt__GetOSDsResponse->OSDs[0].Position->Pos = (struct tt__Vector*)soap_malloc(soap, sizeof(struct tt__Vector));
-		memset(trt__GetOSDsResponse->OSDs[0].Position->Pos, 0, sizeof(struct tt__Vector));
-		SOAP_SET_NUMBER(soap, trt__GetOSDsResponse->OSDs[0].Position->Pos->x, sizeof(float), osd_infos.osd_info[0].camera_name_pos.x);
-		SOAP_SET_NUMBER(soap, trt__GetOSDsResponse->OSDs[0].Position->Pos->y, sizeof(float), osd_infos.osd_info[0].camera_name_pos.y);
-
-		trt__GetOSDsResponse->OSDs[0].TextString = (struct tt__OSDTextConfiguration*)soap_malloc(soap, sizeof(struct tt__OSDTextConfiguration));
-		memset(trt__GetOSDsResponse->OSDs[0].TextString, 0, sizeof(struct tt__OSDTextConfiguration));
-		trt__GetOSDsResponse->OSDs[0].TextString->Type = soap_strdup(soap, "Plain");
-		SOAP_SET_NUMBER(soap, trt__GetOSDsResponse->OSDs[0].TextString->FontSize, sizeof(int), 64);
-		trt__GetOSDsResponse->OSDs[0].TextString->PlainText = soap_strdup(soap, osd_infos.osd_info[0].camera_name);
-
-		// trt__GetOSDsResponse->OSDs[0].TextString->Extension = (struct tt__OSDTextConfigurationExtension*)soap_malloc(soap, sizeof(struct tt__OSDTextConfigurationExtension));
-		// memset(trt__GetOSDsResponse->OSDs[0].TextString->Extension, 0, sizeof(struct tt__OSDTextConfigurationExtension));
+		GetOsdInfo(soap, trt__GetOSDs->ConfigurationToken, 0, osd_infos.osd_info[0].camera_name_pos.x, osd_infos.osd_info[0].camera_name_pos.y, osd_infos.osd_info[0].camera_name, &trt__GetOSDsResponse->OSDs[num]);
+		num++;
 	}
 
 	if (osd_infos.osd_info[0].show_date) {
-		trt__GetOSDsResponse->OSDs[1].token = soap_strdup(soap, "ONFOsdToken_101");
-
-		trt__GetOSDsResponse->OSDs[1].VideoSourceConfigurationToken = (struct tt__OSDReference*)soap_malloc(soap, sizeof(struct tt__OSDReference));
-		memset(trt__GetOSDsResponse->OSDs[1].VideoSourceConfigurationToken, 0, sizeof(struct tt__OSDReference));
-		trt__GetOSDsResponse->OSDs[1].VideoSourceConfigurationToken->__item = soap_strdup(soap, "trt__GetStreamUri->ConfigurationToken");
-		trt__GetOSDsResponse->OSDs[1].Type = tt__OSDType__Text;
-
-		trt__GetOSDsResponse->OSDs[1].Position = (struct tt__OSDPosConfiguration*)soap_malloc(soap, sizeof(struct tt__OSDPosConfiguration));
-		memset(trt__GetOSDsResponse->OSDs[1].Position, 0, sizeof(struct tt__OSDPosConfiguration));
-		trt__GetOSDsResponse->OSDs[1].Position->Type = soap_strdup(soap, "Custom");
-		trt__GetOSDsResponse->OSDs[1].Position->Pos = (struct tt__Vector*)soap_malloc(soap, sizeof(struct tt__Vector));
-		memset(trt__GetOSDsResponse->OSDs[1].Position->Pos, 0, sizeof(struct tt__Vector));
-		SOAP_SET_NUMBER(soap, trt__GetOSDsResponse->OSDs[1].Position->Pos->x, sizeof(float), osd_infos.osd_info[0].camera_name_pos.x);
-		SOAP_SET_NUMBER(soap, trt__GetOSDsResponse->OSDs[1].Position->Pos->y, sizeof(float), osd_infos.osd_info[0].camera_name_pos.y);
-
-		trt__GetOSDsResponse->OSDs[1].TextString = (struct tt__OSDTextConfiguration*)soap_malloc(soap, sizeof(struct tt__OSDTextConfiguration));
-		memset(trt__GetOSDsResponse->OSDs[1].TextString, 0, sizeof(struct tt__OSDTextConfiguration));
-		trt__GetOSDsResponse->OSDs[1].TextString->Type = soap_strdup(soap, "DateAndTime");
-		trt__GetOSDsResponse->OSDs[1].TextString->DateFormat = soap_strdup(soap, "yyyy-MM-dd");
-		trt__GetOSDsResponse->OSDs[1].TextString->TimeFormat = soap_strdup(soap, "HH:mm:ss");
-		SOAP_SET_NUMBER(soap, trt__GetOSDsResponse->OSDs[1].TextString->FontSize, sizeof(int), 64);
+		GetOsdInfo(soap, trt__GetOSDs->ConfigurationToken, 1, osd_infos.osd_info[0].date_pos.x, osd_infos.osd_info[0].date_pos.y, NULL, &trt__GetOSDsResponse->OSDs[num]);
+		num++;
 	}
 
 	for (int i = 0; i < ONVIF_CONFIG_OSD_INFO_STRING_OVERLAY_MAX; i++) {
@@ -1035,39 +1034,226 @@ SOAP_FMAC5 int SOAP_FMAC6 __trt__GetOSDs(struct soap* soap, struct _trt__GetOSDs
 			continue;
 		}
 
-		char token[16] = {0};
-		snprintf(token, sizeof(token), "ONFOsdToken_1%02d", i+2);
-		trt__GetOSDsResponse->OSDs[i+2].token = soap_strdup(soap, token);
-
-		trt__GetOSDsResponse->OSDs[i+2].VideoSourceConfigurationToken = (struct tt__OSDReference*)soap_malloc(soap, sizeof(struct tt__OSDReference));
-		memset(trt__GetOSDsResponse->OSDs[i+2].VideoSourceConfigurationToken, 0, sizeof(struct tt__OSDReference));
-		trt__GetOSDsResponse->OSDs[i+2].VideoSourceConfigurationToken->__item = soap_strdup(soap, "trt__GetStreamUri->ConfigurationToken");
-		trt__GetOSDsResponse->OSDs[i+2].Type = tt__OSDType__Text;
-
-		trt__GetOSDsResponse->OSDs[i+2].Position = (struct tt__OSDPosConfiguration*)soap_malloc(soap, sizeof(struct tt__OSDPosConfiguration));
-		memset(trt__GetOSDsResponse->OSDs[i+2].Position, 0, sizeof(struct tt__OSDPosConfiguration));
-		trt__GetOSDsResponse->OSDs[i+2].Position->Type = soap_strdup(soap, "Custom");
-		trt__GetOSDsResponse->OSDs[i+2].Position->Pos = (struct tt__Vector*)soap_malloc(soap, sizeof(struct tt__Vector));
-		memset(trt__GetOSDsResponse->OSDs[i+2].Position->Pos, 0, sizeof(struct tt__Vector));
-		SOAP_SET_NUMBER(soap, trt__GetOSDsResponse->OSDs[i+2].Position->Pos->x, sizeof(float), osd_infos.osd_info[0].string_overlay[i].pos.x);
-		SOAP_SET_NUMBER(soap, trt__GetOSDsResponse->OSDs[i+2].Position->Pos->y, sizeof(float), osd_infos.osd_info[0].string_overlay[i].pos.y);
-
-		trt__GetOSDsResponse->OSDs[i+2].TextString = (struct tt__OSDTextConfiguration*)soap_malloc(soap, sizeof(struct tt__OSDTextConfiguration));
-		memset(trt__GetOSDsResponse->OSDs[i+2].TextString, 0, sizeof(struct tt__OSDTextConfiguration));
-		trt__GetOSDsResponse->OSDs[i+2].TextString->Type = soap_strdup(soap, "Plain");
-		SOAP_SET_NUMBER(soap, trt__GetOSDsResponse->OSDs[i+2].TextString->FontSize, sizeof(int), 64);
-		trt__GetOSDsResponse->OSDs[i+2].TextString->PlainText = soap_strdup(soap, osd_infos.osd_info[0].string_overlay[i].value);
+		GetOsdInfo(soap, trt__GetOSDs->ConfigurationToken, i+2, osd_infos.osd_info[0].string_overlay[i].pos.x, osd_infos.osd_info[0].string_overlay[i].pos.y, osd_infos.osd_info[0].string_overlay[i].value, &trt__GetOSDsResponse->OSDs[num]);
+		num++;
 	}
 
+	return 0;
+}
 
+/** Web service operation '__trt__GetOSD' implementation, should return SOAP_OK or error code */
+SOAP_FMAC5 int SOAP_FMAC6 __trt__GetOSD(struct soap* soap, struct _trt__GetOSD *trt__GetOSD, struct _trt__GetOSDResponse *trt__GetOSDResponse) {
+	printf("%s:%d\n", __func__, __LINE__);
+	return 0;
+}
+/** Web service operation '__trt__GetOSDOptions' implementation, should return SOAP_OK or error code */
+SOAP_FMAC5 int SOAP_FMAC6 __trt__GetOSDOptions(struct soap* soap, struct _trt__GetOSDOptions *trt__GetOSDOptions, struct _trt__GetOSDOptionsResponse *trt__GetOSDOptionsResponse) {
+	CHECK_LT(OnvifAuthUser(soap), 0, return 401);
 
-			/** Optional element 'tt:TextString' of XML schema type 'tt:OSDTextConfiguration' */
-			struct tt__OSDTextConfiguration *TextString;
+	struct tt__OSDConfigurationOptions *options = (struct tt__OSDConfigurationOptions*)soap_malloc(soap, sizeof(struct tt__OSDConfigurationOptions));
+	memset(options, 0, sizeof(struct tt__OSDConfigurationOptions));
 
+	options->MaximumNumberOfOSDs = (struct tt__MaximumNumberOfOSDs*)soap_malloc(soap, sizeof(struct tt__MaximumNumberOfOSDs));
+	memset(options->MaximumNumberOfOSDs, 0, sizeof(struct tt__MaximumNumberOfOSDs));
+	options->MaximumNumberOfOSDs->Total = 11;
+	SOAP_SET_NUMBER(soap, options->MaximumNumberOfOSDs->Image, sizeof(int), 1);
+	SOAP_SET_NUMBER(soap, options->MaximumNumberOfOSDs->PlainText, sizeof(int), 9);
+	SOAP_SET_NUMBER(soap, options->MaximumNumberOfOSDs->Date, sizeof(int), 1);
+	SOAP_SET_NUMBER(soap, options->MaximumNumberOfOSDs->Time, sizeof(int), 1);
+	SOAP_SET_NUMBER(soap, options->MaximumNumberOfOSDs->DateAndTime, sizeof(int), 1);
 
+	options->__sizeType = 1;
+	options->Type = (enum tt__OSDType*)soap_malloc(soap, sizeof(enum tt__OSDType)*options->__sizeType);
+	memset(options->Type, 0, sizeof(enum tt__OSDType)*options->__sizeType);
+	options->Type[0] = tt__OSDType__Text;
+	
+	options->__sizePositionOption = 3;
+	options->PositionOption = (char**)soap_malloc(soap, sizeof(char*)*options->__sizePositionOption);
+	memset(options->PositionOption, 0, sizeof(char*)*options->__sizePositionOption);
+	options->PositionOption[0] = soap_strdup(soap, "UpperLeft");
+	options->PositionOption[1] = soap_strdup(soap, "LowerLeft");
+	options->PositionOption[2] = soap_strdup(soap, "Custom");
 
-			        /** Required element 'tt:Type' of XML schema type 'xsd:string' */
-					char *Type;
-					/** Optional element 'tt:DateFormat' of XML schema type 'xsd:string' */
-					char *DateFormat;
-					/** Optional element 'tt:TimeFormat' of XML schema type 'xsd:
+	options->TextOption = (struct tt__OSDTextOptions*)soap_malloc(soap, sizeof(struct tt__OSDTextOptions));
+	memset(options->TextOption, 0, sizeof(struct tt__OSDTextOptions));
+
+	options->TextOption->__sizeType = 4;
+	options->TextOption->Type = (char**)soap_malloc(soap, sizeof(char*)*options->TextOption->__sizeType);
+	memset(options->TextOption->Type, 0, sizeof(char*)*options->TextOption->__sizeType);
+	options->TextOption->Type[0] = soap_strdup(soap, "Plain");
+	options->TextOption->Type[1] = soap_strdup(soap, "Date");
+	options->TextOption->Type[2] = soap_strdup(soap, "Time");
+	options->TextOption->Type[3] = soap_strdup(soap, "DateAndTime");
+
+	SOAP_SET_RANGE(soap, options->TextOption->FontSizeRange, sizeof(struct tt__IntRange), 16, 64);
+
+	options->TextOption->__sizeDateFormat = 4;
+	options->TextOption->DateFormat = (char**)soap_malloc(soap, sizeof(char*)*options->TextOption->__sizeDateFormat);
+	memset(options->TextOption->DateFormat, 0, sizeof(char*)*options->TextOption->__sizeDateFormat);
+	options->TextOption->DateFormat[0] = soap_strdup(soap, "MM/dd/yyyy");
+	options->TextOption->DateFormat[1] = soap_strdup(soap, "dd/MM/yyyy");
+	options->TextOption->DateFormat[2] = soap_strdup(soap, "yyyy/MM/dd");
+	options->TextOption->DateFormat[3] = soap_strdup(soap, "yyyy-MM-dd");
+
+	options->TextOption->__sizeTimeFormat = 4;
+	options->TextOption->TimeFormat = (char**)soap_malloc(soap, sizeof(char*)*options->TextOption->__sizeTimeFormat);
+	memset(options->TextOption->TimeFormat, 0, sizeof(char*)*options->TextOption->__sizeTimeFormat);
+	options->TextOption->TimeFormat[0] = soap_strdup(soap, "hh:mm:ss tt");
+	options->TextOption->TimeFormat[1] = soap_strdup(soap, "HH:mm:ss");
+
+	trt__GetOSDOptionsResponse->OSDOptions = options;
+
+	return 0;
+}
+/** Web service operation '__trt__SetOSD' implementation, should return SOAP_OK or error code */
+SOAP_FMAC5 int SOAP_FMAC6 __trt__SetOSD(struct soap* soap, struct _trt__SetOSD *trt__SetOSD, struct _trt__SetOSDResponse *trt__SetOSDResponse) {
+	CHECK_LT(OnvifAuthUser(soap), 0, return 401);
+
+	CHECK_POINTER(trt__SetOSD->OSD, return 400);
+	CHECK_POINTER(trt__SetOSD->OSD->token, return 400);
+	CHECK_POINTER(trt__SetOSD->OSD->VideoSourceConfigurationToken, return 400);
+	CHECK_POINTER(trt__SetOSD->OSD->Position, return 400);
+	CHECK_POINTER(trt__SetOSD->OSD->TextString, return 400);
+
+	int code = 0;
+	if (trt__SetOSD->OSD->VideoSourceConfigurationToken->__item) {
+		sscanf(trt__SetOSD->OSD->VideoSourceConfigurationToken->__item, "%*[^_]_%d\n", &code);
+	} else {
+		SOAP_ERROR_REPLAY(soap, "invalid token", 400);
+	}
+
+	OnvifConfigCameraOsdInfos osd_infos;
+	memset(&osd_infos, 0, sizeof(OnvifConfigCameraOsdInfos));
+	osd_infos.deal_num = code/100;
+	int ret = OnvifOperationGetConfig(ONVIF_CONFIG_CAMERA_OSD_INFO, &osd_infos, sizeof(OnvifConfigCameraOsdInfos));
+	CHECK_LT(ret, 0, return 500);
+
+	int id = 0;
+	sscanf(trt__SetOSD->OSD->token, "%*[^_]_%d\n", &id);
+
+	if ((id/100) != (code/100)) {
+		SOAP_ERROR_REPLAY(soap, "video source token and osd token mismatching", 400);
+	}
+
+	if (id%100 == 0 && strcmp(trt__SetOSD->OSD->TextString->Type, "Plain") == 0) {
+		strcpy(osd_infos.osd_info[0].camera_name, trt__SetOSD->OSD->TextString->PlainText);
+		if (trt__SetOSD->OSD->Position->Type != NULL && strcmp(trt__SetOSD->OSD->Position->Type, "Custom") == 0 && trt__SetOSD->OSD->Position->Pos != NULL) {
+			osd_infos.osd_info[0].camera_name_pos.x = *trt__SetOSD->OSD->Position->Pos->x;
+			osd_infos.osd_info[0].camera_name_pos.y = *trt__SetOSD->OSD->Position->Pos->y;
+		}
+	} else if (id%100 == 1 && strcmp(trt__SetOSD->OSD->TextString->Type, "DateAndTime") == 0) {
+		if (trt__SetOSD->OSD->Position->Type != NULL && strcmp(trt__SetOSD->OSD->Position->Type, "Custom") == 0 && trt__SetOSD->OSD->Position->Pos != NULL) {
+			osd_infos.osd_info[0].date_pos.x = *trt__SetOSD->OSD->Position->Pos->x;
+			osd_infos.osd_info[0].date_pos.y = *trt__SetOSD->OSD->Position->Pos->y;
+		}
+	} else {
+		SOAP_ERROR_REPLAY(soap, "osd token and text type mismatching", 400);
+	}
+
+	ret = OnvifOperationSetConfig(ONVIF_CONFIG_CAMERA_OSD_INFO, &osd_infos, sizeof(OnvifConfigCameraOsdInfos));
+	CHECK_LT(ret, 0, return 500);
+
+	return 0;
+}
+/** Web service operation '__trt__CreateOSD' implementation, should return SOAP_OK or error code */
+SOAP_FMAC5 int SOAP_FMAC6 __trt__CreateOSD(struct soap* soap, struct _trt__CreateOSD *trt__CreateOSD, struct _trt__CreateOSDResponse *trt__CreateOSDResponse) {
+	CHECK_LT(OnvifAuthUser(soap), 0, return 401);
+
+	CHECK_POINTER(trt__CreateOSD->OSD, return 400);
+	CHECK_POINTER(trt__CreateOSD->OSD->VideoSourceConfigurationToken, return 400);
+	CHECK_POINTER(trt__CreateOSD->OSD->Position, return 400);
+	CHECK_POINTER(trt__CreateOSD->OSD->Position->Pos, return 400);
+	CHECK_POINTER(trt__CreateOSD->OSD->Position->Pos->x, return 400);
+	CHECK_POINTER(trt__CreateOSD->OSD->Position->Pos->y, return 400);
+	CHECK_POINTER(trt__CreateOSD->OSD->TextString, return 400);
+	CHECK_POINTER(trt__CreateOSD->OSD->TextString->Type, return 400);
+
+	int code = 0;
+	if (trt__CreateOSD->OSD->VideoSourceConfigurationToken->__item) {
+		sscanf(trt__CreateOSD->OSD->VideoSourceConfigurationToken->__item, "%*[^_]_%d\n", &code);
+	} else {
+		SOAP_ERROR_REPLAY(soap, "invalid token", 400);
+	}
+
+	OnvifConfigCameraOsdInfos osd_infos;
+	memset(&osd_infos, 0, sizeof(OnvifConfigCameraOsdInfos));
+	osd_infos.deal_num = code/100;
+	int ret = OnvifOperationGetConfig(ONVIF_CONFIG_CAMERA_OSD_INFO, &osd_infos, sizeof(OnvifConfigCameraOsdInfos));
+	CHECK_LT(ret, 0, return 500);
+
+	char token[32] = {0};
+	if (strcmp(trt__CreateOSD->OSD->TextString->Type, "DateAndTime") == 0) {
+		osd_infos.osd_info[0].show_date = 1;
+		osd_infos.osd_info[0].date_pos.x = *trt__CreateOSD->OSD->Position->Pos->x;
+		osd_infos.osd_info[0].date_pos.y = *trt__CreateOSD->OSD->Position->Pos->y;
+
+		snprintf(token, sizeof(token), "ONFOsdToken_%d01", code/100);
+	} else if (strcmp(trt__CreateOSD->OSD->TextString->Type, "Plain") == 0) {
+		if (trt__CreateOSD->OSD->TextString->Extension != NULL && trt__CreateOSD->OSD->TextString->Extension->ChannelName) {
+			osd_infos.osd_info[0].show_camera_name = 1;
+			strcpy(osd_infos.osd_info[0].camera_name, trt__CreateOSD->OSD->TextString->PlainText);
+			osd_infos.osd_info[0].camera_name_pos.x = *trt__CreateOSD->OSD->Position->Pos->x;
+			osd_infos.osd_info[0].camera_name_pos.y = *trt__CreateOSD->OSD->Position->Pos->y;
+			snprintf(token, sizeof(token), "ONFOsdToken_%d00", code/100);
+		} else {
+			int index = 0;
+			for (index = 0; index < ONVIF_CONFIG_OSD_INFO_STRING_OVERLAY_MAX; index++) {
+				if (!osd_infos.osd_info[0].string_overlay[index].show) {
+					break;
+				}
+			}
+
+			if (index >= ONVIF_CONFIG_OSD_INFO_STRING_OVERLAY_MAX) {
+				SOAP_ERROR_REPLAY(soap, "string overlay already max", 400);
+			}
+			osd_infos.osd_info[0].string_overlay[index].show = 1;
+			strcpy(osd_infos.osd_info[0].string_overlay[index].value, trt__CreateOSD->OSD->TextString->PlainText);
+			osd_infos.osd_info[0].string_overlay[index].pos.x = *trt__CreateOSD->OSD->Position->Pos->x;
+			osd_infos.osd_info[0].string_overlay[index].pos.y = *trt__CreateOSD->OSD->Position->Pos->y;
+			snprintf(token, sizeof(token), "ONFOsdToken_%d%02d", code/100, index+2);
+		}
+	} else {
+		SOAP_ERROR_REPLAY(soap, "invalid osd type", 400);
+	}
+
+	ret = OnvifOperationSetConfig(ONVIF_CONFIG_CAMERA_OSD_INFO, &osd_infos, sizeof(OnvifConfigCameraOsdInfos));
+	CHECK_LT(ret, 0, return 500);
+
+	trt__CreateOSDResponse->OSDToken = soap_strdup(soap, token);
+
+	return 0;
+}
+/** Web service operation '__trt__DeleteOSD' implementation, should return SOAP_OK or error code */
+SOAP_FMAC5 int SOAP_FMAC6 __trt__DeleteOSD(struct soap* soap, struct _trt__DeleteOSD *trt__DeleteOSD, struct _trt__DeleteOSDResponse *trt__DeleteOSDResponse) {
+	CHECK_LT(OnvifAuthUser(soap), 0, return 401);
+
+	int code = 0;
+	if (trt__DeleteOSD->OSDToken) {
+		sscanf(trt__DeleteOSD->OSDToken, "%*[^_]_%d\n", &code);
+	} else {
+		SOAP_ERROR_REPLAY(soap, "invalid token", 400);
+	}
+
+	OnvifConfigCameraOsdInfos osd_infos;
+	memset(&osd_infos, 0, sizeof(OnvifConfigCameraOsdInfos));
+	osd_infos.deal_num = code/100;
+	int ret = OnvifOperationGetConfig(ONVIF_CONFIG_CAMERA_OSD_INFO, &osd_infos, sizeof(OnvifConfigCameraOsdInfos));
+	CHECK_LT(ret, 0, return 500);
+
+	if (code%100 == 0) {
+		osd_infos.osd_info[0].show_camera_name = 0;
+	} else if (code%100 == 1) {
+		osd_infos.osd_info[0].show_date = 0;
+	} else {
+		int index = code%100 - 2;
+		if (index >= ONVIF_CONFIG_OSD_INFO_STRING_OVERLAY_MAX) {
+			SOAP_ERROR_REPLAY(soap, "invalid osd token", 400);
+		}
+		osd_infos.osd_info[0].string_overlay[index].show = 0;
+	}
+
+	ret = OnvifOperationSetConfig(ONVIF_CONFIG_CAMERA_OSD_INFO, &osd_infos, sizeof(OnvifConfigCameraOsdInfos));
+	CHECK_LT(ret, 0, return 500);
+
+	return 0;
+}
