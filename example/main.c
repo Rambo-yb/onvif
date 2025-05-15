@@ -282,7 +282,13 @@ int main(int argc, char** argv) {
     OnvifOperationRegister(ONVIF_OPERATION_CONTORL_REQUEST, ContorlRequest);
 
     while (1) {
-        sleep(1);
+		OnvifEventInfo info;
+		info.type = ONVIF_MONITIORING_PROCESSOR_USAGE;
+		info.state = ONVIF_EVENT_INITIALIZED;
+		OnvifEventMonitioringProcessorUsage usage = {.usage = 50};
+		info.val = &usage;
+		OnvifEventUplaod(&info);
+        sleep(10);
     }
 
     return 0;

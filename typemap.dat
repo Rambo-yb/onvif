@@ -667,14 +667,16 @@ xliff__priorityValue = typedef int xliff__priorityValue 1:10;
 
 _wsnt__NotificationMessageHolderType_Message = $ struct _tt__Message* tt__Message;
 
-#wsnt__FilterType = $ struct wsnt__TopicExpressionType* TopicExpression;
+wsnt__FilterType = $ struct wsnt__TopicExpressionType* TopicExpression;
 
-#wstop__TopicSetType = $ struct tt__MessageDescription* MessageDescription;
+# wstop__TopicSetType = $ struct tt__MessageDescription* MessageDescription;
+# wstop__TopicSetType = $ char *__mixed;
 
 
 _tds__Service_Capabilities = $ struct tds__DeviceServiceCapabilities* tds__Capabilities;
 _tds__Service_Capabilities = $ struct trt__Capabilities* trt__Capabilities;
 _tds__Service_Capabilities = $ struct tptz__Capabilities* tptz__Capabilities;
 _tds__Service_Capabilities = $ struct timg__Capabilities* timg__Capabilities;
+_tds__Service_Capabilities = $ struct tev__Capabilities* tev__Capabilities;
 
 tt__OSDTextConfigurationExtension = $ enum xsd__boolean ChannelName;

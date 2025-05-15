@@ -201,18 +201,6 @@ typedef struct {
 }OnvifContorlPtzCtrl;
 
 
-/*********** 事件上报 ***********/
-typedef enum OnvifEventState {
-    ONVIF_EVENT_START,
-    ONVIF_EVENT_STOP,
-}OnvifEventState;
-
-typedef struct OnvifEventInfo {
-    char event_type[64];
-    long time;
-    OnvifEventState state;
-}OnvifEventInfo;
-
 /*********** 系统请求回调 ***********/
 typedef enum {
 	ONVIF_SYSTEM_REBOOT = 0x21000,
@@ -264,10 +252,71 @@ typedef int (*OnvifOperationControlCb)(int, int, void*, int);
 
 /*********** 回调枚举 ***********/
 typedef enum {
-    ONVIF_OPERATION_SYSTEM_REQUEST = 0x21000,	// OnvifOperationSystemCb
+    ONVIF_OPERATION_SYSTEM_REQUEST = 0x20000,	// OnvifOperationSystemCb
     ONVIF_OPERATION_GET_CONFIG,					// OnvifOperationGetConfigCb
     ONVIF_OPERATION_SET_CONFIG, 				// OnvifOperationSetConfigCb
     ONVIF_OPERATION_CONTORL_REQUEST,			// OnvifOperationControlCb
 }OnvifOperationType;
+
+
+/*********** 事件上报 ***********/
+typedef enum {
+	ONVIF_MONITIORING_PROCESSOR_USAGE,					// CPU占用率, OnvifEventMonitioringProcessorUsage
+	ONVIF_MONITIORING_UPLOAD_STATUS,					// 升级状态, OnvifEventMonitioringUploadStatus
+	ONVIF_MONITIORING_DEFINED_LIMIT_REACHED,			// 达到设备运行时间限制, OnvifEventMonitioringDefinedLimitReached
+	ONVIF_MONITIORING_LAST_RESET,						// 上次恢复出厂时间, OnvifEventMonitioringOperatingTime
+	ONVIF_MONITIORING_LAST_REBOOT,						// 上次重启时间, OnvifEventMonitioringOperatingTime
+	ONVIF_MONITIORING_LAST_CLOCK_SYNC,					// 上次时钟同步时间, OnvifEventMonitioringOperatingTime
+
+	ONVIF_VIDEO_SOURCE_TOO_BLURRY,						// 失焦, OnvifEventVideoSource
+	ONVIF_VIDEO_SOURCE_TOO_DARK,						// 画面过暗, OnvifEventVideoSource
+	ONVIF_VIDEO_SOURCE_TOO_BRIGHT,						// 画面过亮, OnvifEventVideoSource
+	ONVIF_VIDEO_SOURCE_SCENE_CHANGE,					// 视频篡改, OnvifEventVideoSource
+	ONVIF_VIDEO_SOURCE_SIGNAL_LOSS,						// 视频丢失(模拟输入), OnvifEventVideoSource
+	ONVIF_VIDEO_SOURCE_MOTION_ALARM,					// 移动检测, OnvifEventVideoSource
+
+	ONVIF_PTZ_PRESETS_INVOKED,							// 执行, OnvifEventPtzPresets
+	ONVIF_PTZ_PRESETS_REACHED,							// 到达, OnvifEventPtzPresets
+	ONVIF_PTZ_PRESETS_ABORTED,							// 异常, OnvifEventPtzPresets
+	ONVIF_PTZ_PRESETS_LEFT,								// 丢弃, OnvifEventPtzPresets
+}OnvifEventType;
+
+typedef enum {
+    ONVIF_EVENT_INITIALIZED,	// 初始
+    ONVIF_EVENT_DELETED,		// 删除
+    ONVIF_EVENT_CHANGED,		// 改变
+}OnvifEventState;
+
+typedef struct OnvifEventInfo {
+    int type;		// OnvifEventType
+    int state;		// OnvifEventState
+	void* val;		// 对应枚举后的结构体
+}OnvifEventInfo;
+
+typedef struct {
+	float usage;
+}OnvifEventMonitioringProcessorUsage;
+
+typedef struct {
+	float status;
+}OnvifEventMonitioringUploadStatus;
+
+typedef struct {
+	char reserve;
+}OnvifEventMonitioringDefinedLimitReached;
+
+typedef struct {
+	int time;
+}OnvifEventMonitioringOperatingTime;
+
+typedef struct {
+	int cam;
+	int stream;
+}OnvifEventVideoSource;
+
+typedef struct {
+	char name[64];
+}OnvifEventPtzPresets;
+
 
 #endif

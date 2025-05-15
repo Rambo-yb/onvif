@@ -6,16 +6,18 @@
 #include <sys/types.h>
 #include "soapH.h"
 #include "wsseapi.h"
+#include "httpda.h"
 #include "wsdd.nsmap"
 
 #include "onvif.h"
 #include "onvif_operation.h"
 #include "onvif_conf.h"
+#include "onvif_event.h"
 
 #include "log.h"
 #include "check_common.h"
 
-#define ONVIF_LIB_VERSION ("V1.0.0")
+#define ONVIF_LIB_VERSION ("V1.0.1")
 #define ONVIF_DEFAULT_LOGS_PATH "/data/logs"
 #define ONVIF_DEFAULT_CONF_PATH "/data/confs"
 
@@ -69,66 +71,66 @@ static void* OnvifDiscorveryProc(void* arg) {
 }
 
 static void* OnvifWebServerProc(void* arg) {
-	struct soap ser_soap;
-	soap_init2(&ser_soap, SOAP_ENC_MTOM | SOAP_ENC_MIME, 0);
-	ser_soap.port = ONVIF_WEB_SERVER_PORT;
-	ser_soap.bind_flags = SO_REUSEADDR;
-	soap_set_namespaces(&ser_soap, namespaces);
+	struct soap *ser_soap = soap_new1(SOAP_XML_INDENT);
+	ser_soap->port = ONVIF_WEB_SERVER_PORT;
+	ser_soap->bind_flags = SO_REUSEADDR;
+	soap_set_namespaces(ser_soap, namespaces);
 	
-	soap_register_plugin(&ser_soap, soap_wsse);
+	CHECK_EQ(soap_register_plugin(ser_soap, soap_wsse), 0, );
+	CHECK_EQ(soap_register_plugin(ser_soap, http_da), 0, );
 
-	if(!soap_valid_socket(soap_bind(&ser_soap, NULL, ONVIF_WEB_SERVER_PORT, 10))) {
-		soap_print_fault(&ser_soap, stderr);
+	if(!soap_valid_socket(soap_bind(ser_soap, NULL, ONVIF_WEB_SERVER_PORT, 10))) {
+		soap_print_fault(ser_soap, stderr);
 		return NULL;
 	}
 
 	while(1) {
-		if (!soap_valid_socket(soap_accept(&ser_soap))) {
-			soap_print_fault(&ser_soap, stderr);
+		if (!soap_valid_socket(soap_accept(ser_soap))) {
+			soap_print_fault(ser_soap, stderr);
 			break;
 		}
-		
-		if( soap_serve(&ser_soap) != SOAP_OK) {
-			soap_print_fault(&ser_soap, stderr);
+
+		if( soap_serve(ser_soap) != SOAP_OK) {
+			soap_print_fault(ser_soap, stderr);
 		}
 
-		soap_destroy(&ser_soap);
-		soap_end(&ser_soap);
+		soap_destroy(ser_soap);
+		soap_end(ser_soap);
 	}
 
-	soap_done(&ser_soap);
+	soap_done(ser_soap);
 	return NULL;
 }
 
 static void* OnvifEventMessageProc(void* arg) {
-	struct soap ser_soap;
-	soap_init2(&ser_soap, SOAP_ENC_MTOM | SOAP_ENC_MIME, 0);
-	ser_soap.port = ONVIF_EVENT_MESSAGE_PORT;
-	ser_soap.bind_flags = SO_REUSEADDR;
-	soap_set_namespaces(&ser_soap, namespaces);
+	struct soap *ser_soap = soap_new1(SOAP_XML_INDENT);
+	ser_soap->port = ONVIF_EVENT_MESSAGE_PORT;
+	ser_soap->bind_flags = SO_REUSEADDR;
+	soap_set_namespaces(ser_soap, namespaces);
 	
-	soap_register_plugin(&ser_soap, soap_wsse);
+	CHECK_EQ(soap_register_plugin(ser_soap, soap_wsse), 0, );
+	CHECK_EQ(soap_register_plugin(ser_soap, http_da), 0, );
 
-	if(!soap_valid_socket(soap_bind(&ser_soap, NULL, ONVIF_EVENT_MESSAGE_PORT, 10))) {
-		soap_print_fault(&ser_soap, stderr);
+	if(!soap_valid_socket(soap_bind(ser_soap, NULL, ONVIF_EVENT_MESSAGE_PORT, 10))) {
+		soap_print_fault(ser_soap, stderr);
 		return NULL;
 	}
 
 	while(1) {
-		if (!soap_valid_socket(soap_accept(&ser_soap))) {
-			soap_print_fault(&ser_soap, stderr);
+		if (!soap_valid_socket(soap_accept(ser_soap))) {
+			soap_print_fault(ser_soap, stderr);
 			break;
 		}
 		
-		if( soap_serve(&ser_soap) != SOAP_OK) {
-			soap_print_fault(&ser_soap, stderr);
+		if( soap_serve(ser_soap) != SOAP_OK) {
+			soap_print_fault(ser_soap, stderr);
 		}
 
-		soap_destroy(&ser_soap);
-		soap_end(&ser_soap);
+		soap_destroy(ser_soap);
+		soap_end(ser_soap);
 	}
 
-	soap_done(&ser_soap);
+	soap_done(ser_soap);
 	return NULL;
 }
 
@@ -163,10 +165,11 @@ int OnvifInit(OnvifInitialInfo* info) {
 	LogInit(file_path, 512*1024, 3, 5);
 
 	OnvifConfInit((info == NULL || info->log_path == NULL) ? ONVIF_DEFAULT_CONF_PATH : info->log_path);
+	OnvifEventInit();
 
 	pthread_create(&kOnvifMng.discorvery_id, NULL, OnvifDiscorveryProc, NULL);
 	pthread_create(&kOnvifMng.web_server_id, NULL, OnvifWebServerProc, NULL);
-	// pthread_create(&kOnvifMng.event_msg_id, NULL, OnvifEventMessageProc, NULL);
+	pthread_create(&kOnvifMng.event_msg_id, NULL, OnvifEventMessageProc, NULL);
 
 	usleep(2*1000*1000);
 	LOG_INFO("onvif init success! compile time:%s %s, ver:%s", __DATE__, __TIME__, ONVIF_LIB_VERSION);
@@ -191,5 +194,8 @@ void OnvifOperationRegister(OnvifOperationType type, void* cb) {
 }
 
 void OnvifEventUplaod(OnvifEventInfo* info) {
-	// OnvifOperationEventUpload(info);
+	CHECK_POINTER(info, return );
+	CHECK_POINTER(info->val, return );
+
+	OnvifEventUpload(info);
 } 

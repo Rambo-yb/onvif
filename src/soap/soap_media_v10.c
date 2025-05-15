@@ -152,8 +152,6 @@ void GetMediaV10ServiceCapabilities(struct soap* soap, struct trt__Capabilities*
 
 /** Web service operation '__trt__GetServiceCapabilities' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __trt__GetServiceCapabilities(struct soap* soap, struct _trt__GetServiceCapabilities *trt__GetServiceCapabilities, struct _trt__GetServiceCapabilitiesResponse *trt__GetServiceCapabilitiesResponse) {
-	CHECK_LT(OnvifAuthUser(soap), 0, return 401);
-
 	trt__GetServiceCapabilitiesResponse->Capabilities = (struct trt__Capabilities*)soap_malloc(soap, sizeof(struct trt__Capabilities));
 	memset(trt__GetServiceCapabilitiesResponse->Capabilities, 0, sizeof(struct trt__Capabilities));
 	GetMediaV10ServiceCapabilities(soap, trt__GetServiceCapabilitiesResponse->Capabilities);
@@ -162,7 +160,9 @@ SOAP_FMAC5 int SOAP_FMAC6 __trt__GetServiceCapabilities(struct soap* soap, struc
 }
 /** Web service operation '__trt__GetVideoSources' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __trt__GetVideoSources(struct soap* soap, struct _trt__GetVideoSources *trt__GetVideoSources, struct _trt__GetVideoSourcesResponse *trt__GetVideoSourcesResponse) {
-	CHECK_LT(OnvifAuthUser(soap), 0, return 401);
+	if (OnvifAuthUser(soap) < 0) {
+        return 401;
+    }
 
 	OnvifConfigCameraVideoEncodeInfos encode_infos;
 	memset(&encode_infos, 0, sizeof(OnvifConfigCameraVideoEncodeInfos));
@@ -198,7 +198,9 @@ SOAP_FMAC5 int SOAP_FMAC6 __trt__GetVideoSources(struct soap* soap, struct _trt_
 }
 /** Web service operation '__trt__GetAudioSources' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __trt__GetAudioSources(struct soap* soap, struct _trt__GetAudioSources *trt__GetAudioSources, struct _trt__GetAudioSourcesResponse *trt__GetAudioSourcesResponse) {
-	CHECK_LT(OnvifAuthUser(soap), 0, return 401);
+	if (OnvifAuthUser(soap) < 0) {
+        return 401;
+    }
 
 	OnvifConfigCameraAudioEncodeInfo audio_info;
 	memset(&audio_info, 0, sizeof(OnvifConfigCameraAudioEncodeInfo));
@@ -216,17 +218,19 @@ SOAP_FMAC5 int SOAP_FMAC6 __trt__GetAudioSources(struct soap* soap, struct _trt_
 }
 /** Web service operation '__trt__GetAudioOutputs' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __trt__GetAudioOutputs(struct soap* soap, struct _trt__GetAudioOutputs *trt__GetAudioOutputs, struct _trt__GetAudioOutputsResponse *trt__GetAudioOutputsResponse) {
-	printf("%s:%d\n", __func__, __LINE__);
+	LOG_WRN("unrealized");
 	return 0;
 }
 /** Web service operation '__trt__CreateProfile' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __trt__CreateProfile(struct soap* soap, struct _trt__CreateProfile *trt__CreateProfile, struct _trt__CreateProfileResponse *trt__CreateProfileResponse) {
-	printf("%s:%d\n", __func__, __LINE__);
+	LOG_WRN("unrealized");
 	return 0;
 }
 /** Web service operation '__trt__GetProfile' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __trt__GetProfile(struct soap* soap, struct _trt__GetProfile *trt__GetProfile, struct _trt__GetProfileResponse *trt__GetProfileResponse) {
-	CHECK_LT(OnvifAuthUser(soap), 0, return 401);
+	if (OnvifAuthUser(soap) < 0) {
+        return 401;
+    }
 
 	int code = 0;
 	if (trt__GetProfile->ProfileToken) {
@@ -286,7 +290,9 @@ SOAP_FMAC5 int SOAP_FMAC6 __trt__GetProfile(struct soap* soap, struct _trt__GetP
 }
 /** Web service operation '__trt__GetProfiles' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __trt__GetProfiles(struct soap* soap, struct _trt__GetProfiles *trt__GetProfiles, struct _trt__GetProfilesResponse *trt__GetProfilesResponse) {
-	CHECK_LT(OnvifAuthUser(soap), 0, return 401);
+	if (OnvifAuthUser(soap) < 0) {
+        return 401;
+    }
 
 	OnvifConfigCameraVideoEncodeInfos encode_infos;
 	memset(&encode_infos, 0, sizeof(OnvifConfigCameraVideoEncodeInfos));
@@ -350,102 +356,104 @@ SOAP_FMAC5 int SOAP_FMAC6 __trt__GetProfiles(struct soap* soap, struct _trt__Get
 }
 /** Web service operation '__trt__AddVideoEncoderConfiguration' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __trt__AddVideoEncoderConfiguration(struct soap* soap, struct _trt__AddVideoEncoderConfiguration *trt__AddVideoEncoderConfiguration, struct _trt__AddVideoEncoderConfigurationResponse *trt__AddVideoEncoderConfigurationResponse) {
-	printf("%s:%d\n", __func__, __LINE__);
+	LOG_WRN("unrealized");
 	return 0;
 }
 /** Web service operation '__trt__AddVideoSourceConfiguration' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __trt__AddVideoSourceConfiguration(struct soap* soap, struct _trt__AddVideoSourceConfiguration *trt__AddVideoSourceConfiguration, struct _trt__AddVideoSourceConfigurationResponse *trt__AddVideoSourceConfigurationResponse) {
-	printf("%s:%d\n", __func__, __LINE__);
+	LOG_WRN("unrealized");
 	return 0;
 }
 /** Web service operation '__trt__AddAudioEncoderConfiguration' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __trt__AddAudioEncoderConfiguration(struct soap* soap, struct _trt__AddAudioEncoderConfiguration *trt__AddAudioEncoderConfiguration, struct _trt__AddAudioEncoderConfigurationResponse *trt__AddAudioEncoderConfigurationResponse) {
-	printf("%s:%d\n", __func__, __LINE__);
+	LOG_WRN("unrealized");
 	return 0;
 }
 /** Web service operation '__trt__AddAudioSourceConfiguration' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __trt__AddAudioSourceConfiguration(struct soap* soap, struct _trt__AddAudioSourceConfiguration *trt__AddAudioSourceConfiguration, struct _trt__AddAudioSourceConfigurationResponse *trt__AddAudioSourceConfigurationResponse) {
-	printf("%s:%d\n", __func__, __LINE__);
+	LOG_WRN("unrealized");
 	return 0;
 }
 /** Web service operation '__trt__AddPTZConfiguration' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __trt__AddPTZConfiguration(struct soap* soap, struct _trt__AddPTZConfiguration *trt__AddPTZConfiguration, struct _trt__AddPTZConfigurationResponse *trt__AddPTZConfigurationResponse) {
-	printf("%s:%d\n", __func__, __LINE__);
+	LOG_WRN("unrealized");
 	return 0;
 }
 /** Web service operation '__trt__AddVideoAnalyticsConfiguration' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __trt__AddVideoAnalyticsConfiguration(struct soap* soap, struct _trt__AddVideoAnalyticsConfiguration *trt__AddVideoAnalyticsConfiguration, struct _trt__AddVideoAnalyticsConfigurationResponse *trt__AddVideoAnalyticsConfigurationResponse) {
-	printf("%s:%d\n", __func__, __LINE__);
+	LOG_WRN("unrealized");
 	return 0;
 }
 /** Web service operation '__trt__AddMetadataConfiguration' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __trt__AddMetadataConfiguration(struct soap* soap, struct _trt__AddMetadataConfiguration *trt__AddMetadataConfiguration, struct _trt__AddMetadataConfigurationResponse *trt__AddMetadataConfigurationResponse) {
-	printf("%s:%d\n", __func__, __LINE__);
+	LOG_WRN("unrealized");
 	return 0;
 }
 /** Web service operation '__trt__AddAudioOutputConfiguration' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __trt__AddAudioOutputConfiguration(struct soap* soap, struct _trt__AddAudioOutputConfiguration *trt__AddAudioOutputConfiguration, struct _trt__AddAudioOutputConfigurationResponse *trt__AddAudioOutputConfigurationResponse) {
-	printf("%s:%d\n", __func__, __LINE__);
+	LOG_WRN("unrealized");
 	return 0;
 }
 /** Web service operation '__trt__AddAudioDecoderConfiguration' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __trt__AddAudioDecoderConfiguration(struct soap* soap, struct _trt__AddAudioDecoderConfiguration *trt__AddAudioDecoderConfiguration, struct _trt__AddAudioDecoderConfigurationResponse *trt__AddAudioDecoderConfigurationResponse) {
-	printf("%s:%d\n", __func__, __LINE__);
+	LOG_WRN("unrealized");
 	return 0;
 }
 /** Web service operation '__trt__RemoveVideoEncoderConfiguration' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __trt__RemoveVideoEncoderConfiguration(struct soap* soap, struct _trt__RemoveVideoEncoderConfiguration *trt__RemoveVideoEncoderConfiguration, struct _trt__RemoveVideoEncoderConfigurationResponse *trt__RemoveVideoEncoderConfigurationResponse) {
-	printf("%s:%d\n", __func__, __LINE__);
+	LOG_WRN("unrealized");
 	return 0;
 }
 /** Web service operation '__trt__RemoveVideoSourceConfiguration' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __trt__RemoveVideoSourceConfiguration(struct soap* soap, struct _trt__RemoveVideoSourceConfiguration *trt__RemoveVideoSourceConfiguration, struct _trt__RemoveVideoSourceConfigurationResponse *trt__RemoveVideoSourceConfigurationResponse) {
-	printf("%s:%d\n", __func__, __LINE__);
+	LOG_WRN("unrealized");
 	return 0;
 }
 /** Web service operation '__trt__RemoveAudioEncoderConfiguration' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __trt__RemoveAudioEncoderConfiguration(struct soap* soap, struct _trt__RemoveAudioEncoderConfiguration *trt__RemoveAudioEncoderConfiguration, struct _trt__RemoveAudioEncoderConfigurationResponse *trt__RemoveAudioEncoderConfigurationResponse) {
-	printf("%s:%d\n", __func__, __LINE__);
+	LOG_WRN("unrealized");
 	return 0;
 }
 /** Web service operation '__trt__RemoveAudioSourceConfiguration' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __trt__RemoveAudioSourceConfiguration(struct soap* soap, struct _trt__RemoveAudioSourceConfiguration *trt__RemoveAudioSourceConfiguration, struct _trt__RemoveAudioSourceConfigurationResponse *trt__RemoveAudioSourceConfigurationResponse) {
-	printf("%s:%d\n", __func__, __LINE__);
+	LOG_WRN("unrealized");
 	return 0;
 }
 /** Web service operation '__trt__RemovePTZConfiguration' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __trt__RemovePTZConfiguration(struct soap* soap, struct _trt__RemovePTZConfiguration *trt__RemovePTZConfiguration, struct _trt__RemovePTZConfigurationResponse *trt__RemovePTZConfigurationResponse) {
-	printf("%s:%d\n", __func__, __LINE__);
+	LOG_WRN("unrealized");
 	return 0;
 }
 /** Web service operation '__trt__RemoveVideoAnalyticsConfiguration' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __trt__RemoveVideoAnalyticsConfiguration(struct soap* soap, struct _trt__RemoveVideoAnalyticsConfiguration *trt__RemoveVideoAnalyticsConfiguration, struct _trt__RemoveVideoAnalyticsConfigurationResponse *trt__RemoveVideoAnalyticsConfigurationResponse) {
-	printf("%s:%d\n", __func__, __LINE__);
+	LOG_WRN("unrealized");
 	return 0;
 }
 /** Web service operation '__trt__RemoveMetadataConfiguration' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __trt__RemoveMetadataConfiguration(struct soap* soap, struct _trt__RemoveMetadataConfiguration *trt__RemoveMetadataConfiguration, struct _trt__RemoveMetadataConfigurationResponse *trt__RemoveMetadataConfigurationResponse) {
-	printf("%s:%d\n", __func__, __LINE__);
+	LOG_WRN("unrealized");
 	return 0;
 }
 /** Web service operation '__trt__RemoveAudioOutputConfiguration' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __trt__RemoveAudioOutputConfiguration(struct soap* soap, struct _trt__RemoveAudioOutputConfiguration *trt__RemoveAudioOutputConfiguration, struct _trt__RemoveAudioOutputConfigurationResponse *trt__RemoveAudioOutputConfigurationResponse) {
-	printf("%s:%d\n", __func__, __LINE__);
+	LOG_WRN("unrealized");
 	return 0;
 }
 /** Web service operation '__trt__RemoveAudioDecoderConfiguration' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __trt__RemoveAudioDecoderConfiguration(struct soap* soap, struct _trt__RemoveAudioDecoderConfiguration *trt__RemoveAudioDecoderConfiguration, struct _trt__RemoveAudioDecoderConfigurationResponse *trt__RemoveAudioDecoderConfigurationResponse) {
-	printf("%s:%d\n", __func__, __LINE__);
+	LOG_WRN("unrealized");
 	return 0;
 }
 /** Web service operation '__trt__DeleteProfile' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __trt__DeleteProfile(struct soap* soap, struct _trt__DeleteProfile *trt__DeleteProfile, struct _trt__DeleteProfileResponse *trt__DeleteProfileResponse) {
-	printf("%s:%d\n", __func__, __LINE__);
+	LOG_WRN("unrealized");
 	return 0;
 }
 /** Web service operation '__trt__GetVideoSourceConfigurations' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __trt__GetVideoSourceConfigurations(struct soap* soap, struct _trt__GetVideoSourceConfigurations *trt__GetVideoSourceConfigurations, struct _trt__GetVideoSourceConfigurationsResponse *trt__GetVideoSourceConfigurationsResponse) {
-	CHECK_LT(OnvifAuthUser(soap), 0, return 401);
+	if (OnvifAuthUser(soap) < 0) {
+        return 401;
+    }
 
 	OnvifConfigCameraVideoEncodeInfos encode_infos;
 	memset(&encode_infos, 0, sizeof(OnvifConfigCameraVideoEncodeInfos));
@@ -474,12 +482,14 @@ SOAP_FMAC5 int SOAP_FMAC6 __trt__GetVideoSourceConfigurations(struct soap* soap,
 }
 /** Web service operation '__trt__GetVideoEncoderConfigurations' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __trt__GetVideoEncoderConfigurations(struct soap* soap, struct _trt__GetVideoEncoderConfigurations *trt__GetVideoEncoderConfigurations, struct _trt__GetVideoEncoderConfigurationsResponse *trt__GetVideoEncoderConfigurationsResponse) {
-	printf("%s:%d\n", __func__, __LINE__);
+	LOG_WRN("unrealized");
 	return 0;
 }
 /** Web service operation '__trt__GetAudioSourceConfigurations' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __trt__GetAudioSourceConfigurations(struct soap* soap, struct _trt__GetAudioSourceConfigurations *trt__GetAudioSourceConfigurations, struct _trt__GetAudioSourceConfigurationsResponse *trt__GetAudioSourceConfigurationsResponse) {
-	CHECK_LT(OnvifAuthUser(soap), 0, return 401);
+	if (OnvifAuthUser(soap) < 0) {
+        return 401;
+    }
 
 	trt__GetAudioSourceConfigurationsResponse->__sizeConfigurations = 1;
 	trt__GetAudioSourceConfigurationsResponse->Configurations = (struct tt__AudioSourceConfiguration*)soap_malloc(soap, sizeof(struct tt__AudioSourceConfiguration)*trt__GetAudioSourceConfigurationsResponse->__sizeConfigurations);
@@ -491,32 +501,34 @@ SOAP_FMAC5 int SOAP_FMAC6 __trt__GetAudioSourceConfigurations(struct soap* soap,
 }
 /** Web service operation '__trt__GetAudioEncoderConfigurations' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __trt__GetAudioEncoderConfigurations(struct soap* soap, struct _trt__GetAudioEncoderConfigurations *trt__GetAudioEncoderConfigurations, struct _trt__GetAudioEncoderConfigurationsResponse *trt__GetAudioEncoderConfigurationsResponse) {
-	printf("%s:%d\n", __func__, __LINE__);
+	LOG_WRN("unrealized");
 	return 0;
 }
 /** Web service operation '__trt__GetVideoAnalyticsConfigurations' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __trt__GetVideoAnalyticsConfigurations(struct soap* soap, struct _trt__GetVideoAnalyticsConfigurations *trt__GetVideoAnalyticsConfigurations, struct _trt__GetVideoAnalyticsConfigurationsResponse *trt__GetVideoAnalyticsConfigurationsResponse) {
-	printf("%s:%d\n", __func__, __LINE__);
+	LOG_WRN("unrealized");
 	return 0;
 }
 /** Web service operation '__trt__GetMetadataConfigurations' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __trt__GetMetadataConfigurations(struct soap* soap, struct _trt__GetMetadataConfigurations *trt__GetMetadataConfigurations, struct _trt__GetMetadataConfigurationsResponse *trt__GetMetadataConfigurationsResponse) {
-	printf("%s:%d\n", __func__, __LINE__);
+	LOG_WRN("unrealized");
 	return 0;
 }
 /** Web service operation '__trt__GetAudioOutputConfigurations' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __trt__GetAudioOutputConfigurations(struct soap* soap, struct _trt__GetAudioOutputConfigurations *trt__GetAudioOutputConfigurations, struct _trt__GetAudioOutputConfigurationsResponse *trt__GetAudioOutputConfigurationsResponse) {
-	printf("%s:%d\n", __func__, __LINE__);
+	LOG_WRN("unrealized");
 	return 0;
 }
 /** Web service operation '__trt__GetAudioDecoderConfigurations' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __trt__GetAudioDecoderConfigurations(struct soap* soap, struct _trt__GetAudioDecoderConfigurations *trt__GetAudioDecoderConfigurations, struct _trt__GetAudioDecoderConfigurationsResponse *trt__GetAudioDecoderConfigurationsResponse) {
-	printf("%s:%d\n", __func__, __LINE__);
+	LOG_WRN("unrealized");
 	return 0;
 }
 /** Web service operation '__trt__GetVideoSourceConfiguration' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __trt__GetVideoSourceConfiguration(struct soap* soap, struct _trt__GetVideoSourceConfiguration *trt__GetVideoSourceConfiguration, struct _trt__GetVideoSourceConfigurationResponse *trt__GetVideoSourceConfigurationResponse) {
-	CHECK_LT(OnvifAuthUser(soap), 0, return 401);
+	if (OnvifAuthUser(soap) < 0) {
+        return 401;
+    }
 
 	int code = 0;
 	if (trt__GetVideoSourceConfiguration->ConfigurationToken) {
@@ -540,7 +552,9 @@ SOAP_FMAC5 int SOAP_FMAC6 __trt__GetVideoSourceConfiguration(struct soap* soap, 
 }
 /** Web service operation '__trt__GetVideoEncoderConfiguration' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __trt__GetVideoEncoderConfiguration(struct soap* soap, struct _trt__GetVideoEncoderConfiguration *trt__GetVideoEncoderConfiguration, struct _trt__GetVideoEncoderConfigurationResponse *trt__GetVideoEncoderConfigurationResponse) {
-	CHECK_LT(OnvifAuthUser(soap), 0, return 401);
+	if (OnvifAuthUser(soap) < 0) {
+        return 401;
+    }
 
 	int code = 0;
 	if (trt__GetVideoEncoderConfiguration->ConfigurationToken) {
@@ -564,38 +578,40 @@ SOAP_FMAC5 int SOAP_FMAC6 __trt__GetVideoEncoderConfiguration(struct soap* soap,
 }
 /** Web service operation '__trt__GetAudioSourceConfiguration' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __trt__GetAudioSourceConfiguration(struct soap* soap, struct _trt__GetAudioSourceConfiguration *trt__GetAudioSourceConfiguration, struct _trt__GetAudioSourceConfigurationResponse *trt__GetAudioSourceConfigurationResponse) {
-	printf("%s:%d\n", __func__, __LINE__);
+	LOG_WRN("unrealized");
 	return 0;
 }
 /** Web service operation '__trt__GetAudioEncoderConfiguration' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __trt__GetAudioEncoderConfiguration(struct soap* soap, struct _trt__GetAudioEncoderConfiguration *trt__GetAudioEncoderConfiguration, struct _trt__GetAudioEncoderConfigurationResponse *trt__GetAudioEncoderConfigurationResponse) {
-	printf("%s:%d\n", __func__, __LINE__);
+	LOG_WRN("unrealized");
 	return 0;
 }
 /** Web service operation '__trt__GetVideoAnalyticsConfiguration' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __trt__GetVideoAnalyticsConfiguration(struct soap* soap, struct _trt__GetVideoAnalyticsConfiguration *trt__GetVideoAnalyticsConfiguration, struct _trt__GetVideoAnalyticsConfigurationResponse *trt__GetVideoAnalyticsConfigurationResponse) {
-	printf("%s:%d\n", __func__, __LINE__);
+	LOG_WRN("unrealized");
 	return 0;
 }
 /** Web service operation '__trt__GetMetadataConfiguration' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __trt__GetMetadataConfiguration(struct soap* soap, struct _trt__GetMetadataConfiguration *trt__GetMetadataConfiguration, struct _trt__GetMetadataConfigurationResponse *trt__GetMetadataConfigurationResponse) {
-	printf("%s:%d\n", __func__, __LINE__);
+	LOG_WRN("unrealized");
 	return 0;
 }
 /** Web service operation '__trt__GetAudioOutputConfiguration' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __trt__GetAudioOutputConfiguration(struct soap* soap, struct _trt__GetAudioOutputConfiguration *trt__GetAudioOutputConfiguration, struct _trt__GetAudioOutputConfigurationResponse *trt__GetAudioOutputConfigurationResponse) {
-	printf("%s:%d\n", __func__, __LINE__);
+	LOG_WRN("unrealized");
 	return 0;
 }
 /** Web service operation '__trt__GetAudioDecoderConfiguration' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __trt__GetAudioDecoderConfiguration(struct soap* soap, struct _trt__GetAudioDecoderConfiguration *trt__GetAudioDecoderConfiguration, struct _trt__GetAudioDecoderConfigurationResponse *trt__GetAudioDecoderConfigurationResponse) {
-	printf("%s:%d\n", __func__, __LINE__);
+	LOG_WRN("unrealized");
 	return 0;
 }
 /** Web service operation '__trt__GetCompatibleVideoEncoderConfigurations' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __trt__GetCompatibleVideoEncoderConfigurations(struct soap* soap, struct _trt__GetCompatibleVideoEncoderConfigurations *trt__GetCompatibleVideoEncoderConfigurations, struct _trt__GetCompatibleVideoEncoderConfigurationsResponse *trt__GetCompatibleVideoEncoderConfigurationsResponse) {
-	printf("%s:%d\n", __func__, __LINE__);
-	// CHECK_LT(OnvifAuthUser(soap), 0, return 401);
+	LOG_WRN("unrealized");
+	// if (OnvifAuthUser(soap) < 0) {
+	// 	return 401;
+	// }
 
 	// cJSON* profiles_json = OnvifOperationGetConfig("profiles");
 	// CHECK_POINTER(profiles_json, return 500);
@@ -631,47 +647,49 @@ SOAP_FMAC5 int SOAP_FMAC6 __trt__GetCompatibleVideoEncoderConfigurations(struct 
 }
 /** Web service operation '__trt__GetCompatibleVideoSourceConfigurations' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __trt__GetCompatibleVideoSourceConfigurations(struct soap* soap, struct _trt__GetCompatibleVideoSourceConfigurations *trt__GetCompatibleVideoSourceConfigurations, struct _trt__GetCompatibleVideoSourceConfigurationsResponse *trt__GetCompatibleVideoSourceConfigurationsResponse) {
-	printf("%s:%d\n", __func__, __LINE__);
+	LOG_WRN("unrealized");
 	return 0;
 }
 /** Web service operation '__trt__GetCompatibleAudioEncoderConfigurations' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __trt__GetCompatibleAudioEncoderConfigurations(struct soap* soap, struct _trt__GetCompatibleAudioEncoderConfigurations *trt__GetCompatibleAudioEncoderConfigurations, struct _trt__GetCompatibleAudioEncoderConfigurationsResponse *trt__GetCompatibleAudioEncoderConfigurationsResponse) {
-	printf("%s:%d\n", __func__, __LINE__);
+	LOG_WRN("unrealized");
 	return 0;
 }
 /** Web service operation '__trt__GetCompatibleAudioSourceConfigurations' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __trt__GetCompatibleAudioSourceConfigurations(struct soap* soap, struct _trt__GetCompatibleAudioSourceConfigurations *trt__GetCompatibleAudioSourceConfigurations, struct _trt__GetCompatibleAudioSourceConfigurationsResponse *trt__GetCompatibleAudioSourceConfigurationsResponse) {
-	printf("%s:%d\n", __func__, __LINE__);
+	LOG_WRN("unrealized");
 	return 0;
 }
 /** Web service operation '__trt__GetCompatibleVideoAnalyticsConfigurations' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __trt__GetCompatibleVideoAnalyticsConfigurations(struct soap* soap, struct _trt__GetCompatibleVideoAnalyticsConfigurations *trt__GetCompatibleVideoAnalyticsConfigurations, struct _trt__GetCompatibleVideoAnalyticsConfigurationsResponse *trt__GetCompatibleVideoAnalyticsConfigurationsResponse) {
-	printf("%s:%d\n", __func__, __LINE__);
+	LOG_WRN("unrealized");
 	return 0;
 }
 /** Web service operation '__trt__GetCompatibleMetadataConfigurations' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __trt__GetCompatibleMetadataConfigurations(struct soap* soap, struct _trt__GetCompatibleMetadataConfigurations *trt__GetCompatibleMetadataConfigurations, struct _trt__GetCompatibleMetadataConfigurationsResponse *trt__GetCompatibleMetadataConfigurationsResponse) {
-	printf("%s:%d\n", __func__, __LINE__);
+	LOG_WRN("unrealized");
 	return 0;
 }
 /** Web service operation '__trt__GetCompatibleAudioOutputConfigurations' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __trt__GetCompatibleAudioOutputConfigurations(struct soap* soap, struct _trt__GetCompatibleAudioOutputConfigurations *trt__GetCompatibleAudioOutputConfigurations, struct _trt__GetCompatibleAudioOutputConfigurationsResponse *trt__GetCompatibleAudioOutputConfigurationsResponse) {
-	printf("%s:%d\n", __func__, __LINE__);
+	LOG_WRN("unrealized");
 	return 0;
 }
 /** Web service operation '__trt__GetCompatibleAudioDecoderConfigurations' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __trt__GetCompatibleAudioDecoderConfigurations(struct soap* soap, struct _trt__GetCompatibleAudioDecoderConfigurations *trt__GetCompatibleAudioDecoderConfigurations, struct _trt__GetCompatibleAudioDecoderConfigurationsResponse *trt__GetCompatibleAudioDecoderConfigurationsResponse) {
-	printf("%s:%d\n", __func__, __LINE__);
+	LOG_WRN("unrealized");
 	return 0;
 }
 /** Web service operation '__trt__SetVideoSourceConfiguration' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __trt__SetVideoSourceConfiguration(struct soap* soap, struct _trt__SetVideoSourceConfiguration *trt__SetVideoSourceConfiguration, struct _trt__SetVideoSourceConfigurationResponse *trt__SetVideoSourceConfigurationResponse) {
-	printf("%s:%d\n", __func__, __LINE__);
+	LOG_WRN("unrealized");
 	return 0;
 }
 /** Web service operation '__trt__SetVideoEncoderConfiguration' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __trt__SetVideoEncoderConfiguration(struct soap* soap, struct _trt__SetVideoEncoderConfiguration *trt__SetVideoEncoderConfiguration, struct _trt__SetVideoEncoderConfigurationResponse *trt__SetVideoEncoderConfigurationResponse) {
-	CHECK_LT(OnvifAuthUser(soap), 0, return 401);
+	if (OnvifAuthUser(soap) < 0) {
+        return 401;
+    }
 
 	CHECK_POINTER(trt__SetVideoEncoderConfiguration->Configuration, return 500);
 	
@@ -714,37 +732,37 @@ SOAP_FMAC5 int SOAP_FMAC6 __trt__SetVideoEncoderConfiguration(struct soap* soap,
 }
 /** Web service operation '__trt__SetAudioSourceConfiguration' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __trt__SetAudioSourceConfiguration(struct soap* soap, struct _trt__SetAudioSourceConfiguration *trt__SetAudioSourceConfiguration, struct _trt__SetAudioSourceConfigurationResponse *trt__SetAudioSourceConfigurationResponse) {
-	printf("%s:%d\n", __func__, __LINE__);
+	LOG_WRN("unrealized");
 	return 0;
 }
 /** Web service operation '__trt__SetAudioEncoderConfiguration' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __trt__SetAudioEncoderConfiguration(struct soap* soap, struct _trt__SetAudioEncoderConfiguration *trt__SetAudioEncoderConfiguration, struct _trt__SetAudioEncoderConfigurationResponse *trt__SetAudioEncoderConfigurationResponse) {
-	printf("%s:%d\n", __func__, __LINE__);
+	LOG_WRN("unrealized");
 	return 0;
 }
 /** Web service operation '__trt__SetVideoAnalyticsConfiguration' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __trt__SetVideoAnalyticsConfiguration(struct soap* soap, struct _trt__SetVideoAnalyticsConfiguration *trt__SetVideoAnalyticsConfiguration, struct _trt__SetVideoAnalyticsConfigurationResponse *trt__SetVideoAnalyticsConfigurationResponse) {
-	printf("%s:%d\n", __func__, __LINE__);
+	LOG_WRN("unrealized");
 	return 0;
 }
 /** Web service operation '__trt__SetMetadataConfiguration' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __trt__SetMetadataConfiguration(struct soap* soap, struct _trt__SetMetadataConfiguration *trt__SetMetadataConfiguration, struct _trt__SetMetadataConfigurationResponse *trt__SetMetadataConfigurationResponse) {
-	printf("%s:%d\n", __func__, __LINE__);
+	LOG_WRN("unrealized");
 	return 0;
 }
 /** Web service operation '__trt__SetAudioOutputConfiguration' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __trt__SetAudioOutputConfiguration(struct soap* soap, struct _trt__SetAudioOutputConfiguration *trt__SetAudioOutputConfiguration, struct _trt__SetAudioOutputConfigurationResponse *trt__SetAudioOutputConfigurationResponse) {
-	printf("%s:%d\n", __func__, __LINE__);
+	LOG_WRN("unrealized");
 	return 0;
 }
 /** Web service operation '__trt__SetAudioDecoderConfiguration' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __trt__SetAudioDecoderConfiguration(struct soap* soap, struct _trt__SetAudioDecoderConfiguration *trt__SetAudioDecoderConfiguration, struct _trt__SetAudioDecoderConfigurationResponse *trt__SetAudioDecoderConfigurationResponse) {
-	printf("%s:%d\n", __func__, __LINE__);
+	LOG_WRN("unrealized");
 	return 0;
 }
 /** Web service operation '__trt__GetVideoSourceConfigurationOptions' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __trt__GetVideoSourceConfigurationOptions(struct soap* soap, struct _trt__GetVideoSourceConfigurationOptions *trt__GetVideoSourceConfigurationOptions, struct _trt__GetVideoSourceConfigurationOptionsResponse *trt__GetVideoSourceConfigurationOptionsResponse) {
-	printf("%s:%d\n", __func__, __LINE__);
+	LOG_WRN("unrealized");
 	return 0;
 }
 
@@ -805,7 +823,9 @@ static int GetH264Options(struct soap* soap, cJSON* json, int flag, void* h264) 
 
 /** Web service operation '__trt__GetVideoEncoderConfigurationOptions' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __trt__GetVideoEncoderConfigurationOptions(struct soap* soap, struct _trt__GetVideoEncoderConfigurationOptions *trt__GetVideoEncoderConfigurationOptions, struct _trt__GetVideoEncoderConfigurationOptionsResponse *trt__GetVideoEncoderConfigurationOptionsResponse) {
-	CHECK_LT(OnvifAuthUser(soap), 0, return 401);
+	if (OnvifAuthUser(soap) < 0) {
+        return 401;
+    }
 	
 	int code = 0;
 	if (trt__GetVideoEncoderConfigurationOptions->ProfileToken) {
@@ -847,37 +867,39 @@ SOAP_FMAC5 int SOAP_FMAC6 __trt__GetVideoEncoderConfigurationOptions(struct soap
 }
 /** Web service operation '__trt__GetAudioSourceConfigurationOptions' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __trt__GetAudioSourceConfigurationOptions(struct soap* soap, struct _trt__GetAudioSourceConfigurationOptions *trt__GetAudioSourceConfigurationOptions, struct _trt__GetAudioSourceConfigurationOptionsResponse *trt__GetAudioSourceConfigurationOptionsResponse) {
-	printf("%s:%d\n", __func__, __LINE__);
+	LOG_WRN("unrealized");
 	return 0;
 }
 /** Web service operation '__trt__GetAudioEncoderConfigurationOptions' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __trt__GetAudioEncoderConfigurationOptions(struct soap* soap, struct _trt__GetAudioEncoderConfigurationOptions *trt__GetAudioEncoderConfigurationOptions, struct _trt__GetAudioEncoderConfigurationOptionsResponse *trt__GetAudioEncoderConfigurationOptionsResponse) {
-	printf("%s:%d\n", __func__, __LINE__);
+	LOG_WRN("unrealized");
 	return 0;
 }
 /** Web service operation '__trt__GetMetadataConfigurationOptions' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __trt__GetMetadataConfigurationOptions(struct soap* soap, struct _trt__GetMetadataConfigurationOptions *trt__GetMetadataConfigurationOptions, struct _trt__GetMetadataConfigurationOptionsResponse *trt__GetMetadataConfigurationOptionsResponse) {
-	printf("%s:%d\n", __func__, __LINE__);
+	LOG_WRN("unrealized");
 	return 0;
 }
 /** Web service operation '__trt__GetAudioOutputConfigurationOptions' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __trt__GetAudioOutputConfigurationOptions(struct soap* soap, struct _trt__GetAudioOutputConfigurationOptions *trt__GetAudioOutputConfigurationOptions, struct _trt__GetAudioOutputConfigurationOptionsResponse *trt__GetAudioOutputConfigurationOptionsResponse) {
-	printf("%s:%d\n", __func__, __LINE__);
+	LOG_WRN("unrealized");
 	return 0;
 }
 /** Web service operation '__trt__GetAudioDecoderConfigurationOptions' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __trt__GetAudioDecoderConfigurationOptions(struct soap* soap, struct _trt__GetAudioDecoderConfigurationOptions *trt__GetAudioDecoderConfigurationOptions, struct _trt__GetAudioDecoderConfigurationOptionsResponse *trt__GetAudioDecoderConfigurationOptionsResponse) {
-	printf("%s:%d\n", __func__, __LINE__);
+	LOG_WRN("unrealized");
 	return 0;
 }
 /** Web service operation '__trt__GetGuaranteedNumberOfVideoEncoderInstances' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __trt__GetGuaranteedNumberOfVideoEncoderInstances(struct soap* soap, struct _trt__GetGuaranteedNumberOfVideoEncoderInstances *trt__GetGuaranteedNumberOfVideoEncoderInstances, struct _trt__GetGuaranteedNumberOfVideoEncoderInstancesResponse *trt__GetGuaranteedNumberOfVideoEncoderInstancesResponse) {
-	printf("%s:%d\n", __func__, __LINE__);
+	LOG_WRN("unrealized");
 	return 0;
 }
 /** Web service operation '__trt__GetStreamUri' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __trt__GetStreamUri(struct soap* soap, struct _trt__GetStreamUri *trt__GetStreamUri, struct _trt__GetStreamUriResponse *trt__GetStreamUriResponse) {
-	CHECK_LT(OnvifAuthUser(soap), 0, return 401);
+	if (OnvifAuthUser(soap) < 0) {
+        return 401;
+    }
 
 	int code = 0;
 	if (trt__GetStreamUri->ProfileToken) {
@@ -917,32 +939,32 @@ SOAP_FMAC5 int SOAP_FMAC6 __trt__GetStreamUri(struct soap* soap, struct _trt__Ge
 }
 /** Web service operation '__trt__StartMulticastStreaming' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __trt__StartMulticastStreaming(struct soap* soap, struct _trt__StartMulticastStreaming *trt__StartMulticastStreaming, struct _trt__StartMulticastStreamingResponse *trt__StartMulticastStreamingResponse) {
-	printf("%s:%d\n", __func__, __LINE__);
+	LOG_WRN("unrealized");
 	return 0;
 }
 /** Web service operation '__trt__StopMulticastStreaming' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __trt__StopMulticastStreaming(struct soap* soap, struct _trt__StopMulticastStreaming *trt__StopMulticastStreaming, struct _trt__StopMulticastStreamingResponse *trt__StopMulticastStreamingResponse) {
-	printf("%s:%d\n", __func__, __LINE__);
+	LOG_WRN("unrealized");
 	return 0;
 }
 /** Web service operation '__trt__SetSynchronizationPoint' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __trt__SetSynchronizationPoint(struct soap* soap, struct _trt__SetSynchronizationPoint *trt__SetSynchronizationPoint, struct _trt__SetSynchronizationPointResponse *trt__SetSynchronizationPointResponse) {
-	printf("%s:%d\n", __func__, __LINE__);
+	LOG_WRN("unrealized");
 	return 0;
 }
 /** Web service operation '__trt__GetSnapshotUri' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __trt__GetSnapshotUri(struct soap* soap, struct _trt__GetSnapshotUri *trt__GetSnapshotUri, struct _trt__GetSnapshotUriResponse *trt__GetSnapshotUriResponse) {
-	printf("%s:%d\n", __func__, __LINE__);
+	LOG_WRN("unrealized");
 	return 0;
 }
 /** Web service operation '__trt__GetVideoSourceModes' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __trt__GetVideoSourceModes(struct soap* soap, struct _trt__GetVideoSourceModes *trt__GetVideoSourceModes, struct _trt__GetVideoSourceModesResponse *trt__GetVideoSourceModesResponse) {
-	printf("%s:%d\n", __func__, __LINE__);
+	LOG_WRN("unrealized");
 	return 0;
 }
 /** Web service operation '__trt__SetVideoSourceMode' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __trt__SetVideoSourceMode(struct soap* soap, struct _trt__SetVideoSourceMode *trt__SetVideoSourceMode, struct _trt__SetVideoSourceModeResponse *trt__SetVideoSourceModeResponse) {
-	printf("%s:%d\n", __func__, __LINE__);
+	LOG_WRN("unrealized");
 	return 0;
 }
 
@@ -985,7 +1007,9 @@ static void GetOsdInfo(struct soap* soap, char* conf_token, int flag, float x, f
 }
 /** Web service operation '__trt__GetOSDs' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __trt__GetOSDs(struct soap* soap, struct _trt__GetOSDs *trt__GetOSDs, struct _trt__GetOSDsResponse *trt__GetOSDsResponse) {
-	CHECK_LT(OnvifAuthUser(soap), 0, return 401);
+	if (OnvifAuthUser(soap) < 0) {
+        return 401;
+    }
 
 	int code = 0;
 	if (trt__GetOSDs->ConfigurationToken) {
@@ -1043,12 +1067,14 @@ SOAP_FMAC5 int SOAP_FMAC6 __trt__GetOSDs(struct soap* soap, struct _trt__GetOSDs
 
 /** Web service operation '__trt__GetOSD' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __trt__GetOSD(struct soap* soap, struct _trt__GetOSD *trt__GetOSD, struct _trt__GetOSDResponse *trt__GetOSDResponse) {
-	printf("%s:%d\n", __func__, __LINE__);
+	LOG_WRN("unrealized");
 	return 0;
 }
 /** Web service operation '__trt__GetOSDOptions' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __trt__GetOSDOptions(struct soap* soap, struct _trt__GetOSDOptions *trt__GetOSDOptions, struct _trt__GetOSDOptionsResponse *trt__GetOSDOptionsResponse) {
-	CHECK_LT(OnvifAuthUser(soap), 0, return 401);
+	if (OnvifAuthUser(soap) < 0) {
+        return 401;
+    }
 
 	struct tt__OSDConfigurationOptions *options = (struct tt__OSDConfigurationOptions*)soap_malloc(soap, sizeof(struct tt__OSDConfigurationOptions));
 	memset(options, 0, sizeof(struct tt__OSDConfigurationOptions));
@@ -1107,7 +1133,9 @@ SOAP_FMAC5 int SOAP_FMAC6 __trt__GetOSDOptions(struct soap* soap, struct _trt__G
 }
 /** Web service operation '__trt__SetOSD' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __trt__SetOSD(struct soap* soap, struct _trt__SetOSD *trt__SetOSD, struct _trt__SetOSDResponse *trt__SetOSDResponse) {
-	CHECK_LT(OnvifAuthUser(soap), 0, return 401);
+	if (OnvifAuthUser(soap) < 0) {
+        return 401;
+    }
 
 	CHECK_POINTER(trt__SetOSD->OSD, return 400);
 	CHECK_POINTER(trt__SetOSD->OSD->token, return 400);
@@ -1157,7 +1185,9 @@ SOAP_FMAC5 int SOAP_FMAC6 __trt__SetOSD(struct soap* soap, struct _trt__SetOSD *
 }
 /** Web service operation '__trt__CreateOSD' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __trt__CreateOSD(struct soap* soap, struct _trt__CreateOSD *trt__CreateOSD, struct _trt__CreateOSDResponse *trt__CreateOSDResponse) {
-	CHECK_LT(OnvifAuthUser(soap), 0, return 401);
+	if (OnvifAuthUser(soap) < 0) {
+        return 401;
+    }
 
 	CHECK_POINTER(trt__CreateOSD->OSD, return 400);
 	CHECK_POINTER(trt__CreateOSD->OSD->VideoSourceConfigurationToken, return 400);
@@ -1225,7 +1255,9 @@ SOAP_FMAC5 int SOAP_FMAC6 __trt__CreateOSD(struct soap* soap, struct _trt__Creat
 }
 /** Web service operation '__trt__DeleteOSD' implementation, should return SOAP_OK or error code */
 SOAP_FMAC5 int SOAP_FMAC6 __trt__DeleteOSD(struct soap* soap, struct _trt__DeleteOSD *trt__DeleteOSD, struct _trt__DeleteOSDResponse *trt__DeleteOSDResponse) {
-	CHECK_LT(OnvifAuthUser(soap), 0, return 401);
+	if (OnvifAuthUser(soap) < 0) {
+        return 401;
+    }
 
 	int code = 0;
 	if (trt__DeleteOSD->OSDToken) {

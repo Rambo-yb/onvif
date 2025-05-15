@@ -12,6 +12,7 @@ set(GSOAP_SHARE_SRC
     ${CMAKE_CURRENT_SOURCE_DIR}/_install/gsoap/share/gsoap/plugin/smdevp.c
     ${CMAKE_CURRENT_SOURCE_DIR}/_install/gsoap/share/gsoap/plugin/mecevp.c
     ${CMAKE_CURRENT_SOURCE_DIR}/_install/gsoap/share/gsoap/plugin/threads.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/_install/gsoap/share/gsoap/plugin/httpda.c
 )
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/_install/gsoap/share/gsoap/plugin)

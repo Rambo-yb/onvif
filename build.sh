@@ -21,7 +21,7 @@ if [ "$1" == "gk7205v200" ]; then
     # export PATH="/home/smb/GK7205V200/Software/GKIPCLinuxV100R001C00SPC020/tools/toolchains/arm-gcc6.3-linux-uclibceabi/bin/:$PATH"
     HOST=arm-gcc6.3-linux-uclibceabi
 elif [ "$1" == "rv1126" ]; then
-    # export PATH="/home/smb/RV1126_RV1109_LINUX_SDK_V2.2.5.1_20230530/buildroot/output/rockchip_rv1126_rv1109/host/bin/:$PATH"
+    export PATH="/home/smb/RV1126_RV1109_LINUX_SDK_V2.2.5.1_20230530/buildroot/output/rockchip_rv1126_rv1109/host/bin/:$PATH"
     HOST=arm-linux-gnueabihf
 elif [ "$1" == "rk3588" ]; then
     # export PATH="/home/smb/compiler/rk3588_host/bin/:$PATH"
@@ -86,14 +86,22 @@ build_gsoap_tools()
 
 build_openssl()
 {
-    cd $CUR_DIR/third_lib
-    [ -d $INSTALL_DIR/openssl ] && rm -r $$INSTALL_DIR/openssl
-    [ -d "openssl-1.1.1h" ] && rm -r openssl-1.1.1h
+	SOURCE_DIR=openssl-1.1.1h
+    SOURCE_INSTALL_DIR=$INSTALL_DIR/openssl
 
-    tar -xvzf openssl-1.1.1h.tar.gz
-    cd openssl-1.1.1h
-    ./Configure no-asm no-async linux-generic32 --prefix=$INSTALL_DIR/openssl --cross-compile-prefix=$HOST-
+    cd $CUR_DIR/third_lib
+    [ -d $SOURCE_DIR ] && rm -r $SOURCE_DIR
+    [ -d $SOURCE_INSTALL_DIR ] && [ "$1" != "rebuild" ] && exit
+    [ -d $SOURCE_INSTALL_DIR ] && rm -r $SOURCE_INSTALL_DIR
+
+
+    tar -xvzf $SOURCE_DIR.tar.gz
+    cd $SOURCE_DIR
+    ./Configure no-asm no-async linux-generic32 --prefix=$SOURCE_INSTALL_DIR --cross-compile-prefix=$HOST-
     make && make install
+
+	cd $CUR_DIR/third_lib
+    [ -d $SOURCE_DIR ] && rm -r $SOURCE_DIR
 }
 
 build_gsoap_code()
@@ -112,10 +120,12 @@ build_gsoap_code()
     MEIDA_WSDL_10=http://www.onvif.org/ver10/media/wsdl/media.wsdl
     MEIDA_WSDL_20= #http://www.onvif.org/ver20/media/wsdl/media.wsdl
     PTZ_WSDL=http://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl
-    RECEIVER_WSDL= #http://www.onvif.org/ver10/receiver.wsdl
-    RECORDING_WSDL= #http://www.onvif.org/ver10/recording.wsdl
-    SEARCH_WSDL= #http://www.onvif.org/ver10/search.wsdl
-    REPLAY_WSDL= #http://www.onvif.org/ver10/replay.wsdl
+    # RECEIVER_WSDL=http://www.onvif.org/ver10/receiver.wsdl
+    # RECORDING_WSDL=http://www.onvif.org/ver10/recording.wsdl
+    # SEARCH_WSDL=http://www.onvif.org/ver10/search.wsdl
+    # REPLAY_WSDL=http://www.onvif.org/ver10/replay.wsdl
+	ANALYTICS_WSDL=https://www.onvif.org/ver20/analytics/wsdl/analytics.wsdl
+	# RULES_XSD=https://www.onvif.org/ver20/analytics/rules.xsd
 
     cd $CUR_DIR
     cp -raf typemap.dat gsoap_tool/
@@ -128,7 +138,7 @@ build_gsoap_code()
     $WSDL2H -P -x -c -s -t $TYPEMAP -o gsoap.h \
         $ONVIF_XSD $REMOTE_DISCOVERY_WSDL $DEVICE_MGMT_WSDL $EVENTS_WSDL \
         $DISPLAY_WSDL $DEVICEIO_WSDL $IMAGING_WSDL $MEIDA_WSDL_10 $MEIDA_WSDL_20 \
-        $PTZ_WSDL $RECEIVER_WSDL $RECORDING_WSDL $SEARCH_WSDL $REPLAY_WSDL
+        $PTZ_WSDL $RECEIVER_WSDL $RECORDING_WSDL $SEARCH_WSDL $REPLAY_WSDL $ANALYTICS_WSDL
 
     sed -i 's/#import "wsa5.h"/#import "wsse.h"\r\n#import "wsa5.h"/g' gsoap.h
 
@@ -180,13 +190,20 @@ build_pack()
 [ "$2" == "gsoap_arm" ] && build_gsoap_arm && exit
 [ "$2" == "gsoap" ] && build_gsoap_tools && exit
 [ "$2" == "openssl" ] && build_openssl && exit
+[ "$2" == "mxml" ] && build_mxml && exit
 [ "$2" == "code" ] && build_gsoap_code && exit
 [ "$2" == "main" ] && build_main && exit
 [ "$2" == "pack" ] && build_pack $1 && exit
 
-build_gsoap_tools
-build_openssl
-build_gsoap_code
-build_main
-build_pack $1
+if [ "$2" == "all" ]; then
+	build_gsoap_tools
+	build_openssl
+	build_gsoap_code
+	build_main
+	build_pack $1
+else
+    help
+    exit 0
+fi
+
 

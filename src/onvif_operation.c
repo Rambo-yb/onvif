@@ -28,7 +28,7 @@ void OnvifOperationRegisterCb(OnvifOperationType type, void* cb) {
 		kOnvifOperationMng.control_cb = (OnvifOperationControlCb)cb;
 		break;
 	default:
-		LOG_ERR("unknown type:%d", type);
+		LOG_ERR("unknown type:%x", type);
 		break;
 	}
 }
