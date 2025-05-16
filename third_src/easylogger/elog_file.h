@@ -48,7 +48,7 @@ extern "C" {
 #endif
 
 typedef struct {
-    char *name;              /* file name */
+    char name[128];              /* file name */
     size_t max_size;         /* file max size */
     int max_rotate;          /* max rotate file count */
 } ElogFileCfg;

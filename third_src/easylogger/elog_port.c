@@ -32,6 +32,7 @@
 #include <unistd.h>
 #include <time.h>
 #include <sys/syscall.h>
+#include <string.h>
 
 #ifdef ELOG_FILE_ENABLE
 #include <elog_file.h>
@@ -49,7 +50,8 @@ ElogErrCode elog_port_init(char* file, int size, int cnt) {
     pthread_mutex_init(&output_lock, NULL);
 
 #ifdef ELOG_FILE_ENABLE
-    ElogFileCfg cfg = {.name = file, .max_size = size, .max_rotate = cnt};
+    ElogFileCfg cfg = {.max_size = size, .max_rotate = cnt};
+	strcpy(cfg.name, file);
     elog_file_init(&cfg);
 #endif
 

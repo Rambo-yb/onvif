@@ -143,7 +143,7 @@ void elog_file_deinit(void)
 {
     ELOG_ASSERT(init_ok);
 
-    ElogFileCfg cfg = {NULL, 0, 0};
+    ElogFileCfg cfg = {{0}, 0, 0};
 
     elog_file_config(&cfg);
 
@@ -162,7 +162,7 @@ void elog_file_config(ElogFileCfg *cfg)
     }
 
     if (cfg != NULL) {
-        local_cfg.name = cfg->name;
+        strcpy(local_cfg.name, cfg->name);
         local_cfg.max_size = cfg->max_size;
         local_cfg.max_rotate = cfg->max_rotate;
 

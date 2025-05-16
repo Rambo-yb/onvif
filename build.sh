@@ -13,6 +13,7 @@ help()
 	echo "	code	: Generate onvif code"
 	echo "	main	: Compile onvif code"
 	echo "	pack	: Package the onvif library"
+	echo "	clean	: clean "
 
 	exit 0
 }
@@ -184,6 +185,20 @@ build_pack()
     rm $PACK_DIR -r
 }
 
+build_clean()
+{
+	cd $CUR_DIR
+
+	rm $INSTALL_DIR -r
+	rm $GSOAP_TOOL_FILE -r
+	rm $GSOAP_TOOL_DIR -r
+
+	rm build -r
+	rm gsoap -r
+
+	rm onvif_*.tar.gz -r
+}
+
 [ -z "$2" ] && help
 
 [ "$2" == "help" ] && help && exit
@@ -194,6 +209,7 @@ build_pack()
 [ "$2" == "code" ] && build_gsoap_code && exit
 [ "$2" == "main" ] && build_main && exit
 [ "$2" == "pack" ] && build_pack $1 && exit
+[ "$2" == "clean" ] && build_clean && exit
 
 if [ "$2" == "all" ]; then
 	build_gsoap_tools
