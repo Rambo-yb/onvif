@@ -164,7 +164,7 @@ int OnvifInit(OnvifInitialInfo* info) {
 	snprintf(file_path, sizeof(file_path), "%s/onvif.log", log_path);
 	LogInit(file_path, 512*1024, 3, 5);
 
-	OnvifConfInit((info == NULL || info->log_path == NULL) ? ONVIF_DEFAULT_CONF_PATH : info->log_path);
+	OnvifConfInit((info == NULL || info->conf_path == NULL) ? ONVIF_DEFAULT_CONF_PATH : info->conf_path);
 	OnvifEventInit();
 
 	pthread_create(&kOnvifMng.discorvery_id, NULL, OnvifDiscorveryProc, NULL);

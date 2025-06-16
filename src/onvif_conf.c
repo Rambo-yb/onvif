@@ -83,7 +83,7 @@ static void OnvifConfDefaultProtocol() {
 	kOnvifConfMng.protocol_conf = json;
 
 	char path[512] = {0};
-	snprintf(path, sizeof(path), "%s/%s", kOnvifConfMng.conf_path, ONVIF_CONFIG_FILE);
+	snprintf(path, sizeof(path), "%s/%s", kOnvifConfMng.conf_path, PROTOCOL_CONFIG_FILE);
 	OnvifConfSaveFile(path, json);
 	pthread_mutex_unlock(&kOnvifConfMng.mutex);
 	return ;
